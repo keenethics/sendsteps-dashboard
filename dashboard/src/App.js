@@ -30,31 +30,36 @@ import { Link } from "react-router-dom";
 import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
-import {SideMenu} from 'react-sidemenu';
+import 'side-nav';
 
-console.log(React.version);
+
+
+  
 class App extends Component {
+    toggleMenu(){
+        document.querySelector('side-nav').toggle();
+    }
     render() {
         return (
           <div className="App container">
-            <Navbar fluid collapseOnSelect>
-              <Navbar.Header>
+            <side-nav toggle>
+                <h2>Test</h2>
                 <Navbar.Brand>
                   <Link to="/">Dashboard</Link>
                 </Navbar.Brand>
-                <Navbar.Toggle />
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Nav pullRight>
-                  <NavItem href="/signup">Signup</NavItem>
-                  <NavItem href="/login">Login</NavItem>
-                </Nav>
-              </Navbar.Collapse>
-            </Navbar>
+                <Navbar.Brand>
+                  <Link to="/login">Session Overview</Link>
+                </Navbar.Brand>
+                <Navbar.Brand>
+                  <Link to="/signup">Phonenumbers</Link>
+                </Navbar.Brand>
+            </side-nav>
             <Routes />
+            <button onClick={this.toggleMenu}><i className='fas fa-bars'></i>
+            </button>
           </div>
         );
-      }
+    }
 }
 
 export default App;
