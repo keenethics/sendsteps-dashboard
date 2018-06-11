@@ -43,20 +43,41 @@ class App extends Component {
         return (
           <div className="App container">
             <side-nav toggle>
-                <h2>Test</h2>
-                <Navbar.Brand>
-                  <Link to="/">Dashboard</Link>
-                </Navbar.Brand>
-                <Navbar.Brand>
-                  <Link to="/login">Session Overview</Link>
-                </Navbar.Brand>
-                <Navbar.Brand>
-                  <Link to="/signup">Phonenumbers</Link>
-                </Navbar.Brand>
+                <button className='hamburger-menu' onClick={this.toggleMenu}><i className='fas fa-bars'></i>
+                </button>
+                
+                <h2>Before Session</h2>
+                <Link to="/">Response Settings</Link><br/>
+                <Link to="/">Audience Identification</Link><br/>
+                <Link to="/">Survey</Link><br/>
+                <Link to="/">Edit Site Layout</Link><br/>
+                <Link to="/">Response Website</Link><br/>
+                
+                <h2>During Session</h2>
+                <Link to="/">Individual Responses</Link><br/>
+                <Link to="/">Message Filter</Link><br/>
+                
+                <h2>After Session</h2>
+                <Link to="/">Presentation Results</Link><br/>
+                <Link to="/">Survey Results</Link><br/>
+                
+                <h2>About</h2>
+                <Link to="/">How It Works</Link><br/>
+                <Link to="/">Dashboard</Link><br/>
+                <Link to="/">Sendsteps</Link><br/>
+                
+                
+                
+                <h2>Super Admin</h2>
+                <Link to="/">Translations</Link><br/>
+                <Link to="/">Edit Dashboard Layout</Link><br/>
+                <Link to="/">Phonenumbers</Link><br/>
+                <Link to="/">Session Overview</Link><br/>
+                <Link to="/">Delete Users</Link><br/>
+
+                
             </side-nav>
             <Routes />
-            <button onClick={this.toggleMenu}><i className='fas fa-bars'></i>
-            </button>
           </div>
         );
     }

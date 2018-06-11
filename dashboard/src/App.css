@@ -1,8 +1,25 @@
 .App {
-  margin-top: 15px;
+  margin-top: 0px;
+  padding-left: 0px;
+  width: 100%;
 }
 
 .App .navbar-brand {
   font-weight: bold;
 }
 
+.hamburger-menu{
+  background-color: #fff;
+  border: none;
+}
+
+.hamburger-menu > i{
+  margin-left: 350px;
+  font-size: 30px;
+}
+
+side-nav{
+  padding: 0px !important;
+  width: 350px !important;
+  height: 1000px !important;
+}
