@@ -20,12 +20,19 @@
 
 // export default App;
 
+
+
+
+
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Navbar } from "react-bootstrap";
+import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
+import {SideMenu} from 'react-sidemenu';
 
+console.log(React.version);
 class App extends Component {
     render() {
         return (
@@ -33,15 +40,24 @@ class App extends Component {
             <Navbar fluid collapseOnSelect>
               <Navbar.Header>
                 <Navbar.Brand>
-                  <Link to="/">Scratch</Link>
+                  <Link to="/">Dashboard</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
               </Navbar.Header>
+              <Navbar.Collapse>
+                <Nav pullRight>
+                  <NavItem href="/signup">Signup</NavItem>
+                  <NavItem href="/login">Login</NavItem>
+                </Nav>
+              </Navbar.Collapse>
             </Navbar>
             <Routes />
           </div>
         );
-    }
+      }
 }
 
 export default App;
+
+
+
