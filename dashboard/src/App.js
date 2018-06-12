@@ -27,7 +27,6 @@
 
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { Nav, Navbar, NavItem } from "react-bootstrap";
 import "./App.css";
 import Routes from "./Routes";
 import 'side-nav';
@@ -48,7 +47,7 @@ class App extends Component {
                 <div className="menu-items">
                     <div className="section-header">Before Session</div>
                     <ul className="fa-ul">
-                        <li><Link to="/"><i className="fa fa-cog"></i> Response Settings</Link></li>
+                        <li><Link to="/settings"><i className="fa fa-cog"></i> Response Settings</Link></li>
                         <li><Link to="/"><i className="fa fa-users"></i> Audience Identification</Link></li>
                         <li><Link to="/"><i className="fa fa-tasks"></i> Survey</Link></li>
                         <li><Link to="/"><i className="fa fa-magic"></i> Edit Site Layout</Link></li>
@@ -78,7 +77,7 @@ class App extends Component {
                     <ul className="fa-ul">
                         <li><Link to="/"><i className="fa fa-language"></i> Translations</Link></li>
                         <li><Link to="/"><i className="fa fa-magic"></i> Edit Dashboard Layout</Link></li>
-                        <li><Link to="/"><i className="fa fa-phone"></i> Phonenumbers</Link></li>
+                        <li><Link to="/phonenumbers"><i className="fa fa-phone"></i> Phonenumbers</Link></li>
                         <li><Link to="/"><i className="fa fa-envelope"></i> Session Overview</Link></li>
                         <li><Link to="/"><i className="fa fa-trash"></i> Delete Users</Link></li>
                     </ul>

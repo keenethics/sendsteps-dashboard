@@ -1,13 +1,13 @@
-.Home .lander {
+.lander {
   padding: 80px 0;
   text-align: center;
 }
 
-.Home .lander h1 {
+.lander h1 {
   font-family: "Open Sans", sans-serif;
   font-weight: 600;
 }
 
-.Home .lander p {
+.lander p {
   color: #999;
 }
