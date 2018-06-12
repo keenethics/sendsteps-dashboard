@@ -27,3 +27,15 @@ button:focus,button:active {
   outline: none !important;
   box-shadow: none;
 }
+
+.menu-items{
+  margin-left: 40px;
+}
+.menu-items > .section-header{
+  font-size: 22px;
+  color: #eeeeee;
+}
+.menu-items > .fa-ul > li > a, .menu-items > .fa-ul{
+  margin-left: 10px !important;
+  color: #fff !important;
+}

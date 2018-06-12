@@ -45,35 +45,44 @@ class App extends Component {
             <side-nav toggle>
                 <button className='hamburger-menu' onClick={this.toggleMenu}><i className='fas fa-bars'></i>
                 </button>
-                
-                <h2>Before Session</h2>
-                <Link to="/">Response Settings</Link><br/>
-                <Link to="/">Audience Identification</Link><br/>
-                <Link to="/">Survey</Link><br/>
-                <Link to="/">Edit Site Layout</Link><br/>
-                <Link to="/">Response Website</Link><br/>
-                
-                <h2>During Session</h2>
-                <Link to="/">Individual Responses</Link><br/>
-                <Link to="/">Message Filter</Link><br/>
-                
-                <h2>After Session</h2>
-                <Link to="/">Presentation Results</Link><br/>
-                <Link to="/">Survey Results</Link><br/>
-                
-                <h2>About</h2>
-                <Link to="/">How It Works</Link><br/>
-                <Link to="/">Dashboard</Link><br/>
-                <Link to="/">Sendsteps</Link><br/>
-                
-                
-                
-                <h2>Super Admin</h2>
-                <Link to="/">Translations</Link><br/>
-                <Link to="/">Edit Dashboard Layout</Link><br/>
-                <Link to="/">Phonenumbers</Link><br/>
-                <Link to="/">Session Overview</Link><br/>
-                <Link to="/">Delete Users</Link><br/>
+                <div className="menu-items">
+                    <div className="section-header">Before Session</div>
+                    <ul className="fa-ul">
+                        <li><Link to="/"><i className="fa fa-cog"></i> Response Settings</Link></li>
+                        <li><Link to="/"><i className="fa fa-users"></i> Audience Identification</Link></li>
+                        <li><Link to="/"><i className="fa fa-tasks"></i> Survey</Link></li>
+                        <li><Link to="/"><i className="fa fa-magic"></i> Edit Site Layout</Link></li>
+                        <li><Link to="/"><i className="fa fa-mobile"></i> Response Website</Link></li>
+                    </ul>
+                    
+                    <div className="section-header">During Session</div>
+                    <ul className="fa-ul">
+                        <li><Link to="/"><i className="fa fa-comments"></i> Individual Responses</Link></li>
+                        <li><Link to="/"><i className="fa fa-check"></i> Message Filter</Link></li>
+                    </ul>
+                    
+                    <div className="section-header">After Session</div>
+                    <ul className="fa-ul">
+                        <li><Link to="/"><i className="fa fa-chart-bar"></i> Presentation Results</Link></li>
+                        <li><Link to="/"><i className="fa fa-tasks"></i> Survey Results</Link></li>
+                    </ul>
+                    
+                    <div className="section-header">About</div>
+                    <ul className="fa-ul">
+                        <li><Link to="/"><i className="fa fa-file-powerpoint"></i> How It Works</Link></li>
+                        <li><Link to="/"><i className="fa fa-tachometer-alt"></i> Dashboard</Link></li>
+                        <li><Link to="/"><i className="fa fa-info-circle"></i> Sendsteps</Link></li>
+                    </ul>
+                    
+                    <div className="section-header">Super Admin</div>
+                    <ul className="fa-ul">
+                        <li><Link to="/"><i className="fa fa-language"></i> Translations</Link></li>
+                        <li><Link to="/"><i className="fa fa-magic"></i> Edit Dashboard Layout</Link></li>
+                        <li><Link to="/"><i className="fa fa-phone"></i> Phonenumbers</Link></li>
+                        <li><Link to="/"><i className="fa fa-envelope"></i> Session Overview</Link></li>
+                        <li><Link to="/"><i className="fa fa-trash"></i> Delete Users</Link></li>
+                    </ul>
+                </div>
 
                 
             </side-nav>
