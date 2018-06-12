@@ -9,17 +9,21 @@
 }
 
 .hamburger-menu{
-  background-color: #fff;
+  background-color: #154d75;
+  color: #fff;
   border: none;
-}
-
-.hamburger-menu > i{
   margin-left: 350px;
   font-size: 30px;
 }
+
 
 side-nav{
   padding: 0px !important;
   width: 350px !important;
   height: 1000px !important;
+  background-color: #154d75;
+}
+button:focus,button:active {
+  outline: none !important;
+  box-shadow: none;
 }
