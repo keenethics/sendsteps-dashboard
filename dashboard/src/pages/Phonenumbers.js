@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import View from "./base/View";
 
 export default class Phonenumbers extends View {
@@ -10,14 +10,13 @@ export default class Phonenumbers extends View {
           items: []
         };
     }
-    
-    componentDidMount() { 
+    fetchResult = (controller = '', functionName = '') => {
         fetch(this.api_url,{
             method: 'POST',
             headers: {
                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: 'controller=phonenumbers&function=test'
+            body: 'controller='+controller+'&function='+functionName
         })
         .then(res => res.json())
         .then(
@@ -27,9 +26,8 @@ export default class Phonenumbers extends View {
                 items: result
                 });
             },
-            // Note: it's important to handle errors here
-            // instead of a catch() block so that we don't swallow
-            // exceptions from actual bugs in components.
+            // Note: It is important to handle errors
+            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
             (error) => {
                 this.setState({
                 isLoaded: true,
@@ -37,6 +35,12 @@ export default class Phonenumbers extends View {
                 });
             }
         )
+    }
+    
+    componentDidMount() { 
+        
+        this.fetchResult('phonenumbers', 'test')
+        setInterval(this.fetchResult, 1000, 'phonenumbers', 'test')
     }
     
     render() {

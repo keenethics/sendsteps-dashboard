@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import "./../Style.css";
 
 let api_url = 'http://local-nova.sendsteps.com/index.php';
