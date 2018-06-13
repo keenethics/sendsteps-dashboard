@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./Style.css";
+import View from "./base/View";
 
-export default class Settings extends Component {
+export default class Settings extends View {
     constructor(props) {
         super(props);
         this.state = {

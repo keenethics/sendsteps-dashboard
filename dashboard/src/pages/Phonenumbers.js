@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./Style.css";
+import View from "./base/View";
 
-export default class Phonenumbers extends Component {
+export default class Phonenumbers extends View {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,10 +11,16 @@ export default class Phonenumbers extends Component {
         };
     }
     
-    componentDidMount() {
-        fetch("http://local-nova.sendsteps.com/index.php")
-            .then(res => res.json())
-            .then(
+    componentDidMount() { 
+        fetch(this.api_url,{
+            method: 'POST',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: 'controller=phonenumbers&function=test'
+        })
+        .then(res => res.json())
+        .then(
             (result) => {
                 this.setState({
                 isLoaded: true,
@@ -61,7 +67,7 @@ export default class Phonenumbers extends Component {
                     <div className="col-md-5">
                         <div className="lander">
                             <div>
-                                    {items}
+                                    {items.content}
                             </div>
                         </div>
                     </div>
