@@ -29,20 +29,27 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./App.css";
 import Routes from "./Routes";
-import 'side-nav';
-
-
 
   
 class App extends Component {
-    toggleMenu(){
-        document.querySelector('side-nav').toggle();
+    toggleSideBar(){
+        let sideBar = document.getElementsByClassName('sideBar')[0];
+        console.log(document.getElementsByClassName('sideBar')[0]);
+        if(sideBar.classList.contains('open')) {
+            sideBar.classList.remove("open");
+            sideBar.style.transform =  "translateX(-100%)";
+            
+        }else {
+            sideBar.classList.add("open");
+            sideBar.style.transform = "translateX(0%)";
+        }
     }
+    
     render() {
         return (
           <div className="App container">
-            <side-nav toggle>
-                <button className='hamburger-menu' onClick={this.toggleMenu}><i className='fas fa-bars'></i>
+            <div className="sideBar">
+                <button className='hamburger-menu' onClick={this.toggleSideBar}><i className='fas fa-bars'></i>
                 </button>
                 <div className="menu-items">
                     <div className="section-header">Before Session</div>
@@ -84,7 +91,7 @@ class App extends Component {
                 </div>
 
                 
-            </side-nav>
+            </div>
             <Routes />
           </div>
         );
