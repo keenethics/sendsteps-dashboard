@@ -13,7 +13,7 @@
 }
 
 button:focus,button:active {
-  outline: none !important;
+  outline: none;
   box-shadow: none;
 }
 
@@ -25,16 +25,19 @@ button:focus,button:active {
   color: #eeeeee;
 }
 .menu-items > .fa-ul > li > a, .menu-items > .fa-ul{
-  margin-left: 10px !important;
-  color: #fff !important;
+  margin-left: 10px;
+  color: #fff;
+}
+
+.fa-ul i{
+  min-width: 27px;
 }
 
 
 .sideBar {
-  
-  padding: 0px !important;
-  width: 350px !important;
-  height: 1000px !important;
+  padding: 0px;
+  width: 350px;
+  height: 1000px;
   background-color: #154d75;
   display: block;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
