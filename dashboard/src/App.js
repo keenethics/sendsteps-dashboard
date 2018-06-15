@@ -33,7 +33,6 @@ class App extends Component {
                         <li><Link to="/"><i className="fa fa-magic"></i>Edit Site Layout</Link></li>
                         <li><Link to="/"><i className="fa fa-mobile"></i>Response Website</Link></li>
                     </ul>
-                    
                     <div className="section-header">During Session</div>
                     <ul className="fa-ul">
                         <li><Link to="/"><i className="fa fa-comments"></i>Individual Responses</Link></li>

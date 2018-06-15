@@ -18,14 +18,22 @@ button:focus,button:active {
 }
 
 .menu-items{
-  margin-left: 40px;
+  margin-left: 20px;
+  
 }
 .menu-items > .section-header{
-  font-size: 22px;
+  font-size: 18px;
   color: #eeeeee;
+  text-transform: uppercase;
+}
+.menu-items > .fa-ul > li{
+  font-size: 15px;
+  padding: 10px 10px 10px 0px ;
+  text-transform: capitalize;
+  transition: '250ms all';
 }
 .menu-items > .fa-ul > li > a, .menu-items > .fa-ul{
-  margin-left: 10px;
+  margin-left: 0px;
   color: #fff;
 }
 
