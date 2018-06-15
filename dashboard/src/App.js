@@ -7,7 +7,6 @@ import Routes from "./Routes";
 class App extends Component {
     toggleSideBar(){
         let sideBar = document.getElementsByClassName('sideBar')[0];
-        console.log(document.getElementsByClassName('sideBar')[0]);
         if(sideBar.classList.contains('open')) {
             sideBar.classList.remove("open");
             sideBar.style.transform =  "translateX(-100%)";
