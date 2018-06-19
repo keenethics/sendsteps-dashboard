@@ -2,13 +2,93 @@
   margin-top: 0px;
   padding-left: 0px;
   width: 100%;
+  font-family: 'Roboto', sans-serif;
+  color: #5c5c5c;
+}
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+html,body, .App, .wrapper, #root {
+  height:100%;
+
+}
+
+header {
+  height:35px;
+  line-height: 35px;
+  background:#113552;
+  position: relative;
+  z-index: 1;
+}
+
+header .header-content {
+  line-height: 35px;
+  padding: 0 12px;
+}
+
+header .menu-button:hover {
+  cursor: pointer;
+}
+ 
+.menu-button {
+  color: #fff;
+}
+
+a, a:hover, a:visited, a:link, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.list-group-item {
+  padding:12px 4px 12px 36px;
+  text-align:left;
+  transition: 250ms all;
+  border-radius: 0px !important;
+  border-right: none;
+  background:none;
+  border-bottom: 1px solid #34678e;
+  border-top:none;
+  border-right:none;
+  border-left:none;
+}
+
+.list-group-item .text {
+  color: ##9dbbd2;
+}
+
+.list-group-item i {
+  left: -24px;
+  position: relative;
+}
+
+.list-group-item .fa {
+  max-width: 12px;
+}
+
+.list-group-item:hover {
+  background-color: #00000015;
+}
+
+.section-header {
+  background-color: #00000015;
+  max-height:100px;
+  transition: 250ms all;
+}
+
+.section-header p {
+  padding:15px;
+  text-transform: uppercase;
+  font-weight:900;
 }
 
 .hamburger-menu{
   background-color: #154d75;
   color: #fff;
   border: none;
-  margin-left: 350px;
+  margin-left: 300px;
   font-size: 30px;
 }
 
@@ -17,43 +97,27 @@ button:focus,button:active {
   box-shadow: none;
 }
 
-
-.menu-items{
-  margin-left: 20px;
-  
-}
-.menu-items > .section-header{
-  font-size: 18px;
-  color: #eeeeee;
-  text-transform: uppercase;
-}
-.menu-items > .fa-ul > li{
-  font-size: 15px;
-  padding: 10px 10px 10px 0px ;
-  text-transform: capitalize;
-  transition: '250ms all';
-}
-.menu-items > .fa-ul > li > a, .menu-items > .fa-ul{
-  margin-left: 0px;
-  color: #fff;
-}
-
-.fa-ul i{
-  min-width: 27px;
-}
-
-
 .sideBar {
-  padding: 0px;
-  width: 350px;
-  height: 1000px;
-  background-color: #154d75;
-  display: block;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-  position: absolute;
+  background-color: #1d4b6f;
+  transition: 250ms all;
+  width: 250px;
+  height:100%;
+  bottom:0px;
+  margin-top:35px;
+  font-size:13px;
   top: 0px;
   left: 0px;
-  transition: transform 0.3s ease;
-  will-change: transform;
-  transform: translateX(-100%);
+  position: absolute;
+  color: #fff;
+  padding: 0px;
+  display: block;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  white-space: nowrap;
+}
+
+.sideBar.in .text, .sideBar.in .section-header{
+  max-height: 0px;
+}
+.sideBar.in, .sideBar.in .list-group-item {
+  width: 40px;
 }

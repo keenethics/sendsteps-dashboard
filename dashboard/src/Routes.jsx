@@ -5,9 +5,10 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import Phonenumbers from "./pages/Phonenumbers";
 
-export default () =>
+const Routes = () =>
   <Switch>
     <Route path="/" exact component={Home} />
     <Route path="/settings" exact component={Settings} />
     <Route path="/phonenumbers" exact component={Phonenumbers} />
   </Switch>;
+  export default Routes;

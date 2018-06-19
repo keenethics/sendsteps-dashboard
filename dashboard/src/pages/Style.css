@@ -1,6 +1,12 @@
 .lander {
   padding: 80px 0;
   text-align: center;
+  margin-left:40px;
+  transition: 250ms width;
+}
+
+.in.lander {
+  margin-left: 250px;
 }
 
 .lander h1 {
