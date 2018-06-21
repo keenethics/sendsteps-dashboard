@@ -56,7 +56,7 @@ a, a:hover, a:visited, a:link, a:active {
 }
 
 .list-group-item .text {
-  color: ##9dbbd2;
+  color: #9dbbd2;
 }
 
 .list-group-item i {
@@ -101,7 +101,7 @@ button:focus,button:active {
   background-color: #1d4b6f;
   transition: 250ms all;
   width: 250px;
-  height:100%;
+  height:1000px;
   bottom:0px;
   margin-top:35px;
   font-size:13px;
@@ -113,6 +113,7 @@ button:focus,button:active {
   display: block;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   white-space: nowrap;
+  z-index: 10000;
 }
 
 .sideBar.in .text, .sideBar.in .section-header{
