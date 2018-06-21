@@ -42,8 +42,7 @@ export default class Settings extends View {
         } else {
           return (
             <div className="row">  
-                <div className="col-md-7"></div>
-                <div className="col-md-5 Settings">
+                <div className="col-md-12">
                     <div className="lander">
                         <div>
                                 {items.date} <br/>
