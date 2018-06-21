@@ -12,41 +12,41 @@
         }
         
         public function startMedoo(){
-        //     require __DIR__.'/Medoo.php';
-        //     use Medoo\Medoo;
-        //     $db_options = array(	
-        //         // required
-        //         'database_type' => 'mysql',
-        //         'database_name' => 'addins',
-        //         'server' => 'localhost',
-        //         'username' => 'root',
-        //         'password' => '',
+            require __DIR__.'/Medoo.php';
+            use Medoo\Medoo;
+            $db_options = array(	
+                // required
+                'database_type' => 'mysql',
+                'database_name' => 'addins',
+                'server' => 'localhost',
+                'username' => 'root',
+                'password' => '',
              
-        //         // [optional]
-        //         'charset' => 'utf8mb4',
-        //         'port' => 3306,
+                // [optional]
+                'charset' => 'utf8mb4',
+                'port' => 3306,
              
-        //         // [optional] Table prefix
-        //         'prefix' => 'PREFIX_',
+                // [optional] Table prefix
+                // 'prefix' => 'PREFIX_',
              
-        //         // [optional] Enable logging (Logging is disabled by default for better performance)
-        //         'logging' => true,
+                // [optional] Enable logging (Logging is disabled by default for better performance)
+                'logging' => true,
              
-        //         // [optional] MySQL socket (shouldn't be used with server and port)
-        //         'socket' => '/tmp/mysql.sock',
+                // [optional] MySQL socket (shouldn't be used with server and port)
+                'socket' => '/tmp/mysql.sock',
              
-        //         // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
-        //         'option' => [
-        //             PDO::ATTR_CASE => PDO::CASE_NATURAL
-        //         ],
+                // [optional] driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+                'option' => [
+                    PDO::ATTR_CASE => PDO::CASE_NATURAL
+                ],
              
-        //         // [optional] Medoo will execute those commands after connected to the database for initialization
-        //         'command' => [
-        //             'SET SQL_MODE=ANSI_QUOTES'
-        //         ]         
-        //     );
+                // [optional] Medoo will execute those commands after connected to the database for initialization
+                'command' => [
+                    'SET SQL_MODE=ANSI_QUOTES'
+                ]         
+            );
             
-        //     $db = new Medoo($db_options);
+            $db = new Medoo($db_options);
             
         //     var_dump($db);exit();
         }
