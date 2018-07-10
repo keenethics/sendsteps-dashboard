@@ -3,7 +3,7 @@
     class Phonenumbers extends NovaAPI {
         function test(){
             $return = array(
-                'content' => 'Test again'
+                'content' => 'Test agasdsain'
             );
             echo json_encode($return);
         }
