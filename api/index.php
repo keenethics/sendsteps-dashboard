@@ -13,6 +13,6 @@
         require __DIR__."/controllers/$controller_name.php";
         $controller_name = ucfirst($controller_name); // Controller Classes have the first letter uppercase
         $controller = new $controller_name;
-        $controller->$function();
         $controller->setHeaders();
+        $controller->$function();
     }

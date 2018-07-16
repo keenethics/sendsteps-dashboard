@@ -20,15 +20,17 @@
             return false;
         }
         
-        public function query() {            
+        public function query($query) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
-            $data = $database->select('accounts', [
-                'id',
-                'timezone'
-            ], [
-                'id' => 87
-            ]);
+            // $data = $database->select('accounts', [
+            //     'id',
+            //     'timezone'
+            // ], [
+            //     'id' => 87
+            // ]);
+            
+            $data = $database->query($query)->fetchAll();
             
             return json_encode($data);
         }
