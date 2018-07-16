@@ -97,7 +97,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Phonenumbers"
                         faIconClass="fa-phone"
-                        link="/"
+                        link="/phonenumbers"
                     />
                     <MenuItem 
                         menuText="Session Overview"
