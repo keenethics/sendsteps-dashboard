@@ -6,7 +6,7 @@
     // $_POST['controller'] = 'phonenumbers';
     // $_POST['function'] = 'test';
     
-    if($_POST){
+    if ($_POST) {
         //1 request = 1 function from 1 controller
         $controller_name = $_POST['controller'];
         $function = $_POST['function'];
