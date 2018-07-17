@@ -1,7 +1,8 @@
 import React from "react";
 import View from "./base/View";
+import PhonenumberTableView from './PhonenumberTableView';
 
-export default class Phonenumbers extends View {
+class Phonenumbers extends View {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,7 +19,9 @@ export default class Phonenumbers extends View {
             },
             body: 'controller='+controller+'&function='+functionName
         })
-        .then(res => res.json())
+        .then(res => 
+            res.json()
+        )
         .then(
             (result) => {
                 this.setState({
@@ -47,6 +50,10 @@ export default class Phonenumbers extends View {
     
     render() {
         const { error, isLoaded, items } = this.state;
+
+        if(items.content) {
+            console.log(JSON.parse(items.content));
+        }
         if (error) {
             //Error
             return <div>Error: {error.message}</div>;
@@ -54,10 +61,9 @@ export default class Phonenumbers extends View {
             //Loading
             return (
                 <div className="row">  
-                    <div className="col-md-5"></div>
                     <div className="col-md-7">
                         <div className="lander">
-                            <div>
+                            <div className="view">
                                 Loading...
                             </div>
                         </div>
@@ -67,13 +73,17 @@ export default class Phonenumbers extends View {
         } else {
             //Success
             return (
-                <div className="row">  
-                    <div className="col-md-7">
-                    </div>
-                    <div className="col-md-5">
-                        <div className="lander">
+                <div className="view">
+                    <div className="panel panel-default">  
+                        <div className="panel-body">
+                            <h1>Example Page Header</h1>      
+                        </div>
+
+                        <div className="container-fluid">
                             <div>
-                                    {items.content}
+                                {items.content ? 
+                                    <PhonenumberTableView data={JSON.parse(items.content)} />
+                                : null}
                             </div>
                         </div>
                     </div>
@@ -81,4 +91,4 @@ export default class Phonenumbers extends View {
             );
         }
     }
-}
+} export default (Phonenumbers);

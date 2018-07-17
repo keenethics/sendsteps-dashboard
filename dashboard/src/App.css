@@ -122,3 +122,16 @@ button:focus,button:active {
 .sideBar.in, .sideBar.in .list-group-item {
   width: 40px;
 }
+
+.sideBar.in ~ .view {
+  padding-left: 50px;
+}
+
+.view {
+  transition: 250ms all;
+  padding-top: 10px;
+}
+
+.sideBar ~ .view {
+  padding-left: 260px;
+}
