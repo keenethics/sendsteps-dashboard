@@ -38,9 +38,11 @@ export default class Phonenumbers extends View {
     }
     
     componentDidMount() { 
+        let apiController = 'phonenumbers';
+        let apiFunction = 'getOverview';
         
-        this.fetchResult('phonenumbers', 'test')
-        setInterval(this.fetchResult, 1000, 'phonenumbers', 'test')
+        this.fetchResult(apiController, apiFunction)
+        setInterval(this.fetchResult, 1000, apiController, apiFunction)
     }
     
     render() {

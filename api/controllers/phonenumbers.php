@@ -1,8 +1,8 @@
 <?php
     require(__DIR__.'/../base/nova-api.php');
     class Phonenumbers extends NovaAPI {
-        function test(){
-            $results = $this->query('SELECT * FROM accounts LIMIT 10;');
+        function getOverview(){
+            $results = $this->query('SELECT * FROM phonenumbers;');
             $return = array(
                 'content' => $results
             );
