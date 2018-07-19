@@ -75,15 +75,15 @@ class Phonenumbers extends View {
             return (
                 <div className="view">
                     <div className="panel panel-default">  
-                        <div className="panel-body">
-                            <h1>Example Page Header</h1>      
+                        <div className="panel-heading">
+                            <h1><i className="fa fa-phone"></i> Phonenumber Overview</h1>      
                         </div>
 
-                        <div className="container-fluid">
-                            <div>
-                                {items.content ? 
-                                    <PhonenumberTableView data={JSON.parse(items.content)} />
-                                : null}
+                        <div className="panel-body">
+                            <div className="container-fluid">
+                                    {items.content ? 
+                                        <PhonenumberTableView data={JSON.parse(items.content)} />
+                                    : null}
                             </div>
                         </div>
                     </div>

@@ -1,78 +1,71 @@
 import React from 'react';
-import { Well } from 'react-bootstrap';
-import BootstrapTable from 'react-bootstrap-table-next';
-import TableHeaderColumn from 'react-bootstrap-table-next';
-import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+import { selectPhonenumber } from '../actions/dataActions';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 
 class PhonenumberTableView extends React.Component {
 
-    doSomething(phoneNumber) {
-        window.location.href = window.location.href + '/' + phoneNumber; 
+    selectPhonenumber(row) {
+        this.props.dispatch(selectPhonenumber(row));
     }
 
-    viewFormatter = cell => {
-        return <button onClick={() => this.doSomething(cell)} className="btn btn-lg btn-primary"><i className="fa fa-eye"></i></button>
+    viewFormatter = (cell, row) => {
+        return <Link to={'/phonenumbers/' + row.phoneNumber }><button onClick={() => this.selectPhonenumber(row)} className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
     }
 
-    internationalFormatter = cell => {
+    trueFalseFormatter = cell => {
         if(cell === "1") {
-            return <button onClick={() => this.doSomething(cell)} disabled={true} className="btn btn-lg btn-danger"><i className="fa fa-times"></i></button>
+            return <button disabled={true} className="btn btn-sm btn-danger"><i className="fa fa-times"></i></button>;
         }
-        return <button onClick={() => this.doSomething(cell)} disabled={true} className="btn btn-lg btn-success"><i className="fa fa-check"></i></button>
+        return <button disabled={true} className="btn btn-sm btn-success"><i className="fa fa-check"></i></button>;
     }
 
     phonenumberFormatter = cell => {
-        return <Well bsSize="small">{cell}</Well>
+        return <pre> {cell}</pre>;
+    }
+
+    countryFormatter = (cell, row) => {
+        return <span>{cell} ({row.countryIsoCode})</span>;
+    }
+
+    getSort(direction) {
+        return !direction ? 
+            <i className="fa fa-sort sort-head"></i> : 
+            (
+                direction === 'asc' ? 
+                <i className="fa fa-sort-down sort-head"></i> : 
+                <i className="fa fa-sort-up sort-head"></i> 
+            );
+    }
+
+    getClearBtn = onClick => {
+        return (
+            <button onClick={onClick} className="btn btn-danger"><i className="fa fa-trash"></i></button>
+        )
     }
 
     render() {
-        
-        const columns = [
-            {
-                dataField: 'name',
-                text: 'Country',
-                sort: true,
-                filter: textFilter()
-            }, 
-            {
-                dataField: 'countryIsoCode',
-                text: 'Country Code',
-                sort: true,
-                filter: textFilter()
-            }, 
-            {
-                dataField: 'foreignerCompatible',
-                text: 'International',
-                sort: true,
-                formatter: this.internationalFormatter,
-                filter: textFilter()
-            }, 
-            {
-                dataField: 'displayText',
-                text: 'Phonenumber',
-                sort: true,
-                formatter: this.phonenumberFormatter,
-                filter: textFilter()
-            },  
-            {
-                dataField: 'phoneNumber',
-                text: 'View',
-                formatter: this.viewFormatter,
-                filter: textFilter()
-            }
-        ];
-          
+
+        const options = {
+            prePage: 'Prev', // Previous page button text
+            nextPage: 'Next', // Next page button text
+            clearSearch: true,
+           clearSearchBtn: this.getClearBtn
+        };
+
         return (
-            <BootstrapTable 
-                pagination={paginationFactory()} 
-                filter={filterFactory()}
-                keyField='id' 
-                data={this.props.data} 
-                columns={columns} />
+            <div>
+                <BootstrapTable pagination data={this.props.data} options={options} search>
+                    <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.countryFormatter} >Country Code</TableHeaderColumn>
+                    <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='displayText' isKey dataFormat={this.phonenumberFormatter} >Phonenumber</TableHeaderColumn>
+                    <TableHeaderColumn width="150" headerAlign='center' dataAlign='center'  dataSort caretRender={this.getSort} dataField='foreignerCompatible' dataFormat={this.trueFalseFormatter} >International</TableHeaderColumn>
+                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataSort caretRender={this.getSort} dataField='public' dataFormat={this.trueFalseFormatter} >Public</TableHeaderColumn>
+                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='phoneNumber' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                </BootstrapTable>
+            </div>
         )
     }
 }
-export default PhonenumberTableView;
+export default connect() (PhonenumberTableView);

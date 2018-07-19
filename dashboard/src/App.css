@@ -124,14 +124,17 @@ button:focus,button:active {
 }
 
 .sideBar.in ~ .view {
-  padding-left: 50px;
+  padding-left: 40px;
 }
 
 .view {
   transition: 250ms all;
-  padding-top: 10px;
 }
 
 .sideBar ~ .view {
-  padding-left: 260px;
+  padding-left: 250px;
+}
+
+.sort-head {
+  padding-left: 10px;
 }
