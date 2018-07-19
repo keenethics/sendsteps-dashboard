@@ -2,7 +2,7 @@
     require(__DIR__.'/../base/nova-api.php');
     class Phonenumbers extends NovaAPI {
         function getOverview(){
-            $results = $this->query('SELECT * FROM phonenumbers LEFT JOIN countries ON phonenumbers.countryIsoCode=countries.isoCode;');
+            $results = $this->query('SELECT * FROM phonenumbers LEFT JOIN countries ON phonenumbers.countryIsoCode=countries.isoCode WHERE phonenumbers.isDeleted != 1;;');
             $return = array(
                 'content' => $results
             );
