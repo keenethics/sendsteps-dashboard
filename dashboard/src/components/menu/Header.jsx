@@ -19,9 +19,10 @@ class Header extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        menuOpened: state.appReducer.menuOpened
+export default connect(
+    (state) => {
+        return {
+            menuOpened: state.appReducer.menuOpened
+        }
     }
-}
-export default connect(mapStateToProps)(Header);
+)(Header);

@@ -1,18 +1,12 @@
 import React from 'react';
-import { selectPhonenumber } from '../actions/dataActions';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 
 
 class PhonenumberTableView extends React.Component {
 
-    selectPhonenumber(row) {
-        this.props.dispatch(selectPhonenumber(row));
-    }
-
     viewFormatter = (cell, row) => {
-        return <Link to={'/phonenumbers/' + row.phoneNumber }><button onClick={() => this.selectPhonenumber(row)} className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
+        return <Link to={'/phonenumbers/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
     }
 
     trueFalseFormatter = cell => {
@@ -52,7 +46,7 @@ class PhonenumberTableView extends React.Component {
             prePage: 'Prev', // Previous page button text
             nextPage: 'Next', // Next page button text
             clearSearch: true,
-           clearSearchBtn: this.getClearBtn
+            clearSearchBtn: this.getClearBtn
         };
 
         return (
@@ -68,4 +62,4 @@ class PhonenumberTableView extends React.Component {
         )
     }
 }
-export default connect() (PhonenumberTableView);
+export default PhonenumberTableView;

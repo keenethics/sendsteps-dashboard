@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {ListGroupItem, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 class MenuItem extends Component {
     render() {
@@ -16,7 +15,7 @@ class MenuItem extends Component {
                         <ListGroupItem>
                             <i className={"fa " + this.props.faIconClass}></i> 
                             <span className="text">
-                                {this.props.menuOpened ? this.props.menuText : null}
+                                {this.props.menuText}
                             </span>
                         </ListGroupItem>
                     </Link>
@@ -25,10 +24,4 @@ class MenuItem extends Component {
         )
     }
 }
-export default connect(
-    (state) => {
-        return {
-            menuOpened: state.appReducer.menuOpened,
-        }
-    }
-) (MenuItem);
+export default (MenuItem);

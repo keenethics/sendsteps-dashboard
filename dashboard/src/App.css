@@ -18,9 +18,10 @@ html,body, .App, .wrapper, #root {
 
 header {
   height:35px;
+  width:100%;
   line-height: 35px;
   background:#113552;
-  position: relative;
+  position: fixed;
   z-index: 1;
 }
 
@@ -31,6 +32,16 @@ header .header-content {
 
 header .menu-button:hover {
   cursor: pointer;
+}
+
+.react-bs-table-search-form {
+  margin-bottom: 0;
+  padding: 5px 0 10px 0;
+}
+
+.header-panel h1 {
+  font-size: 1.5em;
+  font-weight: 900;
 }
  
 .menu-button {
@@ -101,13 +112,13 @@ button:focus,button:active {
   background-color: #1d4b6f;
   transition: 250ms all;
   width: 250px;
-  height:1000px;
+  height:100%;
   bottom:0px;
   margin-top:35px;
   font-size:13px;
   top: 0px;
   left: 0px;
-  position: absolute;
+  position: fixed;
   color: #fff;
   padding: 0px;
   display: block;
@@ -119,6 +130,18 @@ button:focus,button:active {
 .sideBar.in .text, .sideBar.in .section-header{
   max-height: 0px;
 }
+
+.sideBar .text {
+  transition: 250ms all;
+  left: 0px;
+  position: relative;
+  opacity: 1;
+}
+
+.sideBar.in .text {
+  left: -500px;
+  opacity: 0.01;
+}
 .sideBar.in, .sideBar.in .list-group-item {
   width: 40px;
 }
@@ -129,6 +152,18 @@ button:focus,button:active {
 
 .view {
   transition: 250ms all;
+  padding-top:35px;
+}
+
+.crumbs-panel {
+  padding: 0px 10px;
+  top: -10px;
+  position: relative;
+}
+
+.crumbs.fa {
+  vertical-align: middle;
+  padding: 0px 5px;
 }
 
 .sideBar ~ .view {
@@ -138,3 +173,4 @@ button:focus,button:active {
 .sort-head {
   padding-left: 10px;
 }
+

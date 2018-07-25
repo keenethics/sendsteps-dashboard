@@ -11,7 +11,9 @@ export class App extends Component {
                 <Header />
                 <div className="wrapper">
                     <SideMenu />
-                    <Routes />
+                    <div className="view">
+                        <Routes />
+                    </div>
                 </div>
             </div>
         );

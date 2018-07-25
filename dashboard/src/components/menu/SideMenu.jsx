@@ -102,7 +102,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Session Overview"
                         faIconClass="fa-envelope"
-                        link="/"
+                        link="/signup"
                     />
                     <MenuItem 
                         menuText="Delete Users"

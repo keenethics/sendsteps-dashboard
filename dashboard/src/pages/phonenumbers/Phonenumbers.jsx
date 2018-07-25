@@ -1,5 +1,5 @@
 import React from "react";
-import View from "./base/View";
+import View from "../base/View";
 import PhonenumberTableView from './PhonenumberTableView';
 
 class Phonenumbers extends View {
@@ -11,6 +11,7 @@ class Phonenumbers extends View {
           items: []
         };
     }
+    
     fetchResult = (controller = '', functionName = '') => {
         fetch(this.api_url,{
             method: 'POST',
@@ -39,7 +40,7 @@ class Phonenumbers extends View {
             }
         )
     }
-    
+
     componentDidMount() { 
         let apiController = 'phonenumbers';
         let apiFunction = 'getOverview';
@@ -73,12 +74,14 @@ class Phonenumbers extends View {
         } else {
             //Success
             return (
-                <div className="view">
-                    <div className="panel panel-default">  
-                        <div className="panel-heading">
-                            <h1><i className="fa fa-phone"></i> Phonenumber Overview</h1>      
+                <div>
+                    <div className="panel panel-default header-panel">  
+                        <div className="panel-body">
+                            <h1>Phonenumber Overview</h1>   
                         </div>
-
+                    </div>
+                    {this.getBreadCrumbs()}  
+                    <div className="panel panel-default">  
                         <div className="panel-body">
                             <div className="container-fluid">
                                     {items.content ? 
