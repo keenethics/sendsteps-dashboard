@@ -18,7 +18,7 @@ class Phonenumbers extends View {
             headers: {
                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: 'controller='+controller+'&function='+functionName
+            body: 'controller='+controller+'&function='+functionName+'&params='+'test'
         })
         .then(res => 
             res.json()
