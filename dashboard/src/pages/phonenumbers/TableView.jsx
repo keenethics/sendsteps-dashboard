@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 class PhonenumbersTableView extends React.Component {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/phonenumbers/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
+        return <Link to={'/phonenumbers/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
     }
 
     trueFalseFormatter = cell => {
