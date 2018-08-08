@@ -29,7 +29,6 @@
         if (!method_exists($controller, $function)) {
             throw new Exception ('MethodDoesNotExist');
         }
-        
         $result = $controller->$function($params);
         echo $result;
         exit();

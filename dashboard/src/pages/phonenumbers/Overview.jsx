@@ -12,35 +12,6 @@ class Phonenumbers extends View {
         };
     }
     
-    fetchResult = (controller = '', functionName = '', apiParam = '') => {
-        fetch(this.api_url,{
-            method: 'POST',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
-        })
-        .then(res => 
-            res.json()
-        )
-        .then(
-            (result) => {
-                this.setState({
-                isLoaded: true,
-                items: result
-                });
-            },
-            // Note: It is important to handle errors
-            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
-            (error) => {
-                this.setState({
-                isLoaded: true,
-                error
-                });
-            }
-        )
-    }
-
     componentDidMount() { 
         let apiController = 'phonenumbers';
         let apiFunction = 'getOverview';
@@ -53,7 +24,7 @@ class Phonenumbers extends View {
         const { error, isLoaded, items } = this.state;
 
         if(items.content) {
-            // console.log(JSON.parse(items.content));
+            console.log(JSON.parse(items.content));
         }
         if (error) {
             //Error

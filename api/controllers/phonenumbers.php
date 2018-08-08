@@ -7,10 +7,15 @@ class Phonenumbers extends NovaAPI {
         return json_encode(['content' => $results]);
     }
 
-    function getSinglePhonenumberData($phonenumberId) {
+    function getSinglePhonenumberData($id = NULL) {
         // Fetch data from single phonenumber
-        $results = $this->query('SELECT * FROM phonenumbers WHERE phonenumbers.id = '.$phonenumberId.' phonenumbers.isDeleted != 1;');
-        return json_encode(['content' => $results]);
+        if($id != NULL){
+            $results = $this->query('SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND p.id = '.$id.';');
+            return json_encode(['content' => $results]);                
+        }
+        return false;
+        // $results = $this->query('SELECT * FROM phonenumbers WHERE phonenumbers.id = '.$phonenumberId.' phonenumbers.isDeleted != 1 AND id = 2;');
+        // return json_encode(['content' => $results]);
         
     }
 }

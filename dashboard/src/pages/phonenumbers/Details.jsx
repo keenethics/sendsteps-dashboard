@@ -16,7 +16,11 @@ class PhonenumberOverview extends View {
     componentDidMount() {
         let phonenumberId = this.props.match.params.id;
         console.log(phonenumberId);
-
+        let apiController = 'phonenumbers';
+        let apiFunction = 'getSinglePhonenumberData';
+        let apiParam = this.props.match.params.id;
+        this.fetchResult(apiController, apiFunction, apiParam)
+        setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam)
         // let apiController = 'phonenumbers';
         // let apiFunction = 'getOverview';
         
@@ -33,6 +37,11 @@ class PhonenumberOverview extends View {
     }
 
     render() {
+        
+        const { error, isLoaded, items } = this.state;
+        if(items.content) {
+            console.log(JSON.parse(items.content));
+        }
         return (
             <div>  
                 <div className="panel panel-default header-panel">  
