@@ -2,11 +2,11 @@
     require_once __DIR__."/base/errors.php";//Load Errors (just in case);
     
     try { 
-        if(!$_POST){
+        if (!$_POST) {
             throw new Exception ('NoPost');
         }
         //1 request = 1 function from 1 controller
-        if(!isset($_POST['controller']) OR !isset($_POST['function'])){
+        if (!isset($_POST['controller']) OR !isset($_POST['function'])) {
             throw new Exception ('SpecifyControllerAndFunction');
         }
         //Setup Variables & load controller
@@ -40,12 +40,9 @@
         exit();
         
     } catch (Exception $e) {
-        if ($e->getMessage() == ''){
+        if ($e->getMessage() == '') {
             echo 'Error: Undefined error with Nova-API';
         } else {
             echo 'Error: '. $novaErrors[$e->getMessage()];exit();   
         }
     }
-
-
- 
