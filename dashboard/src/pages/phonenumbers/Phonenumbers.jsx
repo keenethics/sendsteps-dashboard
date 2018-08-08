@@ -42,7 +42,7 @@ class Phonenumbers extends View {
     }
 
     componentDidMount() { 
-        let apiController = 'phonenumbers2';
+        let apiController = 'phonenumbers';
         let apiFunction = 'getOverview';
         
         this.fetchResult(apiController, apiFunction)
