@@ -2,10 +2,7 @@
     require_once __DIR__."/base/errors.php";//Load Errors (just in case);
     
     try { 
-        if (!$_POST) {
-            throw new Exception ('NoPost');
-        }
-        if (!isset($_POST['controller']) OR !isset($_POST['function'])) {
+        if (!$_POST OR !isset($_POST['controller']) OR !isset($_POST['function'])) {
             throw new Exception ('SpecifyControllerAndFunction');
         }
         //Setup Variables & load controller
