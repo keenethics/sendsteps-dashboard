@@ -5,7 +5,6 @@
         if (!$_POST) {
             throw new Exception ('NoPost');
         }
-        //1 request = 1 function from 1 controller
         if (!isset($_POST['controller']) OR !isset($_POST['function'])) {
             throw new Exception ('SpecifyControllerAndFunction');
         }
@@ -14,8 +13,7 @@
         $function = $_POST['function'];
         $params = (isset($_POST['params']))? implode(',', explode('---', $_POST['params'])) : array();
         
-        $controller_list = scandir(__DIR__."/controllers/");
-        if (!in_array($controller_name.'.php', $controller_list)) {
+        if (!in_array($controller_name.'.php', scandir(__DIR__."/controllers/"))) {
             throw new Exception ('ControllerFileDoesNotExist');    
         }
         
@@ -45,4 +43,5 @@
         } else {
             echo 'Error: '. $novaErrors[$e->getMessage()];exit();   
         }
+        exit();
     }
