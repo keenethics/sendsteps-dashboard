@@ -17,7 +17,7 @@ class PhonenumberOverview extends View {
         let phonenumberId = this.props.match.params.id;
         console.log(phonenumberId);
         let apiController = 'phonenumbers';
-        let apiFunction = 'getSinglePhonenumberData';
+        let apiFunction = 'getDetails';
         let apiParam = this.props.match.params.id;
         this.fetchResult(apiController, apiFunction, apiParam)
         setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam)

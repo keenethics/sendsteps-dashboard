@@ -7,7 +7,7 @@ class Phonenumbers extends NovaAPI {
         return json_encode(['content' => $results]);
     }
 
-    function getSinglePhonenumberData($id = NULL) {
+    function getDetails($id = NULL) {
         // Fetch data from single phonenumber
         if($id != NULL){
             $results = $this->query('SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND p.id = '.$id.';');
