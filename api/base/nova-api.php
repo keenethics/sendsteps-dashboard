@@ -40,7 +40,7 @@
                 'port' => 3306,
 
                 // Optional
-                'charset' => 'utf8mb4',
+                'charset' => 'utf8mb4', //Make sure emojis render
                 'logging' => true, // Enable logging (Logging is disabled by default for better performance)
                 'socket' => '/tmp/mysql.sock', // MySQL socket (shouldn't be used with server and port)
                 'option' => [ PDO::ATTR_CASE => PDO::CASE_NATURAL ], // Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
