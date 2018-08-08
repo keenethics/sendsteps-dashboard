@@ -1,5 +1,5 @@
 import React from "react";
-import View from "./base/View";
+import View from "../base/View";
 
 export default class Settings extends View {
     constructor(props) {
