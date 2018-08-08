@@ -1,5 +1,5 @@
 <?php
-    require(__DIR__.'/../base/nova-api.php');
+    require_once __DIR__.'/../base/nova-api.php';
     class Survey extends NovaAPI {
         function getBeforeSession(){
             
