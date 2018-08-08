@@ -38,7 +38,7 @@
         if ($e->getMessage() == '') {
             echo 'Error: Undefined error with Nova-API';
         } else {
-            echo 'Error: '. $novaErrors[$e->getMessage()];exit();   
+            echo 'Error: '. $novaErrors[$e->getMessage()];   
         }
         exit();
     }
