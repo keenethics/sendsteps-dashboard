@@ -2,7 +2,9 @@
     require_once __DIR__."/base/errors.php";//Load Errors (just in case);
     
     try { 
-        throw new Exception();
+        if(!$_POST){
+            throw new Exception ('NoPost');
+        }
         //1 request = 1 function from 1 controller
         if(!isset($_POST['controller']) OR !isset($_POST['function'])){
             throw new Exception ('SpecifyControllerAndFunction');
@@ -11,6 +13,12 @@
         $controller_name = $_POST['controller'];
         $function = $_POST['function'];
         $params = (isset($_POST['params']))? implode(',', explode('---', $_POST['params'])) : array();
+        
+        $controller_list = scandir(__DIR__.'/controllers/');
+        if (!in_array($controller_name.'.php', $controller_list)) {
+            throw new Exception ('ControllerFileDoesNotExist');    
+        }
+        
         require_once __DIR__."/controllers/$controller_name.php";
         $controller_name = ucfirst($controller_name); // Controller Classes have the first letter uppercase
         
