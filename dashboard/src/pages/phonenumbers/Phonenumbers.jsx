@@ -53,7 +53,7 @@ class Phonenumbers extends View {
         const { error, isLoaded, items } = this.state;
 
         if(items.content) {
-            console.log(JSON.parse(items.content));
+            // console.log(JSON.parse(items.content));
         }
         if (error) {
             //Error
