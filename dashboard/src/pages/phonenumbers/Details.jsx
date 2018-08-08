@@ -15,16 +15,21 @@ class PhonenumberOverview extends View {
 
     componentDidMount() {
         // let phonenumberId = this.props.match.params.phonenumberId;
+        // console.log(phonenumberId);
 
+        // let apiController = 'phonenumbers';
+        // let apiFunction = 'getOverview';
+        
+        // let apiParam = { 'phonenumberId' :  this.props.match.params.phonenumberId};
+       
+        // this.fetchResult(apiController, apiFunction, apiParam)
+        // setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam);
         // Fetch data from phonenumberId from API
 
-        // let data = {
-        //      phonenumberId : phonenumberId
-        // }
 
         // this.fetchData('/phonenumber', data).then(result => {
         //    this.props.dispatch(setPhonenumber(result));
-        // })
+        // });
     }
 
     render() {

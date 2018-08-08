@@ -1,6 +1,6 @@
 import React from "react";
 import View from "../base/View";
-import PhonenumberTableView from './PhonenumberTableView';
+import PhonenumbersTableView from './TableView';
 
 class Phonenumbers extends View {
     constructor(props) {
@@ -12,13 +12,13 @@ class Phonenumbers extends View {
         };
     }
     
-    fetchResult = (controller = '', functionName = '') => {
+    fetchResult = (controller = '', functionName = '', apiParam = '') => {
         fetch(this.api_url,{
             method: 'POST',
             headers: {
                 "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
-            body: 'controller='+controller+'&function='+functionName+'&params='+'param1---param2'
+            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
         })
         .then(res => 
             res.json()
@@ -85,7 +85,7 @@ class Phonenumbers extends View {
                         <div className="panel-body">
                             <div className="container-fluid">
                                     {items.content ? 
-                                        <PhonenumberTableView data={JSON.parse(items.content)} />
+                                        <PhonenumbersTableView data={JSON.parse(items.content)} />
                                     : null}
                             </div>
                         </div>

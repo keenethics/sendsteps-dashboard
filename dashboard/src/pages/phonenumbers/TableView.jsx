@@ -3,7 +3,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from "react-router-dom";
 
 
-class PhonenumberTableView extends React.Component {
+class PhonenumbersTableView extends React.Component {
 
     viewFormatter = (cell, row) => {
         return <Link to={'/phonenumbers/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
@@ -62,4 +62,4 @@ class PhonenumberTableView extends React.Component {
         )
     }
 }
-export default PhonenumberTableView;
+export default PhonenumbersTableView;
