@@ -14,6 +14,6 @@ const Routes = () =>
     <Route path="/signup" exact component={Registration} />
     <Route path="/settings" exact component={Settings} />
     <Route path="/phonenumbers" exact component={PhonenumbersOverview} />
-    <Route path="/phonenumbers/details/:phonenumberId" exact component={PhonenumberDetails} />
+    <Route path="/phonenumbers/details/:id" exact component={PhonenumberDetails} />
   </Switch>;
   export default Routes;
