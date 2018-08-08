@@ -14,7 +14,7 @@
         $function = $_POST['function'];
         $params = (isset($_POST['params']))? implode(',', explode('---', $_POST['params'])) : array();
         
-        $controller_list = scandir(__DIR__.'/controllers/');
+        $controller_list = scandir(__DIR__."/controllers/");
         if (!in_array($controller_name.'.php', $controller_list)) {
             throw new Exception ('ControllerFileDoesNotExist');    
         }
