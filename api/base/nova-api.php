@@ -1,8 +1,5 @@
 <?php 
-
     require_once __DIR__."/errors.php";//Load Errors (just in case);
-    // require_once __DIR__.'/medoo/src/Medoo.php';
-    // use Medoo\Medoo;
     
     class NovaAPI {
         
