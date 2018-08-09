@@ -24,7 +24,10 @@ export class App extends Component {
             //If not logged in, render login page
             return (
                 <div>
-                    Some Login Page
+                    <label for='username'>Username</label>
+                    <input name='username' id='username'></input>
+                    <label for='password'>Password</label>
+                    <input name='password' id='password'></input>
                 </div>
             );
         } else {
