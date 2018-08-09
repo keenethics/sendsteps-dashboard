@@ -69,17 +69,17 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="How It Works"
                         faIconClass="fa-file-powerpoint"
-                        link="/"
+                        link="/about/howitworks"
                     />
                     <MenuItem 
                         menuText="Dashboard"
                         faIconClass="fa-tachometer-alt"
-                        link="/"
+                        link="/about/dashboard"
                     />
                     <MenuItem 
                         menuText="Sendsteps"
                         faIconClass="fa-info-circle"
-                        link="/"
+                        link="/about/sendsteps"
                     />
                     <SectionHeader 
                         headerText="Super Admin"

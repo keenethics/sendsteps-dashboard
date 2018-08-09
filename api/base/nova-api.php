@@ -29,6 +29,10 @@
             return json_encode($data);
         }
         
+        public function prepare($query, $params = array()){
+            
+        }
+        
         private function getMedooOptions(){
             $db_options = array(
                 // Required
