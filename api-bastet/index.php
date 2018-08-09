@@ -10,3 +10,6 @@
             return;
         }
     }
+    $Bastet = new BastetAPI();
+
+    $Bastet->setHeaders();
