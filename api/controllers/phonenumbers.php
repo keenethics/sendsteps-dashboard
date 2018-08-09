@@ -3,14 +3,16 @@ require_once __DIR__.'/../base/nova-api.php';
 
 class Phonenumbers extends NovaAPI {
     function getOverview(){
-        $results = $this->query('SELECT * FROM phonenumbers LEFT JOIN countries ON phonenumbers.countryIsoCode=countries.isoCode WHERE phonenumbers.isDeleted != 1;');
+        $model = $this->loadModel('phonenumbers');
+        $results = $model->findActiveNumbers();
         return json_encode(['content' => $results]);
     }
 
     function getDetails($id = NULL) {
         // Fetch data from single phonenumber
         if($id != NULL){
-            $results = $this->query('SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND p.id = '.$id.';');
+            $model = $this->loadModel('phonenumbers');
+            $results = $model->findActiveById($id);
             return json_encode(['content' => $results]);                
         }
         return false;        

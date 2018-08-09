@@ -19,7 +19,7 @@
         
         //Check controller class exists
         if (!class_exists($controller_name)) {
-            throw new Exception ('ControllerDoesNotExist');
+            throw new Exception ('ControllerClassDoesNotExist');
         }
         
         $controller = new $controller_name;
