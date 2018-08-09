@@ -20,22 +20,13 @@ class PhonenumberOverview extends View {
         let apiFunction = 'getDetails';
         let apiParam = this.props.match.params.id;
         this.fetchResult(apiController, apiFunction, apiParam)
-        setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam)
-        // let apiController = 'phonenumbers';
-        // let apiFunction = 'getOverview';
-        
-        // let apiParam = { 'phonenumberId' :  this.props.match.params.id};
-       
-        // this.fetchResult(apiController, apiFunction, apiParam)
-        // setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam);
-        // Fetch data from phonenumberId from API
-
-
-        // this.fetchData('/phonenumber', data).then(result => {
-        //    this.props.dispatch(setPhonenumber(result));
-        // });
+        this.apiRefresh = setInterval(this.fetchResult, 1000, apiController, apiFunction, apiParam)
     }
 
+    componentWillUnmount() {
+        clearInterval(this.apiRefresh)
+    }
+    
     render() {
         
         const { error, isLoaded, items } = this.state;

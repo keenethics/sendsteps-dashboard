@@ -17,7 +17,11 @@ class Phonenumbers extends View {
         let apiFunction = 'getOverview';
         
         this.fetchResult(apiController, apiFunction)
-        setInterval(this.fetchResult, 1000, apiController, apiFunction)
+        this.apiRefresh = setInterval(this.fetchResult, 1000, apiController, apiFunction)
+
+    }
+    componentWillUnmount() { 
+        clearInterval(this.apiRefresh)
     }
     
     render() {
