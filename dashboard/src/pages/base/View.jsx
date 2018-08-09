@@ -1,39 +1,60 @@
-import React, { Component } from "react";
-import AppComponent from './AppComponent';
+import React, { Component } from 'react';
 import "./../Style.css";
+import { connect } from 'react-redux'; 
+import LoadingView from './LoadingView';
+import ErrorView from './ErrorView';
 
-let api_url = 'http://local-nova.sendsteps.com/index.php';
-export default class View extends AppComponent {
+class View extends Component {
     constructor(props) {
         super();
-        this.api_url = 'http://local-nova.sendsteps.com/index.php';
     }
-    fetchResult = (controller = '', functionName = '', apiParam = '') => {
-        fetch(this.api_url,{
-            method: 'POST',
-            headers: {
-                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
-        })
-        .then(res => 
-            res.json()
-        )
-        .then(
-            (result) => {
-                this.setState({
-                isLoaded: true,
-                items: result
-                });
-            },
-            // Note: It is important to handle errors
-            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
-            (error) => {
-                this.setState({
-                isLoaded: true,
-                error
-                });
-            }
-        )
+   
+    getBreadCrumbs() {
+        if(this.props.match.url) {
+            let crumbs = this.props.match.url.substring(1);
+            let crumbList = crumbs.split('/');
+            let actualCrumbs = crumbList.map((crumb, index) => (
+                <span key={index}> 
+                    <i className="crumbs fa fa-caret-right"></i> 
+                    <div className={"label label-" + (index===crumbList.length-1? 'success' : 'default')}>
+                        {crumb}
+                    </div>
+                </span>
+            ));
+            actualCrumbs.unshift(<div key={crumbList.length + 1} className="label label-default">
+                <span className="home-icon">
+                    <i className="fa fa-home fa-xs"></i>
+                </span>
+            </div>);
+
+            return <div className="crumbs-panel">
+                {actualCrumbs}
+            </div>
+        }
+        return null;
     }
-}
+
+    render() {
+
+        return <ErrorView/>
+        if(this.props.isLoading) {
+            return <LoadingView>
+                {this.props.children}
+                </LoadingView>
+        }
+        if(!this.props.isLoading && this.props.apiFetchError) {
+            return <ErrorView />;
+        } else {
+            return this.props.children;
+        }
+    }
+} 
+export default connect(
+    (state) => {
+        return {
+            isLoading: state.apiReducer.isLoading,
+            apiFetchError: state.apiReducer.apiFetchError,
+            data: state.apiReducer.data
+        }
+    }
+)(View)

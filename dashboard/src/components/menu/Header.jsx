@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import * as appActions from '../../actions/appActions';
+import { toggleMenu } from '../../actions/appActions';
 
 class Header extends React.Component {
 
     toggleSideBar() {
-        this.props.dispatch(appActions.toggleMenu(!this.props.menuOpened));
+        this.props.dispatch(toggleMenu(!this.props.menuOpened));
     }
 
     render() {

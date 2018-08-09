@@ -13,7 +13,7 @@ export class App extends Component {
     
     checkToken(){
         if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') == '') {
-            return false
+            // return false
         } 
         return true 
     }
