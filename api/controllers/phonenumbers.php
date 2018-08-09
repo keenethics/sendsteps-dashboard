@@ -13,9 +13,6 @@ class Phonenumbers extends NovaAPI {
             $results = $this->query('SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND p.id = '.$id.';');
             return json_encode(['content' => $results]);                
         }
-        return false;
-        // $results = $this->query('SELECT * FROM phonenumbers WHERE phonenumbers.id = '.$phonenumberId.' phonenumbers.isDeleted != 1 AND id = 2;');
-        // return json_encode(['content' => $results]);
-        
+        return false;        
     }
 }
