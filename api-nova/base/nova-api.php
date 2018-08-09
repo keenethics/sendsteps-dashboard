@@ -12,12 +12,12 @@
             return;
         }
         
-        public function namespaceExists($namespace) {
-            $namespace .= "\\";
-            foreach(get_declared_classes() as $name)
-                if(strpos($name, $namespace) === 0) return true;
-            return false;
-        }
+        // public function namespaceExists($namespace) {
+        //     $namespace .= "\\";
+        //     foreach(get_declared_classes() as $name)
+        //         if(strpos($name, $namespace) === 0) return true;
+        //     return false;
+        // }
         
         public function loadModel($model_name = ''){
             //Check model file exists
