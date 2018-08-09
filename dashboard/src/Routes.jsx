@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+
 import Home from "./pages/Home";
 import Settings from "./pages/settings/Details";
 import PhonenumbersOverview from "./pages/phonenumbers/Overview";

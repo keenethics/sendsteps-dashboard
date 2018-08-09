@@ -8,38 +8,39 @@ import { Redirect } from 'react-router-dom';
 export class App extends Component {
     constructor(props) {
         super(props);
-        this.loggedIn = this.checkAuth(); 
+        this.loggedIn = this.checkToken(); 
     }
     
-    checkAuth(){
-        if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') == ''){
-            // return false
-        } else {
-            //call authorizer
-        }
-        // this.loggedIn = sessionStorage.getItem('loggedin') === 'false';
+    checkToken(){
+        if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') == '') {
+            return false
+        } 
         return true 
     }
     
+    
     render() {
-        // this.loggedIn = true;
         if(this.loggedIn != true) {
-            return <Redirect to='/login'/>;
-        }
-        return (
-            <div className="App">
-                <Header />
-                <div className="wrapper">
-                    <SideMenu />
-                    <div className="view">
-                        <Routes />
+            //If not logged in, render login page
+            return (
+                <div>
+                    Some Login Page
+                </div>
+            );
+        } else {
+            //Try to route to the requested page
+            return (
+                <div className="App">
+                    <Header />
+                    <div className="wrapper">
+                        <SideMenu />
+                        <div className="view">
+                            <Routes />
+                        </div>
                     </div>
                 </div>
-            </div>
-        );   
-        // } else {
-        //     return (<div>Test</div>);
-        // }
+            );     
+        }
     }
 }
 export default App;
