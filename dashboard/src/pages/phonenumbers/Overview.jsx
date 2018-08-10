@@ -8,10 +8,16 @@ class Phonenumbers extends React.Component {
 
     constructor(props) {
         super(props);
-        fetchResult('phonenumbers', 'getOverview');
-        setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
     
+    componentDidMount() {
+        fetchResult('phonenumbers', 'getOverview');
+        this.apiRefresh = setInterval(fetchResult, 1000, 'phonenumbers', 'getOverview');
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
+    }
     render() {
         return (
             <View>

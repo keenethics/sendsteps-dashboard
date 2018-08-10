@@ -27,7 +27,7 @@ export function apiFetchSuccess(data) {
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
     store.dispatch(apiFetching());
-    setTimeout(() => {
+    // setTimeout(() => {
         fetch(apiUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -47,7 +47,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                 store.dispatch(apiFetchError(error));
             }
         )
-    },5000)
+    // },1000)
     
 }
 
