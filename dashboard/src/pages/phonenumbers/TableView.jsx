@@ -47,7 +47,6 @@ class TableView extends React.Component {
             clearSearch: true,
             clearSearchBtn: this.getClearBtn
         };
-
         return (
             <div>
                 <BootstrapTable pagination data={this.props.data} options={options} search>

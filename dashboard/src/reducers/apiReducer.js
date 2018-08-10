@@ -2,6 +2,7 @@ export default function apiReducer(state, action) {
 
     switch(action.type) {
         case 'API_FETCH_ERROR': {
+            // console.log(action);
             return {
                 ...state,
                 isLoading: false,

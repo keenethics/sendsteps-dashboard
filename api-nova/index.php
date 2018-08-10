@@ -26,7 +26,7 @@
         $controller->setHeaders();
         
         //Check method/function exists
-        if (!method_exists($controller, $function)) {
+        if (method_exists($controller, $function)) {
             throw new Exception ('MethodDoesNotExist');
         }
         $result = $controller->$function($params);
@@ -35,6 +35,9 @@
         
     } catch (Exception $e) {
         //Handle all API errors
-        echo ($e->getMessage() == '')? 'Error: Undefined error with Nova-API' : 'Error: '. $novaErrors[$e->getMessage()];   
+        
+        echo ($e->getMessage() == '')? 'Error: Undefined error with Nova-API' : '{"error":"'. $novaErrors[$e->getMessage()].'"}';   
         exit();
+        // echo ($e->getMessage() == '')? 'Error: Undefined error with Nova-API' : 'Error: '. $novaErrors[$e->getMessage()];   
+        // exit();
     }
