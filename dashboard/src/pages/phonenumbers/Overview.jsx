@@ -4,7 +4,7 @@ import TableView from './TableView';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/apiActions'
 
-class Phonenumbers extends React.Component {
+class PhonenumbersOverview extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,6 @@ class Phonenumbers extends React.Component {
         clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
     }
     render() {
-        // console.log(this.props.data);
         return (
             <View>
                 <div>
@@ -77,4 +76,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(Phonenumbers);
+)(PhonenumbersOverview);

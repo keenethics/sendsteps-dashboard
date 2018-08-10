@@ -26,7 +26,7 @@
         $controller->setHeaders();
         
         //Check method/function exists
-        if (method_exists($controller, $function)) {
+        if (!method_exists($controller, $function)) {
             throw new Exception ('MethodDoesNotExist');
         }
         $result = $controller->$function($params);

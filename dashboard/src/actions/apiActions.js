@@ -37,7 +37,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
             return res.json()
         }).then(
             (result) => {
-                console.log(result);
+                // console.log(result);
                 if (result.error) {
                     store.dispatch(apiFetchError((result.error)));
                 } else {

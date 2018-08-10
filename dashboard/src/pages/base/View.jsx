@@ -37,14 +37,12 @@ class View extends Component {
     render() {
 
         // return <ErrorView/>
-        // console.log(this.props);
+        // console.log(this);
         if(this.props.isLoading) {
-            return <LoadingView>
-                {this.props.children}
-                </LoadingView>
+            return <LoadingView> {this.props.children} </LoadingView>
         }
-        // console.log(this.props);
-        if(!this.props.isLoading && this.props.apiFetchError) {
+        console.log(this.props.error);
+        if(!this.props.isLoading && this.props.error) {
             return <ErrorView />;
         } else {
             return this.props.children;
