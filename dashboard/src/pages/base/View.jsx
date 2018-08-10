@@ -5,9 +5,9 @@ import LoadingView from './LoadingView';
 import ErrorView from './ErrorView';
 
 class View extends Component {
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
    
     getBreadCrumbs() {
         if(this.props.match.url) {

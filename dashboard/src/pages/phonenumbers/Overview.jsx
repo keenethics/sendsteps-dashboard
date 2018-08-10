@@ -6,9 +6,9 @@ import { fetchResult } from '../../actions/apiActions'
 
 class PhonenumbersOverview extends React.Component {
 
-    constructor(props) {
-        super(props);
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
     
     componentDidMount() {
         fetchResult('phonenumbers', 'getOverview');
