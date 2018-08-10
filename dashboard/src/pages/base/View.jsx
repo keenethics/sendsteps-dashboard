@@ -6,7 +6,7 @@ import ErrorView from './ErrorView';
 
 class View extends Component {
     constructor(props) {
-        super();
+        super(props);
     }
    
     getBreadCrumbs() {
@@ -41,7 +41,7 @@ class View extends Component {
         if(this.props.isLoading) {
             return <LoadingView> {this.props.children} </LoadingView>
         }
-        console.log(this.props.error);
+        // console.log(this.props.error);
         if(!this.props.isLoading && this.props.error) {
             return <ErrorView />;
         } else {
@@ -54,7 +54,8 @@ export default connect(
         return {
             isLoading: state.apiReducer.isLoading,
             apiFetchError: state.apiReducer.apiFetchError,
-            data: state.apiReducer.data
+            data: state.apiReducer.data,
+            error: state.apiReducer.error
         }
     }
 )(View)
