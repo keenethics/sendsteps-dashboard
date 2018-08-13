@@ -36,7 +36,7 @@
     } catch (Exception $e) {
         //Handle all API errors
         
-        echo ($e->getMessage() == '')? 'Error: Undefined error with Nova-API' : '{"error":"'. $novaErrors[$e->getMessage()].'"}';   
+        echo ($e->getMessage() == '')? '{"error":"Undefined error with Nova-API"}' : '{"error":"'. $novaErrors[$e->getMessage()].'"}';   
         exit();
         // echo ($e->getMessage() == '')? 'Error: Undefined error with Nova-API' : 'Error: '. $novaErrors[$e->getMessage()];   
         // exit();
