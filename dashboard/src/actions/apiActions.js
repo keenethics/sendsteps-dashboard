@@ -27,15 +27,24 @@ export function apiFetchSuccess(data) {
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
     store.dispatch(apiFetching());
-    setTimeout(() => {
+    // setTimeout(() => {
         fetch(apiUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
         }).then(res => {
+            // console.log(res);
             return res.json()
-        }).then((result) => {
-            store.dispatch(apiFetchSuccess(JSON.parse(result.content)));
+        }).then(
+            (result) => {
+                // console.log(result);
+                if (result.error) {
+                    store.dispatch(apiFetchError((result.error)));
+                } else {
+                    store.dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+                }
+               
+            // store.dispatch(apiFetchSuccess(JSON.parse(result.content)));
             },
             // Note: It is important to handle errors
             // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
@@ -46,7 +55,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                 store.dispatch(apiFetchError(error));
             }
         )
-    },5000)
+    // },1000)
     
 }
 

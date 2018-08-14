@@ -12,7 +12,7 @@ export class App extends Component {
     }
     
     checkToken(){
-        if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') == '') {
+        if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') === '') {
             // return false
         } 
         return true 
@@ -20,7 +20,7 @@ export class App extends Component {
     
     
     render() {
-        if(this.loggedIn != true) {
+        if(this.loggedIn !== true) {
             //If not logged in, render login page
             return (
                 <div>

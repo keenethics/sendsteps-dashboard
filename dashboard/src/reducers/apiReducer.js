@@ -1,5 +1,4 @@
 export default function apiReducer(state, action) {
-
     switch(action.type) {
         case 'API_FETCH_ERROR': {
             return {

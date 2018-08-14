@@ -4,14 +4,20 @@ import TableView from './TableView';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/apiActions'
 
-class Phonenumbers extends React.Component {
+class PhonenumbersOverview extends React.Component {
 
-    constructor(props) {
-        super(props);
-        fetchResult('phonenumbers', 'getOverview');
-        setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
     
+    componentDidMount() {
+        fetchResult('phonenumbers', 'getOverview');
+        this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
+    }
     render() {
         return (
             <View>
@@ -70,4 +76,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(Phonenumbers);
+)(PhonenumbersOverview);
