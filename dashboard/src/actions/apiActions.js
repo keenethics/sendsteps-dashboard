@@ -33,7 +33,6 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
         }).then(res => {
-            console.log(res);
             return res.json()
         }).then((result) => {
             store.dispatch(apiFetchSuccess(JSON.parse(result.content)));
@@ -42,8 +41,8 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
             // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
             (error) => {
                 // Dispatch error as an action. 
-                // Sets apiError to specified error
-                // apiError is accessible through mapStateToProps -> apiReducer.apiError
+                // error is accessible through mapStateToProps -> apiReducer.error
+                // (Maybe rename to apiError or something)
                 store.dispatch(apiFetchError(error));
             }
         )

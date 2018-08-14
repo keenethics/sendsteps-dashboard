@@ -16,7 +16,7 @@ class View extends Component {
             let actualCrumbs = crumbList.map((crumb, index) => (
                 <span key={index}> 
                     <i className="crumbs fa fa-caret-right"></i> 
-                    <div className={"label label-" + (index===crumbList.length-1? 'success' : 'default')}>
+                    <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')}>
                         {crumb}
                     </div>
                 </span>
@@ -35,8 +35,6 @@ class View extends Component {
     }
 
     render() {
-
-        return <ErrorView/>
         if(this.props.isLoading) {
             return <LoadingView>
                 {this.props.children}

@@ -6,8 +6,8 @@ class ErrorView extends Component {
         return (
             <div className="error-container">
                 <div class="error">
-                    <h1><i className="fa fa-exclamation-circle"></i> Oops! Something went wrong</h1>
-                    <code>{this.props.error || 'Unknown Error'}</code>
+                    <h1><i className="fa fa-exclamation-circle"></i> Oops! Something went wrong.</h1>
+                    <div className="well"><i className="fa fa-exclamation-triangle"></i> {this.props.error || 'Unknown Error, please try refreshing the page.'}</div>
                 </div>
             </div>
         )
