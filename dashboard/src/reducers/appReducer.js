@@ -8,6 +8,12 @@ export default function appReducer(state, action) {
                 menuOpened: action.isOpened
             }
         }
+        case 'SHOW_REGISTRATION_FORM': {
+            return {
+                ...state,
+                showRegistrationForm: action.showRegistrationForm
+            }
+        }
         default: {
             return {
                 ...state

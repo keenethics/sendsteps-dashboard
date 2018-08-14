@@ -26,6 +26,7 @@ export function apiFetchSuccess(data) {
 }
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
+
     store.dispatch(apiFetching());
     // setTimeout(() => {
         fetch(apiUrl,{

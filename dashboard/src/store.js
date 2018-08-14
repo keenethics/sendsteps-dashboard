@@ -1,12 +1,14 @@
 import appReducer from './reducers/appReducer';
 import apiReducer from './reducers/apiReducer';
-import dataReducer from './reducers/dataReducer';
+import loginReducer from './reducers/loginReducer';
+import registrationReducer from './reducers/registrationReducer';
 import { createStore, combineReducers } from 'redux';
 
 const rootReducer = combineReducers({
     appReducer: appReducer,
     apiReducer: apiReducer,
-    dataReducer: dataReducer
+    loginReducer: loginReducer,
+    registrationReducer: registrationReducer
     // Other reducers here
 });
 
@@ -14,13 +16,33 @@ const rootReducer = combineReducers({
 const initialState = {
     appReducer: {
         menuOpened: false,
+        showRegistrationForm: false,
     },
     apiReducer: {
         apiError: null,
         isLoading: false
     },
-    dataReducer: {
-        selectedPhonenumber: null
+    loginReducer: {
+        email: '',
+        password: '',
+        emailError: '',
+        passwordError: '',
+        showPassword: false,
+    },
+    registrationReducer: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        termsAccepted: null,
+        firstNameError: '',
+        lastNameError: '',
+        emailError: '',
+        passwordError: '',
+        passwordConfirmError: '',
+        termsAcceptedError: '',
+        showPassword: false,
     }
 }
   

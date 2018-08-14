@@ -1,6 +1,9 @@
-export function setPhonenumbers(countryPhonenumbers) {
-    return {
-        type: 'SET_PHONENUMBERS',
-        countryPhonenumbers
-    }
-}
+// export function setPhonenumbers(countryPhonenumbers) {
+//     return {
+//         type: 'SET_PHONENUMBERS',
+//         countryPhonenumbers
+//     }
+// }
+
+
+

@@ -3,12 +3,10 @@ import View from "../base/View";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-class PhonenumberOverview extends View {
+class PhonenumberDetails extends View {
     constructor(props) {
         super(props);
         this.state = {
-          error: null,
-          isLoaded: false,
           items: []
         };
     }
@@ -130,4 +128,4 @@ class PhonenumberOverview extends View {
             </div>
         );
     }
-} export default connect()(PhonenumberOverview);
+} export default connect()(PhonenumberDetails);

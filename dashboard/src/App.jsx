@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 import Routes from './Routes';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/menu/Header';
 import { Redirect } from 'react-router-dom';
+import RegistrationOverview from './pages/registration/Details';
 
 export class App extends Component {
     constructor(props) {
@@ -13,23 +13,17 @@ export class App extends Component {
     
     checkToken(){
         if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') === '') {
-            // return false
+            return false
         } 
         return true 
     }
     
-    
     render() {
         if(this.loggedIn !== true) {
+            
             //If not logged in, render login page
-            return (
-                <div>
-                    <label for='username'>Username</label>
-                    <input name='username' id='username'></input>
-                    <label for='password'>Password</label>
-                    <input name='password' id='password'></input>
-                </div>
-            );
+            // return true;
+            return <RegistrationOverview />;
         } else {
             //Try to route to the requested page
             return (
