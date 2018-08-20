@@ -17,7 +17,7 @@
     $Bastet->setHeaders();
     echo json_encode(
         array(
-            'authorized' => false
+            'authorized' => true
         )
     );
     exit();
