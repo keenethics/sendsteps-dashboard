@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Routes from './Routes';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/menu/Header';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import RegistrationOverview from './pages/registration/Details';
 
 export class App extends Component {

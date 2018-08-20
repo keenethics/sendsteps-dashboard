@@ -90,7 +90,7 @@ class RegistrationForm extends Component {
         let passwordConfirmError = '';
 
         // This statement isn't working yet
-        if(!isValidPassword(e.target.value) || !isValidPassword(this.props.password) && e.target.value !== this.props.password) {
+        if(!isValidPassword(e.target.value) || (!isValidPassword(this.props.password) && e.target.value !== this.props.password)) {
             passwordConfirmError = 'The selected passwords do not match';
         }
         this.props.dispatch(setPasswordConfirmError(passwordConfirmError));
