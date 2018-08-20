@@ -16,14 +16,12 @@ export class App extends Component {
         fetch('http://local-bastet.sendsteps.com/index.php',{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
+        }).then(res => {
+            // console.log(res);
+            return res.json()
         }).then((result) => {
-                this.setState({result}); 
-                // if(result.authorized == true){
-                //     // console.log('true');
-                //     this.setState({loggedIn:  true});   
-                // } 
-                //     // console.log('false');
-                //     this.setState({loggedIn:  false});   
+                console.log(result);
+                this.setState({result});  
                 
             }
         )
@@ -41,8 +39,8 @@ export class App extends Component {
     
     render() {
         
-        const { loggedIn }  = this.state;
-        console.log(loggedIn);
+        const { authorized }  = this.state;
+        console.log(authorized);
         console.log('Pre: '+this.authorized);
         if(this.loggedIn !== true && this.loggedIn != undefined) {
             console.log('Post: '+this.loggedIn);
