@@ -93,6 +93,10 @@ class RegistrationForm extends Component {
         if(!isValidPassword(e.target.value) || !isValidPassword(this.props.password) && e.target.value !== this.props.password) {
             passwordConfirmError = 'The selected passwords do not match';
         }
+        // Maybe this is what we need
+        // if(e.target.value !== this.props.password){
+        //     passwordConfirmError = 'The selected passwords do not match';    
+        // }
         this.props.dispatch(setPasswordConfirmError(passwordConfirmError));
     }
 
