@@ -14,3 +14,9 @@
     $Bastet = new BastetAPI();
 
     $Bastet->setHeaders();
+    echo json_encode(
+        array(
+            'authorized' => true
+        )
+    );
+    exit();
