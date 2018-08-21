@@ -13,41 +13,20 @@ export class App extends Component {
         super(props);
         this.props.dispatch(checkAuthorized());
     }
-
-        
-    // checkLogin() {
-    //     fetch('http://local-bastet.sendsteps.com/index.php',{
-    //         method: 'POST',
-    //         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
-    //     }).then(res => {
-    //         // console.log(res);
-    //         return res.json()
-    //     }).then((result) => {
-    //         if(result && typeof result.authorized !== 'undefined') {
-    //             this.props.dispatch(setAuthorized(result.authorized));
-    //         }
-    //     })
-        
-        
-    //     // if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') === '') {
-    //     //     // return false
-    //     // } 
-    //     // return true 
-    // }
     
     render() {
 
         const { isAuthorized, authChecked }  = this.props;
-
-        if(!authChecked) {
-            return <RegistrationOverview />;
-        }
-
-        if(!isAuthorized) { 
+        console.log('authChecked: '+authChecked + ', isAuthorized: '+isAuthorized);
+        if(!authChecked && !isAuthorized) { 
+            console.log('case 1');
             return <AuthorizationLoadingView />;
-        }
-
-        if(isAuthorized && authChecked) {
+        } else if(authChecked && !isAuthorized) { 
+            console.log('case 2');
+            return <RegistrationOverview />;
+        } else if(authChecked && isAuthorized) {
+             
+            console.log('case 3');
             return (
                 <div className="App">
                     <Header />
