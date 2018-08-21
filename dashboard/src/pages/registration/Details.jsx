@@ -4,7 +4,7 @@ import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import PasswordResetForm from './PasswordResetForm';
-import { CSSTransition } from 'react-transition-group';
+import { Redirect } from 'react-router-dom';
 
 class RegistrationOverview extends Component {
   
@@ -115,11 +115,22 @@ class RegistrationOverview extends Component {
             "retina_detect": true
 		}
 
+		const { currentView, isAuthorized } = this.props;
+
+		if(isAuthorized) {
+			// User is already authorized
+			// and does not need to login again
+    		return <Redirect
+                  to={'/'}
+               />
+		}
+
 		let currentPage = <LoginForm />
-		if(this.props.currentView === 'SIGNUP') {
+		
+		if(currentView === 'SIGNUP') {
 			currentPage = <RegistrationForm />;
 		} 
-		else if (this.props.currentView === 'RECOVER') {
+		else if (currentView === 'RECOVER') {
 			currentPage = <PasswordResetForm />;
 		}
 
@@ -136,6 +147,7 @@ export default connect(
     (state) => {
         return {
 			currentView: state.appReducer.currentView,
+			isAuthorized: state.authReducer.isAuthorized,
         }
     }
 ) (RegistrationOverview);

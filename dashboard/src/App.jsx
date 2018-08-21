@@ -4,7 +4,8 @@ import SideMenu from './components/menu/SideMenu';
 import Header from './components/menu/Header';
 import RegistrationOverview from './pages/registration/Details';
 import { connect } from 'react-redux';
-import { checkAuthorized, authChecked } from './actions/authActions';
+import { withRouter } from 'react-router-dom';
+import { checkAuthorized } from './actions/authActions';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 export class App extends Component {
 
@@ -43,7 +44,7 @@ export class App extends Component {
         }
 
         if(!isAuthorized) { 
-            return <AuthorizationLoadingView />
+            return <AuthorizationLoadingView />;
         }
 
         if(isAuthorized && authChecked) {
@@ -59,16 +60,16 @@ export class App extends Component {
                 </div>
             ); 
         }
-        
+
         else return <AuthorizationLoadingView />;
       
     }
 }
-export default connect(
+export default withRouter(connect(
     (state) => {
         return {
             isAuthorized: state.authReducer.isAuthorized,
             authChecked: state.authReducer.authChecked
         }
     }
-) (App);
+) (App));

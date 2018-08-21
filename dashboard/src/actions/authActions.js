@@ -1,4 +1,5 @@
-import store from '../store.js'
+import store from '../store.js';
+import fetch from 'cross-fetch';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
 

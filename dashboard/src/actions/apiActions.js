@@ -1,4 +1,5 @@
 import store from '../store.js'
+import fetch from 'cross-fetch';
 
 let apiUrl =  'http://local-nova.sendsteps.com/index.php';
 

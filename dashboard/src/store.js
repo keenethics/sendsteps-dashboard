@@ -3,8 +3,8 @@ import apiReducer from './reducers/apiReducer';
 import loginReducer from './reducers/loginReducer';
 import registrationReducer from './reducers/registrationReducer';
 import authReducer from './reducers/authReducer';
-import { createStore, applyMiddleware , combineReducers } from 'redux';
-import thunkMiddleware from 'redux-thunk'
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 
 const rootReducer = combineReducers({
     appReducer: appReducer,
