@@ -5,7 +5,7 @@ import Header from './components/menu/Header';
 import RegistrationOverview from './pages/registration/DetailsContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { checkAuthorized } from './actions/authActions';
+import { checkAuthorized, setAuthorized } from './actions/authActions';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 export class App extends Component {
 
@@ -15,31 +15,37 @@ export class App extends Component {
     }
    
     render() {
-        return <RegistrationOverview />;
 
         const { isAuthorized, authChecked }  = this.props;
         
-        if(!isAuthorized && authChecked) { 
+        console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
+        if(authChecked === false) { 
             console.log('case 2');
             return <RegistrationOverview />;
-        } else if(authChecked && isAuthorized) {
+        } else{
+            if(authChecked && isAuthorized) {
              
-            console.log('case 3');
-            return (
-                <div className="App">
-                    <Header />
-                    <div className="wrapper">
-                        <SideMenu />
-                        <div className="view">
-                            <Routes />
+                console.log('case 3');
+                return (
+                    <div className="App">
+                        <Header />
+                        <div className="wrapper">
+                            <SideMenu />
+                            <div className="view">
+                                <Routes />
+                            </div>
                         </div>
                     </div>
-                </div>
-            ); 
-        } else {
-            console.log('case 1: Loading');
-            return <AuthorizationLoadingView />;
+                ); 
+            } else if (isAuthorized === false) {
+                return <RegistrationOverview />;
+            } else {
+                console.log('case 1: Loading');
+                return <AuthorizationLoadingView />;
+            }
+
         }
+        
     }
 }
 export default withRouter(connect(
