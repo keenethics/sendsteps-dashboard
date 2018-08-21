@@ -17,6 +17,7 @@ const initialState = {
     appReducer: {
         menuOpened: false,
         showRegistrationForm: false,
+        togglingView: false
     },
     apiReducer: {
         apiError: null,
@@ -27,7 +28,9 @@ const initialState = {
         password: '',
         emailError: '',
         passwordError: '',
-        showPassword: false,
+        recoveringEmail: '',
+        recoveringEmailError: '',
+        showPassword: false
     },
     registrationReducer: {
         firstName: '',
@@ -35,14 +38,14 @@ const initialState = {
         email: '',
         password: '',
         passwordConfirm: '',
-        termsAccepted: null,
+        termsAccepted: false,
         firstNameError: '',
         lastNameError: '',
         emailError: '',
         passwordError: '',
         passwordConfirmError: '',
         termsAcceptedError: '',
-        showPassword: false,
+        showPassword: false
     }
 }
   

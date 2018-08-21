@@ -8,10 +8,10 @@ export default function appReducer(state, action) {
                 menuOpened: action.isOpened
             }
         }
-        case 'SHOW_REGISTRATION_FORM': {
+        case 'SET_VIEW': {
             return {
                 ...state,
-                showRegistrationForm: action.showRegistrationForm
+                currentView: action.currentView
             }
         }
         default: {

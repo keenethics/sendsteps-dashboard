@@ -11,3 +11,23 @@ export function showRegistrationForm(showRegistrationForm) {
         showRegistrationForm
     }
 }
+
+export function showPasswordResetForm(showPasswordResetForm) {
+    return {
+        type: 'SHOW_PASSWORD_RESET_FORM',
+        showPasswordResetForm
+    }
+}
+
+export function toggleView() {
+    return {
+        type: 'TOGGLE_VIEW'
+    }
+}
+
+export function setView(currentView) {
+    return {
+        type: 'SET_VIEW',
+        currentView
+    }
+}

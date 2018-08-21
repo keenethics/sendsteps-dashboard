@@ -82,9 +82,16 @@ export function setPasswordConfirmError(passwordConfirmError) {
     }
 }
 
-export function setAcceptTermsError(acceptTermsError) {
+export function setAcceptTermsError(termsAcceptedError) {
     return {
         type: 'ACCEPT_TERMS_ERROR',
-        acceptTermsError
+        termsAcceptedError
+    }
+}
+
+
+export function resetRegistrationForm() {
+    return {
+        type: 'RESET_REGISTRATION_FORM'
     }
 }

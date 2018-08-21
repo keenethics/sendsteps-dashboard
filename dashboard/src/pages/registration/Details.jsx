@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
+import PasswordResetForm from './PasswordResetForm';
+import { CSSTransition } from 'react-transition-group';
 
 class RegistrationOverview extends Component {
   
@@ -111,33 +113,29 @@ class RegistrationOverview extends Component {
                 }
               },
             "retina_detect": true
-          }
+		}
 
-        // return <Particles 
-        //         className="particles"
-        //         params={particleParams}
-        //     />
+		let currentPage = <LoginForm />
+		if(this.props.currentView === 'SIGNUP') {
+			currentPage = <RegistrationForm />;
+		} 
+		else if (this.props.currentView === 'RECOVER') {
+			currentPage = <PasswordResetForm />;
+		}
 
-        if(this.props.showRegistrationForm) {
-            return <RegistrationForm />
-        } else {
-            return <LoginForm />
-        }
-
-            // <div>
-            //     {/* <Particles 
-            //         className="particles"
-            //         params={particleParams}
-            //     /> */}
-            // </div> 
-              
+		return (
+			<div>
+				<Particles className="particles" width={document.body.clientWidth} height={document.body.clientHeight} params={particleParams} />
+				{currentPage}
+			</div>
+		)
     };
 }
 
 export default connect(
     (state) => {
         return {
-            showRegistrationForm: state.appReducer.showRegistrationForm
+			currentView: state.appReducer.currentView,
         }
     }
 ) (RegistrationOverview);

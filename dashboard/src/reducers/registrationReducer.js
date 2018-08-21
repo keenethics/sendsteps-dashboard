@@ -32,6 +32,12 @@ export default function registrationReducer(state, action) {
                 passwordConfirm: action.passwordConfirm
             }
         }
+        case 'ACCEPT_TERMS': {
+            return {
+                ...state,
+                termsAccepted: action.termsAccepted
+            }
+        }
         case 'FIRST_NAME_ERROR': {
             return {
                 ...state,
@@ -62,10 +68,34 @@ export default function registrationReducer(state, action) {
                 passwordConfirmError: action.passwordConfirmError
             }
         }
+        case 'ACCEPT_TERMS_ERROR': {
+            return {
+                ...state,
+                termsAcceptedError: action.termsAcceptedError
+            }
+        }
         case 'SHOW_PASSWORD': {
             return {
                 ...state,
                 showPassword: action.showPassword
+            }
+        }
+        case 'RESET_REGISTRATION_FORM': {
+            return {
+                ...state,
+                firstName: '',
+                lastName: '',
+                email: '',
+                password: '',
+                passwordConfirm: '',
+                termsAccepted: false,
+                firstNameError: '',
+                lastNameError: '',
+                emailError: '',
+                passwordError: '',
+                passwordConfirmError: '',
+                termsAcceptedError: '',
+                showPassword: false
             }
         }
         default: {

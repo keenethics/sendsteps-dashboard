@@ -1,13 +1,21 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux';
-import { showRegistrationForm } from '../../actions/appActions';
-import { setEmail, setPassword, setEmailError, setPasswordError, showPassword } from '../../actions/loginActions';
+import { setView } from '../../actions/appActions';
+import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/loginActions';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 
 class LoginForm extends Component {
 
+    componentWillMount() {
+        this.props.dispatch(resetLoginForm());
+    }
+
     showRegistrationForm() {
-        this.props.dispatch(showRegistrationForm(true));
+        this.props.dispatch(setView('SIGNUP'));
+    }
+
+    showPasswordResetForm() {
+        this.props.dispatch(setView('RECOVER'));
     }
 
     showPassword() {
@@ -57,36 +65,38 @@ class LoginForm extends Component {
         emailErrorClass = !emailError && email ? 'has-success' : emailErrorClass;
 
         return (
-            <div className="col-sm-6 col-sm-offset-3">
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h2 className="panel-title">Sign in</h2>
-                    </div>
-                    <div className="panel-body">
-                        <div className={"form-group " + emailErrorClass}>
-                            <label className="control-label">Email</label>
-                            <div className="input-group">
-                                <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                <input onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} data-lpignore='true' type="email" className="form-control" placeholder="Enter email" />
+            <div className="jumbotron vertical-center not-logged-in">
+                <div className="col-sm-6 col-sm-offset-3 login-form">
+                    <div className="panel panel-default">
+                        <div className="panel-heading">
+                            <h2 className="panel-title">Sign in</h2>
+                        </div>
+                        <div className="panel-body">
+                            <div className={"fa-sm form-group " + emailErrorClass}>
+                                <label className="control-label">Email</label>
+                                <div className="input-group">
+                                    <span className="input-group-addon" ><i className="fa fa-user"></i></span>
+                                    <input name="login-email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} data-lpignore='true' type="email" className="form-control input-sm" placeholder="Enter email" />
+                                </div>
+                                {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
                             </div>
-                            {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
-                        </div>
-                        <div className={"form-group " + passwordErrorClass}>
-                            <label className="control-label">Password</label>
-                            <div className="input-group">
-                                <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} data-lpignore='true' type={showPassword ? "text" : "password"} className="form-control" placeholder="Password" />
-                                <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                            <div className={"fa-sm form-group " + passwordErrorClass}>
+                                <label className="control-label">Password</label>
+                                <div className="input-group">
+                                    <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
+                                    <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} data-lpignore='true' type={showPassword ? "text" : "password"} className="form-control input-sm" placeholder="Password" />
+                                    <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                                </div>
+                                {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
                             </div>
-                            {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
+                            <div className="">
+                                <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm"><a href="#">Forgot password?</a></span>
+                            </div>
                         </div>
-                        <div className="">
-                            <span>Forgot password?</span>
+                        <div className="panel-footer">
+                            <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
+                            <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Login</button>
                         </div>
-                    </div>
-                    <div className="panel-footer">
-                        <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
-                        <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-primary"><i className="fa fa-sign-in-alt"></i> Login</button>
                     </div>
                 </div>
             </div>

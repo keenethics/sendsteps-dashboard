@@ -12,6 +12,18 @@ export default function loginReducer(state, action) {
                 password: action.password
             }
         }
+        case 'SET_RECOVERING_EMAIL': {
+            return {
+                ...state,
+                recoveringEmail: action.recoveringEmail
+            }
+        }
+        case 'RECOVERING_EMAIL_ERROR': {
+            return {
+                ...state,
+                recoveringEmailError: action.recoveringEmailError
+            }
+        }
         case 'EMAIL_ERROR': {
             return {
                 ...state,
@@ -28,6 +40,18 @@ export default function loginReducer(state, action) {
             return {
                 ...state,
                 showPassword: action.showPassword
+            }
+        }
+        case 'RESET_LOGIN_FORM': {
+            return {
+                ...state,
+                email: '',
+                password: '',
+                emailError: '',
+                passwordError: '',
+                recoveringEmail: '',
+                recoveringEmailError: '',
+                showPassword: false
             }
         }
         default: {
