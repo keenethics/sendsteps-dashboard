@@ -17,11 +17,8 @@ export class App extends Component {
     render() {
 
         const { isAuthorized, authChecked }  = this.props;
-        console.log('authChecked: '+authChecked + ', isAuthorized: '+isAuthorized);
-        if(!authChecked && !isAuthorized) { 
-            console.log('case 1');
-            return <AuthorizationLoadingView />;
-        } else if(authChecked && !isAuthorized) { 
+        
+        if(!isAuthorized && authChecked) { 
             console.log('case 2');
             return <RegistrationOverview />;
         } else if(authChecked && isAuthorized) {
@@ -38,9 +35,11 @@ export class App extends Component {
                     </div>
                 </div>
             ); 
+        } else {
+            console.log('case 1: Loading');
+            return <AuthorizationLoadingView />;
         }
 
-        else return <AuthorizationLoadingView />;
       
     }
 }

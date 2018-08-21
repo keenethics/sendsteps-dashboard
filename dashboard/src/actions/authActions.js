@@ -29,8 +29,9 @@ export function checkAuthorized() {
         }).then(
             (result) => {
                 if(result && typeof result.authorized !== 'undefined') {
-                    store.dispatch(authChecked(true));
+                    // store.dispatch(authChecked(true));
                     store.dispatch(setAuthorized(result.authorized));
+                    store.dispatch(authChecked(true));
                 }
             },
             (error) => {
