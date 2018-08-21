@@ -24,7 +24,8 @@ const initialState = {
     },
     apiReducer: {
         apiError: null,
-        isLoading: false
+        isLoading: false,
+        data: null
     },
     loginReducer: {
         email: '',

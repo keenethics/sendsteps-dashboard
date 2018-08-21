@@ -29,7 +29,7 @@ export function checkAuthorized() {
         }).then(
             (result) => {
                 if(result && typeof result.authorized !== 'undefined') {
-                    store.dispatch(setAuthorized(result.authorized));
+                    dispatch(setAuthorized(result.authorized));
                 }
             },
             (error) => {

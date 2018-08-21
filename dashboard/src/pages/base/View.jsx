@@ -35,15 +35,16 @@ class View extends Component {
     }
 
     render() {
-        if(this.props.isLoading) {
-            return <LoadingView> {this.props.children} </LoadingView>
+
+        const { isLoading, data, error, children } = this.props;
+
+        if(isLoading && !data) {
+            return <LoadingView> {children} </LoadingView>
         }
-        // console.log(this.props.error);
-        if(!this.props.isLoading && this.props.error) {
+        if(!isLoading && error) {
             return <ErrorView />;
-        } else {
-            return this.props.children;
-        }
+        } 
+        return children;
     }
 } 
 export default connect(

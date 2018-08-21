@@ -27,37 +27,32 @@ export function apiFetchSuccess(data) {
 }
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
-
-    store.dispatch(apiFetching());
-    // setTimeout(() => {
-    fetch(apiUrl,{
-        method: 'POST',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
-    }).then(res => {
-        // console.log(res);
-        return res.json()
-    }).then(
-        (result) => {
-            // console.log(result);
-            if (result.error) {
-                store.dispatch(apiFetchError(result.error));
-            } else {
-                store.dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+    return dispatch => {
+        dispatch(apiFetching());
+        fetch(apiUrl,{
+            method: 'POST',
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
+        }).then(res => {
+            return res.json()
+        }).then(
+            (result) => {
+                if(result.error) {
+                    store.dispatch(apiFetchError(result.error));
+                } else {
+                    store.dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+                }
+            },
+            // Note: It is important to handle errors
+            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
+            (error) => {
+                // Dispatch error as an action. 
+                // error is accessible through mapStateToProps -> apiReducer.error
+                // (Maybe rename to apiError or something)
+                store.dispatch(apiFetchError(error));
             }
-            
-        // store.dispatch(apiFetchSuccess(JSON.parse(result.content)));
-        },
-        // Note: It is important to handle errors
-        // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
-        (error) => {
-            // Dispatch error as an action. 
-            // error is accessible through mapStateToProps -> apiReducer.error
-            // (Maybe rename to apiError or something)
-            store.dispatch(apiFetchError(error));
-        }
-    )
-    // },1000)
+        )
+    }
 }
 
 

@@ -307,8 +307,8 @@
 
 .particles canvas {
   position: absolute;
+  background: #162d3e;
 }
-
 
 #map {
   width: 100%;
@@ -321,4 +321,12 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+}
+
+.view .well {
+  line-height: 25px;
+}
+
+.forgot-password:hover {
+  cursor: pointer;
 }

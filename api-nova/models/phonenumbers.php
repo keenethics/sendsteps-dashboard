@@ -15,7 +15,6 @@
             $results = $this->query('SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND p.id = '.$id.';');
             return $results;
         }
-
     }
 
 ?>

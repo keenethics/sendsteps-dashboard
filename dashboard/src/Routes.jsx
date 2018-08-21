@@ -9,7 +9,7 @@ import PhonenumberDetails from "./pages/phonenumbers/Details";
 import AboutDashboard from "./pages/about/dashboard";
 import AboutHowItWorks from "./pages/about/howitworks";
 import AboutSendsteps from "./pages/about/sendsteps";
-import PageNotFound from './pages/base/PageNotFound';
+import PageNotFound from "./pages/base/PageNotFound";
 
 const Routes = () =>
   <Switch>

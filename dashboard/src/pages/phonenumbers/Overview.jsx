@@ -5,13 +5,9 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/apiActions';
 
 class PhonenumbersOverview extends React.Component {
-
-    // constructor(props) {
-    //     super(props);
-    // }
-    
-    componentDidMount() {
-        fetchResult('phonenumbers', 'getOverview');
+   
+    componentWillMount() {
+        this.props.dispatch(fetchResult('phonenumbers', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 

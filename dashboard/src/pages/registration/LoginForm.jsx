@@ -90,7 +90,7 @@ class LoginForm extends Component {
                                 {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
                             </div>
                             <div className="">
-                                <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm"><a href="#">Forgot password?</a></span>
+                                <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm forgot-password">Forgot password?</span>
                             </div>
                         </div>
                         <div className="panel-footer">

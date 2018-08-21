@@ -9,5 +9,4 @@ class AuthorizationLoadingView extends React.Component {
         )
     }
 }
-
 export default AuthorizationLoadingView;
