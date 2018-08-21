@@ -52,8 +52,8 @@ const initialState = {
         showPassword: false
     },
     authReducer: {
-        isAuthorized: false,
-        authChecked: false
+        isAuthorized: null,
+        authChecked: null
     }
 }
   

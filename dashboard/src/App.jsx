@@ -17,35 +17,35 @@ export class App extends Component {
     render() {
 
         const { isAuthorized, authChecked }  = this.props;
-        
-        console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
-        if(authChecked === false) { 
-            console.log('case 2');
-            return <RegistrationOverview />;
-        } else{
-            if(authChecked && isAuthorized) {
-             
-                console.log('case 3');
-                return (
-                    <div className="App">
-                        <Header />
-                        <div className="wrapper">
-                            <SideMenu />
-                            <div className="view">
-                                <Routes />
-                            </div>
-                        </div>
-                    </div>
-                ); 
-            } else if (isAuthorized === false) {
+        if ('null' != authChecked  && 'null' != isAuthorized) {
+            console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
+            if(authChecked === false) { 
+                console.log('case 1.0');
                 return <RegistrationOverview />;
             } else {
-                console.log('case 1: Loading');
-                return <AuthorizationLoadingView />;
-            }
+                if(authChecked && isAuthorized) {
+                    console.log('case 2.1');
+                    return (
+                        <div className="App">
+                            <Header />
+                            <div className="wrapper">
+                                <SideMenu />
+                                <div className="view">
+                                    <Routes />
+                                </div>
+                            </div>
+                        </div>
+                    ); 
+                } else if (isAuthorized === false) {
+                    return <RegistrationOverview />;
+                } else {
+                    return <AuthorizationLoadingView />;
+                }
 
+            }
+        } else {
+            return <AuthorizationLoadingView />;            
         }
-        
     }
 }
 export default withRouter(connect(
