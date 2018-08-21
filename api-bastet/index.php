@@ -1,4 +1,5 @@
 <?php 
+    // var_dump('asdasd');exit();
     //Authentication API.
     //Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI {  
@@ -14,3 +15,9 @@
     $Bastet = new BastetAPI();
 
     $Bastet->setHeaders();
+    echo json_encode(
+        array(
+            'authorized' => true
+        )
+    );
+    exit();

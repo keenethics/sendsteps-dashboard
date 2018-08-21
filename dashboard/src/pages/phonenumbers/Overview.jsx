@@ -12,11 +12,11 @@ class PhonenumbersOverview extends React.Component {
     
     componentDidMount() {
         fetchResult('phonenumbers', 'getOverview');
-        this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
+        // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 
     componentWillUnmount() {
-        clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
+        // clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
     }
     render() {
         return (
