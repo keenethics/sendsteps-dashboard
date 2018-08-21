@@ -20,7 +20,6 @@ const Routes = () =>
     <Route path="/phonenumbers" exact component={PhonenumbersOverview} />
     <Route path="/phonenumbers/details/:id" exact component={PhonenumberDetails} />
     
-    
     <Route path="/about/dashboard" exact component={AboutDashboard} />
     <Route path="/about/howitworks" exact component={AboutHowItWorks} />
     <Route path="/about/sendsteps" exact component={AboutSendsteps} />

@@ -2,7 +2,7 @@ import React from 'react';
 import View from "../base/View";
 import TableView from './TableView';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/apiActions'
+import { fetchResult } from '../../actions/apiActions';
 
 class PhonenumbersOverview extends React.Component {
 

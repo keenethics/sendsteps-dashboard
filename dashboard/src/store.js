@@ -2,13 +2,16 @@ import appReducer from './reducers/appReducer';
 import apiReducer from './reducers/apiReducer';
 import loginReducer from './reducers/loginReducer';
 import registrationReducer from './reducers/registrationReducer';
-import { createStore, combineReducers } from 'redux';
+import authReducer from './reducers/authReducer';
+import { createStore, applyMiddleware , combineReducers } from 'redux';
+import thunkMiddleware from 'redux-thunk'
 
 const rootReducer = combineReducers({
     appReducer: appReducer,
     apiReducer: apiReducer,
     loginReducer: loginReducer,
-    registrationReducer: registrationReducer
+    registrationReducer: registrationReducer,
+    authReducer: authReducer
     // Other reducers here
 });
 
@@ -46,9 +49,13 @@ const initialState = {
         passwordConfirmError: '',
         termsAcceptedError: '',
         showPassword: false
+    },
+    authReducer: {
+        isAuthorized: false,
+        authChecked: false
     }
 }
   
-const store = createStore(rootReducer, initialState);
+const store = createStore(rootReducer, initialState, applyMiddleware(thunkMiddleware));
 
 export default store;

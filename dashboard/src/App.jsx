@@ -2,55 +2,53 @@ import React, { Component } from 'react';
 import Routes from './Routes';
 import SideMenu from './components/menu/SideMenu';
 import Header from './components/menu/Header';
-// import { Redirect } from 'react-router-dom';
 import RegistrationOverview from './pages/registration/Details';
-
+import { connect } from 'react-redux';
+import { checkAuthorized, authChecked } from './actions/authActions';
+import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 export class App extends Component {
+
     constructor(props) {
         super(props);
-        this.state = { authorized: [] };
+        this.props.dispatch(checkAuthorized());
     }
-    
-    checkLoggin() {
 
-        fetch('http://local-bastet.sendsteps.com/index.php',{
-            method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
-        }).then(res => {
-            // console.log(res);
-            return res.json()
-        }).then((result) => {
-                console.log(result);
-                this.setState({result});  
-                
-            }
-        )
+        
+    // checkLogin() {
+    //     fetch('http://local-bastet.sendsteps.com/index.php',{
+    //         method: 'POST',
+    //         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
+    //     }).then(res => {
+    //         // console.log(res);
+    //         return res.json()
+    //     }).then((result) => {
+    //         if(result && typeof result.authorized !== 'undefined') {
+    //             this.props.dispatch(setAuthorized(result.authorized));
+    //         }
+    //     })
         
         
-        // if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') === '') {
-        //     // return false
-        // } 
-        // return true 
-    }
-    
-    componentDidMount(){
-        this.checkLoggin();
-    }
+    //     // if (!sessionStorage.getItem('loggedintoken') || sessionStorage.getItem('loggedintoken') === '') {
+    //     //     // return false
+    //     // } 
+    //     // return true 
+    // }
     
     render() {
-        
-        const { authorized }  = this.state;
-        console.log(authorized);
-        console.log('Pre: '+this.authorized);
-        if(this.loggedIn !== true && this.loggedIn != undefined) {
-            console.log('Post: '+this.loggedIn);
-            //If not logged in, render login page
+
+        const { isAuthorized, authChecked }  = this.props;
+
+        if(!authChecked) {
             return <RegistrationOverview />;
-        } else {
-            //Try to route to the requested page
+        }
+
+        if(!isAuthorized) { 
+            return <AuthorizationLoadingView />
+        }
+
+        if(isAuthorized && authChecked) {
             return (
                 <div className="App">
-                    {/* {loggedIn} */}
                     <Header />
                     <div className="wrapper">
                         <SideMenu />
@@ -59,8 +57,18 @@ export class App extends Component {
                         </div>
                     </div>
                 </div>
-            );     
+            ); 
         }
+        
+        else return <AuthorizationLoadingView />;
+      
     }
 }
-export default App;
+export default connect(
+    (state) => {
+        return {
+            isAuthorized: state.authReducer.isAuthorized,
+            authChecked: state.authReducer.authChecked
+        }
+    }
+) (App);
