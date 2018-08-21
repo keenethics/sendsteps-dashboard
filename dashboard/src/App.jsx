@@ -18,16 +18,13 @@ export class App extends Component {
         return <RegistrationOverview />;
 
         const { isAuthorized, authChecked }  = this.props;
-
-        if(!authChecked) {
+        
+        if(!isAuthorized && authChecked) { 
+            console.log('case 2');
             return <RegistrationOverview />;
-        }
-
-        if(!isAuthorized) { 
-            return <AuthorizationLoadingView />;
-        }
-
-        if(isAuthorized && authChecked) {
+        } else if(authChecked && isAuthorized) {
+             
+            console.log('case 3');
             return (
                 <div className="App">
                     <Header />
@@ -39,10 +36,10 @@ export class App extends Component {
                     </div>
                 </div>
             ); 
+        } else {
+            console.log('case 1: Loading');
+            return <AuthorizationLoadingView />;
         }
-
-        else return <AuthorizationLoadingView />;
-      
     }
 }
 export default withRouter(connect(
