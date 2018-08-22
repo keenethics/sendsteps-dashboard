@@ -53,7 +53,7 @@ const initialState = {
     },
     authReducer: {
         isAuthorized: null,
-        authChecked: null
+        authRequired: null
     }
 }
   

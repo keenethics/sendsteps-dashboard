@@ -10,17 +10,17 @@ export function setAuthorized(isAuthorized) {
     }
 }
 
-export function authChecked(isChecked) {
+export function authRequired(isRequired) {
     return {
-        type: 'AUTH_CHECKED',
-        isChecked
+        type: 'AUTH_REQUIRED',
+        isRequired
     }
 }
 
 export function checkAuthorized() {
 
     return dispatch => {
-        dispatch(authChecked(true));
+        dispatch(authRequired(true));
         fetch(authUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
@@ -34,7 +34,7 @@ export function checkAuthorized() {
             },
             (error) => {
                 dispatch(setAuthorized(false));
-                dispatch(authChecked(false));
+                dispatch(authRequired(false));
             }
         )
     }

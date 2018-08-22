@@ -15,36 +15,24 @@ export class App extends Component {
     }
    
     render() {
-
-        const { isAuthorized, authChecked }  = this.props;
-        if ('null' != authChecked  && 'null' != isAuthorized) {
-            console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
-            if(authChecked === false) { 
-                console.log('case 1.0');
-                return <RegistrationOverview />;
-            } else {
-                if(authChecked && isAuthorized) {
-                    console.log('case 2.1');
-                    return (
-                        <div className="App">
-                            <Header />
-                            <div className="wrapper">
-                                <SideMenu />
-                                <div className="view">
-                                    <Routes />
-                                </div>
-                            </div>
+        const { isAuthorized, authRequired }  = this.props;
+        //Auth required & the result of authorization should be known, before anyone gets past the login screen
+        if(true === authRequired && true === isAuthorized) {
+            return (
+                <div className="App">
+                    <Header />
+                    <div className="wrapper">
+                        <SideMenu />
+                        <div className="view">
+                            <Routes />
                         </div>
-                    ); 
-                } else if (isAuthorized === false) {
-                    return <RegistrationOverview />;
-                } else {
-                    return <AuthorizationLoadingView />;
-                }
-
-            }
+                    </div>
+                </div>
+            ); 
+        } else if (null == authRequired  || null == isAuthorized) {
+            return <AuthorizationLoadingView />; 
         } else {
-            return <AuthorizationLoadingView />;            
+            return <RegistrationOverview />;
         }
     }
 }
@@ -52,7 +40,7 @@ export default withRouter(connect(
     (state) => {
         return {
             isAuthorized: state.authReducer.isAuthorized,
-            authChecked: state.authReducer.authChecked
+            authRequired: state.authReducer.authRequired
         }
     }
 ) (App));
