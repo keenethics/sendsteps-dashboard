@@ -2,7 +2,7 @@ import store from '../store.js';
 import fetch from 'cross-fetch';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
-
+let authHash =  'da213sdasdas90dasdas';
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',
@@ -23,7 +23,8 @@ export function checkAuthorized() {
         dispatch(authRequired(true));
         fetch(authUrl,{
             method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"}
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: 'function=checkAuth&params='+authHash
         }).then(res => {
             return res.json()
         }).then(
