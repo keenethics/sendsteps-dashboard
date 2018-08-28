@@ -37,7 +37,7 @@ class LoginForm extends Component {
     checkPassword(e){
         let passwordError = '';
         if(!isValidPassword(e.target.value)) {
-            passwordError = 'Please enter at least 8 characters';
+            passwordError = 'Please enter a valid password';
         }
         this.props.dispatch(setPasswordError(passwordError));
     } 

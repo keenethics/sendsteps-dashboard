@@ -5,7 +5,7 @@ import Header from './components/menu/Header';
 import RegistrationOverview from './pages/registration/DetailsContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { checkAuthorized, setAuthorized } from './actions/authActions';
+import { checkAuthorized } from './actions/authActions';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 export class App extends Component {
 
@@ -15,8 +15,8 @@ export class App extends Component {
     }
    
     render() {
-
         const { isAuthorized, authChecked }  = this.props;
+
         if ('null' != authChecked  && 'null' != isAuthorized) {
             console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
             if(authChecked === false) { 
@@ -41,7 +41,6 @@ export class App extends Component {
                 } else {
                     return <AuthorizationLoadingView />;
                 }
-
             }
         } else {
             return <AuthorizationLoadingView />;            

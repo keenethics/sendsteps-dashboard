@@ -16,7 +16,7 @@ class TableView extends React.Component {
     }
 
     phonenumberFormatter = cell => {
-        return <pre> {cell}</pre>;
+        return <div className=""> {cell}</div>;
     }
 
     countryFormatter = (cell, row) => {

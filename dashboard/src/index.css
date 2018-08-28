@@ -47,7 +47,6 @@
   
   .header-panel h1 {
     font-size: 1.5em;
-    font-weight: 900;
   }
    
   .menu-button {
@@ -308,6 +307,8 @@
 .particles canvas {
   position: absolute;
   background: #162d3e;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 #map {
@@ -329,4 +330,12 @@
 
 .forgot-password:hover {
   cursor: pointer;
+}
+
+.sst-logo {
+  /* background: url('./public/assets/images/logo.png'); */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab',sans-serif;
 }

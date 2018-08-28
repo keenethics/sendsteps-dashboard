@@ -1,6 +1,7 @@
 import Particles from 'react-particles-js';
 import React, { Component } from 'react';
 import Details from './Details';
+import SendstepsLogo from './SendstepsLogo';
 
 class DetailsContainer extends Component {
   
@@ -113,6 +114,7 @@ class DetailsContainer extends Component {
 
 		return (
 			<div>
+        <SendstepsLogo />
 				<Particles className="particles" width={document.body.clientWidth} height={document.body.clientHeight} params={particleParams} />
         <Details />
 			</div>

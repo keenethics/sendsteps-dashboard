@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 import {ListGroupItem, OverlayTrigger, Tooltip} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 class MenuItem extends Component {
     render() {
+
+        const { menuOpened, menuText, faIconClass } = this.props;
+
         return (
             <div>
                 <OverlayTrigger 
-                    overlay={<Tooltip id={this.props.menuText}>{this.props.menuText}</Tooltip>}
-                    delay={!this.props.menuOpened ? 150 : 13337}
+                    overlay={<Tooltip id={menuText}>{menuText}</Tooltip>}
+                    delay={!menuOpened ? 150 : 13337}
                     placement="right" 
                 >
                     <Link to={this.props.link}>
                         <ListGroupItem>
-                            <i className={"fa " + this.props.faIconClass}></i> 
+                            <i className={"fa " + faIconClass}></i> 
                             <span className="text">
-                                {this.props.menuText}
+                                {menuText}
                             </span>
                         </ListGroupItem>
                     </Link>
@@ -24,4 +28,10 @@ class MenuItem extends Component {
         )
     }
 }
-export default (MenuItem);
+export default connect(
+    (state) => {
+        return {
+            menuOpened: state.appReducer.menuOpened
+        }
+    }
+) (MenuItem);

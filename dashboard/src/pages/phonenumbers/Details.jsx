@@ -18,12 +18,11 @@ class PhonenumberDetails extends React.Component {
         if(!data) {
             return <View></View>;
         }
+
         console.log(data);
 
         // Requires api adjustment, might be able to change later @TODO
         data = data[0];
-
-        console.log(data);
 
         return (
             <View>
