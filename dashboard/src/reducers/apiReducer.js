@@ -7,17 +7,31 @@ export default function apiReducer(state, action) {
                 error: action.error
             }
         }
-        case 'API_FETCHING': {
+        case 'START_LOADING': {
             return {
                 ...state,
-                isLoading: true
+                isLoading: true,
+            }
+        }
+        case 'STOP_LOADING': {
+            return { 
+                ...state,
+                isLoading: false,
             }
         }
         case 'API_FETCH_SUCCESS': {
             return {
                 ...state,
                 data: action.data,
+                error: null,
                 isLoading: false,
+            }
+        }
+        case 'CLEAR_ERRORS': {
+            return {
+                ...state,
+                isLoading: false,
+                error: null
             }
         }
         default: {

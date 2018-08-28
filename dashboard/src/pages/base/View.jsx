@@ -3,12 +3,10 @@ import "./../Style.css";
 import { connect } from 'react-redux'; 
 import LoadingView from './LoadingView';
 import ErrorView from './ErrorView';
+import TransitionGroup from 'react-transition-group/TransitionGroup';
 
 class View extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
-   
+
     getBreadCrumbs() {
         if(this.props.match.url) {
             let crumbs = this.props.match.url.substring(1);
@@ -35,11 +33,10 @@ class View extends Component {
     }
 
     render() {
-
         const { isLoading, data, error, children } = this.props;
-
+        
         if(isLoading && !data) {
-            return <LoadingView> {children} </LoadingView>
+            return  <LoadingView> {children} </LoadingView>
         }
         if(!isLoading && error) {
             return <ErrorView />;

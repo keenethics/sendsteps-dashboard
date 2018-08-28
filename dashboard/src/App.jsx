@@ -6,44 +6,49 @@ import RegistrationOverview from './pages/registration/DetailsContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { checkAuthorized } from './actions/authActions';
+import { simulateLoading, simulateLoadingDone} from './actions/apiActions';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
+import View from './pages/base/View';
 export class App extends Component {
 
     constructor(props) {
         super(props);
         this.props.dispatch(checkAuthorized());
     }
-   
-    render() {
-        const { isAuthorized, authChecked }  = this.props;
 
-        if ('null' != authChecked  && 'null' != isAuthorized) {
-            console.log('isAuthorized: '+isAuthorized+', authChecked: '+authChecked);
-            if(authChecked === false) { 
-                console.log('case 1.0');
-                return <RegistrationOverview />;
-            } else {
-                if(authChecked && isAuthorized) {
-                    console.log('case 2.1');
-                    return (
-                        <div className="App">
-                            <Header />
-                            <div className="wrapper">
-                                <SideMenu />
-                                <div className="view">
-                                    <Routes />
-                                </div>
-                            </div>
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            // Show loading screen when navigating to a different 
+            this.props.dispatch(simulateLoading());
+            setTimeout(() => {
+                // Disable loading screen after 500ms
+                // Animate this @TODO
+                this.props.dispatch(simulateLoadingDone());
+            }, 500);
+        }
+    }
+
+    render() {
+        const { isAuthorized, authRequired } = this.props;
+        //Auth required & the result of authorization should be known, before anyone gets past the login screen
+        if(true === authRequired && true === isAuthorized) {
+            return (
+                <div className="App">
+                    <Header />
+                    <div className="wrapper">
+                        <SideMenu />
+                        <div className="view">
+                            <View>
+                                <Routes />
+                            </View>
                         </div>
-                    ); 
-                } else if (isAuthorized === false) {
-                    return <RegistrationOverview />;
-                } else {
-                    return <AuthorizationLoadingView />;
-                }
-            }
+                    </div>
+                </div>
+            ); 
+        } else if (null == authRequired  || null == isAuthorized) {
+            return <AuthorizationLoadingView />; 
         } else {
-            return <AuthorizationLoadingView />;            
+            return <RegistrationOverview />;
         }
     }
 }
@@ -51,7 +56,7 @@ export default withRouter(connect(
     (state) => {
         return {
             isAuthorized: state.authReducer.isAuthorized,
-            authChecked: state.authReducer.authChecked
+            authRequired: state.authReducer.authRequired
         }
     }
 ) (App));

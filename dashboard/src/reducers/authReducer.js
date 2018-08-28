@@ -6,10 +6,10 @@ export default function apiReducer(state, action) {
                 isAuthorized: action.isAuthorized,
             }
         }
-        case 'AUTH_CHECKED': {
+        case 'AUTH_REQUIRED': {
             return {
                 ...state,
-                authChecked: action.isChecked
+                authRequired: action.isRequired
             }
         }
         

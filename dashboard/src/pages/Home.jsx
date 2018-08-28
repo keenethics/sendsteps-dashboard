@@ -1,7 +1,6 @@
 import React from "react";
-import View from "./base/View";
 
-export default class Home extends View {
+export default class Home extends React.Component {
   render() {
     return (
       <div className="Home">

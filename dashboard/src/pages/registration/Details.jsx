@@ -1,4 +1,3 @@
-import Particles from 'react-particles-js';
 import React, { Component } from 'react';
 import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
@@ -11,11 +10,11 @@ class RegistrationOverview extends Component {
 
       	const { currentView, isAuthorized } = this.props;
 
-		// if(isAuthorized) {
-		// 	// User is already authorized
-		// 	// and does not need to login again
-		// 	return <Redirect to={'/'} />
-		// }
+		if(isAuthorized) {
+			// User is already authorized
+			// and does not need to login again
+			return <Redirect to={'/'} />
+		}
 		if(currentView === 'SIGNUP') { return <RegistrationForm /> } 
 		else if (currentView === 'RECOVER') { return <PasswordResetForm /> }
 		else { return <LoginForm /> }

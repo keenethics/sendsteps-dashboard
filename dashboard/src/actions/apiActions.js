@@ -11,10 +11,15 @@ export function apiFetchError(error) {
     }
 }
 
-export function apiFetching() {
-    // console.log('fetching from API!');
+export function simulateLoading() {
     return {
-        type: 'API_FETCHING',
+        type: 'START_LOADING'
+    }
+}
+
+export function simulateLoadingDone() {
+    return {
+        type: 'STOP_LOADING'
     }
 }
 
@@ -26,9 +31,15 @@ export function apiFetchSuccess(data) {
     }
 }
 
+export function clearErrors() {
+    return {
+        type: 'CLEAR_ERRORS'
+    }
+}
+
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
     return dispatch => {
-        dispatch(apiFetching());
+        dispatch(simulateLoading());
         fetch(apiUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -37,10 +48,14 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
             return res.json()
         }).then(
             (result) => {
-                if(result.error) {
-                    store.dispatch(apiFetchError(result.error));
-                } else {
-                    store.dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+                try {
+                    if(result.error) {
+                        dispatch(apiFetchError(result.error));
+                    } else {
+                        dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+                    }
+                } catch (error) {
+                    dispatch(apiFetchError(error));
                 }
             },
             // Note: It is important to handle errors
@@ -49,7 +64,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                 // Dispatch error as an action. 
                 // error is accessible through mapStateToProps -> apiReducer.error
                 // (Maybe rename to apiError or something)
-                store.dispatch(apiFetchError(error));
+                dispatch(apiFetchError(error));
             }
         )
     }

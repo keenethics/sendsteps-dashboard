@@ -1,7 +1,8 @@
 import React from "react";
-import View from "../base/View";
+import { connect } from 'react-redux';
+import { fetchResult } from '../../actions/apiActions';
 
-export default class Settings extends View {
+class Settings extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,40 +18,25 @@ export default class Settings extends View {
         let apiController = 'about';
         let apiFunction = 'getSendsteps';
         let apiParam = this.props.match.params.id;
-        this.fetchResult(apiController, apiFunction, apiParam)
+        this.props.dispatch(fetchResult(apiController, apiFunction, apiParam))
     }
     
     render() {
-        const { error, isLoaded, items } = this.state;
-        if (error) {
-          return <div>Error: {error.message}</div>;
-        } else if (!isLoaded) {
-          return <div>Loading...</div>;
-        } else {
-          return (
+
+        const { items } = this.state;
+        return (
             <div className="row">  
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
-                                {items.date} <br/>
-                                {items.explanation}
+                            {items.date} <br/>
+                            {items.explanation}
                         </div>
                     </div>
                 </div>
             </div>
-          );
-        }
+        )
     }
-    
-    
-//   render() {
-//     return (
-//       <div className="Settings">
-//         <div className="lander">
-//           <h1>Dashboard</h1>
-//           <p>Welcome to thasdasdasde New Sendsteps Dashboard</p>
-//         </div>
-//       </div>
-//     );
-//   }
-}
+} 
+
+export default connect() (Settings)

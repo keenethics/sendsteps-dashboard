@@ -17,15 +17,19 @@ const rootReducer = combineReducers({
 
 // Set initial state values here
 const initialState = {
+    apiReducer: {
+        apiError: null,
+        isLoading: false,
+        data: null
+    },
     appReducer: {
         menuOpened: false,
         showRegistrationForm: false,
         togglingView: false
     },
-    apiReducer: {
-        apiError: null,
-        isLoading: false,
-        data: null
+    authReducer: {
+        isAuthorized: null,
+        authRequired: null
     },
     loginReducer: {
         email: '',
@@ -50,10 +54,6 @@ const initialState = {
         passwordConfirmError: '',
         termsAcceptedError: '',
         showPassword: false
-    },
-    authReducer: {
-        isAuthorized: null,
-        authChecked: null
     }
 }
   

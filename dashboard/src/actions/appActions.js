@@ -19,12 +19,6 @@ export function showPasswordResetForm(showPasswordResetForm) {
     }
 }
 
-export function toggleView() {
-    return {
-        type: 'TOGGLE_VIEW'
-    }
-}
-
 export function setView(currentView) {
     return {
         type: 'SET_VIEW',
