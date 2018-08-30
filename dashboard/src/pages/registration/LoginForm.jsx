@@ -48,8 +48,15 @@ class LoginForm extends Component {
     }
 
     login() {
-        if(!this.props.emailError && !this.props.passwordError) {
-            alert('Logging in; No errors');
+
+        // some validations
+
+        const { email, password, emailError, passwordError } = this.props;
+
+        this.props.dispatch(authorizeLogin(email, password));
+
+        if(!emailError && !passwordError && isValidEmail(email) && isValidPassword(password)) {
+            this.props.dispatch(authorizeLogin(email, password));
         } else {
             alert('Can\'t login, theres errors!');
         }

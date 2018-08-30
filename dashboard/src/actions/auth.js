@@ -46,7 +46,7 @@ export function authorizeLogin(email = '', password = '') {
             fetch(authUrl,{
                 method: 'POST',
                 headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-                body: 'function=checkAuth&params='+authHash
+                body: 'function=login&params='+email+'---'+password
             }).then(res => {
                 return res.json()
             }).then(
