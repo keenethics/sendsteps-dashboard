@@ -33,7 +33,6 @@
                 $authorized = false;
                 $token = '';
             }
-            
             return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
@@ -43,12 +42,9 @@
             if ($auth_model->validateToken($token) == true){
                 $authorized = true;
             }
-            
             return json_encode(array('authorized' => $authorized));
         }
     }
-    
-    
     
     $Bastet = new BastetAPI();
     $Bastet->setHeaders();
