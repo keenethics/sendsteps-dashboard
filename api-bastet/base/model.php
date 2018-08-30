@@ -24,6 +24,13 @@
             return json_encode($data);
         }
         
+        public function isPhp7(){
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+                return true;
+            }
+            return false;
+        }
+        
         private function getMedooOptions(){
             $db_options = array(
                 // Required
