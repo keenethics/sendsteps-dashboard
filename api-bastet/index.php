@@ -43,9 +43,6 @@
             if ($auth_model->validateToken($token) == true){
                 $authorized = true;
             }
-            // if ($token === 'da213sdasdas90dasdas') {
-            //     $authorized = true;
-            // } 
             
             return json_encode(array('authorized' => $authorized));
         }
