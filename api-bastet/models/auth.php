@@ -7,7 +7,7 @@
         }
         
         public function validateToken($token = ''){
-            if ($token != NULL && $token != ''){\
+            if ($token != NULL && $token != ''){
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
                 $tokenExists = json_decode($this->query($findTokenSQL)[0]);
                 if ($tokenExists != NULL){
