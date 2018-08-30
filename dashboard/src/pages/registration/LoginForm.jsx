@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setView } from '../../actions/appActions';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/loginActions';
+import { authorizeLogin } from '../../actions/authActions';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 
 class LoginForm extends Component {

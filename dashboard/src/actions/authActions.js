@@ -39,7 +39,7 @@ export function checkAuthorized() {
         )
     }
 }
-export function loginAPI(email = '', password = '') {
+export function authorizeLogin(email = '', password = '') {
     if (email !== '' && password !== ''){
         return dispatch => {
             dispatch(authRequired(true));
