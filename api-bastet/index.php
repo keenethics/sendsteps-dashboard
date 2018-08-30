@@ -1,6 +1,7 @@
 <?php 
     //Authentication API.
     //Acts as a guardian for frontend calls & for checks being made by the main Nova-API
+    
     class BastetAPI {  
         public function setHeaders() {
             header_remove();// clear the old headers
@@ -13,11 +14,16 @@
         
         public function login($params = array()) {
             
+            require_once __DIR__.'/models/login.php';
+            new Login_Model();
             $username = isset($params[0])? $params[0] : NULL;
             $password = isset($params[1])? $params[1] : NULL;
-            // var_dump($username);
+            
+            $login_model = new Login_Model();
+            $result = $login_model->login($username, $password);
+            var_dump($result);
             // var_dump($password);
-            // exit();
+            exit();
             
             return json_encode(
                 array(
