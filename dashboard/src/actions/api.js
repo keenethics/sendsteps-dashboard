@@ -10,15 +10,10 @@ export function apiFetchError(error) {
     }
 }
 
-export function simulateLoading() {
+export function simulateLoading(isLoading) {
     return {
-        type: 'START_LOADING'
-    }
-}
-
-export function simulateLoadingDone() {
-    return {
-        type: 'STOP_LOADING'
+        type: 'SIMULATE_LOADING',
+        isLoading
     }
 }
 

@@ -7,16 +7,10 @@ export default function apiReducer(state, action) {
                 error: action.error
             }
         }
-        case 'START_LOADING': {
+        case 'SIMULATE_LOADING': {
             return {
                 ...state,
-                isLoading: true,
-            }
-        }
-        case 'STOP_LOADING': {
-            return { 
-                ...state,
-                isLoading: false,
+                isLoading: action.isLoading,
             }
         }
         case 'API_FETCH_SUCCESS': {

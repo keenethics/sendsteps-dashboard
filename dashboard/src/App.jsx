@@ -6,7 +6,7 @@ import RegistrationOverview from './pages/registration/DetailsContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { checkAuthorized } from './actions/auth';
-import { simulateLoading, simulateLoadingDone} from './actions/api';
+import { simulateLoading } from './actions/api';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import View from './pages/base/View';
 export class App extends Component {
@@ -19,11 +19,11 @@ export class App extends Component {
     componentDidUpdate(prevProps) {
         if (this.props.location !== prevProps.location) {
             // Show loading screen when navigating to a different 
-            this.props.dispatch(simulateLoading());
+            this.props.dispatch(simulateLoading(true));
             setTimeout(() => {
                 // Disable loading screen after 500ms
                 // Animate this @TODO
-                this.props.dispatch(simulateLoadingDone());
+                this.props.dispatch(simulateLoading(false));
             }, 500);
         }
     }

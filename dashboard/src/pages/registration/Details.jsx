@@ -25,7 +25,7 @@ export default connect(
     (state) => {
         return {
 			currentView: state.appReducer.currentView,
-			isAuthorized: state.authReducer.isAuthorized,
+			isAuthorized: state.authReducer.isAuthorized
         }
     }
 ) (RegistrationOverview);

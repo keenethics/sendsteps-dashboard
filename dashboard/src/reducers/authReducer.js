@@ -20,6 +20,13 @@ export default function apiReducer(state, action) {
             }
         }
         
+        case 'SECURITY_ERROR': {
+            return {
+                ...state,
+                securityError: action.securityError
+            }
+        }
+
         default: {
             return {
                 ...state

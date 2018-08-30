@@ -1,9 +1,10 @@
 import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
+import { addToLocalStorage } from '../scripts/localStorage';
+import { addCookieValues } from '../scripts/cookieStorage';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
-// let authHash =  'da213sdasdas90dasdas';
-let authHash =  '';
+let authHash =  'da213sdasdas90dasdas';
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',
@@ -49,6 +50,14 @@ export function checkAuthorized() {
         )
     }
 }
+
+export function securityError(securityError) {
+    return {
+        type: 'SECURITY_ERROR',
+        securityError
+    }
+}
+
 export function authorizeLogin(email = '', password = '') {
     return dispatch => {
         if (email !== '' && password !== ''){
@@ -61,12 +70,22 @@ export function authorizeLogin(email = '', password = '') {
                 return res.json()
             }).then(
                 (result) => {
-                    console.log(result)
                     if(result && typeof result.authorized !== 'undefined') {
+                        // USER IS AUTHORIZED HERE
+                        // Add key to localStorage, or Cookies, if failed to do both,
+                        // redirect to login page with security warning
+                        console.log(result);
+                        if(!addToLocalStorage('token',result.token)) {
+                            if(!addCookieValues('SSTToken', result.token, 48)) {
+                                dispatch(securityError('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'))
+                                return;
+                            }
+                        }
                         dispatch(setAuthorized(result.authorized));
                     }
                 },
                 (error) => {
+                    console.log(error)
                     dispatch(setAuthorized(false));
                     dispatch(authRequired(false));
                 }

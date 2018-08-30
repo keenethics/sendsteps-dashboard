@@ -17,8 +17,8 @@ export function addToLocalStorage(key, value) {
         const localStorage = window.localStorage;
         localStorage.setItem(key, value);
         const storedItem = getFromLocalStorage(key);
-        if(storedItem) {
-            console.log('Returning stored item');
+        if(storedItem && typeof storedItem !== 'undefined') {
+            console.log('Added item to storage: ' + storedItem);
             return storedItem;
         }
     }

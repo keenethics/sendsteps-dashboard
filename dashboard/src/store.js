@@ -30,7 +30,8 @@ const initialState = {
     authReducer: {
         isAuthorized: null,
         authRequired: null,
-        authLoading: false
+        authLoading: false,
+        securityError: null
     },
     loginReducer: {
         email: '',
