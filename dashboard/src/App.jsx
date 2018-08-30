@@ -5,8 +5,8 @@ import Header from './components/menu/Header';
 import RegistrationOverview from './pages/registration/DetailsContainer';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { checkAuthorized } from './actions/authActions';
-import { simulateLoading, simulateLoadingDone} from './actions/apiActions';
+import { checkAuthorized } from './actions/auth';
+import { simulateLoading, simulateLoadingDone} from './actions/api';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import View from './pages/base/View';
 export class App extends Component {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux';
-import { setView } from '../../actions/appActions';
-import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/loginActions';
+import { setView } from '../../actions/app';
+import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
 
 class PasswordResetForm extends Component {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/apiActions';
+import { fetchResult } from '../../actions/api';
 
 class PhonenumberDetails extends React.Component {
     componentWillMount() {

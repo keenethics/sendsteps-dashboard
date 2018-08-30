@@ -1,8 +1,8 @@
 import React, { Component } from 'react'; 
 import { connect } from 'react-redux';
-import { setView } from '../../actions/appActions';
-import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/loginActions';
-import { authorizeLogin } from '../../actions/authActions';
+import { setView } from '../../actions/app';
+import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
+import { authorizeLogin } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 
 class LoginForm extends Component {

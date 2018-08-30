@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { toggleMenu } from '../../actions/appActions';
+import { toggleMenu } from '../../actions/app';
 
 class Header extends React.Component {
 

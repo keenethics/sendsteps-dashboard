@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setView } from '../../actions/appActions';
+import { setView } from '../../actions/app';
 import { 
     setFirstName, 
     setLastName, 
@@ -19,7 +19,7 @@ import {
     showPassword,
 
     resetRegistrationForm
-} from '../../actions/registrationActions';
+} from '../../actions/registration';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 
 class RegistrationForm extends Component {
