@@ -17,7 +17,7 @@
             
             try
             {
-                return $this->comparePasswordToHash($password, $hash);
+                return $this->validatePassword($password, $hash);
             }
             catch (InvalidParamException $exc)
             {
@@ -27,7 +27,7 @@
             return false;
         }
         
-        function comparePasswordToHash($password, $hash)
+        function validatePassword($password, $hash)
         {
             if (!is_string($password) || $password === '') {
                 throw new InvalidParamException('Password must be a string and cannot be empty.');
@@ -37,22 +37,47 @@
                 throw new InvalidParamException('Hash is invalid.');
             }
 
-            switch ($this->passwordHashStrategy) {
-                case 'password_hash':
-                    if (!function_exists('password_verify')) {
-                        throw new InvalidConfigException('Password hash key strategy "password_hash" requires PHP >= 5.5.0, either upgrade your environment or use another strategy.');
-                    }
-                    return password_verify($password, $hash);
-                case 'crypt':
-                    $test = crypt($password, $hash);
-                    $n = strlen($test);
-                    if ($n !== 60) {
-                        return false;
-                    }
-                    return $this->compareString($test, $hash);
-                default:
-                    throw new InvalidConfigException("Unknown password hash strategy '{$this->passwordHashStrategy}'");
+            $test = crypt($password, $hash);
+            $n = strlen($test);
+            if ($n !== 60) {
+                return false;
             }
+            return $this->compareString($test, $hash);
+            
+            
+            // switch ($this->passwordHashStrategy) {
+            //     case 'password_hash':
+            //         if (!function_exists('password_verify')) {
+            //             throw new InvalidConfigException('Password hash key strategy "password_hash" requires PHP >= 5.5.0, either upgrade your environment or use another strategy.');
+            //         }
+            //         return password_verify($password, $hash);
+            //     case 'crypt':
+                    // $test = crypt($password, $hash);
+                    // $n = strlen($test);
+                    // if ($n !== 60) {
+                    //     return false;
+                    // }
+                    // return $this->compareString($test, $hash);
+                // default:
+                //     throw new InvalidConfigException("Unknown password hash strategy '{$this->passwordHashStrategy}'");
+        }
+        
+        public static function byteLength($string)
+        {
+            return mb_strlen($string, '8bit');
+        }
+        
+        public function compareString($expected, $actual)
+        {
+            $expected .= "\0";
+            $actual .= "\0";
+            $expectedLength = self::byteLength($expected);
+            $actualLength = self::byteLength($actual);
+            $diff = $expectedLength - $actualLength;
+            for ($i = 0; $i < $actualLength; $i++) {
+                $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+            }
+            return $diff === 0;
         }
     }
 

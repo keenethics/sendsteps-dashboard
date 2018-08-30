@@ -21,16 +21,22 @@
             
             $login_model = new Login_Model();
             $result = $login_model->login($username, $password);
-            var_dump($result);
-            // var_dump($password);
-            exit();
-            
-            return json_encode(
-                array(
-                    'authorized' => true,
-                    'hash' => 'da213sdasdas90dasdas',
-                )
-            );
+            if ($result === true){
+                //Generate unique hash token here
+                return json_encode(
+                    array(
+                        'authorized' => true,
+                        'hash' => 'da213sdasdas90dasdas',
+                    )
+                );
+            } else {
+                return json_encode(
+                    array(
+                        'authorized' => false
+                    )
+                );
+                
+            }
         }
         
         public function checkAuth($hash = '') {
