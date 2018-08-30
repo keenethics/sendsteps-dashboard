@@ -1,7 +1,5 @@
 <?php 
-    //Authentication API.
-    //Acts as a guardian for frontend calls & for checks being made by the main Nova-API
-    
+    //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI {  
         public function setHeaders() {
             header_remove();// clear the old headers
