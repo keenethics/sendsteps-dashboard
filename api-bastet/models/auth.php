@@ -1,9 +1,20 @@
 <?php 
     require_once __DIR__.'/../base/model.php';
 
-    class Login_Model extends Model {
+    class Auth_Model extends Model {
         function __construct (){
             $this->table = 'users';
+        }
+        
+        public function validateToken($token = ''){
+            if ($token != NULL && $token != ''){\
+                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
+                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
+                if ($tokenExists != NULL){
+                    return true;
+                }
+            }
+            return false;
         }
         
         public function createToken($username){
