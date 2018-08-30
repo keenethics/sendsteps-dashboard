@@ -1,7 +1,8 @@
 import fetch from 'cross-fetch';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
-let authHash =  'da213sdasdas90dasdas';
+// let authHash =  'da213sdasdas90dasdas';
+let authHash =  '';
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',

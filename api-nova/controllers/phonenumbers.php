@@ -8,7 +8,8 @@ class Phonenumbers extends NovaAPI {
         return json_encode(['content' => $results]);
     }
 
-    function getDetails($id = NULL) {
+    function getDetails($params) {
+        $id = isset($params[0])? $params[0] : NULL;
         // Fetch data from single phonenumber
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
