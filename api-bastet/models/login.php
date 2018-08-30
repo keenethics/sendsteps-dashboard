@@ -12,6 +12,7 @@
             //In the event we create a duplicate token, carry on looping until we create a unique one.
             while ($tokenExists != NULL){
                 $token = bin2hex(random_bytes(255));
+                $token = substr($token, 0,250);
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
                 $tokenExists = json_decode($this->query($findTokenSQL)[0]);
             }
