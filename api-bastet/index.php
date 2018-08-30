@@ -12,10 +12,6 @@
             return;
         }
         
-        private function createToken(){
-            
-        }
-        
         public function login($params = array()) {
             require_once __DIR__.'/models/login.php';
             new Login_Model();
@@ -26,9 +22,9 @@
             $result = $login_model->login($username, $password);
             if ($result === true){
                 //Generate unique hash token here
-                
                 $authorized = true;
-                $token = 'da213sdasdas90dasdas';
+                $token = $login_model->createToken($username);
+                // $token = 'da213sdasdas90dasdas';
             } else {
                 $authorized = false;
                 $token = '';
