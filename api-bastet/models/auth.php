@@ -2,23 +2,15 @@
     require_once __DIR__.'/../base/model.php';
 
     class Auth_Model extends Model {
-        function __construct (){
+        function __construct () {
             $this->table = 'users';
         }
-        
-        public function validateToken($token = ''){
-            if ($token != NULL && $token != ''){
-                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
-                if ($tokenExists != NULL){
-                    return true;
-                }
-            }
-            return false;
+         
+        private static function byteLength($string) {
+            return mb_strlen($string, '8bit');
         }
         
-        public function createToken($username){
-            
+        public function createToken($username) {
             $tokenExists = 'Not NULL';
             //In the event we create a duplicate token, carry on looping until we create a unique one.
             while ($tokenExists != NULL){
@@ -44,13 +36,25 @@
             return $token;
         }
         
+        private function compareString($expected, $actual) {
+            $expected .= "\0";
+            $actual .= "\0";
+            $expectedLength = self::byteLength($expected);
+            $actualLength = self::byteLength($actual);
+            $diff = $expectedLength - $actualLength;
+            for ($i = 0; $i < $actualLength; $i++) {
+                $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+            }
+            return $diff === 0;
+        }
+        
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
             return json_decode($results)[0]->password;
         }
         
-        function login($username, $password){
+        function login($username, $password) {
             try {
                 $hash = $this->getHashedPassword($username);
                 return $this->validatePassword($password, $hash);
@@ -62,8 +66,7 @@
             return false;
         }
         
-        private function validatePassword($password, $hash)
-        {
+        private function validatePassword($password, $hash) {
             if (!is_string($password) || $password === '') {
                 throw new InvalidParamException('Password must be a string and cannot be empty.');
             }
@@ -80,21 +83,15 @@
             return $this->compareString($password, $hash);
         }
         
-        private static function byteLength($string)
-        {
-            return mb_strlen($string, '8bit');
-        }
-        
-        private function compareString($expected, $actual)
-        {
-            $expected .= "\0";
-            $actual .= "\0";
-            $expectedLength = self::byteLength($expected);
-            $actualLength = self::byteLength($actual);
-            $diff = $expectedLength - $actualLength;
-            for ($i = 0; $i < $actualLength; $i++) {
-                $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+        public function validateToken($token = '') {
+            if ($token != NULL && $token != ''){
+                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
+                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
+                if ($tokenExists != NULL){
+                    return true;
+                }
             }
-            return $diff === 0;
+            return false;
         }
+       
     }
