@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
-import { authorizeLogin } from '../../actions/auth';
+import { authorizeLogin, authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
-
+import { cookiesAccessible, getCookieValues, removeCookieValues, addCookieValues } from '../../scripts/cookieStorage';
 class LoginForm extends Component {
+
+    // @TODO: apply same logic with registering/logging/loading in to the registration form, forgotpassword form etc.
 
     componentWillMount() {
         this.props.dispatch(resetLoginForm());
@@ -47,24 +49,40 @@ class LoginForm extends Component {
         this.props.dispatch(setPassword(e.target.value));
     }
 
+    isAuthorizedToLogin() {
+        const { email, password } = this.props;
+
+        let isAuthorized = true;
+
+        if(!isValidEmail(email)) {
+            this.props.dispatch(setEmailError('Please enter a valid email'));
+            isAuthorized = false;
+        }
+        if(!isValidPassword(password)) {
+            this.props.dispatch(setPasswordError('Please enter a valid password'));
+            isAuthorized = false;
+        }
+        return isAuthorized;
+    }
+
     login() {
 
-        // some validations
+        addCookieValues('SSTCookiesTest', 'Content', 48);
 
-        const { email, password, emailError, passwordError } = this.props;
+        // if(this.isAuthorizedToLogin()) {
+        //     this.props.dispatch(authLoading(true));
+        //     const { email, password } = this.props;
 
-        this.props.dispatch(authorizeLogin(email, password));
-
-        if(!emailError && !passwordError && isValidEmail(email) && isValidPassword(password)) {
-            this.props.dispatch(authorizeLogin(email, password));
-        } else {
-            alert('Can\'t login, theres errors!');
-        }
+        //     setTimeout(() => {
+        //         this.props.dispatch(authorizeLogin(email, password));
+        //         this.props.dispatch(authLoading(false));
+        //     }, 1500)
+        // }
     }
 
     render() {
 
-        const { email, password, emailError, passwordError, showPassword } = this.props;
+        const { email, password, emailError, passwordError, showPassword, authLoading } = this.props;
 
         let passwordErrorClass = passwordError ? 'has-error' : null;
         passwordErrorClass = !passwordError && password ? 'has-success' : passwordErrorClass;
@@ -79,7 +97,10 @@ class LoginForm extends Component {
                         <div className="panel-heading">
                             <h2 className="panel-title">Sign in</h2>
                         </div>
-                        <div className="panel-body">
+                        <div className="panel-body login">
+                            {authLoading && <div className="auth-loading-overlay">
+                                <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
+                            </div>}
                             <div className={"fa-sm form-group " + emailErrorClass}>
                                 <label className="control-label">Email</label>
                                 <div className="input-group">
@@ -103,7 +124,7 @@ class LoginForm extends Component {
                         </div>
                         <div className="panel-footer">
                             <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
-                            <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Login</button>
+                            <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary "><i className="fa fa-sign-in-alt"></i> Login</button>
                         </div>
                     </div>
                 </div>
@@ -121,7 +142,9 @@ export default connect(
             emailError: state.loginReducer.emailError,
             passwordError: state.loginReducer.passwordError,
 
-            showPassword: state.loginReducer.showPassword
+            showPassword: state.loginReducer.showPassword,
+
+            authLoading: state.authReducer.authLoading
         }
     }
 ) (LoginForm);

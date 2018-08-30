@@ -29,7 +29,8 @@ const initialState = {
     },
     authReducer: {
         isAuthorized: null,
-        authRequired: null
+        authRequired: null,
+        authLoading: false
     },
     loginReducer: {
         email: '',

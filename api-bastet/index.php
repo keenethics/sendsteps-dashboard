@@ -23,7 +23,7 @@
         public function checkAuth($hash = '') {
             $authorized = false;
             if ($hash === 'da213sdasdas90dasdas') {
-                $authorized = true;
+                $authorized = false;
             } 
             
             return json_encode(array('authorized' => $authorized));
