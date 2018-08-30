@@ -13,14 +13,11 @@
         }
         
         function login($username, $password){
-            $hash = $this->getHashedPassword($username);
-            
-            try
-            {
+            try {
+                $hash = $this->getHashedPassword($username);
                 return $this->validatePassword($password, $hash);
-            }
-            catch (InvalidParamException $exc)
-            {
+            } catch (InvalidParamException $exc) {
+                return false;
                 // We get here if the password was stored in the DB in the old format, or no password was stored at all (for example with test sessions from the add-in)
                 // Just ignore the exception and consider the password invalid.
             }
