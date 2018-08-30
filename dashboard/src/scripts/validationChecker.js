@@ -11,5 +11,5 @@ export function isValidPassword(password) {
     // uppercase/lowercase
     // numbers/characters mix
     
-    return password.length >= 8;
+    return password.length >= 6;
 }

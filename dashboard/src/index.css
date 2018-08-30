@@ -345,3 +345,16 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-animation: fa-spin 1s infinite linear !important;
   animation: fa-spin 1s infinite linear !important;
 }
+
+.security-error {
+  text-align: center;
+  height: 32px;
+  line-height: 32px;
+  background: #f2dede;
+  color: #a94442;
+  font-weight: bold;
+}
+
+.security-error p {
+  margin: 0 !important;
+}
