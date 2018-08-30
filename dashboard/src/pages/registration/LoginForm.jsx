@@ -4,7 +4,6 @@ import { setView } from '../../actions/app';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
 import { authorizeLogin, authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
-import { cookiesAccessible, getCookieValues, removeCookieValues, addCookieValues } from '../../scripts/cookieStorage';
 class LoginForm extends Component {
 
     // @TODO: apply same logic with registering/logging/loading in to the registration form, forgotpassword form etc.
@@ -67,17 +66,15 @@ class LoginForm extends Component {
 
     login() {
 
-        addCookieValues('SSTCookiesTest', 'Content', 48);
+        if(this.isAuthorizedToLogin()) {
+            this.props.dispatch(authLoading(true));
+            const { email, password } = this.props;
 
-        // if(this.isAuthorizedToLogin()) {
-        //     this.props.dispatch(authLoading(true));
-        //     const { email, password } = this.props;
-
-        //     setTimeout(() => {
-        //         this.props.dispatch(authorizeLogin(email, password));
-        //         this.props.dispatch(authLoading(false));
-        //     }, 1500)
-        // }
+            setTimeout(() => {
+                this.props.dispatch(authorizeLogin(email, password));
+                this.props.dispatch(authLoading(false));
+            }, 1500)
+        }
     }
 
     render() {

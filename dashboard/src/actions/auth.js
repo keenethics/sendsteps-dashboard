@@ -2,8 +2,8 @@ import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
-let authHash =  'da213sdasdas90dasdas' + '1337';
-
+// let authHash =  'da213sdasdas90dasdas';
+let authHash =  '';
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',
@@ -61,6 +61,7 @@ export function authorizeLogin(email = '', password = '') {
                 return res.json()
             }).then(
                 (result) => {
+                    console.log(result)
                     if(result && typeof result.authorized !== 'undefined') {
                         dispatch(setAuthorized(result.authorized));
                     }
@@ -71,7 +72,6 @@ export function authorizeLogin(email = '', password = '') {
                 }
             )
         } else {
-            console.log('error lul');
             dispatch(setEmailError('Please enter a valid email'));
             dispatch(setPasswordError('Please enter a valid password'));
         }
