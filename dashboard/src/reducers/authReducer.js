@@ -12,6 +12,13 @@ export default function apiReducer(state, action) {
                 authRequired: action.isRequired
             }
         }
+
+        case 'AUTH_LOADING': {
+            return {
+                ...state,
+                authLoading: action.authLoading
+            }
+        }
         
         default: {
             return {

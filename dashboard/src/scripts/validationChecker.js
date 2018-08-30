@@ -5,5 +5,11 @@ export function isValidEmail(email) {
 
 export function isValidPassword(password) {
     // At least 8 characters
+
+    // Should probably have some other checks such as:
+    // does it have a special character
+    // uppercase/lowercase
+    // numbers/characters mix
+    
     return password.length >= 8;
 }

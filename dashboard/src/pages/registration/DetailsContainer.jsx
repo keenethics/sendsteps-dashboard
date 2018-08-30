@@ -81,7 +81,12 @@ class DetailsContainer extends Component {
                     "enable": true,
                     "mode": "push"
                   },
-                  "resize": true
+                  "onresize": {
+                    "enable": true,
+                    "density_auto": false,
+                    "density_area": 400 
+                  },
+                  "resize": false
                 },
                 "modes": {
                   "grab": {

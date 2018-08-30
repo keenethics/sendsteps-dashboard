@@ -1,4 +1,3 @@
-import store from '../store.js'
 import fetch from 'cross-fetch';
 
 let apiUrl =  'http://local-nova.sendsteps.com/index.php';
@@ -52,6 +51,9 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                     if(result.error) {
                         dispatch(apiFetchError(result.error));
                     } else {
+                        // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
+                        // if neither of these are available, don't let the user login and dispatch an error
+                        console.log(result);
                         dispatch(apiFetchSuccess(JSON.parse(result.content)));  
                     }
                 } catch (error) {
