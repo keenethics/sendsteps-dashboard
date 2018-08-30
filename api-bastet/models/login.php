@@ -6,7 +6,7 @@
             $this->table = 'users';
         }
         
-        function getHashedPassword($username){
+        private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
             return json_decode($results)[0]->password;
@@ -27,7 +27,7 @@
             return false;
         }
         
-        function validatePassword($password, $hash)
+        private function validatePassword($password, $hash)
         {
             if (!is_string($password) || $password === '') {
                 throw new InvalidParamException('Password must be a string and cannot be empty.');
@@ -45,12 +45,12 @@
             return $this->compareString($password, $hash);
         }
         
-        public static function byteLength($string)
+        private static function byteLength($string)
         {
             return mb_strlen($string, '8bit');
         }
         
-        public function compareString($expected, $actual)
+        private function compareString($expected, $actual)
         {
             $expected .= "\0";
             $actual .= "\0";
