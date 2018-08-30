@@ -37,29 +37,12 @@
                 throw new InvalidParamException('Hash is invalid.');
             }
 
-            $test = crypt($password, $hash);
-            $n = strlen($test);
+            $password = crypt($password, $hash);
+            $n = strlen($password);
             if ($n !== 60) {
                 return false;
             }
-            return $this->compareString($test, $hash);
-            
-            
-            // switch ($this->passwordHashStrategy) {
-            //     case 'password_hash':
-            //         if (!function_exists('password_verify')) {
-            //             throw new InvalidConfigException('Password hash key strategy "password_hash" requires PHP >= 5.5.0, either upgrade your environment or use another strategy.');
-            //         }
-            //         return password_verify($password, $hash);
-            //     case 'crypt':
-                    // $test = crypt($password, $hash);
-                    // $n = strlen($test);
-                    // if ($n !== 60) {
-                    //     return false;
-                    // }
-                    // return $this->compareString($test, $hash);
-                // default:
-                //     throw new InvalidConfigException("Unknown password hash strategy '{$this->passwordHashStrategy}'");
+            return $this->compareString($password, $hash);
         }
         
         public static function byteLength($string)

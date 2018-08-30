@@ -12,8 +12,11 @@
             return;
         }
         
-        public function login($params = array()) {
+        private function createToken(){
             
+        }
+        
+        public function login($params = array()) {
             require_once __DIR__.'/models/login.php';
             new Login_Model();
             $username = isset($params[0])? $params[0] : NULL;
@@ -23,25 +26,20 @@
             $result = $login_model->login($username, $password);
             if ($result === true){
                 //Generate unique hash token here
-                return json_encode(
-                    array(
-                        'authorized' => true,
-                        'hash' => 'da213sdasdas90dasdas',
-                    )
-                );
-            } else {
-                return json_encode(
-                    array(
-                        'authorized' => false
-                    )
-                );
                 
+                $authorized = true;
+                $token = 'da213sdasdas90dasdas';
+            } else {
+                $authorized = false;
+                $token = '';
             }
+            
+            return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
-        public function checkAuth($hash = '') {
+        public function checkAuth($token = '') {
             $authorized = false;
-            if ($hash === 'da213sdasdas90dasdas') {
+            if ($token === 'da213sdasdas90dasdas') {
                 $authorized = true;
             } 
             
