@@ -1,6 +1,6 @@
 <?php
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
-    class BastetAPI {  
+    class BastetAPI {
         public function checkAuth($token = '') {
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);            
@@ -13,10 +13,7 @@
             return $auth_model;
         }
         
-        public function login($params = array()) {
-            // require_once __DIR__.'/models/login.php';
-            $username = isset($params[0])? $params[0] : NULL;
-            $password = isset($params[1])? $params[1] : NULL;
+        public function login($username = '', $password = '') {
             
             $auth_model = $this->loadAuthModel();
             $result = $auth_model->login($username, $password);

@@ -16,8 +16,8 @@
         if (!method_exists('BastetAPI', $function)) {
             throw new Exception('MethodDoesNotExist');
         }
-        
-        $result = $Bastet->$function($params);
+
+        $result = call_user_func_array(array($Bastet, $function), $params);
         echo $result;
         exit();
     } catch (Exception $e) {
