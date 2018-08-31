@@ -67,11 +67,11 @@
         
         private function validatePassword($password, $hash) {
             if (!is_string($password) || $password === '') {
-                throw new Exception('Password must be a string and cannot be empty.');
+                throw new Exception('PasswordNotStringOrEmpty.');
             }
 
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
-                throw new Exception('Hash is invalid.');
+                throw new Exception('PasswordHashInvalid');
             }
 
             $password = crypt($password, $hash);

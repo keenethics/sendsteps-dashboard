@@ -7,4 +7,6 @@
         'ModelFileDoesNotExist' => 'Model name given, does not match any files found',
         'ModelRequiresId' => 'Model requires ID, no ID provided',
         'SpecifyControllerAndFunction' => 'Controller or Function fields not set',
+        'PasswordHashInvalid' => 'Hash is invalid',
+        'PasswordNotStringOrEmpty' => 'Password must be a string and cannot be empty',
     ];
