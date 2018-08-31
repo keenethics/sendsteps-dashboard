@@ -75,8 +75,7 @@
             }
 
             $password = crypt($password, $hash);
-            $n = strlen($password);
-            if ($n !== 60) {
+            if (strlen($password) !== 60) {
                 return false;
             }
             return $this->compareString($password, $hash);
