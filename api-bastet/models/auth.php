@@ -49,7 +49,7 @@
         }
         
         private function getHashedPassword($username){
-            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '12asdasd $username';";
+            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
             return json_decode($results)[0]->password;
         }

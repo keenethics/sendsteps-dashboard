@@ -1,5 +1,5 @@
 <?php 
-    $novaErrors = [
+    $errorTextEN = [
         'ControllerClassDoesNotExist' => 'Controller name given, does not match a class',
         'ControllerFileDoesNotExist' => 'Controller name given, does not match any files found',
         'MethodDoesNotExist' => 'The method you requested does not exist',
