@@ -9,6 +9,12 @@
         if ($_POST && isset($_POST['function'])) {
             $function = $_POST['function'];
             $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
+            
+            //Check method/function exists
+            if (!method_exists('BastetAPI', $function)) {
+                throw new Exception('MethodDoesNotExist');
+            }
+            
             $result = $Bastet->$function($params);
             echo $result;
             exit();

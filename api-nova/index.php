@@ -3,7 +3,7 @@
     
     try { 
         if (!$_POST OR !isset($_POST['controller']) OR !isset($_POST['function'])) {
-            throw new Exception ('SpecifyControllerAndFunction');
+            throw new Exception('SpecifyControllerAndFunction');
         }
         //Setup Variables & load controller
         $controller_name = $_POST['controller'];
@@ -11,7 +11,7 @@
         $params = (isset($_POST['params']))? implode(',', explode('---', $_POST['params'])) : array();
         
         if (!in_array($controller_name.'.php', scandir(__DIR__."/controllers/"))) {
-            throw new Exception ('ControllerFileDoesNotExist');    
+            throw new Exception('ControllerFileDoesNotExist');    
         }
         
         require_once __DIR__."/controllers/$controller_name.php";
@@ -19,7 +19,7 @@
         
         //Check controller class exists
         if (!class_exists($controller_name)) {
-            throw new Exception ('ControllerClassDoesNotExist');
+            throw new Exception('ControllerClassDoesNotExist');
         }
         
         $controller = new $controller_name;
@@ -27,7 +27,7 @@
         
         //Check method/function exists
         if (!method_exists($controller, $function)) {
-            throw new Exception ('MethodDoesNotExist');
+            throw new Exception('MethodDoesNotExist');
         }
         $result = $controller->$function($params);
         echo $result;
