@@ -13,7 +13,6 @@
         if (!in_array($controller_name.'.php', scandir(__DIR__."/controllers/"))) {
             throw new Exception('ControllerFileDoesNotExist');    
         }
-        
         require_once __DIR__."/controllers/$controller_name.php";
         $controller_name = ucfirst($controller_name); // Controller Classes have the first letter uppercase
         
@@ -21,7 +20,6 @@
         if (!class_exists($controller_name)) {
             throw new Exception('ControllerClassDoesNotExist');
         }
-        
         $controller = new $controller_name;
         $controller->setHeaders();
         
@@ -29,7 +27,6 @@
         if (!method_exists($controller, $function)) {
             throw new Exception('MethodDoesNotExist');
         }
-        // $result = $controller->$function($params);
         
         $result = call_user_func_array(array($controller, $function), $params);
         echo $result;
