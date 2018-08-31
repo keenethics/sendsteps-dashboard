@@ -49,7 +49,7 @@
         }
         
         private function getHashedPassword($username){
-            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
+            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '12asdasd $username';";
             $results = $this->query($sql);
             return json_decode($results)[0]->password;
         }
@@ -58,7 +58,7 @@
             try {
                 $hash = $this->getHashedPassword($username);
                 return $this->validatePassword($password, $hash);
-            } catch (InvalidParamException $exc) {
+            } catch (Exception $exc) {
                 // We get here if the password was stored in the DB in the old format, or no password was stored at all (for example with test sessions from the add-in)
                 return false; // Just ignore the exception and consider the password invalid.
             }
@@ -67,11 +67,11 @@
         
         private function validatePassword($password, $hash) {
             if (!is_string($password) || $password === '') {
-                throw new InvalidParamException('Password must be a string and cannot be empty.');
+                throw new Exception('Password must be a string and cannot be empty.');
             }
 
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
-                throw new InvalidParamException('Hash is invalid.');
+                throw new Exception('Hash is invalid.');
             }
 
             $password = crypt($password, $hash);
