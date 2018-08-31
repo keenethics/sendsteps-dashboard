@@ -8,7 +8,7 @@
         //Setup Variables & load controller
         $controller_name = $_POST['controller'];
         $function = $_POST['function'];
-        $params = (isset($_POST['params']))? implode(',', explode('---', $_POST['params'])) : array();
+        $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
         
         if (!in_array($controller_name.'.php', scandir(__DIR__."/controllers/"))) {
             throw new Exception('ControllerFileDoesNotExist');    
