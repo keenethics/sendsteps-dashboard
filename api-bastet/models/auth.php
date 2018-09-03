@@ -36,18 +36,6 @@
             return $token;
         }
         
-        // private function compareString($expected, $actual) {
-        //     $expected .= "\0";
-        //     $actual .= "\0";
-        //     $expectedLength = self::byteLength($expected);
-        //     $actualLength = self::byteLength($actual);
-        //     $diff = $expectedLength - $actualLength;
-        //     for ($i = 0; $i < $actualLength; $i++) {
-        //         $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
-        //     }
-        //     return $diff === 0;
-        // }
-        
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
@@ -69,17 +57,15 @@
             if (!is_string($password) || $password === '') {
                 throw new Exception('PasswordNotStringOrEmpty.');
             }
-
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
                 throw new Exception('PasswordHashInvalid');
             }
-
             $password = crypt($password, $hash);
+            // $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 13));
             if (strlen($password) !== 60) {
                 return false;
             }
             return hash_equals($hash, $password);//Secured against cryptographic timing attacks
-            // return $this->compareString($password, $hash);
         }
         
         public function validateToken($token = '') {
