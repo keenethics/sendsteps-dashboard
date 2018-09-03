@@ -93,21 +93,30 @@
             return false;
         }
         
-        private function generateSalt($cost = 13)
-        {
+        private function generateSalt($cost = 13) {
             $cost = (int) $cost;
             if ($cost < 4 || $cost > 31) {
                 throw new InvalidParamException('Cost must be between 4 and 31.');
             }
-    
             // Get a 20-byte random string
             $rand = $this->generateRandomKey(20);
             // Form the prefix that specifies Blowfish (bcrypt) algorithm and cost parameter.
             $salt = sprintf("$2y$%02d$", $cost);
             // Append the random salt data in the required base64 format.
             $salt .= str_replace('+', '.', substr(base64_encode($rand), 0, 22));
-    
             return $salt;
         }
         
+        public function generatePasswordHash($password, $cost = null) {
+            if ($cost === null) {
+                $cost = $this->passwordHashCost;
+            }
+            $salt = $this->generateSalt($cost);
+            $hash = crypt($password, $salt);
+            // strlen() is safe since crypt() returns only ascii
+            if (!is_string($hash) || strlen($hash) !== 60) {
+                throw new Exception('Unknown error occurred while generating hash.');
+            }
+            return $hash;
+        }
     }
