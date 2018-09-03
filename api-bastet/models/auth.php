@@ -30,23 +30,23 @@
             $clearOldTokensSQL = "DELETE FROM `api_nova_tokens` WHERE `user_id` = '$user_id';";
             $this->query($clearOldTokensSQL);
             
-            $createTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
-            $this->query($createTokenSQL);
+            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
+            $this->query($createNewTokenSQL);
             
             return $token;
         }
         
-        private function compareString($expected, $actual) {
-            $expected .= "\0";
-            $actual .= "\0";
-            $expectedLength = self::byteLength($expected);
-            $actualLength = self::byteLength($actual);
-            $diff = $expectedLength - $actualLength;
-            for ($i = 0; $i < $actualLength; $i++) {
-                $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
-            }
-            return $diff === 0;
-        }
+        // private function compareString($expected, $actual) {
+        //     $expected .= "\0";
+        //     $actual .= "\0";
+        //     $expectedLength = self::byteLength($expected);
+        //     $actualLength = self::byteLength($actual);
+        //     $diff = $expectedLength - $actualLength;
+        //     for ($i = 0; $i < $actualLength; $i++) {
+        //         $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+        //     }
+        //     return $diff === 0;
+        // }
         
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
@@ -54,7 +54,7 @@
             return json_decode($results)[0]->password;
         }
         
-        function login($username, $password) {
+        public function login($username, $password) {
             try {
                 $hash = $this->getHashedPassword($username);
                 return $this->validatePassword($password, $hash);
@@ -78,7 +78,8 @@
             if (strlen($password) !== 60) {
                 return false;
             }
-            return $this->compareString($password, $hash);
+            return hash_equals($hash, $password);//Secured against cryptographic timing attacks
+            // return $this->compareString($password, $hash);
         }
         
         public function validateToken($token = '') {
@@ -91,4 +92,22 @@
             }
             return false;
         }
+        
+        private function generateSalt($cost = 13)
+        {
+            $cost = (int) $cost;
+            if ($cost < 4 || $cost > 31) {
+                throw new InvalidParamException('Cost must be between 4 and 31.');
+            }
+    
+            // Get a 20-byte random string
+            $rand = $this->generateRandomKey(20);
+            // Form the prefix that specifies Blowfish (bcrypt) algorithm and cost parameter.
+            $salt = sprintf("$2y$%02d$", $cost);
+            // Append the random salt data in the required base64 format.
+            $salt .= str_replace('+', '.', substr(base64_encode($rand), 0, 22));
+    
+            return $salt;
+        }
+        
     }
