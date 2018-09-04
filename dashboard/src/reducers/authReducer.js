@@ -24,6 +24,12 @@ export default function apiReducer(state, action) {
                 securityError: action.securityError
             }
         }
+        case 'GENERAL_ERROR': {
+            return {
+                ...state,
+                generalError: action.generalError
+            }
+        }
         default: {
             return {
                 ...state

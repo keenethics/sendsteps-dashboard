@@ -8,24 +8,33 @@ import {
     setPassword, 
     setPasswordConfirm, 
     setAcceptTerms,
-
     setFirstNameError,
     setLastNameError,
     setEmailError,
     setPasswordError,
     setPasswordConfirmError,
     setAcceptTermsError,
-
     showPassword,
-
-    resetRegistrationForm
+    resetRegistrationForm,
+    register
 } from '../../actions/registration';
+import { authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 
 class RegistrationForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(resetRegistrationForm());
+
+        this.props.dispatch(setFirstName('Bryan'));
+        this.props.dispatch(setLastName('Overduin'));
+        
+        this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
+
+        this.props.dispatch(setPassword('lol000'));
+        this.props.dispatch(setPasswordConfirm('lol000'));
+        this.props.dispatch(setAcceptTerms(true));
+
     }
     showLoginForm() {
         this.props.dispatch(setView('LOGIN'));
@@ -109,33 +118,64 @@ class RegistrationForm extends Component {
         this.props.dispatch(setAcceptTermsError(termsError));
     }
 
-    register() {
-        const { 
-            firstNameError, 
-            lastNameError, 
-            emailError, 
-            passwordError, 
-            passwordConfirmError, 
-            termsAcceptedError, 
-            } = this.props;
-        
+    errorCheck() {
         this.checkFirstName();
         this.checkLastName();
         this.checkEmail();
         this.checkPassword();
         this.checkPasswordConfirm();
         this.checkTerms();
+    }
 
-        if(firstNameError || lastNameError || emailError || 
-            passwordError || passwordConfirmError || termsAcceptedError) {
-            alert('There are errors');
+    fieldsAreValid() {
+        
+        const { 
+            firstName,
+            lastName,
+            email,
+            password,
+            passwordConfirm,
+            termsAccepted,
+        } = this.props;
+
+        if(firstName.length > 0 &&
+            lastName.length > 0 &&
+            isValidEmail(email) &&
+            isValidPassword(password) &&
+            isValidPassword(passwordConfirm) &&
+            termsAccepted) {
+            return true;
         }
+        return false;
+
+    }
+
+    register() {
+        if(!this.fieldsAreValid()) {
+            this.errorCheck();
+            console.log('empty fields')
+            return;
+        }
+
+        this.props.dispatch(authLoading(true));
+
+        const {            
+            firstName,
+            lastName,
+            email,
+            password,
+            passwordConfirm
+        } = this.props;
+
+        this.props.dispatch(register(firstName, lastName, email, password, passwordConfirm));
+
     }
 
     render() {
 
         const { firstName, lastName, email, password, passwordConfirm, termsAccepted,
-                firstNameError, lastNameError, emailError, passwordError, passwordConfirmError, termsAcceptedError, showPassword } = this.props;
+                firstNameError, lastNameError, emailError, passwordError, passwordConfirmError, termsAcceptedError, 
+                showPassword, authLoading, generalError } = this.props;
 
         let firstNameErrorClass = firstNameError ? 'has-error' : null;
         firstNameErrorClass = !firstNameError && firstName ? 'has-success' : firstNameErrorClass;
@@ -160,9 +200,17 @@ class RegistrationForm extends Component {
                 <div className="col-sm-6 col-sm-offset-3 registration-form">
                     <div className="panel panel-default">
                         <div className="panel-heading">
-                            <h2 className="panel-title">Register</h2>
+                            <h2 className="panel-title">
+                                Register 
+                                {generalError && <span className="pull-right text-danger">
+                                    <i className="fa fa-exclamation-triangle"></i> {generalError}
+                                </span>}
+                            </h2>
                         </div>
-                        <div className="panel-body">
+                        <div className="panel-body register">
+                            {authLoading && <div className="auth-loading-overlay">
+                                    <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
+                                </div>}
                             <div className="row">
                                 <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
                                     <div className={"fa-sm form-group " + firstNameErrorClass}>
@@ -246,8 +294,11 @@ export default connect(
             passwordError: state.registrationReducer.passwordError,
             passwordConfirmError: state.registrationReducer.passwordConfirmError,
             termsAcceptedError: state.registrationReducer.termsAcceptedError,
+            generalError: state.registrationReducer.generalError,
 
-            showPassword: state.registrationReducer.showPassword
+            showPassword: state.registrationReducer.showPassword,
+
+            authLoading: state.authReducer.authLoading,
         }
     }
 ) (RegistrationForm);

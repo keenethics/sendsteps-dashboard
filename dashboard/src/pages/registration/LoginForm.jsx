@@ -10,7 +10,6 @@ class LoginForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(resetLoginForm());
-
         this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
         this.props.dispatch(setPassword('lol000')); 
     }
@@ -81,12 +80,12 @@ class LoginForm extends Component {
 
     render() {
 
-        const { email, password, emailError, passwordError, showPassword, authLoading } = this.props;
+        const { email, password, emailError, passwordError, showPassword, authLoading, generalError } = this.props;
 
         let passwordErrorClass = passwordError ? 'has-error' : null;
         passwordErrorClass = !passwordError && isValidPassword(password) ? 'has-success' : passwordErrorClass;
 
-        let emailErrorClass =  emailError? 'has-error' : null;
+        let emailErrorClass =  emailError ? 'has-error' : null;
         emailErrorClass = !emailError && isValidEmail(email) ? 'has-success' : emailErrorClass;
 
         return (
@@ -94,7 +93,12 @@ class LoginForm extends Component {
                 <div className="col-sm-6 col-sm-offset-3 login-form">
                     <div className="panel panel-default">
                         <div className="panel-heading">
-                            <h2 className="panel-title">Sign in</h2>
+                            <h2 className="panel-title">
+                                Sign in
+                                {generalError && <span className="pull-right text-danger">
+                                    <i className="fa fa-exclamation-triangle"></i> {generalError}
+                                </span>}
+                            </h2>
                         </div>
                         <div className="panel-body login">
                             {authLoading && <div className="auth-loading-overlay">
@@ -143,7 +147,8 @@ export default connect(
 
             showPassword: state.loginReducer.showPassword,
 
-            authLoading: state.authReducer.authLoading
+            authLoading: state.authReducer.authLoading,
+            generalError: state.authReducer.generalError
         }
     }
 ) (LoginForm);
