@@ -39,8 +39,9 @@ export function checkAuthorized(authHash = '') {
             return res.json()
         }).then(
             (result) => {
-                console.log(authHash)
                 if(result && typeof result.authorized !== 'undefined') {
+                    console.log(authHash);
+                    console.log(result.authorized)
                     dispatch(setAuthorized(result.authorized));
                 }
             },

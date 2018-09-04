@@ -2,7 +2,6 @@
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI {
         public function checkAuth($token = '') {
-            // var_dump('someunique: '.$token);exit();
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);            
             return json_encode(array('authorized' => $authorized));

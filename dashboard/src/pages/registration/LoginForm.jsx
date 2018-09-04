@@ -75,7 +75,6 @@ class LoginForm extends Component {
 
             setTimeout(() => {
                 this.props.dispatch(authorizeLogin(email, password));
-                this.props.dispatch(authLoading(false));
             }, 1500)
         }
     }
