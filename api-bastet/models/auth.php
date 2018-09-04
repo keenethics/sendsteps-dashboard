@@ -5,10 +5,6 @@
         function __construct () {
             $this->table = 'users';
         }
-         
-        private static function byteLength($string) {
-            return mb_strlen($string, '8bit');
-        }
         
         public function createToken($username) {
             $tokenExists = 'Not NULL';
