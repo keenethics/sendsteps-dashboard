@@ -12,7 +12,6 @@ export function setAuthorized(isAuthorized) {
     }
 }
 
-
 export function authRequired(isAuthRequired) {
     return {
         type: 'AUTH_REQUIRED',
@@ -62,9 +61,17 @@ export function securityError(securityError) {
     }
 }
 
+export function setGeneralError(generalError) {
+    return {
+        type: 'GENERAL_ERROR',
+        generalError
+    }
+}
+
 export function authorizeLogin(email = '', password = '') {
     return dispatch => {
         if (email !== '' && password !== ''){
+
             let params = JSON.stringify({
                 email: email, 
                 password: password
@@ -104,6 +111,7 @@ export function authorizeLogin(email = '', password = '') {
         }
     }
 }
+
 
 // export function register(email = '', password = '', firstName = '', lastName = '', termsAccepted = false) {
 //     return dispatch => {

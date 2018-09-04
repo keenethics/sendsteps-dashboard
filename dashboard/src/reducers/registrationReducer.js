@@ -74,6 +74,12 @@ export default function registrationReducer(state, action) {
                 termsAcceptedError: action.termsAcceptedError
             }
         }
+        case 'GENERAL_ERROR': {
+            return {
+                ...state,
+                generalError: action.generalError
+            }
+        }
         case 'SHOW_PASSWORD': {
             return {
                 ...state,
@@ -95,6 +101,7 @@ export default function registrationReducer(state, action) {
                 passwordError: '',
                 passwordConfirmError: '',
                 termsAcceptedError: '',
+                generalError: '',
                 showPassword: false
             }
         }

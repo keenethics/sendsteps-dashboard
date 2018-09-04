@@ -1,5 +1,4 @@
 import React from 'react';
-import View from "../base/View";
 import TableView from './TableView';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
@@ -16,7 +15,6 @@ class PhonenumbersOverview extends React.Component {
     }
     render() {
         return (
-            <View>
                 <div>
                     <div className="panel panel-default header-panel">  
                         <div className="panel-body">
@@ -34,35 +32,7 @@ class PhonenumbersOverview extends React.Component {
                         </div>
                     </div>
                 </div>
-            </View>
         )
-        // const { error, isLoaded, items } = this.state;
-
-        // if(items.content) {
-        //     console.log(JSON.parse(items.content));
-        // }
-        // if (error) {
-        //     //Error
-        //     return <div>Error: {error.message}</div>;
-        // } else if (!isLoaded) {
-        //     //Loading
-        //     return (
-        //         <div className="row">  
-        //             <div className="col-md-7">
-        //                 <div className="lander">
-        //                     <div className="view">
-        //                         Loading...
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //         </div>
-        //     );
-        // } else {
-        //     //Success
-        //     return (
-                
-        //     );
-        // }
     }
 } 
 
