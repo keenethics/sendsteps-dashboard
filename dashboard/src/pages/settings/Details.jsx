@@ -6,25 +6,12 @@ class Settings extends React.Component {
 
     
     componentDidMount() {
-        // fetch("https://api.nasa.gov/planetary/apod?api_key=OY11bHgvmGamHkxoZLNMj5bxw45cqJYQQTVvxjLU")
-        //     .then(res => res.json())
-        //     .then(
-        //     (result) => {
-        //         this.setState({
-        //         isLoaded: true,
-        //         items: result
-        //         });
-        //     },
-        //     // Note: it's important to handle errors here
-        //     // instead of a catch() block so that we don't swallow
-        //     // exceptions from actual bugs in components.
-        //     (error) => {
-        //         this.setState({
-        //         isLoaded: true,
-        //         error
-        //         });
-        //     }
-        // )
+        let apiController = 'settings';
+        let apiFunction = 'getUserSettings';
+        let apiParams = JSON.stringify({
+            id: this.props.match.params.id
+        });
+        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
     
     render() {

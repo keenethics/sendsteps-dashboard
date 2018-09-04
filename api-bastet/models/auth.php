@@ -7,20 +7,19 @@
         }
         
         public function createToken($username) {
-            $tokenExists = 'Not NULL';
-            //In the event we create a duplicate token, carry on looping until we create a unique one.
-            while ($tokenExists != NULL){
+            $tokenExists = true;
+            //In the event we create a duplicate token, carry on looping until we create a unique one.            
+            while ($tokenExists == true){
                 if ($this->isPhp7()) {
                     $token = substr(bin2hex(random_bytes(255)), 0, 250);
                 } else {
                     $token = substr( uniqid(("adasdagspagopofpopo"+time()), TRUE), 0, 250);
                 }
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
+                $tokenExists = ($this->query($findTokenSQL)[0]['res'] == 0)? false : true;
             }
-            
             $getUserSQL = "SELECT id FROM users WHERE isDeleted != 1 AND email = '$username';";
-            $user_id = (int)  (json_decode($this->query($getUserSQL))[0]->id);
+            $user_id = (int)  ($this->query($getUserSQL)[0]['id']);
             $timestamp = time();
             
             $clearOldTokensSQL = "DELETE FROM `api_nova_tokens` WHERE `user_id` = '$user_id';";
@@ -28,14 +27,13 @@
             
             $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
             $this->query($createNewTokenSQL);
-            
             return $token;
         }
         
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
-            return json_decode($results)[0]->password;
+            return ($results)[0]['password'];
         }
         
         public function login($username, $password) {
@@ -67,7 +65,7 @@
         public function validateToken($token = '') {
             if ($token != NULL && $token != ''){
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = (int) json_decode($this->query($findTokenSQL))[0]->res;
+                $tokenExists = (int) $this->query($findTokenSQL)[0]['res'];
                 if ($tokenExists > 0){
                     return true;
                 }

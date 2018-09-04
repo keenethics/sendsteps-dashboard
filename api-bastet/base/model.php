@@ -20,8 +20,8 @@
         public function query($query) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
-            $data = $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
-            return json_encode($data);
+            $data = (array) $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            return $data;
         }
         
         public function isPhp7(){

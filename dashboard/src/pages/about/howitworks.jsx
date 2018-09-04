@@ -5,12 +5,12 @@ import { fetchResult } from '../../actions/api';
 class Settings extends React.Component {
 
     componentWillMount() {
-        let phonenumberId = this.props.match.params.id;
-        console.log(phonenumberId);
         let apiController = 'about';
         let apiFunction = 'getHowItWorks';
-        let apiParam = this.props.match.params.id;
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParam));
+        let apiParams = JSON.stringify({
+            id: this.props.match.params.id
+        });
+        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
     
     render() {

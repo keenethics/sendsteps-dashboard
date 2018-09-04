@@ -27,13 +27,15 @@ export function authLoading(authLoading) {
 }
 
 export function checkAuthorized(authHash = '') {
-
     return dispatch => {
+        let params = JSON.stringify({
+            token: authHash
+        });
         dispatch(authRequired(true));
         fetch(authUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: 'function=checkAuth&params='+authHash
+            body: 'function=checkAuth&params='+params
         }).then(res => {
             return res.json()
         }).then(
