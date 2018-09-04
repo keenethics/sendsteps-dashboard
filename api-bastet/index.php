@@ -10,7 +10,7 @@
         $Bastet->setHeaders();
         
         $function = $_POST['function'];
-        $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
+        $params = (isset($_POST['params']))? (array) json_decode($_POST['params']): array();
         
         //Check method/function exists
         if (!method_exists('BastetAPI', $function)) {
