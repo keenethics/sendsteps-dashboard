@@ -18,7 +18,7 @@ export function addToLocalStorage(key, value) {
         localStorage.setItem(key, value);
         const storedItem = getFromLocalStorage(key);
         if(storedItem && typeof storedItem !== 'undefined') {
-            console.log('Added item to storage: ' + storedItem);
+            // console.log('Added item to storage: ' + storedItem);
             return storedItem;
         }
     }
@@ -30,7 +30,7 @@ export function getFromLocalStorage(key) {
     if(localStorageIsAccesible()) {
         const storedObject = window.localStorage.getItem(key);
         if(storedObject && typeof storedObject !== 'undefined') {
-            console.log('Returning storedObject:' + storedObject);
+            // console.log('Returning storedObject:' + storedObject);
             return storedObject;
         }
     }
@@ -43,7 +43,7 @@ export function removeFromLocalStorage(key) {
         if(getFromLocalStorage(key)) {
             window.localStorage.removeItem(key);
             if(!getFromLocalStorage(key)) {
-                console.log('Removed item: ' + key + ' from localStorage');
+                // console.log('Removed item: ' + key + ' from localStorage');
                 return true;
             }
         }

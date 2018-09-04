@@ -4,7 +4,7 @@ import { addToLocalStorage } from '../scripts/localStorage';
 import { addCookieValues } from '../scripts/cookieStorage';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
-let authHash =  'da213sdasdas90dasdas';
+
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',
@@ -13,10 +13,10 @@ export function setAuthorized(isAuthorized) {
 }
 
 
-export function authRequired(isRequired) {
+export function authRequired(isAuthRequired) {
     return {
         type: 'AUTH_REQUIRED',
-        isRequired
+        isAuthRequired
     }
 }
 
@@ -27,7 +27,7 @@ export function authLoading(authLoading) {
     }
 }
 
-export function checkAuthorized() {
+export function checkAuthorized(authHash = '') {
 
     return dispatch => {
         dispatch(authRequired(true));
@@ -39,6 +39,7 @@ export function checkAuthorized() {
             return res.json()
         }).then(
             (result) => {
+                console.log(authHash)
                 if(result && typeof result.authorized !== 'undefined') {
                     dispatch(setAuthorized(result.authorized));
                 }
@@ -74,7 +75,6 @@ export function authorizeLogin(email = '', password = '') {
                         // USER IS AUTHORIZED HERE
                         // Add key to localStorage, or Cookies, if failed to do both,
                         // redirect to login page with security warning
-                        console.log(result);
                         if(!addToLocalStorage('token',result.token)) {
                             if(!addCookieValues('SSTToken', result.token, 48)) {
                                 dispatch(securityError('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'))

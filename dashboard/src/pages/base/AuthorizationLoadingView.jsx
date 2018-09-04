@@ -8,18 +8,30 @@ import { Redirect } from 'react-router-dom';
 
 class AuthorizationLoadingView extends React.Component {
 
-    componentDidMount() {
+    componentWillMount() {
 
         // Check localstorage for a key named token
         // if the token exists, 
         const localToken = getFromLocalStorage('token');
         const cookieToken = getCookieValues('SSTToken');
 
+        console.log('Checking for tokens...');
         if(localToken || cookieToken) {
-            console.log('token found')
+            console.log('token found!');
             this.props.dispatch(setAuthorized(true));
-            this.props.dispatch(authRequired(true));
-            return <Redirect to="/" />
+        }
+        const { isAuthorized, isAuthRequired } = this.props;
+
+        this.props.dispatch(authRequired(true));
+        console.log(isAuthorized, isAuthRequired);
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { isAuthRequired, isAuthorized } = nextProps;
+
+        if(!isAuthorized && isAuthRequired) {
+            console.log('Redirect to login');
         }
     }
 
@@ -31,4 +43,11 @@ class AuthorizationLoadingView extends React.Component {
         )
     }
 }
-export default connect() (AuthorizationLoadingView);
+export default connect(
+    (state) => {
+        return {
+            isAuthorized: state.authReducer.isAuthorized,
+            isAuthRequired: state.authReducer.isAuthRequired
+        }
+    }
+) (AuthorizationLoadingView);

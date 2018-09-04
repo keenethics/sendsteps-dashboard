@@ -29,7 +29,7 @@ const initialState = {
     },
     authReducer: {
         isAuthorized: null,
-        authRequired: null,
+        isAuthRequired: null,
         authLoading: false,
         securityError: null
     },

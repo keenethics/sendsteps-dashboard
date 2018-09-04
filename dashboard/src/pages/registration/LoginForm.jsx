@@ -10,6 +10,9 @@ class LoginForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(resetLoginForm());
+
+        this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
+        this.props.dispatch(setPassword('lol000')); 
     }
 
     showRegistrationForm() {

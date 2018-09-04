@@ -8,7 +8,7 @@ export function addCookieValues(key, value, hrsToExpire) {
         currentDate.setTime(currentDate.getTime() + (hrsToExpire*60*60*1000));
         let expiredDate = "expires="+ currentDate.toUTCString();
         document.cookie = key + '=' + value + ';' + expiredDate + ';path=/';
-        console.log('Added cookie: "' + key + '=' + value + '", expires in ' + hrsToExpire + ' hours');
+        // console.log('Added cookie: "' + key + '=' + value + '", expires in ' + hrsToExpire + ' hours');
         return true;
     }
     return false;
@@ -24,7 +24,7 @@ export function getCookieValues(key) {
                 cookie = cookie.substring(1);
             }
             if (cookie.indexOf(cookieName) === 0) {
-                console.log('Found cookie: ' + key);
+                // console.log('Found cookie: ' + key);
                 return cookie.substring(cookieName.length, cookieName.length);
             }
         })
@@ -37,7 +37,7 @@ export function removeCookieValues(key) {
     if(cookiesAccessible()) {
         try {
             document.cookie = key+'=; Max-Age=-99999999;';
-            console.log('Removing cookie: ' + key);
+            // console.log('Removing cookie: ' + key);
             return true;
         } catch (error) {
         }

@@ -7,13 +7,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { checkAuthorized } from './actions/auth';
 import { simulateLoading } from './actions/api';
+import { getFromLocalStorage } from './scripts/localStorage';
+import { getCookieValues } from './scripts/cookieStorage';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import View from './pages/base/View';
+
 export class App extends Component {
 
-    constructor(props) {
-        super(props);
-        this.props.dispatch(checkAuthorized());
+    componentWillMount() {
+        let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken') || '';
+        this.props.dispatch(checkAuthorized(storedKey));
     }
 
     componentDidUpdate(prevProps) {
@@ -29,9 +32,9 @@ export class App extends Component {
     }
 
     render() {
-        const { isAuthorized, authRequired } = this.props;
+        const { isAuthorized, isAuthRequired } = this.props;
         //Auth required & the result of authorization should be known, before anyone gets past the login screen
-        if(true === authRequired && true === isAuthorized) {
+        if(true === isAuthRequired && true === isAuthorized) {
             return (
                 <div className="App">
                     <Header />
@@ -45,7 +48,7 @@ export class App extends Component {
                     </div>
                 </div>
             ); 
-        } else if (null == authRequired  || null == isAuthorized) {
+        } else if (null == isAuthRequired  || null == isAuthorized) {
             return <AuthorizationLoadingView />; 
         } else {
             return <RegistrationOverview />;
@@ -56,7 +59,7 @@ export default withRouter(connect(
     (state) => {
         return {
             isAuthorized: state.authReducer.isAuthorized,
-            authRequired: state.authReducer.authRequired
+            isAuthRequired: state.authReducer.isAuthRequired
         }
     }
 ) (App));
