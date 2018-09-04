@@ -62,22 +62,16 @@ export function securityError(securityError) {
 export function authorizeLogin(email = '', password = '') {
     return dispatch => {
         if (email !== '' && password !== ''){
-            let params = [];
-            params["email"] = email;
-            params["password"] = password;
-            // console.log(params);
-            // body: 'function=login&params='+email+'---'+password
-            let paramsSent = JSON.stringify({
+            let params = JSON.stringify({
                 email: email, 
                 password: password
             });
             
-            console.log(paramsSent);
             dispatch(authRequired(true));
             fetch(authUrl,{
                 method: 'POST',
                 headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-                body: 'function=login&params='+paramsSent
+                body: 'function=login&params='+params
             }).then(res => {
                 return res.json()
             }).then(
