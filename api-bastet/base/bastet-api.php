@@ -35,7 +35,7 @@
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
             if ($password != $passwordConfirm){
-                throw new Exception('PasswordDoNotMatch');
+                throw new Exception('PasswordDoNotMatch,Password');
             }
             
             foreach($options as $opt){

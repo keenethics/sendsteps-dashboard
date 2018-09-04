@@ -23,16 +23,19 @@
     } catch (Exception $e) {
         //Handle all API errors
         if ($e->getMessage() != '') {
+            $mArr = explode(',', $e->getMessage());
+            $errorKey = $mArr[0];
+            $errorElement = (isset($mArr[1])? $mArr[1] : 'General');
             //Specific error
-            if ( isset( $bastetErrors[$e->getMessage()] ) ) {
-                echo '{"error":"'. $bastetErrors[$e->getMessage()].'"}';
+            if ( isset( $bastetErrors[$errorKey] ) ) {
+                echo '{"error'.$errorElement.'":"'. $bastetErrors[$errorKey].'"}';
                 exit();
-            } else if ( isset( $generalErrors[$e->getMessage()] ) ) {
-                echo '{"error":"'. $generalErrors[$e->getMessage()].'"}';
+            } else if ( isset( $generalErrors[$errorKey] ) ) {
+                echo '{"error'.$errorElement.'":"'. $generalErrors[$errorKey].'"}';
                 exit();
             }
         }
         //Generic Error, don't bother trying to find an empty index
-        echo '{"error":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}';
+        echo '{"errorGeneral":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}';
         exit();
     }
