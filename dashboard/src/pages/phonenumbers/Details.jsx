@@ -5,8 +5,10 @@ import { fetchResult } from '../../actions/api';
 
 class PhonenumberDetails extends React.Component {
     componentWillMount() {
-        let phonenumberId = this.props.match.params.id;
-        this.props.dispatch(fetchResult('phonenumbers', 'getDetails', phonenumberId));
+        let apiParams = JSON.stringify({
+            id: this.props.match.params.id
+        });
+        this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
     }
     
     render() {
