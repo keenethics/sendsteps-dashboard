@@ -25,7 +25,7 @@
         if ($e->getMessage() != '') {
             //Specific error
             if ( isset( $bastetErrors[$e->getMessage()] ) ) {
-                echo '{"error":"'. $errorTexts[$e->getMessage()].'"}';
+                echo '{"error":"'. $bastetErrors[$e->getMessage()].'"}';
                 exit();
             } else if ( isset( $generalErrors[$e->getMessage()] ) ) {
                 echo '{"error":"'. $generalErrors[$e->getMessage()].'"}';
