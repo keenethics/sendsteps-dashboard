@@ -33,7 +33,15 @@
             return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
-        public function register($username = '', $password = '', $termsAccepted = false, $first_name = '', $last_name = ''){
+        public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
+            if ($password != $passwordConfirm){
+                throw new Exception('PasswordDoNotMatch');
+            }
+            
+            foreach($options as $opt){
+                
+            }
+            
             $reg_model = $this->loadRegistrationModel();
             $result = $reg_model->register($username, $password);
             return $result;

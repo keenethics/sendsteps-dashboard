@@ -22,6 +22,17 @@
         exit();
     } catch (Exception $e) {
         //Handle all API errors
-        echo ($e->getMessage() == '')? '{"error":"Undefined error with Nova-API, in file '.$e->getFile().', at line '.$e->getLine().'"}' : '{"error":"'. $errorTexts[$e->getMessage()].'"}';   
+        if ($e->getMessage() != '') {
+            //Specific error
+            if ( isset( $bastetErrors[$e->getMessage()] ) ) {
+                echo '{"error":"'. $errorTexts[$e->getMessage()].'"}';
+                exit();
+            } else if ( isset( $generalErrors[$e->getMessage()] ) ) {
+                echo '{"error":"'. $generalErrors[$e->getMessage()].'"}';
+                exit();
+            }
+        }
+        //Generic Error, don't bother trying to find an empty index
+        echo '{"error":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}';
         exit();
     }
