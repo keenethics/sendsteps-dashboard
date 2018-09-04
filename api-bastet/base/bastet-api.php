@@ -12,6 +12,11 @@
             $auth_model = new Auth_Model();
             return $auth_model;
         }
+        private function loadRegistrationModel(){
+            require_once __DIR__.'/../models/registration.php';
+            $auth_model = new Registration_Model();
+            return $auth_model;
+        }
         
         public function login($username = '', $password = '') {
             
@@ -28,6 +33,12 @@
             return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
+        public function register($username = '', $password = '', $termsAccepted = false, $first_name = '', $last_name = ''){
+            $reg_model = $this->loadRegistrationModel();
+            $result = $reg_model->register($username, $password);
+            return $result;
+        }
+        
         public function setHeaders() {
             header_remove();// clear the old headers
             header('Content-Type: application/json');
@@ -36,4 +47,5 @@
             header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
             return;
         }
+        
     }

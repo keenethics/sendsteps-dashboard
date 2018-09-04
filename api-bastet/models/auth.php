@@ -2,9 +2,6 @@
     require_once __DIR__.'/../base/model.php';
 
     class Auth_Model extends Model {
-        function __construct () {
-            $this->table = 'users';
-        }
         
         public function createToken($username) {
             $tokenExists = true;
