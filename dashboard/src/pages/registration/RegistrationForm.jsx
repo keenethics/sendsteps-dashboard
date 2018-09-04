@@ -25,6 +25,7 @@ class RegistrationForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(resetRegistrationForm());
+        this.props.dispatch(authLoading(false));
 
         this.props.dispatch(setFirstName('Bryan'));
         this.props.dispatch(setLastName('Overduin'));
@@ -32,7 +33,7 @@ class RegistrationForm extends Component {
         this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
 
         this.props.dispatch(setPassword('lol000'));
-        this.props.dispatch(setPasswordConfirm('lol000'));
+        this.props.dispatch(setPasswordConfirm('lol000123'));
         this.props.dispatch(setAcceptTerms(true));
     }
 

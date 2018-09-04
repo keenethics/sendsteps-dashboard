@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
-import { addToLocalStorage } from '../scripts/localStorage';
-import { addCookieValues } from '../scripts/cookieStorage';
+import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
+import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
 
@@ -41,7 +41,6 @@ export function checkAuthorized(authHash = '') {
         }).then(
             (result) => {
                 if(result && typeof result.authorized !== 'undefined') {
-                    console.log(authHash);
                     console.log(result.authorized)
                     dispatch(setAuthorized(result.authorized));
                 }
@@ -68,6 +67,14 @@ export function setGeneralError(generalError) {
     }
 }
 
+export function signOut() {
+    return dispatch => {
+        removeFromLocalStorage('token');
+        removeCookieValues('SSTToken');
+        dispatch(setAuthorized(false));
+        dispatch(authRequired(null));
+    }
+}
 export function authorizeLogin(email = '', password = '') {
     return dispatch => {
         if (email !== '' && password !== ''){

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ListGroupItem, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 

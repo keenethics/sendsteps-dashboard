@@ -30,7 +30,7 @@
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
-            return ($results)[0]['password'];
+            return $results[0]['password'];
         }
         
         public function login($username, $password) {

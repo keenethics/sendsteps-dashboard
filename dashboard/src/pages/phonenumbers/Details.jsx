@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
+import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 class PhonenumberDetails extends React.Component {
     componentWillMount() {
@@ -17,10 +18,7 @@ class PhonenumberDetails extends React.Component {
 
         // Get rid of this soon
 
-        console.log(data);
-
         // Requires api adjustment, might be able to change later @TODO
-        data = data[0];
 
         return (
             <div>  
@@ -29,7 +27,7 @@ class PhonenumberDetails extends React.Component {
                         <h1>Phonenumber ({data.displayText})</h1>   
                     </div>
                 </div>
-                {/* {this.getBreadCrumbs()}     */}
+                <BreadCrumbs urlList={this.props.match.url} />   
                 <div className="panel panel-default">  
                     <div className="panel-body">
                         <div className="container-fluid">

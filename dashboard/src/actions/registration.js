@@ -112,10 +112,11 @@ export function setErrors(errors) {
         if(errors.firstName) { dispatch(setFirstNameError(errors.firstName))}
         if(errors.lastName) { dispatch(setLastNameError(errors.lastName))}
         if(errors.email) { dispatch(setEmailError(errors.email))}
-        if(errors.password) { dispatch(setPasswordError(errors.password))}
+        if(errors.errorPassword) { dispatch(setPasswordError(errors.errorPassword))}
         if(errors.passwordConfirm) { dispatch(setPasswordConfirmError(errors.passwordConfirm))}
         if(errors.termsAccepted) { dispatch(setAcceptTermsError(errors.termsAccepted))}
-        if(errors) { dispatch(setGeneralError(errors))};
+        if(errors.errorGeneral) { dispatch(setGeneralError(errors))};
+        dispatch(authLoading(false));
     }
 }
 
@@ -148,6 +149,7 @@ export function register(firstName, lastName, email, password, passwordConfirm, 
                     // Log user in if authorized, (Still need to write auth above here)
                     dispatch(authorizeLogin(email, password));
                 } else if(result.error) {
+                    console.log(result.error);
                     // If errors are returned from the API, 
                     // dispatch them to the user
                     dispatch(setErrors(result.error));

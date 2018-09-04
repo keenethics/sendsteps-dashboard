@@ -15,6 +15,9 @@ export function addCookieValues(key, value, hrsToExpire) {
 }
 
 export function getCookieValues(key) {
+
+    let currentCookie = false;
+
     if(cookiesAccessible()) {
         let cookieName = key + '=';
         let decodedCookie = decodeURIComponent(document.cookie);
@@ -23,14 +26,13 @@ export function getCookieValues(key) {
             while (cookie.charAt(0) === ' ') {
                 cookie = cookie.substring(1);
             }
-            if (cookie.indexOf(cookieName) === 0) {
-                // console.log('Found cookie: ' + key);
-                return cookie.substring(cookieName.length, cookieName.length);
+            if (cookie.indexOf(cookieName) !== -1) {
+                console.log('Found cookie: ' + key);
+                currentCookie = cookie.substring(cookieName.length, cookie.length);
             }
         })
     }
-    console.log('Unable to find cookie: ' + key);
-    return false;
+    return currentCookie;
 }
 
 export function removeCookieValues(key) {

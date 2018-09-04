@@ -2,6 +2,7 @@ import React from 'react';
 import TableView from './TableView';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
+import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 class PhonenumbersOverview extends React.Component {
    
@@ -21,7 +22,7 @@ class PhonenumbersOverview extends React.Component {
                             <h1>Phonenumber Overview</h1>   
                         </div>
                     </div>
-                    {/* {this.getBreadCrumbs()}   */}
+                    <BreadCrumbs urlList={this.props.match.url} />
                     <div className="panel panel-default">  
                         <div className="panel-body">
                             <div className="container-fluid">

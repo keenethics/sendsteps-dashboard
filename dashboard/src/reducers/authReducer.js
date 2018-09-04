@@ -21,13 +21,15 @@ export default function apiReducer(state, action) {
         case 'SECURITY_ERROR': {
             return {
                 ...state,
-                securityError: action.securityError
+                securityError: action.securityError,
+                authLoading: false
             }
         }
         case 'GENERAL_ERROR': {
             return {
                 ...state,
-                generalError: action.generalError
+                generalError: action.generalError,
+                authLoading: false
             }
         }
         default: {

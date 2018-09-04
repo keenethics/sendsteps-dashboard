@@ -51,6 +51,7 @@
    
   .menu-button {
     color: #fff;
+    transform: scaleX(1.337);
   }
   
   a, a:hover, a:visited, a:link, a:active {
@@ -78,6 +79,10 @@
   .list-group-item i {
     left: -24px;
     position: relative;
+  }
+
+  .logout {
+    margin: 6px 0;
   }
   
   .list-group-item .fa {
@@ -240,6 +245,10 @@
     padding: 25px;
   }
 
+.view table td {
+  vertical-align: middle !important;
+}
+
 .show-pass:hover {
     cursor: pointer;
 }  
@@ -348,7 +357,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .security-error {
   text-align: center;
-  height: 32px;
+  height: auto;
   line-height: 32px;
   background: #f2dede;
   color: #a94442;
@@ -357,4 +366,9 @@ h1, h2, h3, h4, h5, h6 {
 
 .security-error p {
   margin: 0 !important;
+}
+
+ul.pagination {
+  margin: 0px !important;
+  float: right;
 }

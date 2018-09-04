@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { checkAuthorized } from './actions/auth';
+import { checkAuthorized, securityError } from './actions/auth';
 import { simulateLoading } from './actions/api';
 import { getFromLocalStorage } from './scripts/localStorage';
 import { getCookieValues } from './scripts/cookieStorage';
@@ -12,7 +12,12 @@ import DashboardApp from './pages/base/DashboardApp';
 export class App extends Component {
 
     componentWillMount() {
+
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
+        if(storedKey) 
+        {
+            this.props.dispatch(securityError(null));
+        }
         this.props.dispatch(checkAuthorized(storedKey));
     }
 
