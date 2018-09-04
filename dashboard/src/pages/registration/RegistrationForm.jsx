@@ -19,7 +19,7 @@ import {
     register
 } from '../../actions/registration';
 import { authLoading } from '../../actions/auth';
-import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
+import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
 
 class RegistrationForm extends Component {
 
@@ -34,8 +34,8 @@ class RegistrationForm extends Component {
         this.props.dispatch(setPassword('lol000'));
         this.props.dispatch(setPasswordConfirm('lol000'));
         this.props.dispatch(setAcceptTerms(true));
-
     }
+
     showLoginForm() {
         this.props.dispatch(setView('LOGIN'));
     }
@@ -138,8 +138,8 @@ class RegistrationForm extends Component {
             termsAccepted,
         } = this.props;
 
-        if(firstName.length > 0 &&
-            lastName.length > 0 &&
+        if( isValidName(firstName) &&
+            isValidName(lastName) &&
             isValidEmail(email) &&
             isValidPassword(password) &&
             isValidPassword(passwordConfirm) &&
@@ -153,7 +153,6 @@ class RegistrationForm extends Component {
     register() {
         if(!this.fieldsAreValid()) {
             this.errorCheck();
-            console.log('empty fields')
             return;
         }
 
@@ -164,11 +163,11 @@ class RegistrationForm extends Component {
             lastName,
             email,
             password,
-            passwordConfirm
+            passwordConfirm,
+            termsAccepted
         } = this.props;
 
-        this.props.dispatch(register(firstName, lastName, email, password, passwordConfirm));
-
+        this.props.dispatch(register(firstName, lastName, email, password, passwordConfirm, termsAccepted));
     }
 
     render() {

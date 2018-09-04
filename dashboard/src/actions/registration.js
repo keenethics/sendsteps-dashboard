@@ -122,13 +122,18 @@ export function setErrors(errors) {
 export function register(firstName, lastName, email, password, passwordConfirm, termsAccepted) {
 
     const registerParams = JSON.stringify({
-        firstName,
-        lastName,
+        // Same as firstName: firstName
         email,
         password,
         passwordConfirm,
-        termsAccepted
+        options: {
+            firstName,
+            lastName,
+            termsAccepted,
+        }
     });
+
+    console.log(registerParams);
 
     return dispatch => {
         fetch(authUrl,{
