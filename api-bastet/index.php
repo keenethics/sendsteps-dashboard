@@ -28,14 +28,14 @@
             $errorElement = (isset($mArr[1])? $mArr[1] : 'General');
             //Specific error
             if ( isset( $bastetErrors[$errorKey] ) ) {
-                echo '{"error'.$errorElement.'":"'. $bastetErrors[$errorKey].'"}';
+                echo '{"error": {"error'.$errorElement.'":"'. $bastetErrors[$errorKey].'"}}';
                 exit();
             } else if ( isset( $generalErrors[$errorKey] ) ) {
-                echo '{"error'.$errorElement.'":"'. $generalErrors[$errorKey].'"}';
+                echo '{"error": {"error'.$errorElement.'":"'. $generalErrors[$errorKey].'"}}';
                 exit();
             }
         }
         //Generic Error, don't bother trying to find an empty index
-        echo '{"errorGeneral":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}';
+        echo '{"error": {"errorGeneral":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}}';
         exit();
     }
