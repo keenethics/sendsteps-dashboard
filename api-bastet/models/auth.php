@@ -2,23 +2,15 @@
     require_once __DIR__.'/../base/model.php';
 
     class Auth_Model extends Model {
-        function __construct (){
+        function __construct () {
             $this->table = 'users';
         }
-        
-        public function validateToken($token = ''){
-            if ($token != NULL && $token != ''){
-                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
-                if ($tokenExists != NULL){
-                    return true;
-                }
-            }
-            return false;
+         
+        private static function byteLength($string) {
+            return mb_strlen($string, '8bit');
         }
         
-        public function createToken($username){
-            
+        public function createToken($username) {
             $tokenExists = 'Not NULL';
             //In the event we create a duplicate token, carry on looping until we create a unique one.
             while ($tokenExists != NULL){
@@ -38,8 +30,8 @@
             $clearOldTokensSQL = "DELETE FROM `api_nova_tokens` WHERE `user_id` = '$user_id';";
             $this->query($clearOldTokensSQL);
             
-            $createTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
-            $this->query($createTokenSQL);
+            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
+            $this->query($createNewTokenSQL);
             
             return $token;
         }
@@ -50,53 +42,67 @@
             return json_decode($results)[0]->password;
         }
         
-        function login($username, $password){
+        public function login($username, $password) {
             try {
                 $hash = $this->getHashedPassword($username);
                 return $this->validatePassword($password, $hash);
-            } catch (InvalidParamException $exc) {
-                return false;
+            } catch (Exception $exc) {
                 // We get here if the password was stored in the DB in the old format, or no password was stored at all (for example with test sessions from the add-in)
-                // Just ignore the exception and consider the password invalid.
+                return false; // Just ignore the exception and consider the password invalid.
             }
             return false;
         }
         
-        private function validatePassword($password, $hash)
-        {
+        private function validatePassword($password, $hash) {
             if (!is_string($password) || $password === '') {
-                throw new InvalidParamException('Password must be a string and cannot be empty.');
+                throw new Exception('PasswordNotStringOrEmpty.');
             }
-
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
-                throw new InvalidParamException('Hash is invalid.');
+                throw new Exception('PasswordHashInvalid');
             }
-
             $password = crypt($password, $hash);
-            $n = strlen($password);
-            if ($n !== 60) {
+            // $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 13));
+            if (strlen($password) !== 60) {
                 return false;
             }
-            return $this->compareString($password, $hash);
+            return hash_equals($hash, $password);//Secured against cryptographic timing attacks
         }
         
-        private static function byteLength($string)
-        {
-            return mb_strlen($string, '8bit');
-        }
-        
-        private function compareString($expected, $actual)
-        {
-            $expected .= "\0";
-            $actual .= "\0";
-            $expectedLength = self::byteLength($expected);
-            $actualLength = self::byteLength($actual);
-            $diff = $expectedLength - $actualLength;
-            for ($i = 0; $i < $actualLength; $i++) {
-                $diff |= (ord($actual[$i]) ^ ord($expected[$i % $expectedLength]));
+        public function validateToken($token = '') {
+            if ($token != NULL && $token != ''){
+                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
+                $tokenExists = json_decode($this->query($findTokenSQL)[0]);
+                if ($tokenExists != NULL){
+                    return true;
+                }
             }
-            return $diff === 0;
+            return false;
+        }
+        
+        private function generateSalt($cost = 13) {
+            $cost = (int) $cost;
+            if ($cost < 4 || $cost > 31) {
+                throw new InvalidParamException('Cost must be between 4 and 31.');
+            }
+            // Get a 20-byte random string
+            $rand = $this->generateRandomKey(20);
+            // Form the prefix that specifies Blowfish (bcrypt) algorithm and cost parameter.
+            $salt = sprintf("$2y$%02d$", $cost);
+            // Append the random salt data in the required base64 format.
+            $salt .= str_replace('+', '.', substr(base64_encode($rand), 0, 22));
+            return $salt;
+        }
+        
+        public function generatePasswordHash($password, $cost = null) {
+            if ($cost === null) {
+                $cost = $this->passwordHashCost;
+            }
+            $salt = $this->generateSalt($cost);
+            $hash = crypt($password, $salt);
+            // strlen() is safe since crypt() returns only ascii
+            if (!is_string($hash) || strlen($hash) !== 60) {
+                throw new Exception('Unknown error occurred while generating hash.');
+            }
+            return $hash;
         }
     }
-
-?>

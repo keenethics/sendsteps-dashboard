@@ -31,7 +31,7 @@
             
             //Check model class exists
             if (!class_exists($model_name)) {
-                throw new Exception ('ModelClassDoesNotExist');
+                throw new Exception('ModelClassDoesNotExist');
             }
             
             return new $model_name;

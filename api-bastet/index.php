@@ -1,62 +1,27 @@
 <?php 
-    //Authentication API.
-    //Acts as a guardian for frontend calls & for checks being made by the main Nova-API
+    require_once __DIR__."/../api-common/errors.php";//Load Errors (just in case);
     
-    class BastetAPI {  
-        public function setHeaders() {
-            header_remove();// clear the old headers
-            header('Content-Type: application/json');
-            header('Access-Control-Allow-Origin: *');
-            header('Content-type:application/json;charset=utf-8');
-            header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
-            return;
+    try { 
+        if (!$_POST || !isset($_POST['function'])) {
+            throw new Exception('SpecifyFunction');
         }
+        require_once __DIR__.'/base/bastet-api.php';
+        $Bastet = new BastetAPI();
+        $Bastet->setHeaders();
         
-        private function loadAuthModel(){
-            require_once __DIR__.'/models/auth.php';
-            $auth_model = new Auth_Model();
-            return $auth_model;
-        }
-        
-        public function login($params = array()) {
-            // require_once __DIR__.'/models/login.php';
-            $username = isset($params[0])? $params[0] : NULL;
-            $password = isset($params[1])? $params[1] : NULL;
-            
-            $auth_model = $this->loadAuthModel();
-            $result = $auth_model->login($username, $password);
-            if ($result === true){
-                //Generate unique hash token here
-                $authorized = true;
-                $token = $auth_model->createToken($username);
-            } else {
-                $authorized = false;
-                $token = '';
-            }
-            
-            return json_encode(array('authorized' => $authorized, 'token'=> $token));
-        }
-        
-        public function checkAuth($token = '') {
-            $authorized = false;
-            $auth_model = $this->loadAuthModel();
-            if ($auth_model->validateToken($token) == true){
-                $authorized = true;
-            }
-            
-            return json_encode(array('authorized' => $authorized));
-        }
-    }
-    
-    
-    
-    $Bastet = new BastetAPI();
-    $Bastet->setHeaders();
-        
-    if ($_POST && isset($_POST['function'])) {
         $function = $_POST['function'];
         $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
-        $result = $Bastet->$function($params);
+        
+        //Check method/function exists
+        if (!method_exists('BastetAPI', $function)) {
+            throw new Exception('MethodDoesNotExist');
+        }
+
+        $result = call_user_func_array(array($Bastet, $function), $params);
         echo $result;
+        exit();
+    } catch (Exception $e) {
+        //Handle all API errors
+        echo ($e->getMessage() == '')? '{"error":"Undefined error with Nova-API, in file '.$e->getFile().', at line '.$e->getLine().'"}' : '{"error":"'. $errorTexts[$e->getMessage()].'"}';   
         exit();
     }
