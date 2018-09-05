@@ -4,8 +4,12 @@
     class BastetAPI extends Base {
         public function checkAuth($token = '') {
             $auth_model = $this->loadAuthModel();
-            $authorized = (($auth_model->validateToken($token) == true) ? true : false);            
-            return json_encode(array('authorized' => $authorized));
+            $authorized = (($auth_model->validateToken($token) == true) ? true : false);
+            $return['authorized'] = $authorized;
+            if ($authorized == true) {
+                $return['userType'] = $auth_model->tokenToUserType($token);
+            }
+            return json_encode($return);
         }
         
         private function loadAuthModel(){

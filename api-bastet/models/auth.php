@@ -28,6 +28,18 @@
             return $token;
         }
         
+        public function tokenToUserType($token = ''){
+            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
+                $authTypeSQL = "SELECT auth.item_name as authType
+                FROM `api_nova_tokens` api
+                LEFT JOIN auth_assignment auth ON auth.user_id = api.user_id
+                WHERE token LIKE '$token';";
+                $authType = $this->query($authTypeSQL)[0]['authType'];
+                return $authType;
+            }
+            return false;
+        }
+        
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
             $results = $this->query($sql);
