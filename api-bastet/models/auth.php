@@ -28,14 +28,16 @@
             return $token;
         }
         
-        public function tokenToUserType($token = ''){
+        public function tokenToUserProps($token = ''){
             if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
-                $authTypeSQL = "SELECT auth.item_name as authType
+                $userSQL = "SELECT auth.item_name as userType, auth.user_id as userId
                 FROM `api_nova_tokens` api
                 LEFT JOIN auth_assignment auth ON auth.user_id = api.user_id
                 WHERE token LIKE '$token';";
-                $authType = $this->query($authTypeSQL)[0]['authType'];
-                return $authType;
+                $user = $this->query($userSQL)[0];
+                $return['userType'] = $user['userType'];
+                $return['userId'] = $user['userId'];
+                return $return;
             }
             return false;
         }

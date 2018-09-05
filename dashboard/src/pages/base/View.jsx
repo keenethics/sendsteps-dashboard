@@ -7,7 +7,7 @@ import ErrorView from './ErrorView';
 class View extends Component {
 
     componentWillReceiveProps(nextProps) {
-        console.log('receiving props!')
+        console.log('receiving props!');
     }
 
     render() {

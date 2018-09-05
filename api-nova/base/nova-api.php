@@ -2,6 +2,8 @@
     require_once __DIR__."/../../api-common/errors.php";//Load Errors (just in case);
     
     class NovaAPI {
+        public $userId;
+        public $userType;
         
         public function setHeaders(){
             header_remove();// clear the old headers

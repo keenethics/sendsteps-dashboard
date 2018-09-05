@@ -1,9 +1,10 @@
 import fetch from 'cross-fetch';
+import { getFromLocalStorage } from './../scripts/localStorage';
+import { getCookieValues } from './../scripts/cookieStorage';
 
 let apiUrl =  'http://local-nova.sendsteps.com/index.php';
 
 export function apiFetchError(error) {
-    // console.log('API Fetch error!', error);
     return {
         type: 'API_FETCH_ERROR',
         error
@@ -18,7 +19,6 @@ export function simulateLoading(isLoading) {
 }
 
 export function apiFetchSuccess(data) {
-    // console.log('API Fetch success!', data);
     return {
         type: 'API_FETCH_SUCCESS',
         data
@@ -32,12 +32,14 @@ export function clearErrors() {
 }
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
+    let token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
     return dispatch => {
         dispatch(simulateLoading());
         fetch(apiUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam
+            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam+'&token='+token
         }).then(res => {
             return res.json()
         }).then(
@@ -48,7 +50,6 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                     } else {
                         // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
                         // if neither of these are available, don't let the user login and dispatch an error
-                        console.log(result);
                         dispatch(apiFetchSuccess(JSON.parse(result.content)));  
                     }
                 } catch (error) {

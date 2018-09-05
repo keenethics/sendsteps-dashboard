@@ -7,7 +7,9 @@
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);
             $return['authorized'] = $authorized;
             if ($authorized == true) {
-                $return['userType'] = $auth_model->tokenToUserType($token);
+                $userProps = $auth_model->tokenToUserProps($token);
+                $return['userType'] = $userProps['userType'];
+                $return['userId'] = $userProps['userId'];
             }
             return json_encode($return);
         }

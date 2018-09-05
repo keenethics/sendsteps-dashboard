@@ -26,10 +26,10 @@ export function authLoading(authLoading) {
     }
 }
 
-export function checkAuthorized(authHash = '') {
+export function checkAuthorized(token = '') {
     return dispatch => {
         let params = JSON.stringify({
-            token: authHash
+            token: token
         });
         dispatch(authRequired(true));
         fetch(authUrl,{
@@ -41,7 +41,6 @@ export function checkAuthorized(authHash = '') {
         }).then(
             (result) => {
                 if(result && typeof result.authorized !== 'undefined') {
-                    console.log(result.authorized)
                     dispatch(setAuthorized(result.authorized));
                 }
             },
