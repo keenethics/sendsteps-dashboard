@@ -10,6 +10,7 @@
         'SpecifyFunction' => 'Function field not set',
     ];
     $bastetErrors = [ 
+        'HashUnknown' => 'Unknown error occurred while generating hash',
         'PasswordHashInvalid' => 'Hash is invalid',
         'PasswordNotStringOrEmpty' => 'Password must be a string and cannot be empty',
         'PasswordDoNotMatch' => 'Passwords do not match',

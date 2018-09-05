@@ -95,8 +95,9 @@
             $hash = crypt($password, $salt);
             // strlen() is safe since crypt() returns only ascii
             if (!is_string($hash) || strlen($hash) !== 60) {
-                throw new Exception('Unknown error occurred while generating hash.');
+                $errors['General'] = 'HashUnknown';
             }
+            $this->errorCheck($errors);
             return $hash;
         }
     }
