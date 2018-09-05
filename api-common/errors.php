@@ -13,4 +13,5 @@
         'PasswordHashInvalid' => 'Hash is invalid',
         'PasswordNotStringOrEmpty' => 'Password must be a string and cannot be empty',
         'PasswordDoNotMatch' => 'Passwords do not match',
+        'UsernameBlank' => 'Username is blank',
     ];

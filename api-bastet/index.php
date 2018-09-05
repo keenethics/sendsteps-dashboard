@@ -2,40 +2,45 @@
     require_once __DIR__."/../api-common/errors.php";//Load Errors (just in case);
     
     try { 
+        $errors = array();
         if (!$_POST || !isset($_POST['function'])) {
-            throw new Exception('SpecifyFunction');
+            $errors['General'] = 'SpecifyFunction';   
         }
         require_once __DIR__.'/base/bastet-api.php';
         $Bastet = new BastetAPI();
         $Bastet->setHeaders();
         
-        $function = $_POST['function'];
+        $function = (isset($_POST['function']))?  $_POST['function']: '';
+
         $params = (isset($_POST['params']))? (array) json_decode($_POST['params']): array();
         
         //Check method/function exists
-        if (!method_exists('BastetAPI', $function)) {
-            throw new Exception('MethodDoesNotExist');
+        if ($function == '' || !method_exists('BastetAPI', $function)) {
+            $errors['General'] = 'MethodDoesNotExist';   
         }
-
+        $Bastet->errorCheck($errors);//Check there are no errors before proceeding
+        
         $result = call_user_func_array(array($Bastet, $function), $params);
         echo $result;
         exit();
-    } catch (Exception $e) {
-        //Handle all API errors
+    } catch (Exception $e) { //Handle all API errors
+        $returnError = array();
         if ($e->getMessage() != '') {
-            $mArr = explode(',', $e->getMessage());
-            $errorKey = $mArr[0];
-            $errorElement = (isset($mArr[1])? $mArr[1] : 'General');
-            //Specific error
-            if ( isset( $bastetErrors[$errorKey] ) ) {
-                echo '{"error": {"error'.$errorElement.'":"'. $bastetErrors[$errorKey].'"}}';
-                exit();
-            } else if ( isset( $generalErrors[$errorKey] ) ) {
-                echo '{"error": {"error'.$errorElement.'":"'. $generalErrors[$errorKey].'"}}';
-                exit();
+            $messages = (array) json_decode($e->getMessage());
+            foreach ($messages as $errorElement => $errorKey) {
+                if ( isset( $bastetErrors[$errorKey] ) ) {
+                    $returnError['error'][$errorElement] = $bastetErrors[$errorKey];
+                } else if ( isset( $generalErrors[$errorKey] ) ) {
+                    $returnError['error'][$errorElement] = $generalErrors[$errorKey];
+                }
             }
         }
-        //Generic Error, don't bother trying to find an empty index
-        echo '{"error": {"errorGeneral":"Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"}}';
+        if (!count($returnError)){
+            //Generic Error, if no message or index is found
+            $returnError = array("error" => array(
+                "General" => "Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"
+            ));
+        }
+        echo json_encode($returnError);
         exit();
     }

@@ -2,7 +2,7 @@
     require_once __DIR__.'/../base/model.php';
 
     class Auth_Model extends Model {
-        
+
         public function createToken($username) {
             $tokenExists = true;
             //In the event we create a duplicate token, carry on looping until we create a unique one.            
@@ -45,12 +45,15 @@
         }
         
         private function validatePassword($password, $hash) {
+            $errors = array();
             if (!is_string($password) || $password === '') {
-                throw new Exception('PasswordNotStringOrEmpty.');
+                $errors['Password'] = 'PasswordNotStringOrEmpty';    
             }
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
-                throw new Exception('PasswordHashInvalid');
+                $errors['Password'] = 'PasswordHashInvalid';    
             }
+            $this->errorCheck($errors);
+            
             $password = crypt($password, $hash);
             // $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 13));
             if (strlen($password) !== 60) {
