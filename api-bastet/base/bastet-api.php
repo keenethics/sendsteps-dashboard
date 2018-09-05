@@ -45,12 +45,6 @@
             }
             
             $this->errorCheck($errors);
-            // if (count($errors) > 0){
-            //     // $errors = (array) $errors;
-            //     $errors = json_encode( $errors );
-            //     throw new Exception($errors);
-            //     // throw new Exception('PasswordDoNotMatch,Password');
-            // }
             
             foreach($options as $opt){
                 

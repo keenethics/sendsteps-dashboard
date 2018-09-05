@@ -2,15 +2,16 @@
     require_once __DIR__.'/../base/model.php';
 
     class Auth_Model extends Model {
-
+        private $tokenLength = 250;
+        
         public function createToken($username) {
             $tokenExists = true;
             //In the event we create a duplicate token, carry on looping until we create a unique one.            
             while ($tokenExists == true){
                 if ($this->isPhp7()) {
-                    $token = substr(bin2hex(random_bytes(255)), 0, 250);
+                    $token = substr(bin2hex(random_bytes(255)), 0, $this->tokenLength);
                 } else {
-                    $token = substr( uniqid(("adasdagspagopofpopo"+time()), TRUE), 0, 250);
+                    $token = substr( uniqid(("adasdagspagopofpopo"+time()), TRUE), 0, $this->tokenLength);
                 }
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
                 $tokenExists = ($this->query($findTokenSQL)[0]['res'] == 0)? false : true;
@@ -63,7 +64,7 @@
         }
         
         public function validateToken($token = '') {
-            if ($token != NULL && $token != ''){
+            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
                 $tokenExists = (int) $this->query($findTokenSQL)[0]['res'];
                 if ($tokenExists > 0){
