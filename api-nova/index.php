@@ -49,19 +49,17 @@
             throw new Exception('ControllerClassDoesNotExist');
         }
         $controller = new $controller_name;
-        //Populate properties
+        //Populate properties & other silent functions
         $controller->userType = $resp->userType;
         $controller->userId = $resp->userId;
-        
-        
         $controller->setHeaders();
         
-        //Check method/function exists
+        //Check method/function exists, then run the function
         if (!method_exists($controller, $function)) {
             throw new Exception('MethodDoesNotExist');
         }
         $result = call_user_func_array(array($controller, $function), $params);
-        echo $result;
+        echo $result;//Make some noise
         exit();
         
     } catch (Exception $e) {
