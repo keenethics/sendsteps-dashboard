@@ -2,7 +2,6 @@
     require_once __DIR__."/../api-common/errors.php";//Load Errors (just in case);
     
     try {
-        // $token = 'df58c2a39095d4a93ca4b6e566610007b8357fb6436b19016be717d3c3bad59a36ffabc373c223ae900d05dae8bc7b823a42dfee619c2768e2e4fb8ef310f01bb6166c266e749564474d31c884a49ced3e23234c4865dbf78096c3c7047e6bda7086b34e6c34ea1029c31bc23c5c58a280d46f0a08472aad50b5a356d9';
         $token = isset($_POST['token']) ? $_POST['token'] : '';
         if ($token == NULL || $token == '' || strlen($token) != 250){
             throw new Exception('ValidTokenNotSet');
