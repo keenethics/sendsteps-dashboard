@@ -60,4 +60,4 @@ class OverviewTable extends React.Component {
         )
     }
 }
-export default TableView;
+export default OverviewTable;
