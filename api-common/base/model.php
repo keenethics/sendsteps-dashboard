@@ -18,10 +18,10 @@
             return $results;
         }
 
-        public function query($query) {            
+        public function query($query = '', $params = array()) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
-            $data = (array) $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
             return $data;
         }
         
