@@ -1,4 +1,5 @@
 <?php
+
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class Base {
         public function errorCheck($errors = array()){
