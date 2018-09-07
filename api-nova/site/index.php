@@ -62,6 +62,7 @@
         exit();
         
     } catch (Exception $e) {
+        // var_dump($e->getFile());exit();
         $returnError = array();
         if ($e->getMessage() != '') {
             $messages = (array) json_decode($e->getMessage());
@@ -76,7 +77,7 @@
         if (!count($returnError)){
             //Generic Error, if no message or index is found
             $returnError = array("error" => array(
-                "General" => "Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"
+                "General" => "Undefined error with Nova-API, in file ".$e->getFile().", at line ".$e->getLine()
             ));
         }
         echo json_encode($returnError);
