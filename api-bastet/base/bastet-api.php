@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__.'/../../api-common/base.php';
+    require_once __DIR__.'/../../api-common/base/base.php';
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI extends Base {
         public function checkAuth($token = '') {

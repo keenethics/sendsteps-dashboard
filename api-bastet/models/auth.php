@@ -1,5 +1,5 @@
 <?php 
-    require_once __DIR__.'/../base/model.php';
+    require_once __DIR__.'/../../api-common/base/model.php';
 
     class Auth_Model extends Model {
         private $tokenLength = 250;
