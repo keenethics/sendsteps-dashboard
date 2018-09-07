@@ -21,7 +21,6 @@ class Settings extends React.Component {
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
-                            How it works
                         </div>
                     </div>
                 </div>
