@@ -26,8 +26,10 @@
             $clearOldTokensParams['user_id'] = $user_id; 
             $this->query($clearOldTokensSQL, $clearOldTokensParams);
             
-            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, <token>, `timestamp`) VALUES ( $user_id, :token, $timestamp );";
+            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (<user_id>, <token>, <timestamp>) VALUES ( :user_id, :token, :timestamp );";
             $createNewTokenParams['token'] = $token; 
+            $createNewTokenParams['user_id'] = $user_id; 
+            $createNewTokenParams['timestamp'] = $timestamp; 
             $this->query($createNewTokenSQL, $createNewTokenParams);
             return $token;
         }
