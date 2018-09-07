@@ -1,5 +1,5 @@
 import React from 'react';
-import TableView from './TableView';
+import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
@@ -27,7 +27,7 @@ class PhonenumbersOverview extends React.Component {
                         <div className="panel-body">
                             <div className="container-fluid">
                                 {this.props.data ? 
-                                    <TableView data={this.props.data} />
+                                    <OverviewTable data={this.props.data} />
                                 : null}
                             </div>
                         </div>
