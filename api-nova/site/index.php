@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__."/../api-common/errors.php";//Load Errors (just in case);
+    require_once __DIR__."/../../api-common/errors.php";//Load Errors (just in case);
     
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';
@@ -37,10 +37,10 @@
         $params = (isset($_POST['params']))? (array) json_decode($_POST['params']): array();
         // $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
         
-        if (!in_array($controller_name.'.php', scandir(__DIR__."/controllers/"))) {
+        if (!in_array($controller_name.'.php', scandir(__DIR__."/../controllers/"))) {
             throw new Exception('ControllerFileDoesNotExist');    
         }
-        require_once __DIR__."/controllers/$controller_name.php";
+        require_once __DIR__."/../controllers/$controller_name.php";
         $controller_name = ucfirst($controller_name); // Controller Classes have the first letter uppercase
         
         //Check controller class exists
