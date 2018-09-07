@@ -62,7 +62,23 @@
         exit();
         
     } catch (Exception $e) {
-        //Handle all API errors
-        echo ($e->getMessage() == '')? '{"error":"Undefined error with Nova-API, in file '.$e->getFile().', at line '.$e->getLine().'"}' : '{"error":"'. $generalErrors[$e->getMessage()].'"}';   
+        $returnError = array();
+        if ($e->getMessage() != '') {
+            $messages = (array) json_decode($e->getMessage());
+            foreach ($messages as $errorElement => $errorKey) {
+                if ( isset( $bastetErrors[$errorKey] ) ) {
+                    $returnError['error'][$errorElement] = $bastetErrors[$errorKey];
+                } else if ( isset( $generalErrors[$errorKey] ) ) {
+                    $returnError['error'][$errorElement] = $generalErrors[$errorKey];
+                }
+            }
+        }
+        if (!count($returnError)){
+            //Generic Error, if no message or index is found
+            $returnError = array("error" => array(
+                "General" => "Undefined error with Bastet-API, in file '.$e->getFile().', at line '.$e->getLine().'"
+            ));
+        }
+        echo json_encode($returnError);
         exit();
     }

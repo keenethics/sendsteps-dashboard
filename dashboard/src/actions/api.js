@@ -50,7 +50,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                     } else {
                         // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
                         // if neither of these are available, don't let the user login and dispatch an error
-                        dispatch(apiFetchSuccess(JSON.parse(result.content)));  
+                        dispatch(apiFetchSuccess(result.content));  
                     }
                 } catch (error) {
                     dispatch(apiFetchError(error));
