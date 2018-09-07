@@ -62,7 +62,14 @@
         exit();
         
     } catch (Exception $e) {
-        // var_dump($e->getFile());exit();
+        //Clear headers, in case we don't reach that point
+        header_remove();// clear the old headers
+        header('Content-Type: application/json');
+        header('Access-Control-Allow-Origin: *');
+        header('Content-type:application/json;charset=utf-8');
+        header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
+        
+        
         $returnError = array();
         if ($e->getMessage() != '') {
             $messages = (array) json_decode($e->getMessage());
