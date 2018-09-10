@@ -1,36 +1,25 @@
+export function getConfigSetting(key) {
+    let env = process.env.NODE_ENV; // 'development' or 'production'
 
-
-export function getConfigFile(key) {
-    const env = process.env.NODE_ENV; // 'development' or 'production'
-
-    const development = {
-        app: {
-            port: 3000
-        },
-        db: {
-            host: 'localhost',
-            port: 27017,
-            name: 'db'
-        }
+    let development = {
+        apiUrlNova: 'http://local-nova.sendsteps.com',
+        apiUrlBastet: 'http://local-bastet.sendsteps.com',
     };
 
-    const production = {
-        app: {
-            port: 3000
-        },
-        db: {
-            host: 'localhost',
-            port: 27017,
-            name: 'test'
-        }
+    let production = {
+        apiUrlNova: 'http://nova-api.dev.sendc.com',
+        apiUrlBastet: 'http://bastet-api.dev.sendc.com',
+        
     };
 
-    const config = {
+    let config = {
         development,
         production
     };
-
-    return config[env][key];
+    
+    if (typeof config[env][key] !== 'undefined') {
+        return config[env][key];
+    } else {
+        //Return some error
+    }
 }
-
-        console.log(process.env.NODE_ENV);
