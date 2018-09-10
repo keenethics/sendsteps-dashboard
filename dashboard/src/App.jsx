@@ -36,7 +36,7 @@ export class App extends Component {
     render() {
 
         const { isAuthorized, isAuthRequired } = this.props;
-
+        console.log(process.env.NODE_ENV);
         if(isAuthRequired && isAuthorized) { return <DashboardApp /> } 
         else if (false === isAuthorized) { return <RegistrationOverview /> } 
         return <AuthorizationLoadingView />; 
