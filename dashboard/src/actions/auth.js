@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
+import navigationHistory from '../scripts/navigationHistory';
 
 let authUrl = 'http://local-bastet.sendsteps.com/index.php';
 
@@ -72,6 +73,7 @@ export function signOut() {
         removeCookieValues('SSTToken');
         dispatch(setAuthorized(false));
         dispatch(authRequired(null));
+        navigationHistory.push('/');
     }
 }
 export function authorizeLogin(email = '', password = '') {

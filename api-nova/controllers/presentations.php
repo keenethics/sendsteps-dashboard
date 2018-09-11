@@ -24,7 +24,7 @@ class Presentations extends NovaAPI {
         if($id != NULL){
             $model = $this->loadModel('presentations');
             $results = $model->findActiveById($id);
-            return json_encode(['content' => $results]);                
+            return json_encode(['content' => $results[0]]);                
         }
         return false;        
     }

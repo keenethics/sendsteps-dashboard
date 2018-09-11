@@ -3,7 +3,6 @@ import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import PasswordResetForm from './PasswordResetForm';
-import { Redirect } from 'react-router-dom';
 class RegistrationOverview extends Component {
   
     render(){

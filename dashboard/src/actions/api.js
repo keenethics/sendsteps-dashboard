@@ -33,7 +33,7 @@ export function clearErrors() {
 
 export function fetchResult(controller = '', functionName = '', apiParam = '') {
     let token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-
+    
     return dispatch => {
         dispatch(simulateLoading());
         fetch(apiUrl,{

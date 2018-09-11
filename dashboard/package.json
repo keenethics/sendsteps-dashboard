@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "cross-fetch": "^2.2.2",
+    "moment": "^2.22.2",
     "particlesjs": "^2.2.2",
     "raf": "^3.4.0",
     "react": "^16.4.0",

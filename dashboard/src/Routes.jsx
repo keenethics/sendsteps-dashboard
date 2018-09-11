@@ -6,8 +6,8 @@ import Settings from "./pages/settings/Details";
 import PhonenumbersOverview from "./pages/phonenumbers/Overview";
 import PhonenumberDetails from "./pages/phonenumbers/Details";
 
-import SessionsOverview from "./pages/sessions/Overview";
-import SessionDetails from "./pages/sessions/Details";
+import PresentationsOverview from "./pages/presentations/Overview";
+import PresentationsDetails from "./pages/presentations/Details";
 
 import AboutDashboard from "./pages/about/dashboard";
 import AboutHowItWorks from "./pages/about/howitworks";
@@ -20,8 +20,8 @@ const Routes = () =>
     <Route path="/settings" exact component={Settings} />
     <Route path="/phonenumbers" exact component={PhonenumbersOverview} />
     <Route path="/phonenumbers/details/:id" exact component={PhonenumberDetails} />
-    <Route path="/sessions" exact component={SessionsOverview} />
-    <Route path="/session/details/:id" exact component={SessionDetails} />
+    <Route path="/presentations" exact component={PresentationsOverview} />
+    <Route path="/presentations/details/:id" exact component={PresentationsDetails} />
 
     <Route path="/about/dashboard" exact component={AboutDashboard} />
     <Route path="/about/howitworks" exact component={AboutHowItWorks} />

@@ -21,7 +21,7 @@ class PhonenumbersOverview extends React.Component {
 
     render() {
         
-        const { data, isLoading, match } = this.props;
+        const { data, match } = this.props;
       
         return (
                 <div>

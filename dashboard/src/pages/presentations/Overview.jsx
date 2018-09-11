@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
-class SessionsOverview extends React.Component {
+class PresentationsOverview extends React.Component {
    
     componentWillMount() {
         this.props.dispatch(fetchResult('presentations', 'getOverview'));
@@ -21,22 +21,22 @@ class SessionsOverview extends React.Component {
 
     render() {
         
-        const { data, isLoading, match } = this.props;
-      
+        const { data, match } = this.props;
+
         return (
                 <div>
                     <div className="panel panel-default header-panel">  
                         <div className="panel-body">
-                            <h1>123 Overview</h1>   
+                            <h1>Presentations Overview</h1>   
                         </div>
                     </div>
                     <BreadCrumbs urlList={match.url} />
                     <div className="panel panel-default">  
                         <div className="panel-body">
                             <div className="container-fluid">
-                                {/* {this.shouldRenderTable(data) ? 
-                                    // <OverviewTable data={data} />
-                                : null} */}
+                                {this.shouldRenderTable(data) ? 
+                                    <OverviewTable data={data} />
+                                : null}
                             </div>
                         </div>
                     </div>
@@ -51,4 +51,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(SessionsOverview);
+)(PresentationsOverview);

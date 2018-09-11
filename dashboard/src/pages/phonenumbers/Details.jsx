@@ -19,9 +19,8 @@ class PhonenumberDetails extends React.Component {
         // Get rid of this soon
 
         // Requires api adjustment, might be able to change later @TODO
-
-        return (
-            <div>  
+        return data ? 
+            <div>
                 <div className="panel panel-default header-panel">  
                     <div className="panel-body">
                         <h1>Phonenumber ({data.displayText})</h1>   
@@ -114,8 +113,7 @@ class PhonenumberDetails extends React.Component {
                         </div>
                     </div>
                 </div>            
-            </div>
-        );
+            </div> : null;
     }
 } export default connect(
     (state) => {

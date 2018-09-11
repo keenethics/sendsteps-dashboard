@@ -56,7 +56,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Presentation Results"
                         faIconClass="fa-chart-bar"
-                        link="/"
+                        link="/presentations"
                     />
                     <MenuItem 
                         menuText="Survey Results"
@@ -102,7 +102,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Session Overview"
                         faIconClass="fa-envelope"
-                        link="/sessions"
+                        link="/"
                     />
                     <MenuItem 
                         menuText="Delete Users"

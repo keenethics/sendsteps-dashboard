@@ -12,7 +12,6 @@ import DashboardApp from './pages/base/DashboardApp';
 export class App extends Component {
 
     componentWillMount() {
-
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
         if(storedKey) 
         {
