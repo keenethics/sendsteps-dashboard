@@ -9,6 +9,7 @@ class Presentations extends NovaAPI {
         $presentationIds = [];
         foreach($results as $key => $r){
             $presentationIds[] = $r['presentationId'];
+            $results[$key]['numberOfParticipants'] = 1;
         }
         
         // foreach($results as $key => $r){
