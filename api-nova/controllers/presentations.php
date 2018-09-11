@@ -6,9 +6,12 @@ class Presentations extends NovaAPI {
         $presentaionModel = $this->loadModel('presentations');
         $sessionId = $this->getUser()['sessionId'];
         $results = $presentaionModel->getOverviewData($sessionId);
+        $presentationIds = [];
         foreach($results as $key=> $r){
-            $results[$key]['NumberOfParticipants'] = $model->getNumberOfParticipants($r['presentationId']);
+            $presentationIds[] = $r['presentationId'];
         }
+        
+        $results[$key]['NumberOfParticipants'] = $model->getNumberOfParticipants($presentationIds);
         return json_encode(['content' => $results]);
     }
 }
