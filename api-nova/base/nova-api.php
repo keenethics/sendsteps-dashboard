@@ -14,12 +14,11 @@
             return;
         }
         
-        // public function namespaceExists($namespace) {
-        //     $namespace .= "\\";
-        //     foreach(get_declared_classes() as $name)
-        //         if(strpos($name, $namespace) === 0) return true;
-        //     return false;
-        // }
+        protected function getUser(){
+            $userModel = $this->loadModel('users');
+            $user = $userModel->getUserById($this->userId);
+            return $user;
+        }
         
         public function loadModel($model_name = ''){
             //Check model file exists

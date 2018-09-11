@@ -10,7 +10,7 @@
         function findActiveById($id){
             $query = 'SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND <p.id> = :id;';
             $params['id'] = $id;
-            $results = $this->query($query);
+            $results = $this->query($query, $params);
             return $results;
         }
     }
