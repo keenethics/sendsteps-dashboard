@@ -18,4 +18,14 @@ class Presentations extends NovaAPI {
         }
         return json_encode(['content' => $results]);
     }
+    
+    function getDetails($id = NULL) {
+        // Fetch data from single presentation
+        if($id != NULL){
+            $model = $this->loadModel('presentations');
+            $results = $model->findActiveById($id);
+            return json_encode(['content' => $results]);                
+        }
+        return false;        
+    }
 }

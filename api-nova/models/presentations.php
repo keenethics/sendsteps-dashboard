@@ -3,7 +3,6 @@
 
     class Presentations_Model extends Model {
         function getOverviewData($sessionId){
-            // var_dump($sessionId);exit();
             $query = 'SELECT p.id AS presentationId, p.name, s.startTime  FROM presentations p
                 LEFT JOIN sessionruns s ON s. id = p.sessionRunId
                 WHERE 
@@ -12,6 +11,19 @@
                 GROUP BY p.id
             ;';
             $params['sessionId'] = $sessionId;
+            $results = $this->query($query, $params);
+            return $results;
+        }
+        
+        function findActiveById($presentationId){
+            $query = 'SELECT p.*, s.*
+                FROM presentations p
+                LEFT JOIN sessionruns s ON s.id = p.sessionRunId
+                WHERE 
+                    p.active = 1 AND
+                    <p.id> = :presentationId
+            ;';
+            $params['presentationId'] = $presentationId;
             $results = $this->query($query, $params);
             return $results;
         }
