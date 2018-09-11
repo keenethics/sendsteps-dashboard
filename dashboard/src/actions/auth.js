@@ -83,7 +83,6 @@ export function authorizeLogin(email = '', password = '') {
                 email: email, 
                 password: password
             });
-            
             dispatch(authRequired(true));
             fetch(authUrl,{
                 method: 'POST',
@@ -108,6 +107,8 @@ export function authorizeLogin(email = '', password = '') {
                 },
                 (error) => {
                     console.log(error)
+                    dispatch(setGeneralError(error.message));
+                    dispatch(authLoading(false));
                     dispatch(setAuthorized(false));
                     dispatch(authRequired(false));
                 }
