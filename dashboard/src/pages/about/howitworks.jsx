@@ -16,11 +16,13 @@ class Settings extends React.Component {
     render() {
 
         const { data } = this.props;
+
         return (
             <div className="row">  
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
+                            Content
                         </div>
                     </div>
                 </div>
