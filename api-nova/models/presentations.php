@@ -17,6 +17,7 @@
         }
         
         function getNumberOfParticipants($presentationIds = array()) {
+            $presentationIds = '('.implode( ",", $presentationIds ).')';
             $query = "SELECT 
                     a.id,
                     COUNT(DISTINCT a.participantId) as participantCount
@@ -26,22 +27,29 @@
                         FROM presentations
                         LEFT JOIN votes on presentations.id = votes.presentationId
                         LEFT JOIN livevotemessages on votes.id = livevotemessages.voteId
-                        WHERE <presentations.id> IN ( :presentationIds1 )
+                        WHERE <presentations.id> IN ".$presentationIds."
                     ) UNION ALL (
                         SELECT presentations.id,livemessageroundmessages.participantId
                         FROM presentations
                         LEFT JOIN messagerounds on presentations.id = messagerounds.presentationId
                         LEFT JOIN livemessageroundmessages on messagerounds.id = livemessageroundmessages.messageRoundId
-                        WHERE <presentations.id> IN ( :presentationIds2 )
+                        WHERE <presentations.id> IN ".$presentationIds."
                     )
                 ) AS a
                 GROUP BY a.id
             ;";
-            
-            $params['presentationIds1'] = $params['presentationIds2'] = implode(',',$presentationIds);
-            $data = $this->query($query, $params);
+            $data = $this->query($query);
 
-            $results = [];
+            
+            
+            
+            // $query = "SELECT * FROM presentations WHERE <presentations.id> IN :presentationIds  ";
+            // $params['presentationIds'] =' "('.implode( ",", $presentationIds ).')"';
+            // // $params['presentationIds'] =  $presentationIds ;
+            // // var_dump($params);exit();
+            // $data = $this->query($query, $params);
+            // var_dump($data);exit();
+            // $results = [];
             foreach($data as $row) {
                 $results[$row['id']] = $row['participantCount'];
             }
