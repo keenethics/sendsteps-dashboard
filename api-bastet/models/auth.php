@@ -1,35 +1,58 @@
 <?php 
-    require_once __DIR__.'/../base/model.php';
+    require_once __DIR__.'/../../api-common/base/model.php';
 
     class Auth_Model extends Model {
+        private $tokenLength = 250;
         
         public function createToken($username) {
             $tokenExists = true;
             //In the event we create a duplicate token, carry on looping until we create a unique one.            
             while ($tokenExists == true){
                 if ($this->isPhp7()) {
-                    $token = substr(bin2hex(random_bytes(255)), 0, 250);
+                    $token = substr(bin2hex(random_bytes(255)), 0, $this->tokenLength);
                 } else {
-                    $token = substr( uniqid(("adasdagspagopofpopo"+time()), TRUE), 0, 250);
+                    $token = substr( uniqid(("adasdagspagopofpopo"+time()), TRUE), 0, $this->tokenLength);
                 }
-                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = ($this->query($findTokenSQL)[0]['res'] == 0)? false : true;
+                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE <token> LIKE :token ;";
+                $findTokenParams['token'] = $token;
+                $tokenExists = ($this->query($findTokenSQL, $findTokenParams)[0]['res'] == 0)? false : true;
             }
-            $getUserSQL = "SELECT id FROM users WHERE isDeleted != 1 AND email = '$username';";
-            $user_id = (int)  ($this->query($getUserSQL)[0]['id']);
+            $getUserSQL = "SELECT id FROM users WHERE isDeleted != 1 AND <email> = :email;";
+            $getUserParams['email'] = $username;
+            $user_id = (int)  ($this->query($getUserSQL, $getUserParams)[0]['id']);
             $timestamp = time();
             
-            $clearOldTokensSQL = "DELETE FROM `api_nova_tokens` WHERE `user_id` = '$user_id';";
-            $this->query($clearOldTokensSQL);
+            $clearOldTokensSQL = "DELETE FROM `api_nova_tokens` WHERE <user_id> = :user_id;";
+            $clearOldTokensParams['user_id'] = $user_id; 
+            $this->query($clearOldTokensSQL, $clearOldTokensParams);
             
-            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (`user_id`, `token`, `timestamp`) VALUES ( $user_id, '$token', $timestamp );";
-            $this->query($createNewTokenSQL);
+            $createNewTokenSQL = "INSERT INTO `api_nova_tokens` (<user_id>, <token>, <timestamp>) VALUES ( :user_id, :token, :timestamp );";
+            $createNewTokenParams['token'] = $token; 
+            $createNewTokenParams['user_id'] = $user_id; 
+            $createNewTokenParams['timestamp'] = $timestamp; 
+            $this->query($createNewTokenSQL, $createNewTokenParams);
             return $token;
         }
         
+        public function tokenToUserProps($token = ''){
+            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
+                $userSQL = "SELECT auth.item_name as userType, auth.user_id as userId
+                    FROM `api_nova_tokens` api
+                    LEFT JOIN auth_assignment auth ON auth.user_id = api.user_id
+                    WHERE <token> LIKE :token;";
+                $userParams['token'] = $token;
+                $user = $this->query($userSQL, $userParams)[0];
+                $return['userType'] = $user['userType'];
+                $return['userId'] = $user['userId'];
+                return $return;
+            }
+            return false;
+        }
+        
         private function getHashedPassword($username){
-            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND email = '$username';";
-            $results = $this->query($sql);
+            $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND <email> = :username;";
+            $params['username'] = $username;
+            $results = $this->query($sql, $params);
             return $results[0]['password'];
         }
         
@@ -45,12 +68,15 @@
         }
         
         private function validatePassword($password, $hash) {
+            $errors = array();
             if (!is_string($password) || $password === '') {
-                throw new Exception('PasswordNotStringOrEmpty.');
+                $errors['Password'] = 'PasswordNotStringOrEmpty';    
             }
             if (!preg_match('/^\$2[axy]\$(\d\d)\$[\.\/0-9A-Za-z]{22}/', $hash, $matches) || $matches[1] < 4 || $matches[1] > 30) {
-                throw new Exception('PasswordHashInvalid');
+                $errors['Password'] = 'PasswordHashInvalid';    
             }
+            $this->errorCheck($errors);
+            
             $password = crypt($password, $hash);
             // $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 13));
             if (strlen($password) !== 60) {
@@ -60,9 +86,10 @@
         }
         
         public function validateToken($token = '') {
-            if ($token != NULL && $token != ''){
-                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE token LIKE '$token';";
-                $tokenExists = (int) $this->query($findTokenSQL)[0]['res'];
+            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
+                $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE <token> LIKE :token;";
+                $findTokenParams['token'] = $token;
+                $tokenExists = (int) $this->query($findTokenSQL, $findTokenParams)[0]['res'];
                 if ($tokenExists > 0){
                     return true;
                 }
@@ -92,8 +119,9 @@
             $hash = crypt($password, $salt);
             // strlen() is safe since crypt() returns only ascii
             if (!is_string($hash) || strlen($hash) !== 60) {
-                throw new Exception('Unknown error occurred while generating hash.');
+                $errors['General'] = 'HashUnknown';
             }
+            $this->errorCheck($errors);
             return $hash;
         }
     }

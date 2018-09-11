@@ -1,10 +1,17 @@
 <?php
+    require_once __DIR__.'/../../api-common/base/base.php';
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
-    class BastetAPI {
+    class BastetAPI extends Base {
         public function checkAuth($token = '') {
             $auth_model = $this->loadAuthModel();
-            $authorized = (($auth_model->validateToken($token) == true) ? true : false);            
-            return json_encode(array('authorized' => $authorized));
+            $authorized = (($auth_model->validateToken($token) == true) ? true : false);
+            $return['authorized'] = $authorized;
+            if ($authorized == true) {
+                $userProps = $auth_model->tokenToUserProps($token);
+                $return['userType'] = $userProps['userType'];
+                $return['userId'] = $userProps['userId'];
+            }
+            return json_encode($return);
         }
         
         private function loadAuthModel(){
@@ -34,9 +41,16 @@
         }
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
-            if ($password != $passwordConfirm){
-                throw new Exception('PasswordDoNotMatch,Password');
+            $errors = array();
+            if ($username == 'bryan.overduin@sendsteps.com'){
+                $errors['Username'] = 'UsernameBlank';  
             }
+            
+            if ($password != $passwordConfirm){
+                $errors['Password'] = 'PasswordDoNotMatch';    
+            }
+            
+            $this->errorCheck($errors);
             
             foreach($options as $opt){
                 

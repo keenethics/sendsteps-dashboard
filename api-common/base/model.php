@@ -1,10 +1,11 @@
 <?php 
 
-    require_once __DIR__."/../../api-common/errors.php";//Load Errors (just in case);
-    require_once __DIR__.'/../../api-common/medoo/src/Medoo.php';
+    require_once __DIR__.'/../base/base.php';
+    require_once __DIR__.'/../errors.php';//Load Errors (just in case);
+    require_once __DIR__.'/../medoo/src/Medoo.php';
     use Medoo\Medoo;
 
-    class Model {
+    class Model extends Base{
         public function findAll(){
             $results = $this->query('SELECT * FROM '.$this->table.';');
             return $results;
@@ -17,11 +18,18 @@
             return $results;
         }
 
-        public function query($query) {            
+        public function query($query = '', $params = array()) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
-            $data = $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
-            return json_encode($data);
+            $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            return $data;
+        }
+        
+        public function isPhp7(){
+            if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
+                return true;
+            }
+            return false;
         }
         
         private function getMedooOptions(){

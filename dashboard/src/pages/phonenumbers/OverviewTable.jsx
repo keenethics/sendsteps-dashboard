@@ -2,7 +2,7 @@ import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
 
-class TableView extends React.Component {
+class OverviewTable extends React.Component {
 
     viewFormatter = (cell, row) => {
         return <Link to={'/phonenumbers/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i></button></Link>;
@@ -60,4 +60,4 @@ class TableView extends React.Component {
         )
     }
 }
-export default TableView;
+export default OverviewTable;

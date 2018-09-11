@@ -36,7 +36,6 @@ export class App extends Component {
     render() {
 
         const { isAuthorized, isAuthRequired } = this.props;
-
         if(isAuthRequired && isAuthorized) { return <DashboardApp /> } 
         else if (false === isAuthorized) { return <RegistrationOverview /> } 
         return <AuthorizationLoadingView />; 

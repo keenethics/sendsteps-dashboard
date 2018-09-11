@@ -12,8 +12,8 @@ class LoginForm extends Component {
         this.props.dispatch(resetLoginForm());
         this.props.dispatch(authLoading(false));
 
-        this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
-        this.props.dispatch(setPassword('lol000')); 
+        // this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
+        // this.props.dispatch(setPassword('lol000')); 
     }
 
     showRegistrationForm() {

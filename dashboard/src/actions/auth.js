@@ -26,10 +26,10 @@ export function authLoading(authLoading) {
     }
 }
 
-export function checkAuthorized(authHash = '') {
+export function checkAuthorized(token = '') {
     return dispatch => {
         let params = JSON.stringify({
-            token: authHash
+            token: token
         });
         dispatch(authRequired(true));
         fetch(authUrl,{
@@ -41,7 +41,6 @@ export function checkAuthorized(authHash = '') {
         }).then(
             (result) => {
                 if(result && typeof result.authorized !== 'undefined') {
-                    console.log(result.authorized)
                     dispatch(setAuthorized(result.authorized));
                 }
             },
@@ -119,42 +118,3 @@ export function authorizeLogin(email = '', password = '') {
         }
     }
 }
-
-
-// export function register(email = '', password = '', firstName = '', lastName = '', termsAccepted = false) {
-//     return dispatch => {
-//         if (email !== '' && password !== ''){
-//             dispatch(authRequired(true));
-//             fetch(authUrl,{
-//                 method: 'POST',
-//                 headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-//                 body: 'function=register&params='+email+'---'+password
-//             }).then(res => {
-//                 return res.json()
-//             }).then(
-//                 (result) => {
-//                     if(result && typeof result.authorized !== 'undefined') {
-//                         // USER IS AUTHORIZED HERE
-//                         // Add key to localStorage, or Cookies, if failed to do both,
-//                         // redirect to login page with security warning
-//                         if(!addToLocalStorage('token',result.token)) {
-//                             if(!addCookieValues('SSTToken', result.token, 48)) {
-//                                 dispatch(securityError('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'))
-//                                 return;
-//                             }
-//                         }
-//                         dispatch(setAuthorized(result.authorized));
-//                     }
-//                 },
-//                 (error) => {
-//                     console.log(error)
-//                     dispatch(setAuthorized(false));
-//                     dispatch(authRequired(false));
-//                 }
-//             )
-//         } else {
-//             dispatch(setEmailError('Please enter a valid email'));
-//             dispatch(setPasswordError('Please enter a valid password'));
-//         }
-//     }
-// }
