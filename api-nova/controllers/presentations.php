@@ -15,6 +15,8 @@ class Presentations extends NovaAPI {
 
         foreach ($results as $key => $r){
             $results[$key]['numberOfParticipants'] = $numberOfParticipants[$r['presentationId']];
+            $explodeparts = explode('\\', $r['name']);
+            $results[$key]['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($explodeparts));
         }
         return json_encode(['content' => $results]);
     }
