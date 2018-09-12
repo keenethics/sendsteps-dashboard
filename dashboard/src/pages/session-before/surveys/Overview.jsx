@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 
-class SurveyResultsOverview extends React.Component {
+class SurveysOverview extends React.Component {
    
     componentWillMount() {
-        this.props.dispatch(fetchResult('surveys', 'getResultsOverview'));
+        this.props.dispatch(fetchResult('surveys', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 
@@ -51,4 +51,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(SurveyResultsOverview);
+)(SurveysOverview);

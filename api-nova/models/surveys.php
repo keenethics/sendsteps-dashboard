@@ -3,6 +3,21 @@
 
     class Surveys_Model extends Model {
         function getOverviewData($sessionId){
+            $query='SELECT 
+                s.survey_name AS `name`,
+                s.start_datetime,
+                s.status
+            FROM survey s
+            WHERE 
+                <s.session_id> = :sessionId AND
+                isDeleted = 0
+            ;';
+            $params['sessionId'] = $sessionId;
+            $results = $this->query($query, $params);
+            return $results;
+            
+        }
+        function getResultsOverviewData($sessionId){
             $query='SELECT
                 s.survey_id, s.status, 
                 sq.question, s.survey_name as `name`, 

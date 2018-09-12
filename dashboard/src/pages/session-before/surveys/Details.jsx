@@ -5,12 +5,12 @@ import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 
-class SurveyResultsDetails extends React.Component {
+class SurveyDetails extends React.Component {
     componentWillMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        this.props.dispatch(fetchResult('surveys', 'getResultsDetails', apiParams));
+        this.props.dispatch(fetchResult('surveys', 'getDetails', apiParams));
     }
     
     render() {
@@ -19,7 +19,7 @@ class SurveyResultsDetails extends React.Component {
         if(!data) {
             return null;
         }
-        // console.log(data);
+        console.log(data);
 
             // active:"1"
             // automaticallyClosed:"0"
@@ -103,4 +103,4 @@ class SurveyResultsDetails extends React.Component {
             data: state.apiReducer.data,
         }
     }
-)(SurveyResultsDetails);
+)(SurveyDetails);

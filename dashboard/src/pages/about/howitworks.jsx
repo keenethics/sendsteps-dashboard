@@ -2,11 +2,11 @@ import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
 
-class Settings extends React.Component {
+class AboutAddin extends React.Component {
 
     componentWillMount() {
         let apiController = 'about';
-        let apiFunction = 'getHowItWorks';
+        let apiFunction = 'getAddin';
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
@@ -14,15 +14,13 @@ class Settings extends React.Component {
     }
     
     render() {
-
-        // const { data } = this.props;
-
+        const { data } = this.props;
         return (
             <div className="row">  
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
-                            Content
+                            {data}
                         </div>
                     </div>
                 </div>
@@ -35,7 +33,7 @@ class Settings extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data
+            data: state.apiReducer.data,
         }
     }
-) (Settings)
+)(AboutAddin);

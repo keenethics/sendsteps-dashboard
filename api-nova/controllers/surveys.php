@@ -8,9 +8,17 @@ class Surveys extends NovaAPI {
         $results = $surveyModel->getOverviewData($sessionId);
 
         return json_encode(['content' => $results]);
+        
+    }
+    function getResultsOverview() {
+        $surveyModel = $this->loadModel('surveys');
+        $sessionId = $this->getUser()['sessionId'];
+        $results = $surveyModel->getResultsOverviewData($sessionId);
+
+        return json_encode(['content' => $results]);
     }
     
-    function getDetails($id = NULL) {
+    function getResultsDetails($id = NULL) {
         // Fetch data from single presentation
         if($id != NULL){
             // $model = $this->loadModel('presentations');

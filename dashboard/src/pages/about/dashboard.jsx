@@ -1,7 +1,7 @@
 import React from "react";
 import { fetchResult } from '../../actions/api';
 import { connect } from 'react-redux';
-class Settings extends React.Component {
+class AboutDashboard extends React.Component {
     
     componentWillMount() {
         let apiController = 'about';
@@ -29,4 +29,10 @@ class Settings extends React.Component {
     }
 } 
 
-export default connect() (Settings);
+export default connect(
+    (state) => {
+        return {
+            data: state.apiReducer.data,
+        }
+    }
+)(AboutDashboard);
