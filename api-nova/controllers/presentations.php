@@ -25,8 +25,11 @@ class Presentations extends NovaAPI {
         // Fetch data from single presentation
         if($id != NULL){
             $model = $this->loadModel('presentations');
-            $results = $model->findActiveById($id);
-            return json_encode(['content' => $results[0]]);                
+            $results = $model->findActiveById($id)[0];
+            $explodeparts = explode('\\', $results['name']);
+            $results['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($explodeparts));
+ 
+            return json_encode(['content' => $results]);                
         }
         return false;        
     }
