@@ -6,19 +6,17 @@ class Responsesite extends NovaAPI {
         //Get Session
         $sessionModel = $this->loadModel('sessions');
         $sessionId = $this->getUser()['sessionId'];
-        $sessionResults = $sessionModel->getSessionById($sessionId)[0];
-        //Get Phonenumber
-        $phonenumberModel = $this->loadModel('phonenumbers');
-        $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId'])[0];
-        //Populate $results
+        $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 
         $results['textmessagingkeyword'] = $sessionResults['textMessagingKeyword'];
         $results['internetselected'] = $sessionResults['internetSelected'];
         $results['internetaddressoverwrite'] = $sessionResults['internetAddressOverwrite'];
         $results['phonenumber-id'] = $sessionResults['phoneNumberId'];
+        //Get Phonenumber
+        $phonenumberModel = $this->loadModel('phonenumbers');
+        $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId'])[0];
         $results['phonenumber-countryisocode'] = $phonenumberResults['countryIsoCode'];
         $results['phonenumber-foreignercompatible'] = $phonenumberResults['foreignerCompatible'];
-        
-        //Get Response Site list
+        //Get Responsesites list
         $responsesitesModel = $this->loadModel('responsesites');
         $responsesitesResults = $responsesitesModel->getActiveList();
         $results['responsesites-list'] = $responsesitesResults;
