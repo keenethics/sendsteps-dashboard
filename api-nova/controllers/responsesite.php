@@ -17,6 +17,11 @@ class Responsesite extends NovaAPI {
         $results['phonenumber-id'] = $sessionResults['phoneNumberId'];
         $results['phonenumber-countryisocode'] = $phonenumberResults['countryIsoCode'];
         $results['phonenumber-foreignercompatible'] = $phonenumberResults['foreignerCompatible'];
+        
+        //Get Response Site list
+        $responsesitesModel = $this->loadModel('responsesites');
+        $responsesitesResults = $responsesitesModel->getActiveList();
+        $results['responsesites-list'] = $responsesitesResults;
         return json_encode(['content' => $results]);
     }
     function getSettingsLayout() {
