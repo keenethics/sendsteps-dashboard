@@ -1,13 +1,13 @@
 import React from 'react';
 import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
-import BaseTable from '../base/BaseTable';
+import BaseTable from '../../base/BaseTable';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
 
 class OverviewTable extends BaseTable {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/presentations/details/' + row.presentationId}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/session-results/surveys/details/' + row.presentationId}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     render() {

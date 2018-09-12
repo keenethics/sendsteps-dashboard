@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/api';
+import { fetchResult } from '../../../actions/api';
 
 class Settings extends React.Component {
 

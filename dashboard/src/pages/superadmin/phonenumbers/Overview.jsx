@@ -1,8 +1,8 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/api';
-import BreadCrumbs from '../../pages/base/BreadCrumbs';
+import { fetchResult } from '../../../actions/api';
+import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 
 class PhonenumbersOverview extends React.Component {
    

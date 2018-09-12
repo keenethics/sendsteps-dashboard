@@ -15,27 +15,27 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Response Settings"
                         faIconClass="fa-cog"
-                        link="/settings"
+                        link="/session-before/response-settings"
                     />
                     <MenuItem 
                         menuText="Audience Identification"
                         faIconClass="fa-users"
-                        link="/"
+                        link="/session-before/audience-id"
                     />
                     <MenuItem 
                         menuText="Survey"
                         faIconClass="fa-tasks"
-                        link="/"
+                        link="/session-before/survey"
                     />
                     <MenuItem 
                         menuText="Edit Site Layout"
                         faIconClass="fa-magic"
-                        link="/"
+                        link="/session-before/edit-layout"
                     />
                     <MenuItem 
                         menuText="Response Website"
                         faIconClass="fa-mobile"
-                        link="/"
+                        link="/session-before/response"
                     />
                     <SectionHeader 
                         headerText="During The Session"
@@ -43,12 +43,12 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Individual Responses"
                         faIconClass="fa-comments"
-                        link="/"
+                        link="/session-during/individual-responses"
                     />
                     <MenuItem 
                         menuText="Message Filter"
                         faIconClass="fa-check"
-                        link="/"
+                        link="/session-during/message-filter"
                     />
                     <SectionHeader 
                         headerText="After Session"
@@ -56,12 +56,12 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Presentation Results"
                         faIconClass="fa-chart-bar"
-                        link="/presentations"
+                        link="/session-results/presentations"
                     />
                     <MenuItem 
                         menuText="Survey Results"
                         faIconClass="fa-tasks"
-                        link="/settings"
+                        link="/session-results/surveys"
                     />
                     <SectionHeader 
                         headerText="About"
@@ -87,27 +87,27 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Translations"
                         faIconClass="fa-language"
-                        link="/"
+                        link="/superadmin/translations"
                     />
                     <MenuItem 
                         menuText="Edit Dashboard Layout"
                         faIconClass="fa-magic"
-                        link="/"
+                        link="/superadmin/edit-dashboard"
                     />
                     <MenuItem 
                         menuText="Phonenumbers"
                         faIconClass="fa-phone"
-                        link="/phonenumbers"
+                        link="/superadmin/phonenumbers"
                     />
                     <MenuItem 
                         menuText="Session Overview"
                         faIconClass="fa-envelope"
-                        link="/"
+                        link="/superadmin/sessions"
                     />
                     <MenuItem 
                         menuText="Delete Users"
                         faIconClass="fa-trash"
-                        link="/"
+                        link="/superadmin/delete-users"
                     />
                 </ListGroup>
             </div>

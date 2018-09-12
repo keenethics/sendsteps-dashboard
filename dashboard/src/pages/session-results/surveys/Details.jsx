@@ -1,16 +1,16 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/api';
-import BreadCrumbs from '../../pages/base/BreadCrumbs';
+import { fetchResult } from '../../../actions/api';
+import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 
-class PresentationDetails extends React.Component {
+class SurveyDetails extends React.Component {
     componentWillMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        this.props.dispatch(fetchResult('presentations', 'getDetails', apiParams));
+        this.props.dispatch(fetchResult('surveys', 'getDetails', apiParams));
     }
     
     render() {
@@ -103,4 +103,4 @@ class PresentationDetails extends React.Component {
             data: state.apiReducer.data,
         }
     }
-)(PresentationDetails);
+)(SurveyDetails);
