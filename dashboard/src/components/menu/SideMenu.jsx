@@ -15,7 +15,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Response Settings"
                         faIconClass="fa-cog"
-                        link="/session-before/response-settings"
+                        link="/session-before/responsesite-settings"
                     />
                     <MenuItem 
                         menuText="Audience Identification"
@@ -25,12 +25,12 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuText="Survey"
                         faIconClass="fa-tasks"
-                        link="/session-before/survey"
+                        link="/session-before/surveys"
                     />
                     <MenuItem 
                         menuText="Edit Site Layout"
                         faIconClass="fa-magic"
-                        link="/session-before/edit-layout"
+                        link="/session-before/responsesite-layout"
                     />
                     <MenuItem 
                         menuText="Response Website"

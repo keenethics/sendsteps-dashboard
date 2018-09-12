@@ -9,8 +9,10 @@ import AboutDashboard from "./pages/about/dashboard";
 import AboutHowItWorks from "./pages/about/howitworks";
 import AboutSendsteps from "./pages/about/sendsteps";
 // Before Session
-import Settings from "./pages/session-before/response-settings/Details";
+import ResponsesiteLayout from "./pages/session-before/responsesite-layout/Details";
+import ResponsesiteSettings from "./pages/session-before/responsesite-settings/Details";
 import SurveyOverview from "./pages/session-before/surveys/Overview";
+import SurveyDetails from "./pages/session-before/surveys/Details";
 // After Session
 import PresentationsOverview from "./pages/session-results/presentations/Overview";
 import PresentationsDetails from "./pages/session-results/presentations/Details";
@@ -22,8 +24,10 @@ import PhonenumberDetails from "./pages/superadmin/phonenumbers/Details";
 const Routes = () =>
   <Switch>
     <Route path="/" exact component={Home} />
-    <Route path="/session-before/response-settings" exact component={Settings} />
-    <Route path="/session-before/survey" exact component={SurveyOverview} />
+    <Route path="/session-before/responsesite-layout" exact component={ResponsesiteLayout} />
+    <Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
+    <Route path="/session-before/surveys" exact component={SurveyOverview} />
+    <Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
     <Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
     <Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
     <Route path="/session-results/presentations" exact component={PresentationsOverview} />

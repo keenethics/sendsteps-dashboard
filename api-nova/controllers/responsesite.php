@@ -22,7 +22,14 @@ class Responsesite extends NovaAPI {
         $results['responsesites-list'] = $responsesitesResults;
         return json_encode(['content' => $results]);
     }
-    function getSettingsLayout() {
-        return json_encode(['content' => 'placholder']);
+    function getSiteList() {
+        $responsesitesModel = $this->loadModel('responsesites');
+        $results = $responsesitesModel->getActiveList();
+        return json_encode(['content' => $results]);
+    }
+    function getSiteById($id) {
+        $responsesitesModel = $this->loadModel('responsesites');
+        $results = $responsesitesModel->getActiveById($id);
+        return json_encode(['content' => $results]);
     }
 }

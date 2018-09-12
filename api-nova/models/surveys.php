@@ -4,6 +4,7 @@
     class Surveys_Model extends Model {
         function getOverviewData($sessionId){
             $query='SELECT 
+                s.survey_id as id,
                 s.survey_name AS `name`,
                 s.start_datetime,
                 s.status
@@ -14,12 +15,25 @@
             ;';
             $params['sessionId'] = $sessionId;
             $results = $this->query($query, $params);
-            return $results;    
-            
+            return $results;
         }
+        
+        function getActiveById($id){
+            $query='SELECT 
+                *, survey_id as id
+            FROM survey s
+            WHERE 
+                <s.survey_id> = :id AND
+                isDeleted = 0
+            ;';
+            $params['id'] = $id;
+            $results = $this->query($query, $params);
+            return $results;    
+        }
+        
         function getResultsOverviewData($sessionId){
             $query='SELECT
-                s.survey_id, s.status, 
+                s.survey_id as id, s.status, 
                 sq.question, s.survey_name as `name`, 
                 s.start_datetime, s.end_datetime, 
                 COUNT(DISTINCT sqa.source) AS respondents

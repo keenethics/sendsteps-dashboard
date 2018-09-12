@@ -7,4 +7,10 @@
             $results = $this->query($query);
             return $results;
         }
+        function getActiveById($id){
+            $query = 'SELECT * FROM `response_websites` WHERE isDeleted = 0 AND <id> = :id;';
+            $params['id'] = $id;
+            $results = $this->query($query, $params);
+            return $results;
+        }
     }
