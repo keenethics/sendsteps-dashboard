@@ -5,6 +5,8 @@ class Surveys extends NovaAPI {
     function getOverview(){
         $surveyModel = $this->loadModel('surveys');
         $sessionId = $this->getUser()['sessionId'];
+        $results = $surveyModel->getOverviewData($sessionId);
+
         return json_encode(['content' => $results]);
     }
     
