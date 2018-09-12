@@ -5,7 +5,7 @@
         function getOverviewData($sessionId){
             $query='SELECT
                 s.survey_id, s.status, 
-                sq.question, s.survey_name, 
+                sq.question, s.survey_name as `name`, 
                 s.start_datetime, s.end_datetime, 
                 COUNT(DISTINCT sqa.source) AS respondents
             FROM survey s
