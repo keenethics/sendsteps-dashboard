@@ -15,8 +15,8 @@ class Presentations extends NovaAPI {
 
         foreach ($results as $key => $r){
             $results[$key]['numberOfParticipants'] = $numberOfParticipants[$r['presentationId']];
-            $explodeparts = explode('\\', $r['name']);
-            $results[$key]['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($explodeparts));
+            $parts = explode('\\', $r['name']);
+            $results[$key]['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
         }
         return json_encode(['content' => $results]);
     }
@@ -26,8 +26,8 @@ class Presentations extends NovaAPI {
         if($id != NULL){
             $model = $this->loadModel('presentations');
             $results = $model->findActiveById($id)[0];
-            $explodeparts = explode('\\', $results['name']);
-            $results['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($explodeparts));
+            $parts = explode('\\', $results['name']);
+            $results['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
  
             return json_encode(['content' => $results]);                
         }
