@@ -3,7 +3,7 @@
 
     class Presentations_Model extends Model {
         function getOverviewData($sessionId){
-            $query = 'SELECT p.id AS presentationId, p.name, s.startTime  FROM presentations p
+            $query = 'SELECT p.id AS id, p.name, s.startTime  FROM presentations p
                 LEFT JOIN sessionruns s ON s. id = p.sessionRunId
                 WHERE 
                     p.active = 1 AND

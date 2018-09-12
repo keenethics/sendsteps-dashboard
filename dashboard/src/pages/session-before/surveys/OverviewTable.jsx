@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class OverviewTable extends BaseTable {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/session-before/surveys/details/' + row.presentationId}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/session-before/surveys/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     render() {
