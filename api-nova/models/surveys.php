@@ -14,7 +14,7 @@
             ;';
             $params['sessionId'] = $sessionId;
             $results = $this->query($query, $params);
-            return $results;
+            return $results;    
             
         }
         function getResultsOverviewData($sessionId){

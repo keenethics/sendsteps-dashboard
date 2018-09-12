@@ -6,8 +6,8 @@ class Settings extends React.Component {
 
     
     componentDidMount() {
-        let apiController = 'responseSite';
-        let apiFunction = 'getSettings';
+        let apiController = 'responsesite';
+        let apiFunction = 'getSettingsBasic';
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
