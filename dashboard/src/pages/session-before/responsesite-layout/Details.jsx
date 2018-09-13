@@ -23,15 +23,16 @@ class Settings extends React.Component {
     
     render() {
 
-        // const { items } = this.props;
+        
+        const { data, match } = this.props;
+        console.log(data)
 
         return (
             <div className="row">  
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
-                                    {/* {items.date} <br/>
-                                    {items.explanation} */}
+                            {}
                         </div>
                     </div>
                 </div>
@@ -40,4 +41,10 @@ class Settings extends React.Component {
     }
 }
 
-export default connect() (Settings);
+export default connect(
+    (state) => {
+        return {
+            data: state.apiReducer.data,
+        }
+    }
+)(Settings);

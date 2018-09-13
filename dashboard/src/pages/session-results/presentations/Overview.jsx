@@ -27,7 +27,7 @@ class PresentationsOverview extends React.Component {
                 <div>
                     <div className="panel panel-default header-panel">  
                         <div className="panel-body">
-                            <h1>Presentations Overview</h1>   
+                            <h1>Presentation Results Overview</h1>   
                         </div>
                     </div>
                     <BreadCrumbs urlList={match.url} />
