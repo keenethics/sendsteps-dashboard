@@ -20,6 +20,7 @@ import SurveyResultsOverview from "./pages/session-results/surveys/Overview";
 // Superadmin
 import PhonenumbersOverview from "./pages/superadmin/phonenumbers/Overview";
 import PhonenumberDetails from "./pages/superadmin/phonenumbers/Details";
+import DeleteUsersOverview from "./pages/superadmin/delete-users/Overview";
 
 const Routes = () =>
   <Switch>
@@ -30,6 +31,7 @@ const Routes = () =>
     <Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
     <Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
     <Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
+    <Route path="/superadmin/delete-users" exact component={DeleteUsersOverview} />
     <Route path="/session-results/presentations" exact component={PresentationsOverview} />
     <Route path="/session-results/presentations/details/:id" exact component={PresentationsDetails} />
     <Route path="/session-results/surveys" exact component={SurveyResultsOverview} />

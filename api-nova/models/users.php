@@ -8,4 +8,21 @@
             $results = $this->query($query, $params)[0];
             return $results;
         }
+        
+        function getListFreeUser(){
+            $query = 'SELECT 
+                a.id AS account_id,
+                u.id AS `user_id`,
+                u.email,
+                u.origin
+            FROM `users` u 
+            LEFT JOIN accounts a ON u.accountId = a.id
+            
+            WHERE 
+                u.role = "admin" AND 
+                a.audienceSize = 20 AND
+                u.isDeleted != 1';
+            $results = $this->query($query);
+            return $results;
+        }
     }
