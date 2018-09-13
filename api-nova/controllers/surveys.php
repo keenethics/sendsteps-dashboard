@@ -4,7 +4,7 @@ require_once __DIR__.'/../base/nova-api.php';
 class Surveys extends NovaAPI {
     function getOverview() {
         $surveyModel = $this->loadModel('surveys');
-        $sessionId = $this->getUser()['sessionId'];
+        $sessionId = $this->getUserSessionId();
         $results = $surveyModel->getOverviewData($sessionId);
 
         return json_encode(['content' => $results]);
@@ -26,7 +26,7 @@ class Surveys extends NovaAPI {
     
     function getResultsOverview() {
         $surveyModel = $this->loadModel('surveys');
-        $sessionId = $this->getUser()['sessionId'];
+        $sessionId = $this->getUserSessionId();
         $results = $surveyModel->getResultsOverviewData($sessionId);
 
         return json_encode(['content' => $results]);

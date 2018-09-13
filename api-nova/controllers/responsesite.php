@@ -5,7 +5,7 @@ class Responsesite extends NovaAPI {
     function getSettingsBasic() {
         //Get Session
         $sessionModel = $this->loadModel('sessions');
-        $sessionId = $this->getUser()['sessionId'];
+        $sessionId = $this->getUserSessionId();
         $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 
         $results['textmessagingkeyword'] = $sessionResults['textMessagingKeyword'];
         $results['internetselected'] = $sessionResults['internetSelected'];

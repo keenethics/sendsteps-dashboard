@@ -4,7 +4,7 @@ require_once __DIR__.'/../base/nova-api.php';
 class Presentations extends NovaAPI {
     function getOverview(){
         $presentaionModel = $this->loadModel('presentations');
-        $sessionId = $this->getUser()['sessionId'];
+        $sessionId = $this->getUserSessionId();
         $results = $presentaionModel->getOverviewData($sessionId);
         $presentationIds = [];
         // var_dump(count($results));exit();

@@ -14,10 +14,10 @@
             return;
         }
         
-        protected function getUser(){
+        protected function getUserSessionId(){
             $userModel = $this->loadModel('users');
-            $user = $userModel->getUserById($this->userId);
-            return $user;
+            $sessionId = $userModel->getSessionIdFromUserId($this->userId)['sessionId'];
+            return $sessionId;
         }
         
         public function loadModel($model_name = ''){
