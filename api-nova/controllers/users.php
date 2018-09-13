@@ -8,9 +8,9 @@ class Users extends NovaAPI {
         return json_encode(['content' => $results]);
     }
     
-    function getUser() {
+    function getSelf() {
         $model = $this->loadModel('users');
-        $results = $model->getUserFromId($this->userId);
+        $results = $model->getProfileFromId($this->userId);
         return json_encode(['content' => $results]);
     }
     

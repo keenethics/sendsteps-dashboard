@@ -21,6 +21,9 @@ import SurveyResultsOverview from "./pages/session-results/surveys/Overview";
 import PhonenumbersOverview from "./pages/superadmin/phonenumbers/Overview";
 import PhonenumberDetails from "./pages/superadmin/phonenumbers/Details";
 import DeleteUsersOverview from "./pages/superadmin/delete-users/Overview";
+//User & Dropdown Menu
+import UserProfile from "./pages/user/Profile";
+
 
 const Routes = () =>
   <Switch>
@@ -38,6 +41,7 @@ const Routes = () =>
     <Route path="/about/dashboard" exact component={AboutDashboard} />
     <Route path="/about/howitworks" exact component={AboutHowItWorks} />
     <Route path="/about/sendsteps" exact component={AboutSendsteps} />
+    <Route path="/user/edit-profile" exact component={UserProfile} />
     <Route path="*" component={PageNotFound} />
   </Switch>;
 
