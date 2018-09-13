@@ -20,27 +20,26 @@ class DeleteUsersOverview extends React.Component {
     } 
 
     render() {
-        
         const { data, match } = this.props;
         console.log(data);
         return (
-                <div>
-                    <div className="panel panel-default header-panel">  
-                        <div className="panel-body">
-                            <h1>Phonenumber Overview</h1>   
-                        </div>
+            <div>
+                <div className="panel panel-default header-panel">  
+                    <div className="panel-body">
+                        <h1>Delete Users Overview</h1>   
                     </div>
-                    <BreadCrumbs urlList={match.url} />
-                    <div className="panel panel-default">  
-                        <div className="panel-body">
-                            <div className="container-fluid">
-                                {this.shouldRenderTable(data) ? 
-                                    <OverviewTable data={data} />
-                                : null}
-                            </div>
+                </div>
+                <BreadCrumbs urlList={match.url} />
+                <div className="panel panel-default">  
+                    <div className="panel-body">
+                        <div className="container-fluid">
+                            {this.shouldRenderTable(data) ? 
+                                <OverviewTable data={data} />
+                            : null}
                         </div>
                     </div>
                 </div>
+            </div>
         )
     }
 } 

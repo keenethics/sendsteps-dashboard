@@ -10,19 +10,43 @@
         }
         
         function getListFreeUser(){
+            // $query = 'SELECT 
+            //     a.id AS account_id,
+            //     u.id AS `user_id`,
+            //     u.email,
+            //     u.origin
+            // FROM `users` u 
+            // LEFT JOIN accounts a 
+            // ON u.accountId = a.id
+            // WHERE 
+            //     u.role = "admin" AND 
+            //     a.audienceSize = 20 AND
+            //     u.isDeleted != 1';
+            
+            
+            //Looks like Medoo doesn't like us using Enums. See NOV-3 in Jira
             $query = 'SELECT 
                 a.id AS account_id,
-                u.id AS `user_id`,
                 u.email,
-                u.origin
+                u.origin,
+                u.role,
+                u.id AS "user_id"
             FROM `users` u 
-            LEFT JOIN accounts a ON u.accountId = a.id
-            
-            WHERE 
-                u.role = "admin" AND 
+            LEFT JOIN accounts a 
+            ON u.accountId = a.id
+            WHERE
                 a.audienceSize = 20 AND
                 u.isDeleted != 1';
-            $results = $this->query($query);
-            return $results;
+            $resultsDirty = $this->query($query);
+            
+            $resultsClean = array();
+            foreach ($resultsDirty as $key => $r){
+                // var_dump($r);exit();
+                if ($r['role'] == 'admin'){
+                    $resultsClean[] = $resultsDirty[$key];
+                }
+            }
+            
+            return $resultsClean;
         }
     }

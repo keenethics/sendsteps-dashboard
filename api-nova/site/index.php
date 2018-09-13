@@ -39,7 +39,7 @@
         $function = $_POST['function'];
         $params = (isset($_POST['params']))? (array) json_decode($_POST['params']): array();
         // $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
-        
+
         if (!in_array($controller_name.'.php', scandir(__DIR__."/../controllers/"))) {
             $errors = json_encode(array('General' => 'ControllerFileDoesNotExist'));
             throw new Exception($errors);
