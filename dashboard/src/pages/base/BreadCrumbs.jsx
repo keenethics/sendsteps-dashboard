@@ -20,7 +20,7 @@ export default class BreadCrumbs extends Component {
             ));
             actualCrumbs.unshift(<div key={crumbList.length + 1} className="label label-default">
                 <span className="home-icon">
-                    <i className="fa fa-home fa-xs">a</i>
+                    <i className="fa fa-home fa-xs"></i>
                 </span>
             </div>);
 
