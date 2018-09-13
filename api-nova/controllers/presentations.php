@@ -7,14 +7,15 @@ class Presentations extends NovaAPI {
         $sessionId = $this->getUser()['sessionId'];
         $results = $presentaionModel->getOverviewData($sessionId);
         $presentationIds = [];
+        // var_dump(count($results));exit();
         foreach($results as $r){
-            $presentationIds[] = $r['presentationId'];
+            $presentationIds[] = $r['id'];
         }
         $presentationIds = array_flip(array_flip($presentationIds));
         $numberOfParticipants = $presentaionModel->getNumberOfParticipants($presentationIds);
 
         foreach ($results as $key => $r){
-            $results[$key]['numberOfParticipants'] = $numberOfParticipants[$r['presentationId']];
+            $results[$key]['numberOfParticipants'] = $numberOfParticipants[$r['id']];
             $parts = explode('\\', $r['name']);
             $results[$key]['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
         }
