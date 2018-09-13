@@ -7,4 +7,11 @@ class Users extends NovaAPI {
         $results = $model->getListFreeUser();
         return json_encode(['content' => $results]);
     }
+    
+    function getUser() {
+        $model = $this->loadModel('users');
+        $results = $model->getUserFromId($this->userId);
+        return json_encode(['content' => $results]);
+    }
+    
 }

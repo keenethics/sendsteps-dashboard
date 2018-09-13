@@ -9,6 +9,13 @@
             return $results;
         }
         
+        function getUserFromId($userId){
+            $query = 'SELECT * FROM users u WHERE <u.id> = :userId;';
+            $params['userId'] = (int) $userId;
+            $results = $this->query($query, $params)[0];
+            return $results;
+            
+        }
         function getListFreeUser(){            
             //Looks like Medoo doesn't like us using Enums in the WHERE clause. See NOV-3 in Jira
             $query = 'SELECT 
