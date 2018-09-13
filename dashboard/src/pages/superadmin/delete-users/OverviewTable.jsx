@@ -19,7 +19,7 @@ class OverviewTable extends BaseTable {
                     <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='user_id' dataFormat={this.phonenumberFormatter} >User ID</TableHeaderColumn>
                     <TableHeaderColumn width="150" headerAlign='center' dataAlign='center'  dataSort caretRender={this.getSort} dataField='email' dataFormat={this.email} >Email</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataSort caretRender={this.getSort} dataField='origin' dataFormat={this.origin} >Origin</TableHeaderColumn>
-                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='phoneNumber' isKey={true} dataFormat={this.viewFormatter} >Delete</TableHeaderColumn>
+                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='none' isKey={true} dataFormat={this.viewFormatter} >Delete</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         )
