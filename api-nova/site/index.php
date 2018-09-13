@@ -4,7 +4,8 @@
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';
         if ($token == NULL || $token == '' || strlen($token) != 250){
-            throw new Exception('ValidTokenNotSet');
+            $errors = json_encode(array('General' => 'ValidTokenNotSet'));
+            throw new Exception($errors);
         }
         $bastetParams = json_encode(array('token' => $token));
         // Get cURL resource
@@ -25,11 +26,13 @@
         // Close request to clear up some resources
         curl_close($curl);
         if ($resp->authorized != true){
-            throw new Exception('ValidTokenNotSet');
+            $errors = json_encode(array('General' => 'ValidTokenNotSet'));
+            throw new Exception($errors);
         }
         
         if (!$_POST OR !isset($_POST['controller']) OR !isset($_POST['function'])) {
-            throw new Exception('SpecifyControllerAndFunction');
+            $errors = json_encode(array('General' => 'SpecifyControllerAndFunction'));
+            throw new Exception($errors);
         }
         //Setup Variables & load controller
         $controller_name = $_POST['controller'];
@@ -38,14 +41,16 @@
         // $params = (isset($_POST['params']))? explode('---', $_POST['params']) : array();
         
         if (!in_array($controller_name.'.php', scandir(__DIR__."/../controllers/"))) {
-            throw new Exception('ControllerFileDoesNotExist');    
+            $errors = json_encode(array('General' => 'ControllerFileDoesNotExist'));
+            throw new Exception($errors);
         }
         require_once __DIR__."/../controllers/$controller_name.php";
         $controller_name = ucfirst($controller_name); // Controller Classes have the first letter uppercase
         
         //Check controller class exists
         if (!class_exists($controller_name)) {
-            throw new Exception('ControllerClassDoesNotExist');
+            $errors = json_encode(array('General' => 'ControllerFileDoesNotExist'));
+            throw new Exception($errors);
         }
         $controller = new $controller_name;
         //Populate properties & other silent functions
@@ -55,7 +60,8 @@
         
         //Check method/function exists, then run the function
         if (!method_exists($controller, $function)) {
-            throw new Exception('MethodDoesNotExist');
+            $errors = json_encode(array('General' => 'MethodDoesNotExist'));
+            throw new Exception($errors);
         }
         $result = call_user_func_array(array($controller, $function), $params);
         echo $result;//Make some noise
