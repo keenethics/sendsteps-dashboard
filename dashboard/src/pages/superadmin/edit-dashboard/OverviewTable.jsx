@@ -14,11 +14,10 @@ class OverviewTable extends BaseTable {
         return (
             <div>
                 <BootstrapTable pagination data={this.props.data} options={this.getOptions()} search>
-                    <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.countryFormatter} >Country Code</TableHeaderColumn>
-                    <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='displayText' dataFormat={this.phonenumberFormatter} >Phonenumber</TableHeaderColumn>
-                    <TableHeaderColumn width="150" headerAlign='center' dataAlign='center'  dataSort caretRender={this.getSort} dataField='foreignerCompatible' dataFormat={this.trueFalseFormatter} >International</TableHeaderColumn>
-                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataSort caretRender={this.getSort} dataField='public' dataFormat={this.trueFalseFormatter} >Public</TableHeaderColumn>
-                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='phoneNumber' isKey={true} dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    <TableHeaderColumn width="225" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.phonenumberFormatter} >Name</TableHeaderColumn>
+                    <TableHeaderColumn width="150" headerAlign='center' dataSort caretRender={this.getSort} dataField='dashboardUrl' dataFormat={this.phonenumberFormatter} >Dashboard URL</TableHeaderColumn>
+                    <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='websiteAddress' dataFormat={this.phonenumberFormatter} >Response Site URL</TableHeaderColumn>
+                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='none' isKey={true} dataFormat={this.viewFormatter} >View</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         )
