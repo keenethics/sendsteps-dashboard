@@ -6,22 +6,26 @@
     use Medoo\Medoo;
 
     class Model extends Base{
-        public function findAll(){
-            $results = $this->query('SELECT * FROM '.$this->table.';');
-            return $results;
-        }
-        public function findById($id = NULL){
-            if($id == NULL){
-                throw new Exception('ModelRequiresId');
-            }
-            $results = $this->query('SELECT * FROM '.$this->table.';');
-            return $results;
-        }
+        // public function findAll(){
+        //     $results = $this->query('SELECT * FROM '.$this->table.';');
+        //     return $results;
+        // }
+        // public function findById($id = NULL){
+        //     if($id == NULL){
+        //         throw new Exception('ModelRequiresId');
+        //     }
+        //     $results = $this->query('SELECT * FROM '.$this->table.';');
+        //     return $results;
+        // }
 
         public function query($query = '', $params = array()) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
-            $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            if (count($params)){
+                $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            } else {
+                $data = (array) $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
+            }
             return $data;
         }
         

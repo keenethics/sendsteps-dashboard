@@ -5,6 +5,7 @@
         'MethodDoesNotExist' => 'The method you requested does not exist',
         'ModelClassDoesNotExist' => 'Model name given, does not match a class',
         'ModelFileDoesNotExist' => 'Model name given, does not match any files found',
+        'MethodReturnedNull' => 'Method gave a null response',
         'ModelRequiresId' => 'Model requires ID, no ID provided',
         'SpecifyControllerAndFunction' => 'Controller or Function fields not set',
         'SpecifyFunction' => 'Function field not set',

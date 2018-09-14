@@ -64,6 +64,11 @@
             throw new Exception($errors);
         }
         $result = call_user_func_array(array($controller, $function), $params);
+        //Check result was returned
+        if ($result === NULL) {
+            $errors = json_encode(array('General' => 'MethodReturnedNull'));
+            throw new Exception($errors);
+        }
         echo $result;//Make some noise
         exit();
         
