@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 
 class Settings extends React.Component {
 
     
-    componentDidMount() {
+    componentWillMount() {
         let apiController = 'responsesite';
         let apiFunction = 'getSiteList';
         let apiParams = JSON.stringify({
@@ -22,17 +22,23 @@ class Settings extends React.Component {
     }
     
     render() {
-
-        
         const { data, match } = this.props;
-        console.log(data)
-
+        console.log(data);
+        
         return (
             <div className="row">  
                 <div className="col-md-12">
                     <div className="lander">
                         <div>
-                            {}
+                            <select>
+                            {data && data.map(item => {
+                                return (
+                                    <option key={item.id} value={item.id}>
+                                        {item.domain}
+                                    </option>
+                                )
+                            })} 
+                            </select>
                         </div>
                     </div>
                 </div>
