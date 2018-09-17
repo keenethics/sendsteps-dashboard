@@ -5,7 +5,7 @@ import { fetchResult } from '../../../actions/api';
 class Settings extends React.Component {
 
     
-    componentDidMount() {
+    componentWillMount() {
         let apiController = 'responsesite';
         let apiFunction = 'getSettingsBasic';
         let apiParams = JSON.stringify({
