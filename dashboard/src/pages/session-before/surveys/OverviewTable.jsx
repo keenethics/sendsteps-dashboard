@@ -10,13 +10,22 @@ class OverviewTable extends BaseTable {
         return <Link to={'/session-before/surveys/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
+    getOptions() {
+        return {
+            prePage: 'Prev', // Previous page button text
+            nextPage: 'Next', // Next page button text
+            clearSearch: true,
+            clearSearchBtn: this.getClearBtn,
+        };
+    }
+
     render() {
         return (
             <div>
                 <BootstrapTable pagination data={this.props.data} options={this.getOptions()} search>
                     <TableHeaderColumn width="250" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.nameFormatter} >Name</TableHeaderColumn>
                     <TableHeaderColumn headerAlign='center' dataSort caretRender={this.getSort} dataField='startTime' dataFormat={this.dateFormatter} >Start time</TableHeaderColumn>
-                    <TableHeaderColumn width="75" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    <TableHeaderColumn width="100" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         )

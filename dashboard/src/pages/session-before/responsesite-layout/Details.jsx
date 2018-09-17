@@ -22,8 +22,7 @@ class Settings extends React.Component {
     }
     
     render() {
-        const { data, match } = this.props;
-        console.log(data);
+        const { data } = this.props;
         
         return (
             <div className="row">  

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { checkAuthorized, securityError } from './actions/auth';
 import { simulateLoading } from './actions/api';
 import { getFromLocalStorage } from './scripts/localStorage';
@@ -8,11 +7,24 @@ import { getCookieValues } from './scripts/cookieStorage';
 import RegistrationOverview from './pages/registration/DetailsContainer';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import DashboardApp from './pages/base/DashboardApp';
+import { withRouter } from 'react-router-dom';
 
 export class App extends Component {
 
     componentWillMount() {
+        this.checkAuth();
+    }
 
+    componentWillReceiveProps(nextProps) {
+        const currentKey = this.props.location.key;
+        const nextKey = nextProps.location.key;
+        if(currentKey !== nextKey) {
+            this.checkAuth();
+        }
+    }
+
+    checkAuth() {
+        console.log('Checking keys!');
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
         
         if(storedKey) 

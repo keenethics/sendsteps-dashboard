@@ -14,29 +14,24 @@ class SurveyResultsDetails extends React.Component {
     }
     
     render() {
-        let { data } = this.props;
+        let { data, match } = this.props;
 
-        if(!data) {
-            return null;
-        }
-        // console.log(data);
+        // active:"1"
+        // automaticallyClosed:"0"
+        // endTime:"2018-02-06 15:12:04"
+        // id:"183"
+        // isDeleted:"0"
+        // limited:"notLimited"
+        // name:"Presentation1"
+        // sessionId:"591"
+        // sessionRunId:"183"
+        // startTime:"2018-02-06 14:31:27"
 
-            // active:"1"
-            // automaticallyClosed:"0"
-            // endTime:"2018-02-06 15:12:04"
-            // id:"183"
-            // isDeleted:"0"
-            // limited:"notLimited"
-            // name:"Presentation1"
-            // sessionId:"591"
-            // sessionRunId:"183"
-            // startTime:"2018-02-06 14:31:27"
+        const dateFormat = 'YYYY-MM-DD HH:mm:ss';
+        const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
 
-            const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-            const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
-
-            const startTime = moment(data.startTime, dateFormat);
-            const endTime = moment(data.endTime, dateFormat);
+        const startTime = data && moment(data.startTime, dateFormat);
+        const endTime = data && moment(data.endTime, dateFormat);
 
         return (
             <div>  
@@ -45,7 +40,7 @@ class SurveyResultsDetails extends React.Component {
                         <h1>Presentation results</h1>   
                     </div>
                 </div>
-                <BreadCrumbs urlList={this.props.match.url} />   
+                <BreadCrumbs urlList={match.url} />   
                 <div className="panel panel-default">  
                     <div className="panel-body">
                         <div className="container-fluid">
@@ -53,7 +48,7 @@ class SurveyResultsDetails extends React.Component {
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
-                                        <h2>{data.name}</h2>
+                                        <h2>{data && data.name}</h2>
                                     </div>
                                     <div className="col-sm-6">
                                         <p><strong>Start time:  </strong></p> 

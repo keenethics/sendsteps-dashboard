@@ -396,3 +396,20 @@ ul.pagination {
 .youtube-container .embed-responsive-16by9 {
   margin: 20px 0px;
 }
+
+.picture-upload {
+  padding-top: 25px;
+  background-color: #f9f9f9;
+}
+
+.current-picture {
+      margin: 0 auto;
+      text-align: center;
+      width: 128px;
+      height: 128px;
+      vertical-align: middle;
+      border: 5px solid #ededed;
+      border-radius: 100%;
+      padding: 10px;
+      cursor: pointer;
+}

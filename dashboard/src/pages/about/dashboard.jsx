@@ -1,10 +1,9 @@
 import React from "react";
-import { fetchResult } from '../../actions/api';
-import { connect } from 'react-redux';
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
 import BreadCrumbs from "../base/BreadCrumbs";
 
 class AboutDashboard extends React.Component {
+
     render() {
         return (
             <div>
@@ -76,10 +75,4 @@ class AboutDashboard extends React.Component {
     }
 } 
 
-export default connect(
-    (state) => {
-        return {
-            data: state.apiReducer.data,
-        }
-    }
-)(AboutDashboard);
+export default AboutDashboard;

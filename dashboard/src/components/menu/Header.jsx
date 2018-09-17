@@ -16,14 +16,6 @@ class Header extends React.Component {
 
     render() {
 
-        const { menuOpened, currentUser } = this.props;
-
-
-        // Fix this? ie "Page not rendering before props is set"
-        if(!currentUser) {
-            return null;
-        }
-
         return (
             <header>
                 <div className="header-content">

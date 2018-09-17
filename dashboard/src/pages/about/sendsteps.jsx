@@ -1,10 +1,9 @@
 import React from "react";
-import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/api';
 import BreadCrumbs from "../base/BreadCrumbs";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
 
 class AboutSendsteps extends React.Component {
+    
     render() {
         return (
             <div>

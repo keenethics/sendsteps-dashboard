@@ -4,10 +4,8 @@ import SideMenu from '../../components/menu/SideMenu';
 import Header from '../../components/menu/Header';
 import View from '../../pages/base/View';
 import { connect } from 'react-redux';
-import { simulateLoading } from '../../actions/api';
-
+import { withRouter } from 'react-router-dom';
 class DashboardApp extends Component {
-
     render() {
         return (
             <div className="App">
@@ -20,12 +18,9 @@ class DashboardApp extends Component {
                         </View>
                     </div>
                 </div>
-                <div className="footer">
-                   <p>&#x24B8; Sendsteps </p>
-                </div>
             </div>
         ); 
     }
 }
 
-export default connect()(DashboardApp);
+export default withRouter(connect()(DashboardApp));

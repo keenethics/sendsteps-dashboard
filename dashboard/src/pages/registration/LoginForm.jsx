@@ -110,7 +110,7 @@ class LoginForm extends Component {
                                 <label className="control-label">Email</label>
                                 <div className="input-group">
                                     <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                    <input name="login-email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
+                                    <input name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
                                 </div>
                                 {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
                             </div>
@@ -118,7 +118,7 @@ class LoginForm extends Component {
                                 <label className="control-label">Password</label>
                                 <div className="input-group">
                                     <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                    <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} className="form-control input-sm" placeholder="Password" />
+                                    <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
                                     <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
                                 </div>
                                 {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}

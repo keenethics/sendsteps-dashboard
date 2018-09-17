@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
-import navigationHistory from '../scripts/navigationHistory';
+// import navigationHistory from '../scripts/navigationHistory';
 import { getConfigSetting } from '../scripts/configFile';
 
 let authUrl = getConfigSetting('apiUrlBastet');
@@ -83,7 +83,7 @@ export function signOut() {
         removeCookieValues('SSTToken');
         dispatch(setAuthorized(false));
         dispatch(authRequired(null));
-        navigationHistory.push('/');
+        // navigationHistory.push('/');
     }
 }
 export function authorizeLogin(email = '', password = '') {
