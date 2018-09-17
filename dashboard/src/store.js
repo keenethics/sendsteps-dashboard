@@ -23,11 +23,12 @@ const initialState = {
         data: null
     },
     appReducer: {
-        menuOpened: false,
+        menuOpened: true,
         showRegistrationForm: false,
         togglingView: false
     },
     authReducer: {
+        currentUser: null,
         isAuthorized: null,
         isAuthRequired: null,
         authLoading: false,

@@ -1,3 +1,4 @@
+
 export function getConfigSetting(key) {
     let env = process.env.NODE_ENV; // 'development' or 'production'
     
@@ -10,7 +11,6 @@ export function getConfigSetting(key) {
     let production = {
         apiUrlNova: 'http://nova-api.dev.sendc.com',
         apiUrlBastet: 'http://bastet-api.dev.sendc.com',
-        
     };
     //Move to config file - End
 

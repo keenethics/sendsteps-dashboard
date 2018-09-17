@@ -3,13 +3,21 @@ import { setEmailError, setPasswordError } from './login';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
 import navigationHistory from '../scripts/navigationHistory';
+import { getConfigSetting } from '../scripts/configFile';
 
-let authUrl = 'http://local-bastet.sendsteps.com/index.php';
+let authUrl = getConfigSetting('apiUrlBastet');
 
 export function setAuthorized(isAuthorized) {
     return {
         type: 'SET_AUTHORIZED',
         isAuthorized
+    }
+}
+
+export function setUser(currentUser) {
+    return {
+        type: 'SET_USER',
+        currentUser
     }
 }
 
@@ -41,8 +49,10 @@ export function checkAuthorized(token = '') {
             return res.json()
         }).then(
             (result) => {
+                
                 if(result && typeof result.authorized !== 'undefined') {
                     dispatch(setAuthorized(result.authorized));
+                    dispatch(setUser(result));
                 }
             },
             (error) => {

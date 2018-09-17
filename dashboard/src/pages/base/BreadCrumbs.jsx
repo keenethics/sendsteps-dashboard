@@ -13,7 +13,7 @@ export default class BreadCrumbs extends Component {
             let actualCrumbs = crumbList.map((crumb, index) => (
                 <span key={index}> 
                     <i className="crumbs fa fa-caret-right"></i> 
-                    <div onClick={() => this.goTo(crumb)} className={"label label-" + (index === crumbList.length-1? 'success' : 'default')}>
+                    <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')}>
                         {crumb.replace("-", " ").toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
                     </div>
                 </span>

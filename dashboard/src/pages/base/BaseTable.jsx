@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
+import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView'
 
 export default class BaseTable extends Component {
 
@@ -19,9 +20,9 @@ export default class BaseTable extends Component {
 
     trueFalseFormatter = cell => {
         if(cell === "1") {
-            return <button disabled={true} className="btn btn-sm btn-danger"><i className="fa fa-times"></i> No </button>;
+            return <button disabled={true} className="tf-button btn btn-sm btn-danger"><i className="fa fa-times"></i> No </button>;
         }
-        return <button disabled={true} className="btn btn-sm btn-success"><i className="fa fa-check"></i> Yes</button>;
+        return <button disabled={true} className="tf-button btn btn-sm btn-success"><i className="fa fa-check"></i> Yes</button>;
     }
 
     dateFormatter = (cell, row) => {
@@ -60,13 +61,7 @@ export default class BaseTable extends Component {
         )
     }
 
-    getOptions() {
-        return {
-            prePage: 'Prev', // Previous page button text
-            nextPage: 'Next', // Next page button text
-            clearSearch: true,
-            clearSearchBtn: this.getClearBtn
-        };
+    getExcelBtn(data) {
+        return <ExcelView  data={data} />
     }
-
 }

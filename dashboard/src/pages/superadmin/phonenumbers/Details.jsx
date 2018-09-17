@@ -102,7 +102,7 @@ class PhonenumberDetails extends React.Component {
                                         <div className="form-group">
                                             <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
                                             </button>
-                                            <Link to="/phonenumbers">
+                                            <Link to="/superadmin/phonenumbers">
                                                 <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
                                                 </button>
                                             </Link>

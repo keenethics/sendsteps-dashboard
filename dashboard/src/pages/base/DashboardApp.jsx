@@ -3,8 +3,11 @@ import Routes from '../../Routes';
 import SideMenu from '../../components/menu/SideMenu';
 import Header from '../../components/menu/Header';
 import View from '../../pages/base/View';
+import { connect } from 'react-redux';
+import { simulateLoading } from '../../actions/api';
 
-export default class DashboardApp extends Component {
+class DashboardApp extends Component {
+
     render() {
         return (
             <div className="App">
@@ -17,7 +20,12 @@ export default class DashboardApp extends Component {
                         </View>
                     </div>
                 </div>
+                <div className="footer">
+                   <p>&#x24B8; Sendsteps </p>
+                </div>
             </div>
         ); 
     }
 }
+
+export default connect()(DashboardApp);

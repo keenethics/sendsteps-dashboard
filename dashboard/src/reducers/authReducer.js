@@ -32,6 +32,12 @@ export default function apiReducer(state, action) {
                 authLoading: false
             }
         }
+        case 'SET_USER' : {
+            return {
+                ...state,
+                currentUser: action.currentUser
+            }
+        }
         default: {
             return {
                 ...state

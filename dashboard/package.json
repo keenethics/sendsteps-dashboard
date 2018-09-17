@@ -12,6 +12,7 @@
     "react-bootstrap-table": "^4.3.1",
     "react-bootstrap-table2-filter": "^0.3.0",
     "react-bootstrap-table2-paginator": "^0.1.6",
+    "react-data-export": "^0.4.2",
     "react-dom": "^16.4.0",
     "react-fontawesome": "^1.6.1",
     "react-particles-js": "^2.3.0",

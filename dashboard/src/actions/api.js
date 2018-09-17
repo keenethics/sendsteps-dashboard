@@ -1,8 +1,9 @@
 import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './../scripts/localStorage';
 import { getCookieValues } from './../scripts/cookieStorage';
+import { getConfigSetting } from '../scripts/configFile';
 
-let apiUrl =  'http://local-nova.sendsteps.com/index.php';
+let apiUrl = getConfigSetting('apiUrlNova');
 
 export function apiFetchError(error) {
     return {
@@ -35,7 +36,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
     let token = getFromLocalStorage('token') || getCookieValues('SSTToken');
     
     return dispatch => {
-        dispatch(simulateLoading());
+        dispatch(simulateLoading(true));
         fetch(apiUrl,{
             method: 'POST',
             headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
@@ -65,6 +66,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                 dispatch(apiFetchError(error));
             }
         )
+        dispatch(simulateLoading(false));
     }
 }
 

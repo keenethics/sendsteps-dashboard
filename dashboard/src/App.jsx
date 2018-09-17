@@ -12,7 +12,9 @@ import DashboardApp from './pages/base/DashboardApp';
 export class App extends Component {
 
     componentWillMount() {
+
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
+        
         if(storedKey) 
         {
             this.props.dispatch(securityError(null));
@@ -33,7 +35,6 @@ export class App extends Component {
     }
 
     render() {
-
         const { isAuthorized, isAuthRequired } = this.props;
         if(isAuthRequired && isAuthorized) { return <DashboardApp /> } 
         else if (false === isAuthorized) { return <RegistrationOverview /> } 

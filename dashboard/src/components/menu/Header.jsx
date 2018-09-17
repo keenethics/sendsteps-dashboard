@@ -15,18 +15,30 @@ class Header extends React.Component {
     }
 
     render() {
+
+        const { menuOpened, currentUser } = this.props;
+
+
+        // Fix this? ie "Page not rendering before props is set"
+        if(!currentUser) {
+            return null;
+        }
+
         return (
             <header>
                 <div className="header-content">
                     <i onClick={this.toggleSideBar.bind(this)} className="fa fa-bars menu-button"></i>
-
-                    <OverlayTrigger 
-                        overlay={<Tooltip id={1}>{"Sign out"}</Tooltip>}
-                        delay={150}
-                        placement="left" 
-                    >
-                        <button onClick={this.signOut.bind(this)} className="btn btn-xs btn-primary pull-right logout"><i className="fa fa-sign-out-alt"></i></button>
-                    </OverlayTrigger>
+                    <span className="pull-right" >
+                        {/* <p >({currentUser.userType})</p> */}
+                        <OverlayTrigger 
+                            overlay={<Tooltip id={1}>{"Sign out"}</Tooltip>}
+                            delay={150}
+                            placement="left" 
+                        >
+                            <button onClick={this.signOut.bind(this)} className="btn btn-xs btn-primary pull-right logout"><i className="fa fa-sign-out-alt"></i></button>
+                        </OverlayTrigger>
+                    </span>
+                    
                 </div>
             </header>
         )
@@ -36,7 +48,8 @@ class Header extends React.Component {
 export default connect(
     (state) => {
         return {
-            menuOpened: state.appReducer.menuOpened
+            menuOpened: state.appReducer.menuOpened,
+            currentUser: state.authReducer.currentUser
         }
     }
 )(Header);
