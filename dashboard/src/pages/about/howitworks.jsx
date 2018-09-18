@@ -1,7 +1,7 @@
 import React from "react";
 import BreadCrumbs from "../base/BreadCrumbs";
 import { AddinDownloadPanel, AddinInfoPanel } from './extra_components/InfoPanels';
-
+import ResponseSiteContainer from '../base/ResponseSiteContainer';
 class AboutAddin extends React.Component {
 
     render() {
@@ -35,6 +35,7 @@ class AboutAddin extends React.Component {
         const content = ytLinks.map((section, index) => {
             return (
                 <div key={index}><h3>{section.title}</h3>
+                <hr/>
                 <p>{section.infoText}</p>
                 {section.links.map((link, linkIndex) => {
                     return (
@@ -88,6 +89,7 @@ class AboutAddin extends React.Component {
                         </div>
                         <AddinInfoPanel />
                         <AddinDownloadPanel />
+                        <ResponseSiteContainer />
                     </div>
                 </div>
             </div>

@@ -24,7 +24,7 @@ export class App extends Component {
     }
 
     checkAuth() {
-        console.log('Checking keys!');
+        console.log('Checking if keys are still valid...');
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
         
         if(storedKey) 
@@ -42,7 +42,7 @@ export class App extends Component {
                 // Disable loading screen after 500ms
                 // Animate this @TODO
                 this.props.dispatch(simulateLoading(false));
-            }, 500);
+            }, 50000);
         }
     }
 

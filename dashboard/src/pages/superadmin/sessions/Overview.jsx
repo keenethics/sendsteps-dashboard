@@ -48,7 +48,7 @@ class SessionOverview extends React.Component {
                                     <div className="row">
                                         <div className="col-sm-12">
                                             <div className="form-group">
-                                                <label className="control-label">Activation code</label>
+                                                <label className="control-label">Activation code </label>
                                                 <small className="text-warning"><i className="fa fa-exclamation-triangle"></i> (Never give this to customers)</small>
                                                 <div className="input-group">
                                                     <span className="input-group-addon"><i className="fa fa-share-alt"></i></span>
@@ -166,18 +166,14 @@ class SessionOverview extends React.Component {
                                                     <div className="btn-group" data-toggle="buttons">
                                                         <label className="btn btn-default">
                                                             <div className="btn-group">
-                                                                <span className="btn-group-addon">
-                                                                    <i className="fa fa-calendar"></i>
-                                                                </span>
+                                                                <span className="btn-group-addon"><i className="far fa-calendar"></i> Yearly</span>
                                                                 <input type="radio" id="licenseYearly" name="licenseType" value="yearly" />
-                                                                    Yearly
                                                             </div>
                                                         </label>
                                                         <label className="btn btn-default">
                                                             <div className="btn-group">
-                                                                <span className="btn-group-addon"><i className="fa fa-calendar"></i></span>
+                                                                <span className="btn-group-addon"><i className="far fa-calendar"></i> Monthly</span>
                                                                 <input type="radio" id="licenseMonthly" name="licenseType" value="monthly" />
-                                                                    Monthly
                                                             </div>
                                                         </label>
                                                     </div>
@@ -353,16 +349,15 @@ class SessionOverview extends React.Component {
                                                     <div className="btn-group" data-toggle="buttons">
                                                         <label className="btn btn-default">
                                                             <div className="btn-group">
-                                                                <span className="btn-group-addon"><i className="fa fa-globe"></i></span>
+                                                                <span className="btn-group-addon"><i className="fa fa-globe"></i> Website</span>
                                                                 <input name='internetSelected' type='checkbox'  className='repond-via' />
-                                                                    Website
+                                                                    
                                                             </div>
                                                         </label>
                                                         <label className="btn btn-default">
                                                             <div className="btn-group">
-                                                                <span className="btn-group-addon"><i className="fa fa-phone"></i></span>
+                                                                <span className="btn-group-addon"><i className="fa fa-phone"></i>  SMS</span>
                                                                 <input name='textMessagingSelected' type='checkbox'  className='repond-via' />
-                                                                    SMS
                                                             </div>
                                                         </label>
                                                     </div>
@@ -414,18 +409,16 @@ class SessionOverview extends React.Component {
                                                 <label className="control-label">International audience</label>
                                                 <div className="input-group">
                                                     <div className="btn-group" data-toggle="buttons">
-                                                        <label for="internationalAudienceOn" className="btn btn-default ">
+                                                        <label className="btn btn-default ">
                                                             <div className="btn-group">
-                                                                <span className="btn-group-addon"><i className="fa fa-check"></i></span>
+                                                                <span className="btn-group-addon"><i className="fa fa-check"></i> Yes</span>
                                                                 <input type="radio" id="internationalAudienceOn" className='internationalAudience' name="internationalAudience" value="1" />
-                                                                    Yes
                                                             </div>
                                                         </label>
-                                                        <label for="internationalAudienceOff" className="btn btn-default">
+                                                        <label className="btn btn-default">
                                                             <div className="btn-group">
-                                                                    <span className="btn-group-addon"><i className="fa fa-times"></i></span>
+                                                                    <span className="btn-group-addon"><i className="fa fa-times"></i> No</span>
                                                                 <input type="radio" id="internationalAudienceOff" className='internationalAudience' name="internationalAudience" value="0" />
-                                                                    No
                                                             </div>
                                                         </label>
                                                     </div>

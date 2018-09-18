@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 class MenuItem extends Component {
     render() {
@@ -9,10 +8,10 @@ class MenuItem extends Component {
         const { menuOpened, menuText, faIconClass } = this.props;
 
         return (
-            <div>
+            <div className="menu-item">
                 <OverlayTrigger 
                     overlay={<Tooltip id={menuText}>{menuText}</Tooltip>}
-                    delay={!menuOpened ? 150 : 13337}
+                    delay={!menuOpened ? 150 : 133337}
                     placement="right" 
                 >
                     <Link to={this.props.link}>
@@ -28,10 +27,4 @@ class MenuItem extends Component {
         )
     }
 }
-export default connect(
-    (state) => {
-        return {
-            menuOpened: state.appReducer.menuOpened
-        }
-    }
-) (MenuItem);
+export default MenuItem;

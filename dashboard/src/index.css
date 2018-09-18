@@ -23,7 +23,7 @@
   }
   
   header {
-    height:35px;
+    height:50px;
     width:100%;
     line-height: 35px;
     background:#113552;
@@ -32,8 +32,8 @@
   }
   
   header .header-content {
-    line-height: 35px;
-    padding: 0 12px;
+    line-height: 25px;
+    padding: 12px;
   }
   
   header .menu-button:hover {
@@ -51,7 +51,8 @@
    
   .menu-button {
     color: #fff;
-    transform: scaleX(1.337);
+    padding: 6px 12px;
+    transform: scale(1.337);
   }
   
   a, a:hover, a:visited, a:link, a:active {
@@ -60,7 +61,7 @@
   }
   
   .list-group-item {
-    padding:12px 4px 12px 36px;
+    padding:12px 4px 12px 48px;
     text-align:left;
     transition: 250ms all;
     border-radius: 0px !important;
@@ -81,10 +82,6 @@
     position: relative;
   }
 
-  .logout {
-    margin: 6px 0;
-  }
-  
   .list-group-item .fa {
     max-width: 12px;
   }
@@ -94,7 +91,7 @@
   }
   
   .section-header {
-    background-color: #00000015;
+    background-color: #1b4566;
     max-height:100px;
     transition: 250ms all;
   }
@@ -124,7 +121,7 @@
     width: 250px;
     height:100%;
     bottom:0px;
-    margin-top:35px;
+    margin-top:50px;
     font-size:13px;
     top: 0px;
     left: 0px;
@@ -143,9 +140,13 @@
     top: 0;
     bottom: 0;
     left: 0;
-    right: -17px; /* Increase/Decrease this value for cross-browser compatibility */
     overflow-y: scroll;
     padding-bottom: 100px;
+    width: 100%;  
+  }
+
+  .sideBar .list-group p {
+    margin: 0 !important;
   }
   
   .sideBar.in .text, .sideBar.in .section-header{
@@ -164,11 +165,20 @@
     opacity: 0.01;
   }
   .sideBar.in, .sideBar.in .list-group-item {
-    width: 40px;
+    width: 64px;
   }
   
+  .menu-item {
+    height: 48px;
+    line-height: 24px;
+  }
+
+  .menu-item .list-group-item {
+    height: 48px;
+  }
+
   .sideBar.in ~ .view {
-    padding-left: 40px;
+    padding-left: 64px;
   }
   
   .view {
@@ -179,6 +189,10 @@
     z-index: 0;
   }
   
+  .tooltip {
+    z-index: 10;
+  }
+
   .crumbs-panel {
     padding: 0px 15px;
     top: -10px;
@@ -203,7 +217,7 @@
     height: 150%;
     width: 100%;
     background-color: #ffffff;
-    z-index: 1;
+    z-index: 10;
   }
   
   .loading-view {
@@ -290,10 +304,13 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  max-width: 100%;
 }
 
 .view .well {
   line-height: 25px;
+  max-width: 400px;
+  margin: 0 auto;
 }
 
 .forgot-password:hover {
@@ -403,13 +420,60 @@ ul.pagination {
 }
 
 .current-picture {
-      margin: 0 auto;
-      text-align: center;
-      width: 128px;
-      height: 128px;
-      vertical-align: middle;
-      border: 5px solid #ededed;
-      border-radius: 100%;
-      padding: 10px;
-      cursor: pointer;
+  margin: 0 auto;
+  text-align: center;
+  width: 128px;
+  height: 128px;
+  vertical-align: middle;
+  border: 5px solid #ededed;
+  border-radius: 100%;
+  padding: 10px;
+  cursor: pointer;
+}
+
+
+::-webkit-scrollbar {
+    width: 5px;
+    background:lightgray;
+}
+
+
+::-webkit-scrollbar-thumb {
+    background:#1b4566;
+} 
+
+.menu-profile {
+  text-align:left;
+}
+
+.profile-image {
+  width: 64px;
+  height: 64px;
+  background: #ffffff;
+  border-radius: 100%;
+  border: 4px #eeeeee solid;
+  text-align: center;
+  line-height: 56px;
+  color: #5c5c5c;
+  margin: 16px;
+  float: left;
+}
+
+.profile-image:hover {
+  cursor: pointer;
+}
+
+.profile-details {
+  padding: 16px 0;
+}
+
+.profile-details p {
+  padding: 8px 0px;
+}
+.profile-container {
+  padding: 0 0 8px 0;
+}
+
+.profile-image, .profile-details {
+  display: inline-block;
 }

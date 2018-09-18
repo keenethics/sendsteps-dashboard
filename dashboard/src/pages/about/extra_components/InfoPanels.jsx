@@ -6,6 +6,7 @@ export const AddinInfoPanel = () => {
             <div className="panel panel-default">
                 <div className="panel-body">
                     <h3>Branded Add-in</h3>
+                    <hr/>
                     <strong>Your own look and feel!</strong>
                     <p>
                         Have all your add-in items branded in the corporate style of your organization: instruction-, 
@@ -26,6 +27,7 @@ export const AddinDownloadPanel = () => {
             <div className="panel panel-default">
                 <div className="panel-body">
                     <h3>Download Add-in</h3>
+                    <hr/>
                     <p>Requirements to use the Sendsteps Add-In:</p>
                     <ul>
                         <li>Windows 7 and above</li>
@@ -49,6 +51,7 @@ export const BlogPanel = () => {
             <div className="panel panel-default">
                 <div className="panel-body">
                     <h3>Read our blog!</h3>
+                    <hr/>
                     <button className="btn btn-primary"><i className="fa fa-rss"></i> Sendsteps Blog </button>
                 </div>
             </div>
@@ -62,6 +65,7 @@ export const QAPanel = () => {
             <div className="panel panel-default">
                 <div className="panel-body">
                     <h3>Got a question?</h3>
+                    <hr/>
                     <p>Please contact your administrator below for any questions.</p>
                     <p><i className="fa fa-phone"></i> +31 (0)20 716 36 56</p>
                     <p><i className="fa fa-envelope"></i> Support@Sendsteps.com</p>
