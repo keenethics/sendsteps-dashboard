@@ -8,9 +8,8 @@ import RegistrationOverview from './pages/registration/DetailsContainer';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import DashboardApp from './pages/base/DashboardApp';
 import { withRouter } from 'react-router-dom';
-
+    
 export class App extends Component {
-
     componentWillMount() {
         this.checkAuth();
     }

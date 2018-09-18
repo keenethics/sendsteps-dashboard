@@ -1,35 +1,50 @@
+// Colors
+$lightMainColor : #3a5e79;
+$mainColor : #1d4b6f;
+$darkerMainColor : #1a4363;
+$darkestMainColor : #063152;
+
+$lightestGray : #f9f9f9;
+$lighterGray : #eeeeee;
+$mainGray : '';
+$darkerGray : #5c5c5c;
+
+// Animations 
+$defaultAnimation : 250ms all;
+
+// Fonts
+$defaultFont : 'Roboto', sans-serif;
+$titleFont : 'Roboto Slab',sans-serif;
+
+// Overall CSS
+
+html {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+html, body, .App, .wrapper, #root {
+  height:100%;
+  font-family: $defaultFont;
+  background-color: $lighterGray;
+
+}
+
 .App {
     margin-top: 0px;
     padding-left: 0px;
     width: 100%;
-    color: #5c5c5c;
-  }
+    color: $darkerGray;
+}
   
-  html {
-    overflow-y: scroll;
-    overflow-x: hidden;
-  }
-
-  html, #root {
-    background-color: #f9f9f9;
-  }
-  
-  html,body, .App, .wrapper, #root {
-    height:100%;
-    font-family: 'Roboto', sans-serif;
-  }
-  
-  #root {
-  }
-  
-  header {
-    height:50px;
-    width:100%;
-    line-height: 35px;
-    background:#113552;
-    position: fixed;
-    z-index: 1;
-  }
+header {
+  height:50px;
+  width:100%;
+  line-height: 35px;
+  background: $darkestMainColor;
+  position: fixed;
+  z-index: 1;
+}
   
   header .header-content {
     line-height: 25px;
@@ -63,11 +78,11 @@
   .list-group-item {
     padding:12px 4px 12px 48px;
     text-align:left;
-    transition: 250ms all;
+    transition: $defaultAnimation;
     border-radius: 0px !important;
     border-right: none;
     background:none;
-    border-bottom: 1px solid #34678e;
+    border-bottom: 1px solid $lightMainColor;
     border-top:none;
     border-right:none;
     border-left:none;
@@ -91,9 +106,9 @@
   }
   
   .section-header {
-    background-color: #1b4566;
+    background-color: $darkerMainColor;
     max-height:100px;
-    transition: 250ms all;
+    transition: $defaultAnimation;
   }
   
   .section-header p {
@@ -110,14 +125,30 @@
     font-size: 30px;
   }
   
-  button:focus,button:active {
-    outline: none;
-    box-shadow: none;
+	button:focus,button:active {
+		outline: none;
+		box-shadow: none;
+	}
+
+  	.sideBar.in {
+		width: 64px;
+		.text {
+			left: -500px;
+			opacity: 0.01;
+		}
+		.list-group-item {
+			width: 64px;
+		}
+		.list-group {
+			transition: $defaultAnimation;
+			width: 85px;
+		}
+
   }
   
   .sideBar {
     background-color: #1d4b6f;
-    transition: 250ms all;
+    transition: $defaultAnimation;
     width: 250px;
     height:100%;
     bottom:0px;
@@ -133,40 +164,42 @@
     white-space: nowrap;
     z-index: 10000;
     overflow: hidden;
-  }
-  
-  .sideBar .list-group {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    overflow-y: scroll;
-    padding-bottom: 100px;
-    width: 100%;  
-  }
 
-  .sideBar .list-group p {
-    margin: 0 !important;
+    .text {
+      transition: $defaultAnimation;
+      left: 0px;
+      position: relative;
+      opacity: 1;
+    }
+
+    .in {
+      .text {
+        max-height: 0px;
+		  
+	  }
+	  
+	  .section-header {
+        max-height: 0px;
+      }
+    }
+
+    .list-group {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      overflow-y: scroll;
+      padding-bottom: 100px;
+      width: 270px; 
+      
+      p {
+        margin: 0 !important;
+      }
+    }
   }
   
-  .sideBar.in .text, .sideBar.in .section-header{
-    max-height: 0px;
-  }
-  
-  .sideBar .text {
-    transition: 250ms all;
-    left: 0px;
-    position: relative;
-    opacity: 1;
-  }
-  
-  .sideBar.in .text {
-    left: -500px;
-    opacity: 0.01;
-  }
-  .sideBar.in, .sideBar.in .list-group-item {
-    width: 64px;
-  }
+  .sideBar.in 
+  .sideBar.in, .sideBar.in 
   
   .menu-item {
     height: 48px;
@@ -182,7 +215,7 @@
   }
   
   .view {
-    transition: 250ms all;
+    transition: $defaultAnimation;
     padding-top:35px;
     height: 100%;
     position: relative;
@@ -227,9 +260,9 @@
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    -webkit-transition: 250ms all;
-    -o-transition: 250ms all;
-    transition: 250ms all;
+    -webkit-transition: $defaultAnimation;
+    -o-transition: $defaultAnimation;
+    transition: $defaultAnimation;
     margin: 0 auto;
     height: 75px;
     text-align: center;
@@ -322,7 +355,7 @@
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Roboto Slab',sans-serif;
+  font-family: $titleFont;
 }
 
 .example-enter {
@@ -416,7 +449,7 @@ ul.pagination {
 
 .picture-upload {
   padding-top: 25px;
-  background-color: #f9f9f9;
+  background-color: $lightestGray;
 }
 
 .current-picture {
@@ -425,22 +458,12 @@ ul.pagination {
   width: 128px;
   height: 128px;
   vertical-align: middle;
-  border: 5px solid #ededed;
+  border: 5px solid $lighterGray;
   border-radius: 100%;
   padding: 10px;
   cursor: pointer;
 }
 
-
-::-webkit-scrollbar {
-    width: 5px;
-    background:lightgray;
-}
-
-
-::-webkit-scrollbar-thumb {
-    background:#1b4566;
-} 
 
 .menu-profile {
   text-align:left;
@@ -451,10 +474,10 @@ ul.pagination {
   height: 64px;
   background: #ffffff;
   border-radius: 100%;
-  border: 4px #eeeeee solid;
+  border: 4px solid $lighterGray;
   text-align: center;
   line-height: 56px;
-  color: #5c5c5c;
+  color: $darkerGray;
   margin: 16px;
   float: left;
 }
