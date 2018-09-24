@@ -25,7 +25,7 @@ class OverviewTable extends BaseTable {
                 <BootstrapTable pagination data={this.props.data} keyField='id' options={this.getOptions()} search>
                     <TableHeaderColumn width="250" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.nameFormatter} >Name</TableHeaderColumn>
                     <TableHeaderColumn headerAlign='center' dataSort caretRender={this.getSort} dataField='startTime' dataFormat={this.dateFormatter} >Start time</TableHeaderColumn>
-                    <TableHeaderColumn width="75" headerAlign='center' dataAlign='center' dataField='presentationId' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataField='presentationId' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         )

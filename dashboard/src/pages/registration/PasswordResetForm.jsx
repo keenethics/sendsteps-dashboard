@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
+import { PanelHeading } from '../../components/common/Panels';
 
 class PasswordResetForm extends Component {
 
@@ -41,9 +42,12 @@ class PasswordResetForm extends Component {
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 password-reset-form">
+                    <PanelHeading>
+                        Request password reset
+                    </PanelHeading>
                     <div className="panel panel-default">
                         <div className="panel-heading">
-                            <h2 className="panel-title">Request password reset</h2>
+                            <h2 className="panel-title"></h2>
                         </div>
                         <div className="panel-body">
                             <div className={"fa-sm form-group " + emailErrorClass}>

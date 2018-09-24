@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { PanelBody } from '../../components/common/Panels';
 // import { fetchResult } from '../../actions/api';
 
 class ResponseSiteContainer extends Component {
@@ -18,21 +19,19 @@ class ResponseSiteContainer extends Component {
         
         return (
             <div className={"col-md-" + colWidth}>
-            <div className="panel panel-default">
-                <div className="panel-body">
-                    <h3>Live: Your Response Website</h3>
-                    <hr/>
-                    <p>Have a look! This is how your response website currently looks.</p>
-                    <iframe 
-                        src={responseAddress + internetKeyword}
-                        allowFullScreen="" 
-                        width="100%" 
-                        height="600" 
-                        scrolling="yes"
-                        frameBorder="no">
-                    </iframe>
-                </div>
-            </div>
+            <PanelBody>
+                <h3>Live: Your Response Website</h3>
+                <hr/>
+                <p>Have a look! This is how your response website currently looks.</p>
+                <iframe 
+                    src={responseAddress + internetKeyword}
+                    allowFullScreen="" 
+                    width="100%" 
+                    height="600" 
+                    scrolling="yes"
+                    frameBorder="no">
+                </iframe>
+            </PanelBody>
         </div>
         )
     }

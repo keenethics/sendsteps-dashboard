@@ -3,6 +3,7 @@ import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
+import { PanelBody } from '../../../components/common/Panels';
 
 class SurveysOverview extends React.Component {
    
@@ -24,23 +25,19 @@ class SurveysOverview extends React.Component {
         const { data, match } = this.props;
         console.log(data)
         return (
-                <div>
-                    <div className="panel panel-default header-panel">  
-                        <div className="panel-body">
-                            <h1>Surveys Overview</h1>   
-                        </div>
+            <div>
+                <PanelBody>
+                    <h1>Surveys Overview</h1>   
+                </PanelBody>
+                <BreadCrumbs urlList={match.url} />
+                <PanelBody>
+                    <div className="container-fluid">
+                        {this.shouldRenderTable(data) ? 
+                            <OverviewTable data={data} />
+                        : null}
                     </div>
-                    <BreadCrumbs urlList={match.url} />
-                    <div className="panel panel-default">  
-                        <div className="panel-body">
-                            <div className="container-fluid">
-                                {this.shouldRenderTable(data) ? 
-                                    <OverviewTable data={data} />
-                                : null}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </PanelBody>
+            </div>
         )
     }
 } 

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
+import { PanelBody } from "../../../components/common/Panels";
 
 class SurveyResultsDetails extends React.Component {
     componentWillMount() {
@@ -35,60 +36,63 @@ class SurveyResultsDetails extends React.Component {
 
         return (
             <div>  
-                <div className="panel panel-default header-panel">  
-                    <div className="panel-body">
-                        <h1>Presentation results</h1>   
-                    </div>
-                </div>
-                <BreadCrumbs urlList={match.url} />   
-                <div className="panel panel-default">  
-                    <div className="panel-body">
-                        <div className="container-fluid">
+                <PanelBody>
+                    <h1>Presentation results</h1>   
+                </PanelBody>
+     
+                <BreadCrumbs urlList={match.url} />
+                <PanelBody>
+                    <div className="container-fluid">
+                        
+                        <div className="row">
+                            <input name='id' id='phonenumber-id' type='hidden' />
+                            
+                            <div className="row">  
+                                <div className="col-sm-12">
+                                    <h2>{data && data.name}</h2>
+                                </div>
+                                <div className="col-sm-6">
+                                    <p><strong>Start time:  </strong></p> 
+                                </div>   
+
+                                <div className="col-sm-6">
+                                    <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
+                                </div> 
+
+                                <div className="col-sm-6">
+                                    <p><strong>End time:</strong> </p>
+                                </div>  
+
+                                <div className="col-sm-6">
+                                    <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
+                                </div>  
+                            </div>       
+                            
                             <div className="row">
-                                <input name='id' id='phonenumber-id' type='hidden' />
-                                <div className="row">  
-                                    <div className="col-sm-12">
-                                        <h2>{data && data.name}</h2>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <p><strong>Start time:  </strong></p> 
-                                    </div>   
-
-                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
-                                    </div> 
-
-                                    <div className="col-sm-6">
-                                        <p><strong>End time:</strong> </p>
-                                    </div>  
-
-                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
-                                    </div>  
-                                </div>       
-                                
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <div className="form-group keyword-items">
-                                            <ul className="list-group">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-12">
-                                        <div className="form-group">
-                                            <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
-                                            </button>
-                                            <Link to="/presentations">
-                                                <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                                </button>
-                                            </Link>
-                                        </div>
+                                <div className="col-sm-12">
+                                    <div className="form-group keyword-items">
+                                        <ul className="list-group">
+                                        </ul>
                                     </div>
                                 </div>
+
+                                <div className="col-sm-12">
+                                    <div className="form-group">
+                                        <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
+                                        </button>
+                                        <Link to="/presentations">
+                                            <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+
                             </div>
+
                         </div>
+
                     </div>
-                </div>            
+                </PanelBody>   
             </div>
         );
     }

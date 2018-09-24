@@ -14,11 +14,10 @@ export default class ExcelView extends React.Component {
         return (
             <ExcelFile element={excelButton} className="btn btn-primary" filename="phonenumbers">
                 <ExcelSheet data={data} name="Phonenumbers">
-                    <ExcelColumn label="Id" value="id"/>
-                    <ExcelColumn label="Country" value="name" />
-                    <ExcelColumn label="Country Code" value={(col) => "(" + col.isoCode + ")"} />
-                    <ExcelColumn label="International" value={(col) => col.foreignerCompatible === "1" ? "Yes" : "No"}/>
+                    <ExcelColumn label="Country" value={(col) => col.name + " (" + col.isoCode + ")"} />
                     <ExcelColumn label="Phonenumber" value="displayText"/>
+                    <ExcelColumn label="International" value={(col) => col.foreignerCompatible === "1" ? "Yes" : "No"}/>
+                    <ExcelColumn label="Public" value={(col) => col.public === "1" ? "Yes" : "No"}/>
                 </ExcelSheet>
             </ExcelFile>
         );

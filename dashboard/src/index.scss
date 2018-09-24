@@ -1,3 +1,5 @@
+// @TODO Make separate scss files for different components
+
 // Colors
 $lightMainColor : #3a5e79;
 $mainColor : #1d4b6f;
@@ -143,7 +145,6 @@ header {
 			transition: $defaultAnimation;
 			width: 85px;
 		}
-
   }
   
   .sideBar {

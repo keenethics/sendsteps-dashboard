@@ -41,7 +41,7 @@ export class App extends Component {
                 // Disable loading screen after 500ms
                 // Animate this @TODO
                 this.props.dispatch(simulateLoading(false));
-            }, 50000);
+            }, 500);
         }
     }
 
