@@ -12,6 +12,8 @@ import { withRouter } from 'react-router-dom';
 export class App extends Component {
     componentWillMount() {
         this.checkAuth();
+
+        console.log(process.env);
     }
 
     componentWillReceiveProps(nextProps) {
