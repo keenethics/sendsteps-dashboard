@@ -3,7 +3,10 @@
 
     class Phonenumbers_Model extends Model {
         function findActiveNumbers(){
-            $results = $this->query('SELECT * FROM phonenumbers LEFT JOIN countries ON phonenumbers.countryIsoCode=countries.isoCode WHERE phonenumbers.isDeleted != 1;');
+            $results = $this->query('SELECT *, (SELECT COUNT(id) FROM phonenumberkeywords pk WHERE pk.phoneNumberId = p.id) as keywordCount
+            FROM phonenumbers p
+            LEFT JOIN countries ON p.countryIsoCode=countries.isoCode
+            WHERE p.isDeleted != 1;');
             return $results;
         }
         
