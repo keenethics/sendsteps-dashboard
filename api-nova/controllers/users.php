@@ -13,5 +13,4 @@ class Users extends NovaAPI {
         $results = $model->getProfileFromId($this->userId);
         return json_encode(['content' => $results]);
     }
-    
 }
