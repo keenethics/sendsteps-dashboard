@@ -11,7 +11,16 @@
         
         function getProfileFromId($userId){
             // u.email, u.firstName, u.lastName, u.id, u.departmentName, `u.language`, u.phonenumber, a.timezone, a.university 
-            $query = 'SELECT u.email, u.firstName, u.lastName, u.id, u.departmentName, u.language, u.phonenumber, a.timezone, a.university AS organisation, u.role FROM users u LEFT JOIN accounts a ON a.id = u.accountId WHERE <u.id> = :userId AND isDeleted = 0;';
+            $query = 'SELECT 
+                u.email, u.firstName, u.lastName, u.id, 
+                u.departmentName, u.language, u.phonenumber, 
+                a.timezone, a.university AS organisation, 
+                u.role 
+                FROM users u 
+                LEFT JOIN accounts a 
+                ON a.id = u.accountId 
+                WHERE 
+                <u.id> = :userId AND isDeleted = 0;';
             // $query = 'SELECT * FROM users u LEFT JOIN accounts a ON a.id = u.accountId WHERE <u.id> = :userId AND isDeleted = 0;';
             $params['userId'] = (int) $userId;
             $results = $this->query($query, $params)[0];

@@ -16,6 +16,13 @@
             $results = $this->query($query, $params);
             return $results;
         }
+        
+        function findKeywordsByPhonenumberId($id){
+            $query = 'SELECT id, keyword FROM phonenumberkeywords k WHERE <k.phoneNumberId> = :phoneNumberId;';
+            $params['phoneNumberId'] = $id;
+            $results = $this->query($query, $params);
+            return $results;
+        }
     }
 
 ?>
