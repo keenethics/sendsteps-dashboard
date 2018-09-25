@@ -2,7 +2,7 @@
     require_once __DIR__.'/../../api-common/base/model.php';
 
     class Surveys_Model extends Model {
-        function getOverviewData($sessionId){
+        public function getOverviewData($sessionId){
             $query='SELECT 
                 s.survey_id as id,
                 s.survey_name AS `name`,
@@ -18,7 +18,7 @@
             return $results;
         }
         
-        function getActiveById($id){
+        public function getActiveById($id){
             $query='SELECT 
                 *, survey_id as id
             FROM survey s
@@ -31,7 +31,7 @@
             return $results;    
         }
         
-        function getResultsOverviewData($sessionId){
+        public function getResultsOverviewData($sessionId){
             $query='SELECT
                 s.survey_id as id, s.status, 
                 sq.question, s.survey_name as `name`, 

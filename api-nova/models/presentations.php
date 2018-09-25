@@ -2,7 +2,7 @@
     require_once __DIR__.'/../../api-common/base/model.php';
 
     class Presentations_Model extends Model {
-        function getOverviewData($sessionId){
+        public function getOverviewData($sessionId){
             $query = 'SELECT p.id AS id, p.name, s.startTime  FROM presentations p
                 LEFT JOIN sessionruns s ON s. id = p.sessionRunId
                 WHERE 
@@ -15,7 +15,7 @@
             return $results;
         }
         
-        function findActiveById($presentationId){
+        public function findActiveById($presentationId){
             $query = 'SELECT p.*, s.*
                 FROM presentations p
                 LEFT JOIN sessionruns s ON s.id = p.sessionRunId
@@ -28,7 +28,7 @@
             return $results;
         }
         
-        function getNumberOfParticipants($presentationIds = array()) {
+        public function getNumberOfParticipants($presentationIds = array()) {
             $presentationIds = '('.implode( ",", $presentationIds ).')';
             $query = "SELECT 
                     a.id,

@@ -18,7 +18,7 @@
         //     return $results;
         // }
 
-        public function query($query = '', $params = array()) {            
+        protected function query($query = '', $params = array()) {            
             $db_options = $this->getMedooOptions();
             $database = new Medoo($db_options);
             if (count($params)){
@@ -29,7 +29,7 @@
             return $data;
         }
         
-        public function isPhp7(){
+        protected function isPhp7(){
             if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
                 return true;
             }

@@ -2,14 +2,14 @@
     require_once __DIR__.'/../../api-common/base/model.php';
 
     class Users_Model extends Model {
-        function getSessionIdFromUserId($userId){
+        public function getSessionIdFromUserId($userId){
             $query = 'SELECT s.id as sessionId FROM users u LEFT join `sessions` s ON s.userId = u.id WHERE <u.id> = :userId AND isDeleted = 0;';
             $params['userId'] = (int) $userId;
             $results = $this->query($query, $params)[0];
             return $results;
         }
         
-        function getProfileFromId($userId){
+        public function getProfileFromId($userId){
             // u.email, u.firstName, u.lastName, u.id, u.departmentName, `u.language`, u.phonenumber, a.timezone, a.university 
             $query = 'SELECT 
                 u.email, u.firstName, u.lastName, u.id, 
@@ -27,7 +27,7 @@
             return $results;
             
         }
-        function getListFreeUser(){            
+        public function getListFreeUser(){            
             //Looks like Medoo doesn't like us using Enums in the WHERE clause. See NOV-3 in Jira
             $query = 'SELECT 
                 a.id AS account_id,

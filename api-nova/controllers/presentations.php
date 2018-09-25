@@ -2,7 +2,7 @@
 require_once __DIR__.'/../base/nova-api.php';
 
 class Presentations extends NovaAPI {
-    function getOverview(){
+    public function getOverview(){
         $presentaionModel = $this->loadModel('presentations');
         $sessionId = $this->getUserSessionId();
         $results = $presentaionModel->getOverviewData($sessionId);
@@ -22,7 +22,7 @@ class Presentations extends NovaAPI {
         return json_encode(['content' => $results]);
     }
     
-    function getDetails($id = NULL) {
+    public function getDetails($id = NULL) {
         // Fetch data from single presentation
         if($id != NULL){
             $model = $this->loadModel('presentations');

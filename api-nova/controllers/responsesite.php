@@ -2,7 +2,7 @@
 require_once __DIR__.'/../base/nova-api.php';
 
 class Responsesite extends NovaAPI {
-    function getSettingsBasic() {
+    public function getSettingsBasic() {
         //Get Session
         $sessionModel = $this->loadModel('sessions');
         $sessionId = $this->getUserSessionId();
@@ -22,12 +22,12 @@ class Responsesite extends NovaAPI {
         $results['responsesites-list'] = $responsesitesResults;
         return json_encode(['content' => $results]);
     }
-    function getSiteList() {
+    public function getSiteList() {
         $responsesitesModel = $this->loadModel('responsesites');
         $results = $responsesitesModel->getActiveList();
         return json_encode(['content' => $results]);
     }
-    function getSiteById($id) {
+    public function getSiteById($id) {
         $responsesitesModel = $this->loadModel('responsesites');
         $results = $responsesitesModel->getActiveById($id);
         return json_encode(['content' => $results]);
