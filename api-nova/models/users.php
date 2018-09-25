@@ -27,6 +27,7 @@ class Users_Model extends Model {
         return $results;
         
     }
+    
     public function getListFreeUser(){            
         //Looks like Medoo doesn't like us using Enums in the WHERE clause. See NOV-3 in Jira
         $query = 'SELECT 
@@ -48,7 +49,6 @@ class Users_Model extends Model {
                 $resultsClean[] = $resultsDirty[$key];
             }
         }
-
         return $resultsClean;
     }
 }
