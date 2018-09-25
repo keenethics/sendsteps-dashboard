@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
-import { PanelBody } from "../../../components/common/Panels";
+import { Panel } from 'react-bootstrap';
 
 class SurveyDetails extends React.Component {
     componentWillMount() {
@@ -41,11 +41,11 @@ class SurveyDetails extends React.Component {
 
         return (
             <div>  
-                <PanelBody>
+                <Panel><Panel.Body>
                     <h1>Presentation results</h1>   
-                </PanelBody>
+                </Panel.Body></Panel>
                 <BreadCrumbs urlList={this.props.match.url} />   
-                <PanelBody>
+                <Panel><Panel.Body>
                     <div className="container-fluid">
                         <div className="row">
                             <input name='id' id='phonenumber-id' type='hidden' />
@@ -90,7 +90,7 @@ class SurveyDetails extends React.Component {
                             </div>
                         </div>
                     </div>
-                </PanelBody>
+                </Panel.Body></Panel>
             </div>
         );
     }

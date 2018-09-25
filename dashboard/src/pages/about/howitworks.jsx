@@ -2,7 +2,7 @@ import React from "react";
 import BreadCrumbs from "../base/BreadCrumbs";
 import { AddinDownloadPanel, AddinInfoPanel, TutorialInfoPanel } from './extra_components/InfoPanels';
 import ResponseSiteContainer from '../base/ResponseSiteContainer';
-import { PanelBody } from "../../components/common/Panels";
+import { Panel } from 'react-bootstrap';
 class AboutAddin extends React.Component {
 
     render() {
@@ -16,9 +16,9 @@ class AboutAddin extends React.Component {
 
         return (
             <div>
-                <PanelBody>
+                <Panel><Panel.Body>
                     <h1>How it works</h1>   
-                </PanelBody>
+                </Panel.Body></Panel>
                 <BreadCrumbs urlList={this.props.match.url} />  
                 {/* <PageHeaderPanel>
                 
@@ -26,10 +26,10 @@ class AboutAddin extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-                            <PanelBody>
+                            <Panel><Panel.Body>
                                 <h2>Video Tutorial</h2>
                                 <p>Watch the video tutorial to get you started with the PowerPoint Add-in!</p>
-                            </PanelBody>
+                            </Panel.Body></Panel>
                         </div>
                     </div>
                 </div>

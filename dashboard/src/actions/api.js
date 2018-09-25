@@ -5,6 +5,12 @@ import { getConfigSetting } from '../scripts/configFile';
 
 let apiUrl = getConfigSetting('apiUrlNova');
 
+export function clearData() {
+    return {
+        type: 'CLEAR_DATA'
+    }
+}
+
 export function apiFetchError(error) {
     return {
         type: 'API_FETCH_ERROR',

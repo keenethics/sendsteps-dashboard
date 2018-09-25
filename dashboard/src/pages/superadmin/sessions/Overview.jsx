@@ -1,7 +1,7 @@
 import React from 'react';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { InputField } from '../../../components/common/InputField';
-import { PanelBody } from '../../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
 class SessionOverview extends React.Component {
     render() {
             
@@ -9,11 +9,13 @@ class SessionOverview extends React.Component {
         
         return (
             <div>
-                <PanelBody>
-                    <h1>Session Overview Settings</h1>   
-                </PanelBody>
+                <Panel>
+                    <Panel.Body>
+                        <h1>Session Overview Settings</h1>   
+                    </Panel.Body>
+                </Panel>
                 <BreadCrumbs urlList={match.url} />
-                    <PanelBody>        
+                    <Panel><Panel.Body>        
                         <div className="container-fluid">
                             <div className="row">
                                 <button type='button' id="clear-form" className="btn btn-danger pull-right">
@@ -376,22 +378,22 @@ class SessionOverview extends React.Component {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="panel-footer">
-                            <div className="row">            
-                                <div className="col-sm-12">
-                                    <button type='button' id='save-btn' className='btn btn-success'>
-                                        <i className="fa fa-floppy-o"></i>
-                                        Save
-                                    </button>
-                                    <button type='button' id='back-btn' className='btn btn-default pull-right'> 
-                                        <i className="fa fa-chevron-left"></i>
-                                        Back
-                                    </button>
-                                </div>
-                            </div>   
-                        </div>
-                </PanelBody>
+                    </Panel.Body>
+                    <Panel.Footer>
+                        <div className="row">            
+                            <div className="col-sm-12">
+                                <button type='button' id='save-btn' className='btn btn-success'>
+                                    <i className="fa fa-floppy-o"></i>
+                                    Save
+                                </button>
+                                <button type='button' id='back-btn' className='btn btn-default pull-right'> 
+                                    <i className="fa fa-chevron-left"></i>
+                                    Back
+                                </button>
+                            </div>
+                        </div>   
+                    </Panel.Footer>
+                </Panel>
             </div>
         )
     }

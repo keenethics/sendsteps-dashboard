@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
-import { PanelBody } from "../../../components/common/Panels";
+import { Panel } from 'react-bootstrap';
 
 class EditDashboardDetails extends React.Component {
     componentWillMount() {
@@ -22,13 +22,13 @@ class EditDashboardDetails extends React.Component {
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
             <div>
-                <div className="panel panel-default header-panel">  
-                    <div className="panel-body">
+                <Panel className="header-panel">  
+                    <Panel.Body>
                         <h1>Dashboard ({data.displayText})</h1>   
-                    </div>
-                </div>
+                    </Panel.Body>
+                </Panel>
                 <BreadCrumbs urlList={this.props.match.url} /> 
-                <PanelBody>
+                <Panel><Panel.Body>
                     <div className="container-fluid">
                         <div className="row">
                             <input name='id' id='phonenumber-id' type='hidden' />
@@ -111,7 +111,7 @@ class EditDashboardDetails extends React.Component {
                             </div>
                         </div>
                     </div>
-                </PanelBody>  
+                </Panel.Body></Panel>  
             </div> : null;
     }
 } export default connect(

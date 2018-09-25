@@ -1,21 +1,23 @@
 import React from 'react';
-import { PanelBody } from '../../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
 
 export const AddinInfoPanel = () => {
     return (
         <div className="col-md-4">
-            <PanelBody>
-                <h3>Branded Add-in</h3>
-                <hr/>
-                <strong>Your own look and feel!</strong>
-                <p>
-                    Have all your add-in items branded in the corporate style of your organization: instruction-, 
-                    question- and result slides, the response website and even the entire software package.
-                </p>
-                <button className="btn btn-default">
-                    <i className="fa fa-info"></i> More information 
-                </button>
-            </PanelBody>
+            <Panel>
+                <Panel.Body>
+                    <h3>Branded Add-in</h3>
+                    <hr/>
+                    <strong>Your own look and feel!</strong>
+                    <p>
+                        Have all your add-in items branded in the corporate style of your organization: instruction-, 
+                        question- and result slides, the response website and even the entire software package.
+                    </p>
+                    <button className="btn btn-default">
+                        <i className="fa fa-info"></i> More information 
+                    </button>
+                </Panel.Body>
+            </Panel>
         </div>
     )
 }
@@ -23,7 +25,7 @@ export const AddinInfoPanel = () => {
 export const AddinDownloadPanel = () => {
     return (
         <div className="col-md-4">
-            <PanelBody>
+            <Panel><Panel.Body>
                 <h3>Download Add-in</h3>
                 <hr/>
                 <p>Requirements to use the Sendsteps Add-In:</p>
@@ -37,7 +39,7 @@ export const AddinDownloadPanel = () => {
                 <button className="btn btn-default">
                     <i className="fa fa-download"></i> Download 
                 </button>
-            </PanelBody>
+            </Panel.Body></Panel>
         </div>
     )
 }
@@ -45,13 +47,15 @@ export const AddinDownloadPanel = () => {
 export const BlogPanel = () => {
     return (
         <div className="col-md-4">
-            <PanelBody>
-                <h3>Read our blog!</h3>
-                <hr/>
-                <button className="btn btn-primary">
-                    <i className="fa fa-rss"></i> Sendsteps Blog 
-                </button>
-            </PanelBody>  
+            <Panel>
+                <Panel.Body>
+                    <h3>Read our blog!</h3>
+                    <hr/>
+                    <button className="btn btn-primary">
+                        <i className="fa fa-rss"></i> Sendsteps Blog 
+                    </button>
+                </Panel.Body>
+            </Panel>  
         </div>
     )
 }
@@ -59,13 +63,15 @@ export const BlogPanel = () => {
 export const QAPanel = () => {
     return (
         <div className="col-md-4">
-            <PanelBody>
-                <h3>Got a question?</h3>
-                <hr/>
-                <p>Please contact your administrator below for any questions.</p>
-                <p><i className="fa fa-phone"></i> +31 (0)20 716 36 56</p>
-                <p><i className="fa fa-envelope"></i> Support@Sendsteps.com</p>
-            </PanelBody>
+            <Panel>
+                <Panel.Body>
+                    <h3>Got a question?</h3>
+                    <hr/>
+                    <p>Please contact your administrator below for any questions.</p>
+                    <p><i className="fa fa-phone"></i> +31 (0)20 716 36 56</p>
+                    <p><i className="fa fa-envelope"></i> Support@Sendsteps.com</p>
+                </Panel.Body>
+            </Panel>
         </div>
     )
 }
@@ -116,9 +122,11 @@ export const TutorialInfoPanel = () => {
     })
     return (
         <div className="col-md-8 youtube-container">
-            <PanelBody>
-                {content}
-            </PanelBody>
+            <Panel>
+                <Panel.Body>
+                    {content}
+                </Panel.Body>
+            </Panel>
         </div>
     )
 }

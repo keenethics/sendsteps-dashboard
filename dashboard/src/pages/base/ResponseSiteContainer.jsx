@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { PanelBody } from '../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
 // import { fetchResult } from '../../actions/api';
 
 class ResponseSiteContainer extends Component {
@@ -19,7 +19,7 @@ class ResponseSiteContainer extends Component {
         
         return (
             <div className={"col-md-" + colWidth}>
-            <PanelBody>
+            <Panel><Panel.Body>
                 <h3>Live: Your Response Website</h3>
                 <hr/>
                 <p>Have a look! This is how your response website currently looks.</p>
@@ -31,7 +31,7 @@ class ResponseSiteContainer extends Component {
                     scrolling="yes"
                     frameBorder="no">
                 </iframe>
-            </PanelBody>
+            </Panel.Body></Panel>
         </div>
         )
     }

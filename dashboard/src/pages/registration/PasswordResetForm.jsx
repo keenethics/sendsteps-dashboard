@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
-import { PanelHeading } from '../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
 
 class PasswordResetForm extends Component {
 
@@ -42,14 +42,13 @@ class PasswordResetForm extends Component {
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 password-reset-form">
-                    <PanelHeading>
-                        Request password reset
-                    </PanelHeading>
-                    <div className="panel panel-default">
-                        <div className="panel-heading">
-                            <h2 className="panel-title"></h2>
-                        </div>
-                        <div className="panel-body">
+                    <Panel>
+                        <Panel.Heading>
+                            <Panel.Title>
+                                Request password reset
+                            </Panel.Title>
+                        </Panel.Heading>
+                        <Panel.Body>
                             <div className={"fa-sm form-group " + emailErrorClass}>
                                 <label className="control-label">Enter your email to reset your password</label>
                                 <div className="input-group">
@@ -58,12 +57,12 @@ class PasswordResetForm extends Component {
                                 </div>
                                 {recoveringEmailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {recoveringEmailError}</span>}
                             </div>
-                        </div>
-                        <div className="panel-footer">
+                        </Panel.Body>
+                        <Panel.Footer>
                             <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-chevron-left"></i> Back to login</button>
                             <button type="button" onClick={this.resetEmail.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Reset</button>
-                        </div>
-                    </div>
+                        </Panel.Footer>
+                    </Panel>
                 </div>
             </div>
         )

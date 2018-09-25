@@ -3,7 +3,7 @@ import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
-import { PanelBody } from '../../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
 
 class DeleteUsersOverview extends React.Component {
    
@@ -25,17 +25,17 @@ class DeleteUsersOverview extends React.Component {
         console.log(data);
         return (
             <div>
-                <PanelBody>
+                <Panel><Panel.Body>
                     <h1>Delete Users Overview</h1>   
-                </PanelBody>
+                </Panel.Body></Panel>
                 <BreadCrumbs urlList={match.url} />
-                <PanelBody>
+                <Panel><Panel.Body>
                     <div className="container-fluid">
                         {this.shouldRenderTable(data) ? 
                             <OverviewTable data={data} />
                         : null}
                     </div>
-                </PanelBody>
+                </Panel.Body></Panel>
             </div>
         )
     }

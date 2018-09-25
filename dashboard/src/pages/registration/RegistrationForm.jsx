@@ -20,21 +20,13 @@ import {
 } from '../../actions/registration';
 import { authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
+import { Panel } from 'react-bootstrap';
 
 class RegistrationForm extends Component {
 
     componentWillMount() {
         this.props.dispatch(resetRegistrationForm());
         this.props.dispatch(authLoading(false));
-
-        // this.props.dispatch(setFirstName('Bryan'));
-        // this.props.dispatch(setLastName('Overduin'));
-        
-        // this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
-
-        // this.props.dispatch(setPassword('lol000'));
-        // this.props.dispatch(setPasswordConfirm('lol000123'));
-        // this.props.dispatch(setAcceptTerms(true));
     }
 
     showLoginForm() {
@@ -198,19 +190,19 @@ class RegistrationForm extends Component {
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 registration-form">
-                    <div className="panel panel-default">
-                        <div className="panel-heading">
+                    <Panel>
+                        <Panel.Heading>
                             <h2 className="panel-title">
                                 Register 
                                 {generalError && <span className="pull-right text-danger">
                                     <i className="fa fa-exclamation-triangle"></i> {generalError}
                                 </span>}
                             </h2>
-                        </div>
-                        <div className="panel-body register">
+                        </Panel.Heading>
+                        <Panel.Body className="register">
                             {authLoading && <div className="auth-loading-overlay">
-                                    <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
-                                </div>}
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
+                            </div>}
                             <div className="row">
                                 <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
                                     <div className={"fa-sm form-group " + firstNameErrorClass}>
@@ -260,18 +252,18 @@ class RegistrationForm extends Component {
                             </div>
                             <div className={"fa-sm form-group " + termsErrorClass}>
                                 <div className="checkbox">
-                                    <label>
-                                        <input onChange={this.setAcceptTerms.bind(this)} checked={termsAccepted} type="checkbox" /> <strong>I accept the license agreement & general conditions</strong>
-                                    </label>
-                                </div>
-                                {termsAcceptedError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {termsAcceptedError}</span>}
+                                <label>
+                                    <input onChange={this.setAcceptTerms.bind(this)} checked={termsAccepted} type="checkbox" /> <strong>I accept the license agreement & general conditions</strong>
+                                </label>
                             </div>
-                        </div>
-                        <div className="panel-footer">
+                            {termsAcceptedError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {termsAcceptedError}</span>}
+                            </div>
+                        </Panel.Body>
+                        <Panel.Footer>
                             <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-chevron-left"></i> Back to login</button>
                             <button type="button" onClick={this.register.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
-                        </div>
-                    </div>
+                        </Panel.Footer>
+                    </Panel>
                 </div>
             </div>
         )

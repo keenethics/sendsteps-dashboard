@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
-import { PanelBody } from "../../components/common/Panels";
+import { Panel } from 'react-bootstrap';
 
 class PhonenumberDetails extends React.Component {
     componentWillMount() {
@@ -16,14 +16,14 @@ class PhonenumberDetails extends React.Component {
 
         return (
             <div>
-                <PanelBody>
+                <Panel><Panel.Body>
                     <h1>Your Profile</h1>   
-                </PanelBody>
+                </Panel.Body></Panel>
                 <BreadCrumbs urlList={match.url} />  
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-                            <PanelBody>
+                            <Panel><Panel.Body>
                                 <div className="row">
                                     <div className="col-md-6">
                                         <h2>
@@ -229,20 +229,20 @@ class PhonenumberDetails extends React.Component {
                                         </div>
                                     </div>
                                 </div>
-                            </PanelBody>
+                            </Panel.Body></Panel>
                         </div>
                         
                     <div className="container-fluid">
                         <div className="row">
                             <div className="col-md-12">
-                                <PanelBody>
+                                <Panel><Panel.Body>
                                     <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
                                     </button>
                                     <Link to="/">
                                         <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
                                         </button>
                                     </Link>
-                                </PanelBody>
+                                </Panel.Body></Panel>
                             </div>
                         </div>
                     </div>    

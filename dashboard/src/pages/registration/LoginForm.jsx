@@ -4,7 +4,8 @@ import { setView } from '../../actions/app';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
 import { authorizeLogin, authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
-import { PanelBody } from '../../components/common/Panels';
+import { Panel } from 'react-bootstrap';
+
 class LoginForm extends Component {
 
     // @TODO: apply same logic with registering/logging/loading in to the registration form, forgotpassword form etc.
@@ -94,44 +95,46 @@ class LoginForm extends Component {
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 login-form">
-                    <PanelBody>
-                        <h2 className="panel-title">
-                            Sign in
-                            {generalError && <span className="pull-right text-danger">
-                                <i className="fa fa-exclamation-triangle"></i> {generalError}
-                            </span>}
-                        </h2>
-                    </PanelBody>
-                </div>
-                
-                <div className="panel-body login">
-                    {authLoading && <div className="auth-loading-overlay">
-                        <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
-                    </div>}
-                    <div className={"fa-sm form-group " + emailErrorClass}>
-                        <label className="control-label">Email</label>
-                        <div className="input-group">
-                            <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                            <input name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
-                        </div>
-                        {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
-                    </div>
-                    <div className={"fa-sm form-group " + passwordErrorClass}>
-                        <label className="control-label">Password</label>
-                        <div className="input-group">
-                            <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                            <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
-                            <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
-                        </div>
-                        {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
-                    </div>
-                    <div className="">
-                        <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm forgot-password">Forgot password?</span>
-                    </div>
-                </div>
-                <div className="panel-footer">
-                    <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
-                    <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary "><i className="fa fa-sign-in-alt"></i> Login</button>
+                    <Panel>
+                        <Panel.Heading>
+                            <Panel.Title>
+                                Sign in
+                                {generalError && <span className="pull-right text-danger">
+                                    <i className="fa fa-exclamation-triangle"></i> {generalError}
+                                </span>}
+                            </Panel.Title>
+                        </Panel.Heading>
+
+                        <Panel.Body className="login">
+                            {authLoading && <div className="auth-loading-overlay">
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-notch fa-spin"></i></div>
+                            </div>}
+                            <div className={"fa-sm form-group " + emailErrorClass}>
+                            <label className="control-label">Email</label>
+                            <div className="input-group">
+                                <span className="input-group-addon" ><i className="fa fa-user"></i></span>
+                                <input name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
+                            </div>
+                            {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
+                            </div>
+                            <div className={"fa-sm form-group " + passwordErrorClass}>
+                            <label className="control-label">Password</label>
+                            <div className="input-group">
+                                <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
+                                <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
+                                <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                            </div>
+                            {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
+                            </div>
+                            <div className="">
+                            <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm forgot-password">Forgot password?</span>
+                            </div>
+                        </Panel.Body>
+                        <Panel.Footer>
+                            <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
+                            <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary "><i className="fa fa-sign-in-alt"></i> Login</button>
+                        </Panel.Footer>
+                    </Panel>
                 </div>
             </div>
         )

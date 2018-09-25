@@ -1,5 +1,11 @@
 export default function apiReducer(state, action) {
     switch(action.type) {
+        case 'CLEAR_DATA': {
+            return {
+                ...state,
+                data: {}
+            }
+        }
         case 'API_FETCH_ERROR': {
             return {
                 ...state,

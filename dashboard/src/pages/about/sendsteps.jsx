@@ -1,21 +1,21 @@
 import React from "react";
 import BreadCrumbs from "../base/BreadCrumbs";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
-import { PanelBody } from "../../components/common/Panels";
+import { Panel } from 'react-bootstrap';
 
 class AboutSendsteps extends React.Component {
     
     render() {
         return (
             <div>
-                <PanelBody>
+                <Panel><Panel.Body>
                     <h1>Sendsteps</h1>   
-                </PanelBody>
+                </Panel.Body></Panel>
                 <BreadCrumbs urlList={this.props.match.url} />  
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-                            <PanelBody>
+                            <Panel><Panel.Body>
                                 <h2>What we believe</h2>
                                 <p>
                                     At Sendsteps we believe that everybody should be able to speak up during presentations. 
@@ -30,7 +30,7 @@ class AboutSendsteps extends React.Component {
                                     Visit our team webpage and get to know our brilliant minds! 
                                     We wish you a lot of interactive and inspiring sessions.
                                 </p>
-                            </PanelBody>
+                            </Panel.Body></Panel>
                         </div>
                     </div>
                 </div>

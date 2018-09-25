@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Panel = props => {
     return (
-        <div className="panel panel-default">
+        <Panel>
             {props.children}
         </div>
     )
@@ -11,7 +11,7 @@ export const Panel = props => {
 export const PanelBody = props => {
     return (
         <Panel>
-            <div className="panel-body">
+            <Panel.Body>
                 {props.children}
             </div>
         </Panel>    
@@ -21,7 +21,7 @@ export const PanelBody = props => {
 export const PanelHeading = props => {
     return (
         <Panel>
-            <div className="panel-heading">
+            <Panel.Heading>
                 <h2 className="panel-title">
                     {props.children}
                 </h2>
