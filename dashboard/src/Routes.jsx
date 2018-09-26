@@ -18,11 +18,13 @@ import PresentationsOverview from "./pages/session-results/presentations/Overvie
 import PresentationsDetails from "./pages/session-results/presentations/Details";
 import SurveyResultsOverview from "./pages/session-results/surveys/Overview";
 // Superadmin
+import TranslationsOverview from "./pages/superadmin/translations/Overview";
+import TranslationsDetails from "./pages/superadmin/translations/Details";
+import EditDashboardOverview from "./pages/superadmin/edit-dashboard/Overview";
+import EditDashboardDetails from "./pages/superadmin/edit-dashboard/Details";
 import PhonenumbersOverview from "./pages/superadmin/phonenumbers/Overview";
 import PhonenumberDetails from "./pages/superadmin/phonenumbers/Details";
 import DeleteUsersOverview from "./pages/superadmin/delete-users/Overview";
-import EditDashboardOverview from "./pages/superadmin/edit-dashboard/Overview";
-import EditDashboardDetails from "./pages/superadmin/edit-dashboard/Details";
 import SessionOverview from "./pages/superadmin/sessions/Overview";
 import SessionDetails from "./pages/superadmin/sessions/Details";
 //User & Dropdown Menu
@@ -36,10 +38,12 @@ const Routes = () =>
     <Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
     <Route path="/session-before/surveys" exact component={SurveyOverview} />
     <Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
-    <Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
-    <Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
+    <Route path="/superadmin/translations" exact component={TranslationsOverview} />
+    <Route path="/superadmin/translations/details/:id" exact component={TranslationsDetails} />
     <Route path="/superadmin/edit-dashboard" exact component={EditDashboardOverview} />
     <Route path="/superadmin/edit-dashboard/details/:id" exact component={EditDashboardDetails} />
+    <Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
+    <Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
     <Route path="/superadmin/delete-users" exact component={DeleteUsersOverview} />
     <Route path="/superadmin/sessions" exact component={SessionOverview} />
     <Route path="/superadmin/sessions/details/:id" exact component={SessionDetails} />
