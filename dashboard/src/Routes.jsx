@@ -24,6 +24,7 @@ import DeleteUsersOverview from "./pages/superadmin/delete-users/Overview";
 import EditDashboardOverview from "./pages/superadmin/edit-dashboard/Overview";
 import EditDashboardDetails from "./pages/superadmin/edit-dashboard/Details";
 import SessionOverview from "./pages/superadmin/sessions/Overview";
+import SessionDetails from "./pages/superadmin/sessions/Details";
 //User & Dropdown Menu
 import UserProfile from "./pages/user/Profile";
 
@@ -41,6 +42,7 @@ const Routes = () =>
     <Route path="/superadmin/edit-dashboard/details/:id" exact component={EditDashboardDetails} />
     <Route path="/superadmin/delete-users" exact component={DeleteUsersOverview} />
     <Route path="/superadmin/sessions" exact component={SessionOverview} />
+    <Route path="/superadmin/sessions/details/:id" exact component={SessionDetails} />
     <Route path="/session-results/presentations" exact component={PresentationsOverview} />
     <Route path="/session-results/presentations/details/:id" exact component={PresentationsDetails} />
     <Route path="/session-results/surveys" exact component={SurveyResultsOverview} />
