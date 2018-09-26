@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
-class PhonenumbersOverview extends React.Component {
+class SessionsOverview extends React.Component {
    
     componentWillMount() {
-        this.props.dispatch(fetchResult('phonenumbers', 'getOverview'));
+        this.props.dispatch(fetchResult('sessions', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 
@@ -26,7 +26,7 @@ class PhonenumbersOverview extends React.Component {
         return (
                 <div>
                     <Panel><Panel.Body>
-                        <h1>Phonenumber Overview</h1>   
+                        <h1>Sessions Overview</h1>   
                     </Panel.Body></Panel>
                     <BreadCrumbs urlList={match.url} />
                     <Panel><Panel.Body>
@@ -47,4 +47,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(PhonenumbersOverview);
+)(SessionsOverview);
