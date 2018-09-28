@@ -51,42 +51,45 @@ class Settings extends React.Component {
                                     <div className="form-group">
                                         <label className="col-sm-6 control-label">Response Website</label>
                                         <div className="col-sm-6">
-                                            <input type="text" value={data && data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                            <input type="text" value={data && data.internetselected} disabled="disabled" className="form-control input-lg" placeholder="" />
                                         </div>
                                     </div>
 
                                     <div className="form-group">
                                         <label className="col-sm-6 control-label">URL</label>
                                         <div className="col-sm-6">
-                                            <input type="text" className="form-control input-lg" placeholder="" />
+                                            {/* responseSitesList */}
+                                            {/* <input type="text" value={data && data.textmessagingkeyword} className="form-control input-lg" placeholder="" /> */}
                                         </div>
                                     </div>
 
                                      <div className="form-group">
                                         <label className="col-sm-6 control-label">TXT/SMS</label>
                                         <div className="col-sm-6">
-                                            <input type="text" className="form-control input-lg" placeholder="" />
+                                            <input type="text" value={data && data.textmessagingselected} className="form-control input-lg" placeholder="" />
                                         </div>
                                     </div>
 
                                     <div className="form-group">
                                         <label className="col-sm-6 control-label">Country</label>
                                         <div className="col-sm-6">
-                                            <input type="text" className="form-control input-lg" placeholder="" />
+                                            {/* phonenumberCountryisocode */}
+                                            {/* countriesList */}
+                                            {/* <input type="text" value={data && data.textmessagingkeyword} className="form-control input-lg" placeholder="" /> */}
                                         </div>
                                     </div>
 
                                      <div className="form-group">
                                         <label className="col-sm-6 control-label">International Audience</label>
                                         <div className="col-sm-6">
-                                            <input type="text" className="form-control input-lg" placeholder="" />
+                                            <input type="text" value={data && data.phonenumberForeignerCompatible} className="form-control input-lg" placeholder="" />
                                         </div>
                                     </div>
 
                                     <div className="form-group">
                                         <label className="col-sm-6 control-label">Phone number</label>
                                         <div className="col-sm-6">
-                                            <input type="text" className="form-control input-lg" placeholder="" />
+                                            <input type="text" value={data && data.textmessagingkeyword} className="form-control input-lg" placeholder="" />
                                         </div>
                                     </div>
                             
