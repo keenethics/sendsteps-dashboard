@@ -31,7 +31,8 @@ class OverviewTable extends BaseTable {
         return (
             <div>
                 <BootstrapTable pagination data={data} options={this.getOptions(data)} keyField='id' search>
-                    <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='key' dataFormat={this.nameFormatter} >Key</TableHeaderColumn>
+                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataField='asd' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    <TableHeaderColumn width="250" headerAlign='center' dataSort caretRender={this.getSort} dataField='key' dataFormat={this.nameFormatter} >Key</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='english' dataFormat={this.nameFormatter} >English</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='dutch' dataFormat={this.nameFormatter} >Dutch</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='italian' dataFormat={this.nameFormatter} >Italian</TableHeaderColumn>
@@ -43,9 +44,8 @@ class OverviewTable extends BaseTable {
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='russian' dataFormat={this.nameFormatter} >Russian</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='greek' dataFormat={this.nameFormatter} >Greek</TableHeaderColumn>
                     <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='portuguese' dataFormat={this.nameFormatter} >Portuguese</TableHeaderColumn>
-                    <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='japanese' dataFormat={this.nameFormatter} >Japanese</TableHeaderColumn>
-                    <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='arabic' dataFormat={this.nameFormatter} >Arabic</TableHeaderColumn>
-                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataField='phoneNumber' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    {/* {/* <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='japanese' dataFormat={this.nameFormatter} >Japanese</TableHeaderColumn> */}
+                    {/* <TableHeaderColumn width="100" headerAlign='center' dataSort caretRender={this.getSort} dataField='arabic' dataFormat={this.nameFormatter} >Arabic</TableHeaderColumn> */} 
                 </BootstrapTable>
             </div>
         )
