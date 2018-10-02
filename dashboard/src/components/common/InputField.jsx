@@ -1,6 +1,13 @@
 import React from 'react';
 
-export const InputField = props => {
+const InputField = props => {
+
+    /*
+
+    Props = { labelText, leftFaIcon, rightFaIcon, onChange, placeHolder, inputId }
+
+    */
+
     return (
         <div className="form-group">    
             {props.labelText && 
@@ -17,7 +24,7 @@ export const InputField = props => {
                     placeholder={props.placeholder || ""} 
                     id={props.inputId || ""} 
                     className="form-control" 
-                    readonly={props.readonly && "readonly"}/>
+                    readOnly={props.readonly && "readonly"}/>
                 {props.rightFaIcon && <span className="input-group-addon">
                     <i className={"fa fa-" + props.rightFaIcon}></i>
                 </span>}                                   
@@ -25,3 +32,5 @@ export const InputField = props => {
         </div>
     )
 }
+
+export default InputField;
