@@ -1,6 +1,6 @@
 import React from 'react';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
-import { InputField } from '../../../components/common/InputField';
+import InputField from '../../../components/common/InputField';
 import { Panel } from 'react-bootstrap';
 class SessionOverview extends React.Component {
     render() {
