@@ -25,6 +25,7 @@ class OverviewTable extends BaseTable {
                 <BootstrapTable pagination data={this.props.data} options={this.getOptions()} search>
                     <TableHeaderColumn width="250" headerAlign='center' dataSort caretRender={this.getSort} dataField='name' dataFormat={this.nameFormatter} >Name</TableHeaderColumn>
                     <TableHeaderColumn headerAlign='center' dataSort caretRender={this.getSort} dataField='startTime' dataFormat={this.dateFormatter} >Start time</TableHeaderColumn>
+                    <TableHeaderColumn headerAlign='center' dataSort caretRender={this.getSort} dataField='numberOfParticipants' dataFormat={this.nameFormatter} >Participants</TableHeaderColumn>
                     <TableHeaderColumn width="100" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
                 </BootstrapTable>
             </div>

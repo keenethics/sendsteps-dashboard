@@ -3,12 +3,11 @@ import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
-import InputField from '../../../components/common/InputField';
 import { Panel } from 'react-bootstrap';
-class SessionsOverview extends React.Component {
+class TranslationsOverview extends React.Component {
    
     componentWillMount() {
-        this.props.dispatch(fetchResult('sessions', 'getOverview'));
+        this.props.dispatch(fetchResult('translations', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 
@@ -25,19 +24,17 @@ class SessionsOverview extends React.Component {
         const { data, match } = this.props;
       
         return (
-                <div>
-                    <Panel><Panel.Body>
-                        <h1>Sessions Overview</h1>   
-                    </Panel.Body></Panel>
-                    <BreadCrumbs urlList={match.url} />
-                    <Panel><Panel.Body>
-                        <div className="container-fluid">
-                            {this.shouldRenderTable(data) ? 
-                                <OverviewTable data={data} />
-                            : null}
-                        </div>
-                    </Panel.Body></Panel>
-                </div>
+            <div>
+                <Panel><Panel.Body>
+                    <h1>Translations Overview</h1>   
+                </Panel.Body></Panel>
+                <BreadCrumbs urlList={match.url} />
+                <Panel><Panel.Body>
+                    <div className="container-fluid">
+                        {this.shouldRenderTable(data) ? <OverviewTable data={data} /> : null}
+                    </div>
+                </Panel.Body></Panel>
+            </div>
         )
     }
 } 
@@ -48,4 +45,4 @@ export default connect(
             data: state.apiReducer.data,
         }
     }
-)(SessionsOverview);
+)(TranslationsOverview);

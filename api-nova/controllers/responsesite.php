@@ -9,17 +9,21 @@ class Responsesite extends NovaAPI {
         $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 
         $results['textmessagingkeyword'] = $sessionResults['textMessagingKeyword'];
         $results['internetselected'] = $sessionResults['internetSelected'];
+        $results['textmessagingselected'] = $sessionResults['textMessagingSelected'];
         $results['internetaddressoverwrite'] = $sessionResults['internetAddressOverwrite'];
-        $results['phonenumber-id'] = $sessionResults['phoneNumberId'];
+        $results['phonenumberId'] = $sessionResults['phoneNumberId'];
         //Get Phonenumber
         $phonenumberModel = $this->loadModel('phonenumbers');
         $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId'])[0];
-        $results['phonenumber-countryisocode'] = $phonenumberResults['countryIsoCode'];
-        $results['phonenumber-foreignercompatible'] = $phonenumberResults['foreignerCompatible'];
+        $results['phonenumberCountryisocode'] = $phonenumberResults['countryIsoCode'];
+        $countriesModel = $this->loadModel('countries');
+        $countriesResults = $countriesModel->listAll();
+        $results['countriesList'] = $countriesResults;
+        $results['phonenumberForeignerCompatible'] = $phonenumberResults['foreignerCompatible'];
         //Get Responsesites list
         $responsesitesModel = $this->loadModel('responsesites');
         $responsesitesResults = $responsesitesModel->getActiveList();
-        $results['responsesites-list'] = $responsesitesResults;
+        $results['responseSitesList'] = $responsesitesResults;
         return json_encode(['content' => $results]);
     }
     
