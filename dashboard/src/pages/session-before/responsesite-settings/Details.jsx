@@ -164,7 +164,7 @@ class Settings extends React.Component {
                                                                 </span>}
                                                         /></label>
                                                         <div className="col-sm-6">
-                                                            <input value={data && data['phonenumber-countryisocode']} type="text" className="form-control input-lg" placeholder="" />
+                                                            <input value={data && data.phonenumberCountryisocode} type="text" className="form-control input-lg" placeholder="" />
                                                         </div>
                                                     </div>
 
@@ -198,7 +198,7 @@ class Settings extends React.Component {
                                                                 </span>}
                                                         /></label>
                                                         <div className="col-sm-6">
-                                                            <input value={data && data['phonenumber-id']} type="text" className="form-control input-lg" placeholder="" />
+                                                            <input value={data && data.phonenumberId} type="text" className="form-control input-lg" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </span>}

@@ -27,6 +27,19 @@ export default function apiReducer(state, action) {
                 isLoading: false,
             }
         }
+        case 'CLEAR_ADDITIONAL_DATA': {
+            return {
+                ...state,
+                additionalData: null
+            }
+        }
+        case 'API_FETCH_ADDITIONAL_SUCCESS': {
+            // @TODO Merge current additional data and action.additinalData perhaps?
+            return {
+                ...state,
+                additionalData: action.additionalData
+            }
+        }
         case 'CLEAR_ERRORS': {
             return {
                 ...state,

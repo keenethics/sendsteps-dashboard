@@ -32,13 +32,26 @@ export function apiFetchSuccess(data) {
     }
 }
 
+export function apiFetchSuccessAdditional(additionalData) {
+    return {
+        type: 'API_FETCH_ADDITIONAL_SUCCESS',
+        additionalData
+    }
+}
+
+export function clearAdditionalData() {
+    return {
+        type: 'CLEAR_ADDITIONAL_DATA'
+    }
+}
+
 export function clearErrors() {
     return {
         type: 'CLEAR_ERRORS'
     }
 }
 
-export function fetchResult(controller = '', functionName = '', apiParam = '') {
+export function fetchResult(controller = '', functionName = '', apiParam = '', additional = false) {
     let token = getFromLocalStorage('token') || getCookieValues('SSTToken');
     
     return dispatch => {
@@ -57,7 +70,7 @@ export function fetchResult(controller = '', functionName = '', apiParam = '') {
                     } else {
                         // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
                         // if neither of these are available, don't let the user login and dispatch an error
-                        dispatch(apiFetchSuccess(result.content));  
+                        dispatch(additional ? apiFetchSuccessAdditional(result.content) : apiFetchSuccess(result.content));  
                     }
                 } catch (error) {
                     dispatch(apiFetchError(error));

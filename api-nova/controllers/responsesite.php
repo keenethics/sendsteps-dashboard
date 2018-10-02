@@ -36,6 +36,6 @@ class Responsesite extends NovaAPI {
     public function getSiteById($id) {
         $responsesitesModel = $this->loadModel('responsesites');
         $results = $responsesitesModel->getActiveById($id);
-        return json_encode(['content' => $results]);
+        return json_encode(['content' => $results[0]]);
     }
 }
