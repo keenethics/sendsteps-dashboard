@@ -28,8 +28,8 @@ class Presentations_Model extends Model {
         return $results;
     }
     
-    public function getNumberOfParticipants($presentationIds = array()) {
-        $presentationIds = '('.implode( ",", $presentationIds ).')';
+    public function getParticipantNumbersByPresentationId($sessionId) {
+        // $presentationIds = '('.implode( ",", $presentationIds ).')';
         $query = "SELECT 
                 a.id,
                 COUNT(DISTINCT a.participantId) as participantCount
@@ -39,18 +39,26 @@ class Presentations_Model extends Model {
                     FROM presentations
                     LEFT JOIN votes on presentations.id = votes.presentationId
                     LEFT JOIN livevotemessages on votes.id = livevotemessages.voteId
-                    WHERE <presentations.id> IN ".$presentationIds."
+                    LEFT JOIN sessionruns s ON s.id = presentations.sessionRunId
+                    WHERE 
+                        presentations.active = 1 AND
+                        <s.sessionId> = :sessionId1
                 ) UNION ALL (
                     SELECT presentations.id,livemessageroundmessages.participantId
                     FROM presentations
                     LEFT JOIN messagerounds on presentations.id = messagerounds.presentationId
                     LEFT JOIN livemessageroundmessages on messagerounds.id = livemessageroundmessages.messageRoundId
-                    WHERE <presentations.id> IN ".$presentationIds."
+                    LEFT JOIN sessionruns s ON s.id = presentations.sessionRunId
+                    WHERE 
+                        presentations.active = 1 AND
+                        <s.sessionId> = :sessionId2
                 )
             ) AS a
             GROUP BY a.id
         ;";
-        $data = $this->query($query);
+        $params['sessionId1'] = $sessionId;
+        $params['sessionId2'] = $sessionId;
+        $data = $this->query($query, $params);
 
         
         
