@@ -5,6 +5,9 @@ import { Panel } from 'react-bootstrap';
 import BreadCrumbs from '../../base/BreadCrumbs';
 import { Link } from 'react-router-dom';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
+import InputField from '../../../components/common/InputField';
+import ColorPickerField from '../../../components/common/ColorPickerField';
+import ButtonSwitch from '../../../components/common/ButtonSwitch';
 
 class Settings extends React.Component {
 
@@ -14,13 +17,6 @@ class Settings extends React.Component {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        
-        // //Get site with ID 73
-        // let apiController = 'responsesite';
-        // let apiFunction = 'getSiteById';
-        // let apiParams = JSON.stringify({
-        //     id: 73
-        // });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
 
@@ -40,13 +36,10 @@ class Settings extends React.Component {
         } else {
             this.props.dispatch(clearAdditionalData());
         }
-        // Call api with settings for said response site
     }
     
     render() {
-        const { data, additionalData } = this.props;
-
-        console.log(data);
+        const { data, additionalData, currentUser } = this.props;
         
         return (
             <div>  
@@ -98,7 +91,7 @@ class Settings extends React.Component {
                                         <p><strong>HSL</strong> </p>
                                     </div>
                                     <div className="col-md-6">
-                                        <p>(e.g. <code>hsl(245, 100%, 50%)</code></p>
+                                        <p>(e.g. <code>hsl(245, 100%, 50%)</code>)</p>
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +104,7 @@ class Settings extends React.Component {
                         <div className="col-md-8">
                             <Panel>
                                 <Panel.Body>
-                                    <h3>Response Website Settings</h3>
+                                    <h3>Response Website Layout</h3>
                                     <hr/>
                                     <div className="form-group">
                                         <label>Select a Response Website</label>
@@ -123,162 +116,297 @@ class Settings extends React.Component {
                                         </select>
                                     </div>
                                     <hr/>
-
                                     {additionalData && 
                                     <div>
-                                        Domain: {additionalData.domain}
-                                        UserId: {additionalData.user_id}   
-                                            {/* 
-
-                                            These are the fields on the current dashboard
-
-                                            -- Normal -- 
-
-                                            -- Super Admin --
-                                            
-                                            Domain                      domain
-                                            User
-
-                                            -- 
-
-                                            Title
-                                            Language
-                                            Logo Image
-                                            Main Background Color
-                                            Text Color
-                                            Answer Background Color
-                                            Answer Text Color
-                                            Button Background Color
-
-                                            -- Advanced --
-
-                                            Login Code Background Color
-                                            Back Button Background Color
-                                            Logo Alignment
-                                            Logo Distance From Top
-                                            Header Height
-                                            Logo Url
-
-                                            Logo Url New Tab
-
-                                            Active Tab Color
-                                            Inactive Tab Color
-                                            Loader Color
-                                            Graph Results Color
-
-                                            Connect Button Text Color
-                                            Login Code Text Color
-                                            Popup Backgorund Color
-                                            Menu Icon Color
-                                            Menu Background Color
-
-                                            Background Type
-                                            Background Alignment (if img)       background_position: "left"
-                                            Background Color
-
-                                            Favicon Type
-                                            Favicon URL
-
-                                            -- Super Admin --
-
-                                            Overlay Enabled
-                                            No New Relic
-                                            No Analytics
-                                            No Contact
-                                            CDN Url Overwrite
-
-
-                                            So these all have to be mapped.
-
-                                            'domain' => 'Domain',
-                                            'user_id' => 'User',
-                                            'account_id' => 'User',
-                                            'default_language' => 'Language',
-                                            'body_background_color' => 'Main Background Color',
-                                            'body_color' => 'Text Color',
-                                            'option_background_color' => 'Answer Background Color',
-                                            'option_color' => 'Answer Text Color',
-                                            'button_back_background_color' => 'Back Button Background Color',
-                                            'logo_align' => 'Logo Alignment',
-                                            'logo_padding_top' => 'Logo Distance from Top',
-                                            'tab_active_color' => 'Active Tab Color',
-                                            'tab_inactive_color' => 'Inactive Tab Color',
-                                            'loader_color' => 'Loader Color',
-                                            'main_background_type' => 'Background Type',
-                                            'main_color' => 'Background Color',
-                                            'switch_off_new_relic' => 'No New Relic',
-                                            'switch_off_analytics' => 'No Analytics',
-                                            'switch_off_contact' => 'No Contact',
-                                            'dark_sst_logo' => 'Shaded Logo',
-                                            'enable_overlay' => 'Overlay Enabled',
-                                            'menu_background_color' => 'Menu Background Color',
-                                            'menu_icon_color' => 'Menu Icon Color',
-                                            'background_position' => 'Background Alignment',
-                                            'chart_results_color' => 'Graph Results Color',
-                                            'connect_button_color' => 'Connect Button Text Color',
-                                            'login_code_color' => 'Login Code Text Color',
-                                            'popup_background_color' => 'Popup Background Color'
-
-                                            account_id: "1"
-                                            background_position: "left"
-                                            body_background_color: "#ff00ff"
-                                            body_color: "#0c343d"
-                                            button_back_background_color: ""
-                                            button_back_color: ""
-                                            button_background_color: ""
-                                            button_color: ""
-                                            cdn_url_overwrite: ""
-                                            chart_results_color: null
-                                            connect_button_color: null
-                                            css_url: "https://dev-sendc.scdn1.secure.raxcdn.com/response/1-2018_28_08_12_47-h-iI3a1yvvhW.css"
-                                            dark_sst_logo: "0"
-                                            default_language: "nl"
-                                            domain: "test.com"
-                                            enable_overlay: "0"
-                                            favicon_image_url: null
-                                            favicon_type: "url"
-                                            favicon_url: ""
-                                            footer_background_color: ""
-                                            header_height: null
-                                            id: "74"
-                                            isDeleted: "0"
-                                            loader_color: null
-                                            login_code_background_color: ""
-                                            login_code_color: null
-                                            logo_align: "center"
-                                            logo_image_url: null
-                                            logo_image_url2x: null
-                                            logo_image_x: null
-                                            logo_image_y: null
-                                            logo_padding_top: null
-                                            logo_url: ""
-                                            logo_url_new_tab: "0"
-                                            main_background_type: "image"
-                                            main_color: ""
-                                            main_image_url: null
-                                            menu_background_color: null
-                                            menu_icon_color: null
-                                            option_background_color: ""
-                                            option_chosen_background_color: ""
-                                            option_chosen_color: ""
-                                            option_color: ""
-                                            overlay_image: null
-                                            popup_background_color: null
-                                            switch_off_analytics: "0"
-                                            switch_off_contact: "0"
-                                            switch_off_new_relic: "0"
-                                            tab_active_color: ""
-                                            tab_inactive_color: ""
-                                            text_background_color: ""
-                                            text_color: ""
-                                            text_placeholder_color: ""
-                                            title: null
-                                            unique_response_codes_only: "1"
-                                            user_id: "1"
-                                            white_label: "0"
-                                            
-                                            
-                                            */}
+                                        {currentUser && currentUser.userType === "admin" && 
+                                        <span>
+                                            <h4>Settings <small className="pull-right"><i>(Superadmin)</i></small></h4>
+                                            <div className="row">
+                                                <div className="col-md-6">
+                                                    <InputField 
+                                                        clearButton={true}
+                                                        leftFaIcon={"globe"}
+                                                        labelText={"Domain"}
+                                                        placeholder={"Sendc.com"}
+                                                        value={additionalData.domain}
+                                                    /> 
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <InputField 
+                                                        clearButton={true}
+                                                        leftFaIcon={"user"}    
+                                                        labelText={"User"}
+                                                        placeholder={"Sendc.com"}
+                                                        value={additionalData.userId}
+                                                    /> 
+                                                </div>
+                                            </div>
+                                            <hr/>
+                                        </span>}
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <InputField 
+                                                    clearButton={true}
+                                                    leftFaIcon={"pencil-alt"}
+                                                    labelText={"Title"}
+                                                    placeholder={"Response website title"}
+                                                    value={additionalData.title}
+                                                /> 
+                                            </div>
+                                            <div className="col-md-6">
+                                                <InputField 
+                                                    clearButton={true}
+                                                    leftFaIcon={"globe"}
+                                                    labelText={"Language"}
+                                                    placeholder={"Select Language"}
+                                                    value={additionalData.default_language}
+                                                /> 
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>General Components</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    infoContent={"Color of the loading indicator."}
+                                                    labelText={"Loader Color"}
+                                                    color={additionalData.loader_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Graph Results Color"}
+                                                    color={additionalData.chart_results_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Popup Background Color"}
+                                                    color={additionalData.popup_background_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Main Background Color"}
+                                                    color={additionalData.body_background_color}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>Tabs</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Active Tab Color"}
+                                                    color={additionalData.tab_active_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Inactive Tab Color"}
+                                                    color={additionalData.tab_inactive_color}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>Buttons</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Back Button Background Color"}
+                                                    color={additionalData.button_back_background_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Button Background Color"}
+                                                    color={additionalData.button_background_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Connect Button Text Color"}
+                                                    color={additionalData.connect_button_color}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>Menu</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Menu Icon Color"}
+                                                    color={additionalData.menu_icon_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Menu Background Color"}
+                                                    color={additionalData.menu_background_color}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>Textfields</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Text Color"}
+                                                    color={additionalData.body_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Answer Background Color"}
+                                                    color={additionalData.option_background_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Answer Text Color"}
+                                                    color={additionalData.option_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Login Code Background Color"}
+                                                    color={additionalData.login_code_background_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Login Code Text Color"}
+                                                    color={additionalData.login_code_color}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <h4>Images</h4>
+                                        <div className="row">
+                                            <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="control-label">Favicon Type</label>
+                                                <ButtonSwitch  options={["Image", "URL"]} />
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="control-label">Logo Alignment</label>
+                                                <ButtonSwitch  options={["Left", "Center", "Right"]} />
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <InputField 
+                                                    clearButton={true}
+                                                    leftFaIcon={"text-height"}
+                                                    labelText={"Logo Distance From Top"}
+                                                    value={additionalData.logo_padding_top}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <InputField
+                                                    clearButton={true} 
+                                                    leftFaIcon={"link"}
+                                                    labelText={"Logo Url"}
+                                                    value={additionalData.logo_url}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="control-label">Logo Url New Tab</label>
+                                                <ButtonSwitch />
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                            <div className="form-group">
+                                                <label className="control-label">Background Type</label>
+                                                <ButtonSwitch options={["Image", "URL"]} />
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <div className="form-group">
+                                                <label className="control-label">Background Alignment</label>
+                                                <ButtonSwitch options={["Left", "Center", "Right"]} />
+                                            </div>
+                                            </div>
+                                            <div className="col-md-6">
+                                                <ColorPickerField 
+                                                    labelText={"Background Color"}
+                                                    color={additionalData.main_color}
+                                                />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <InputField 
+                                                    clearButton={true}
+                                                    leftFaIcon={"images"}
+                                                    labelText={"Logo Image"}
+                                                    value={additionalData.logo_image}
+                                                />
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        {currentUser && currentUser.userType === "admin" && 
+                                        <span>
+                                            <h4>Extra Options <small className="pull-right"><i>(Superadmin)</i></small></h4>
+                                                <div className="row">
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Overlay Enabled</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">New Relic</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Analytics</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Contact</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Only Unique Response Codes</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <label className="control-label">Dark Theme</label>
+                                                        <ButtonSwitch  />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <InputField 
+                                                            clearButton={true}
+                                                            leftFaIcon={"link"}
+                                                            labelText={"CDN Url Overwrite"}
+                                                            value={additionalData.cdn_url_overwrite}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
+                                                        <InputField 
+                                                            clearButton={true}
+                                                            leftFaIcon={"arrows-alt-v"}
+                                                            labelText={"Header Height"}
+                                                            value={additionalData.header_height}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </span>}
                                     </div>}
                                 </Panel.Body>
                             </Panel>
@@ -291,7 +419,7 @@ class Settings extends React.Component {
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <div className="form-group">
-                                            <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
+                                            <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
                                             </button>
                                             <Link to="/">
                                                 <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
@@ -304,8 +432,6 @@ class Settings extends React.Component {
                         </Panel.Body>
                     </Panel>
                 </div>
-                
-                
             </div>
         );
     }
@@ -315,7 +441,8 @@ export default connect(
     (state) => {
         return {
             data: state.apiReducer.data,
-            additionalData: state.apiReducer.additionalData
+            additionalData: state.apiReducer.additionalData,
+            currentUser: state.authReducer.currentUser
         }
     }
 )(Settings);

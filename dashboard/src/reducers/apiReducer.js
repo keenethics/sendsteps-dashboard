@@ -3,7 +3,7 @@ export default function apiReducer(state, action) {
         case 'CLEAR_DATA': {
             return {
                 ...state,
-                data: {}
+                data: null
             }
         }
         case 'API_FETCH_ERROR': {

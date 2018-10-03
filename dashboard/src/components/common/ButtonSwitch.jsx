@@ -12,12 +12,24 @@ class ButtonSwitch extends Component {
         return (
             <div>
                 <div className="btn-group">
-                    <div onClick={() => onChange(true)} className={activeClassName}>
-                        <i className="fa fa-check"></i> {options && options[0] ? options[0] : "On"}
-                    </div>
-                    <div onClick={() => onChange(false)} className={inactiveClassName}>
-                        <i className="fa fa-check"></i>  {options && options[1] ? options[1] : "Off"}
-                    </div>
+                    {!options && 
+                    <span>
+                        <div onClick={() => onChange ? onChange(true) : console.log(true)} className={activeClassName}>
+                            <i className="fa fa-check"></i> On
+                        </div>
+                        <div onClick={() => onChange ? onChange(false) : console.log(false)} className={inactiveClassName}>
+                            <i className="fa fa-times"></i> Off
+                        </div>
+                    </span>}
+                    {options &&
+                        options.map((option, index) => {
+                            return (
+                                <div className="btn btn-default" key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
+                                    {option}
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         )

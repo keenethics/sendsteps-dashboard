@@ -38,7 +38,7 @@ class SideMenu extends Component {
                         link="/session-before/surveys"
                     />
                     <MenuItem 
-                        menmenuOpened={menuOpened}uOpened
+                        menuOpened={menuOpened}
                         menuText="Edit Site Layout"
                         faIconClass="fa-magic"
                         link="/session-before/responsesite-layout"

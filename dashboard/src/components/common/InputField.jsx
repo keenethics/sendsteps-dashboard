@@ -1,36 +1,71 @@
 import React from 'react';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
-const InputField = props => {
+export default class InputField extends React.Component {
 
-    /*
+    constructor(props) {
+        super(props) 
+        this.state = {
+            value: this.props.value
+        }
 
-    Props = { labelText, leftFaIcon, rightFaIcon, onChange, placeHolder, inputId }
+    }
 
-    */
+    clearField() {
+        this.setState({value: ""})
+    }
 
-    return (
-        <div className="form-group">    
-            {props.labelText && 
-            <label className="control-label">
-                {props.labelText}
-            </label>}
-            {props.extraLabelText || ""}
-            <div className="input-group">
-                {props.leftFaIcon && <span className="input-group-addon">
-                    <i className={"fa fa-" + props.leftFaIcon}></i>
-                </span>}
-                <input 
-                    onChange={props.onChange || function() { console.log('No Onchange attribute supplied') }}
-                    placeholder={props.placeholder || ""} 
-                    id={props.inputId || ""} 
-                    className="form-control" 
-                    readOnly={props.readonly && "readonly"}/>
-                {props.rightFaIcon && <span className="input-group-addon">
-                    <i className={"fa fa-" + props.rightFaIcon}></i>
-                </span>}                                   
+    componentWillReceiveProps(nextProps) {
+        this.setState({value: nextProps.value});
+    }
+
+    render() {
+
+        const { 
+            labelText, 
+            extraLabelText, 
+            leftFaIcon, 
+            rightFaIcon, 
+            clearButton, 
+            onChange, 
+            readonly, 
+            inputId, 
+            placeholder
+        } = this.props;
+
+        return (
+            <div className="form-group">    
+                {labelText && 
+                <label className="control-label">
+                    {labelText}
+                </label>}
+                {extraLabelText || ""}
+                <div className="input-group">
+                    {leftFaIcon && <span className="input-group-addon">
+                        <i className={"fa fa-" + leftFaIcon}></i>
+                    </span>}
+                    <input 
+                        onChange={onChange || function() { console.log('No Onchange attribute supplied') }}
+                        placeholder={placeholder || ""} 
+                        id={inputId || ""} 
+                        className="form-control" 
+                        value={this.state.value}
+                        readOnly={readonly && "readonly"}/>
+                    {rightFaIcon && !clearButton && 
+                    <span className="input-group-addon">
+                        <i className={"fa fa-" + rightFaIcon}></i>
+                    </span>}    
+                    {clearButton && !rightFaIcon &&
+                    <OverlayTrigger
+                        delay={150}
+                        placement={"top"}
+                        overlay={<Tooltip>Clear field</Tooltip>}>
+                        <span onClick={this.clearField.bind(this)} className="input-group-addon">
+                            <i className={"fa fa-times"}></i>
+                        </span>
+                    </OverlayTrigger>}                               
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
-
-export default InputField;

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
+import { fetchResult, clearData } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import BreadCrumbs from "../../base/BreadCrumbs";
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
@@ -25,6 +25,10 @@ class Settings extends React.Component {
             id: this.props.match.params.id
         });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(clearData());
     }
 
     toggleInternatinonalAudience(state) {
@@ -86,13 +90,19 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <input 
-                                                            type="text" 
-                                                            value={data && data.textmessagingkeyword} 
-                                                            disabled={true} 
-                                                            className="form-control input-lg" 
-                                                            placeholder=""
-                                                        />
+                                                        <div className="input-group">
+                                                            <span className="input-group-addon">
+                                                                <i className="fa fa-barcode"></i>
+                                                            </span>
+                                                            <input 
+                                                                type="text" 
+                                                                value={data && data.textmessagingkeyword} 
+                                                                disabled={true} 
+                                                                className="form-control input-lg" 
+                                                                placeholder=""
+                                                            />
+                                                        </div>
+                                                        
                                                     </div>
                                                 </div>
                                                 <hr/>
@@ -127,7 +137,12 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <input type="text" value={data && data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                                        <div className="input-group">
+                                                            <span className="input-group-addon">
+                                                                <i className="fa fa-link"></i>
+                                                            </span>
+                                                            <input type="text" value={data && data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                                        </div>
                                                     </div>
                                                 </div>}
                                                 <hr/>
@@ -164,7 +179,12 @@ class Settings extends React.Component {
                                                                 </span>}
                                                         /></label>
                                                         <div className="col-sm-6">
-                                                            <input value={data && data.phonenumberCountryisocode} type="text" className="form-control input-lg" placeholder="" />
+                                                            <div className="input-group">
+                                                                <span className="input-group-addon">
+                                                                    <i className="fa fa-globe"></i>
+                                                                </span>
+                                                                <input value={data && data.phonenumberCountryisocode} type="text" className="form-control input-lg" placeholder="" />
+                                                            </div>
                                                         </div>
                                                     </div>
 
@@ -198,7 +218,12 @@ class Settings extends React.Component {
                                                                 </span>}
                                                         /></label>
                                                         <div className="col-sm-6">
-                                                            <input value={data && data.phonenumberId} type="text" className="form-control input-lg" placeholder="" />
+                                                            <div className="input-group">
+                                                                <span className="input-group-addon">
+                                                                    <i className="fa fa-phone"></i>
+                                                                </span>
+                                                                <input value={data && data.phonenumberId} type="text" className="form-control input-lg" placeholder="" />
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </span>}

@@ -501,3 +501,10 @@ ul.pagination {
 .profile-image, .profile-details {
   display: inline-block;
 }
+
+.input-group-addon {
+  .fa-circle {
+    box-shadow: 0px 0px 5px #2f2f2f;
+    border-radius: 50%;
+  }
+}
