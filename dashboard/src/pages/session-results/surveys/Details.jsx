@@ -8,7 +8,7 @@ import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 class SurveyResultsDetails extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });

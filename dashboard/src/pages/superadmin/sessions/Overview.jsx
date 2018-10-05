@@ -3,11 +3,10 @@ import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
-import InputField from '../../../components/common/InputField';
 import { Panel } from 'react-bootstrap';
 class SessionsOverview extends React.Component {
    
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(fetchResult('sessions', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }

@@ -7,7 +7,7 @@ import { Panel } from 'react-bootstrap';
 
 class PresentationsOverview extends React.Component {
    
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(fetchResult('presentations', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }

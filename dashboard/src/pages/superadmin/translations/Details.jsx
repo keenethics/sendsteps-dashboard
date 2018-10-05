@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class TranslationDetails extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
@@ -16,12 +15,13 @@ class TranslationDetails extends React.Component {
     
     render() {
 
-        const { data } = this.props;
+        const { data, match } = this.props;
 
         return (
             <div>
                 <HeaderPanel 
                     title={"Phonenumber (" + (data && data.displayText) + ")"}
+                    match={match}
                 />
                 <Panel>
                     <Panel.Body>

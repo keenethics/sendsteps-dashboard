@@ -2,11 +2,10 @@ import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult, clearData } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
-import BreadCrumbs from "../../base/BreadCrumbs";
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
-import { Link } from 'react-router-dom';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
+import HeaderPanel from "../../../components/common/HeaderPanel";
 
 
 class Settings extends React.Component {
@@ -19,7 +18,7 @@ class Settings extends React.Component {
         }
     }
     
-    componentWillMount() {
+    componentDidMount() {
         let apiController = 'responsesite';
         let apiFunction = 'getSettingsBasic';
         let apiParams = JSON.stringify({
@@ -47,23 +46,20 @@ class Settings extends React.Component {
     render() {
 
         const { data, match } = this.props;
-        console.log(data)
 
         return (
             <div>
-                <Panel>
-                    <Panel.Body>
-                        <h1>Response Website Settings</h1> 
-                        <hr/>
-                        <p>
-                            On this page you can edit your session details, 
-                            for example the way your audience can respond, 
-                            via SMS, a [mobile] website or Twitter. 
-                            Click on the question marks to learn more about the different functionalities.
-                        </p>
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={match.url} />   
+                <HeaderPanel 
+                    match={match}
+                    title={"Response Website Settings"}
+                    content={<p>
+                        On this page you can edit your session details, 
+                        for example the way your audience can respond, 
+                        via SMS, a (mobile) website or Twitter. 
+                        Click on the question marks to learn more about the different functionalities.
+                    </p>}
+                />
+               
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">  
@@ -248,6 +244,7 @@ export default connect(
     (state) => {
         return {
             data: state.apiReducer.data,
+            dataHash: state.apiReducer.dataHash
         }
     }
 )(Settings);

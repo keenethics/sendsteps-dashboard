@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
@@ -8,7 +7,7 @@ import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 class SurveyDetails extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });

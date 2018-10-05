@@ -7,7 +7,7 @@ import HeaderPanel from "../../../components/common/HeaderPanel";
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 class PresentationDetails extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });

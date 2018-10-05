@@ -1,4 +1,5 @@
 export default function apiReducer(state, action) {
+
     switch(action.type) {
         case 'CLEAR_DATA': {
             return {
@@ -9,6 +10,7 @@ export default function apiReducer(state, action) {
         case 'API_FETCH_ERROR': {
             return {
                 ...state,
+                data: null,
                 isLoading: false,
                 error: action.error
             }
@@ -30,14 +32,20 @@ export default function apiReducer(state, action) {
         case 'CLEAR_ADDITIONAL_DATA': {
             return {
                 ...state,
-                additionalData: null
             }
         }
         case 'API_FETCH_ADDITIONAL_SUCCESS': {
             // @TODO Merge current additional data and action.additinalData perhaps?
+            const merged = {
+                ...state.additionalData, 
+                ...action.additionalData
+            }
+
+            console.log(Object.keys(merged).length);
+
             return {
                 ...state,
-                additionalData: action.additionalData
+                additionalData: merged
             }
         }
         case 'CLEAR_ERRORS': {

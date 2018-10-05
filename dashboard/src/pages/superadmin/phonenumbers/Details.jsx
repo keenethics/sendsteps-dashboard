@@ -6,7 +6,7 @@ import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 
 class PhonenumberDetails extends React.Component {
-    componentWillMount() {
+    componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });

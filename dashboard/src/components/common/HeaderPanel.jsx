@@ -1,6 +1,5 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
-import ColorInfo from '../../components/common/ColorInfo';
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 const HeaderPanel = props => {

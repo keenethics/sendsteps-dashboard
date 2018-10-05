@@ -6,7 +6,6 @@ import SignOutButton from './SignOutButton';
 class MenuProfile extends React.Component {
     render() {
 
-        const userName = "Bryan";
         const { menuOpened, currentUser } = this.props;
 
         return (

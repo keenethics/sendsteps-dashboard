@@ -6,7 +6,7 @@ import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 class TranslationsOverview extends React.Component {
    
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(fetchResult('translations', 'getOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }

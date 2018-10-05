@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearAdditionalData } from '../../../actions/api';
+import { fetchResult, clearAdditionalData, clearData } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
-import BreadCrumbs from '../../base/BreadCrumbs';
-import { Link } from 'react-router-dom';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
 import ColorPickerField from '../../../components/common/ColorPickerField';
@@ -11,16 +9,21 @@ import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import { isValueInArray } from '../../../scripts/arrayHelper';
 import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
+import HeaderPanel from '../../../components/common/HeaderPanel';
 
 class Settings extends React.Component {
 
-    componentWillMount() {
+    componentDidMount() {
         let apiController = 'responsesite';
         let apiFunction = 'getSiteList';
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(clearData());
     }
 
     fetchSiteSettings(e) {
@@ -37,17 +40,14 @@ class Settings extends React.Component {
         
         return (
             <div>  
-                <Panel>
-                    <Panel.Body>
-                        <h1>Edit Site Layout</h1> 
-                        <hr/>
+                <HeaderPanel 
+                    title={"Edit Site Layout"}
+                    content={<span>
                         <p>Here you can edit your resonse website layout. If you have more than one response websites coupled to your account, first select the response website which you would like to edit and a preview will be shown.</p>
                         <p>Colors need to be specified as one of the following:</p> 
                         <br/>
                         <ColorInfo />
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={this.props.match.url} />
+                    </span>}/>
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8">

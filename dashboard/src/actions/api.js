@@ -41,7 +41,7 @@ export function apiFetchSuccessAdditional(additionalData) {
 
 export function clearAdditionalData() {
     return {
-        type: 'CLEAR_ADDITIONAL_DATA'
+        type: 'CLEAR_ADDITIONAL_DATA',
     }
 }
 
@@ -52,7 +52,8 @@ export function clearErrors() {
 }
 
 export function fetchResult(controller = '', functionName = '', apiParam = '', additional = false) {
-    let token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+    
+    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
     
     return dispatch => {
         dispatch(simulateLoading(true));

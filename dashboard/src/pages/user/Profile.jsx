@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult, clearData } from '../../actions/api';
-import BreadCrumbs from '../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 import ImageUploadField from "../../components/common/ImageUploadField";
 import BottomSaveBar from "../../components/common/BottomSaveBar";
 import HeaderPanel from "../../components/common/HeaderPanel";
 
 class PhonenumberDetails extends React.Component {
-    componentWillMount() {
+    
+    componentDidMount() {
         this.props.dispatch(fetchResult('users', 'getSelf'));
     }
 

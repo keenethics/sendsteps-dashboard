@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../../actions/api';
+import { fetchResult, clearData, clearAdditionalData } from '../../../actions/api';
 import { isValueInArray } from '../../../scripts/arrayHelper';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
@@ -25,6 +25,9 @@ class EditDashboardOverview extends React.Component {
 
     fetchDashboardInfo(e) {
         const dashboardId = e.target.value;
+        if(dashboardId === -1) {
+            this.props.dispatch(clearAdditionalData({}))
+        }
         if(this.props.data && isValueInArray(dashboardId, this.props.data.map((item) => item.id))) {
             this.props.dispatch(fetchResult('dashboards', 'getDetails', JSON.stringify({dashboardId}), true));
         }
@@ -68,6 +71,7 @@ class EditDashboardOverview extends React.Component {
                                             {data && data.map(item => {
                                                 return <option key={item.id} value={item.id}>{item.name}</option>
                                             })}
+                                            <option value={-1}>Create New</option>
                                         </select>
                                     </div>
                                     <hr/>
@@ -78,6 +82,7 @@ class EditDashboardOverview extends React.Component {
                             {additionalData &&
                             <BottomSaveBar />
                             }
+                            {}
                         </div>
                     </div>
                 </div>

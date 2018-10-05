@@ -3,7 +3,6 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
 import { Link } from 'react-router-dom';
 import BaseTable from '../../base/BaseTable';
-import ExcelView from './extra_components/ExcelView';
 
 class OverviewTable extends BaseTable {
 

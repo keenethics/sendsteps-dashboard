@@ -24,6 +24,7 @@ class ResponseSiteContainer extends Component {
                 <hr/>
                 <p>Have a look! This is how your response website currently looks.</p>
                 <iframe 
+                    title="Response website"
                     src={this.props.url || responseAddress + internetKeyword}
                     allowFullScreen="" 
                     width="100%" 

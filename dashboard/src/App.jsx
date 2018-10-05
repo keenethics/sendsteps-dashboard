@@ -10,7 +10,7 @@ import DashboardApp from './pages/base/DashboardApp';
 import { withRouter } from 'react-router-dom';
     
 export class App extends Component {
-    componentWillMount() {
+    componentDidMount() {
         this.checkAuth();
 
         console.log(process.env);
@@ -61,4 +61,4 @@ export default withRouter(connect(
             isAuthRequired: state.authReducer.isAuthRequired
         }
     }
-) (App));
+) (App));   

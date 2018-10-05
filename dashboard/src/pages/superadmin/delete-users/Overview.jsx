@@ -7,7 +7,7 @@ import { Panel } from 'react-bootstrap';
 
 class DeleteUsersOverview extends React.Component {
    
-    componentWillMount() {
+    componentDidMount() {
         this.props.dispatch(fetchResult('users', 'getDeleteUsersOverview'));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
