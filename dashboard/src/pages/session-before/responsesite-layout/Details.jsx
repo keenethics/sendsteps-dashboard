@@ -8,6 +8,9 @@ import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
 import ColorPickerField from '../../../components/common/ColorPickerField';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
+import { isValueInArray } from '../../../scripts/arrayHelper';
+import ColorInfo from '../../../components/common/ColorInfo';
+import BottomSaveBar from '../../../components/common/BottomSaveBar';
 
 class Settings extends React.Component {
 
@@ -20,19 +23,10 @@ class Settings extends React.Component {
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
 
-    fetchSiteSettings(id) {
-        if(this.props.data) {
-            const keyList = this.props.data.map((item) => item.id);
-            if(keyList.indexOf(id) > -1) {
-                this.props.dispatch(fetchResult('responsesite', 'getSiteById', JSON.stringify({id}), true));
-            }
-        }
-
-    }
-
-    selectSiteToEdit(e) {
-        if(e.target.value) {
-            this.fetchSiteSettings(e.target.value);
+    fetchSiteSettings(e) {
+        const value = e.target.value;
+        if(value && this.props.data && isValueInArray(value, this.props.data.map((item) => item.id))) {
+            this.props.dispatch(fetchResult('responsesite', 'getSiteById', JSON.stringify({value}), true));
         } else {
             this.props.dispatch(clearAdditionalData());
         }
@@ -50,52 +44,7 @@ class Settings extends React.Component {
                         <p>Here you can edit your resonse website layout. If you have more than one response websites coupled to your account, first select the response website which you would like to edit and a preview will be shown.</p>
                         <p>Colors need to be specified as one of the following:</p> 
                         <br/>
-                        <div className="row">
-                            <div className="col-md-12">
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <p><strong>Hexadecimal</strong> </p>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>(e.g. <code>#fd6400</code>)</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <p><strong>RGBA</strong> </p>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>(e.g. <code>rgba(21, 0, 255, 0.57)</code>)</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <p><strong>HSLA</strong> </p>
-                                        
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>(e.g. <code>hsla(245, 100%, 50%, 0.57)</code>)</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <p><strong>RGB</strong> </p>
-                                        
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>(e.g. <code>rgb(21, 0, 255)</code>)</p>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-2">
-                                        <p><strong>HSL</strong> </p>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p>(e.g. <code>hsl(245, 100%, 50%)</code>)</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <ColorInfo />
                     </Panel.Body>
                 </Panel>
                 <BreadCrumbs urlList={this.props.match.url} />
@@ -108,7 +57,7 @@ class Settings extends React.Component {
                                     <hr/>
                                     <div className="form-group">
                                         <label>Select a Response Website</label>
-                                        <select className="form-control" onChange={this.selectSiteToEdit.bind(this)} value={null} >
+                                        <select className="form-control" onChange={this.fetchSiteSettings.bind(this)} value={null} >
                                             <option value={''} >Select...</option>
                                             {data && data.map(item => {
                                                 return <option key={item.id} value={item.id}>{item.domain}</option>
@@ -413,24 +362,7 @@ class Settings extends React.Component {
                         </div>
                         <ResponseSiteContainer url={additionalData && additionalData.domain} /* Pass selected url, if nothings selected, don't render response site */ />
                     </div>
-                    <Panel>
-                        <Panel.Body>
-                            <div className="container-fluid">
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <div className="form-group">
-                                            <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
-                                            </button>
-                                            <Link to="/">
-                                                <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                                </button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </Panel.Body>
-                    </Panel>
+                    <BottomSaveBar />
                 </div>
             </div>
         );

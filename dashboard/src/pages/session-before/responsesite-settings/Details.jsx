@@ -6,6 +6,7 @@ import BreadCrumbs from "../../base/BreadCrumbs";
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import { Link } from 'react-router-dom';
 import TooltipNotification from '../../../components/common/TooltipNotification';
+import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 
 class Settings extends React.Component {
@@ -232,23 +233,11 @@ class Settings extends React.Component {
                                     </div>
                                 </Panel.Body>
                             </Panel>
+                            <BottomSaveBar />
                         </div>
                     </div>
                 </div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <Panel><Panel.Body>
-                                <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
-                                </button>
-                                <Link to="/">
-                                    <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                    </button>
-                                </Link>
-                            </Panel.Body></Panel>
-                        </div>
-                    </div>
-                </div>  
+                
             </div>
         );
     }

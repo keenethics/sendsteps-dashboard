@@ -4,7 +4,7 @@ class ButtonSwitch extends Component {
 
     render() {
 
-        const { enabled, onChange, options } = this.props;
+        const { enabled, onChange, options, selected } = this.props;
 
         const activeClassName = "btn btn-" + (enabled ? "success active" : "default");
         const inactiveClassName = "btn btn-" + (!enabled ? "default active" : "default");
@@ -23,8 +23,12 @@ class ButtonSwitch extends Component {
                     </span>}
                     {options &&
                         options.map((option, index) => {
+                            let selectedIndex = parseInt(selected, 10);
+                            if(isNaN(selectedIndex)) {
+                                selectedIndex = 1;
+                            }
                             return (
-                                <div className="btn btn-default" key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
+                                <div className={"btn btn-default " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
                                     {option}
                                 </div>
                             )

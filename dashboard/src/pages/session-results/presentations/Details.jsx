@@ -1,10 +1,10 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from "../../../components/common/HeaderPanel";
+import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 class PresentationDetails extends React.Component {
     componentWillMount() {
@@ -41,12 +41,9 @@ class PresentationDetails extends React.Component {
 
         return (
             <div>
-                <Panel>
-                    <Panel.Body>
-                    <h1>Presentation results</h1>   
-                    </Panel.Body>
-                </Panel>  
-                <BreadCrumbs urlList={this.props.match.url} />   
+                <HeaderPanel 
+                    title={"Presentation results"}
+                />
                 <Panel><Panel.Body>
                    <div className="container-fluid">
                         <div className="row">
@@ -79,20 +76,12 @@ class PresentationDetails extends React.Component {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-sm-12">
-                                    <div className="form-group">
-                                        <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
-                                        </button>
-                                        <Link to="/presentations">
-                                            <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                            </button>
-                                        </Link>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
                 </Panel.Body></Panel>
+                <BottomSaveBar />
             </div>
         );
     }

@@ -5,6 +5,7 @@ import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
+import BottomSaveBar from "../../../components/common/BottomSaveBar";
 
 class SurveyDetails extends React.Component {
     componentWillMount() {
@@ -77,20 +78,13 @@ class SurveyDetails extends React.Component {
                                         </ul>
                                     </div>
                                 </div>
-                                <div className="col-sm-12">
-                                    <div className="form-group">
-                                        <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
-                                        </button>
-                                        <Link to="/presentations">
-                                            <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                            </button>
-                                        </Link>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
-                </Panel.Body></Panel>
+                </Panel.Body>
+                </Panel>
+                <BottomSaveBar />
             </div>
         );
     }

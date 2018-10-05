@@ -14,7 +14,7 @@ class Dashboards extends NovaAPI {
         if($id != NULL){
             $model = $this->loadModel('dashboards');
             $results = $model->findById($id);
-            return json_encode(['content' => $results]);                
+            return json_encode(['content' => $results[0]]);                
         }
         return false;        
     }

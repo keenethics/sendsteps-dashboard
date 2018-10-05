@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 class ColorPickerField extends Component {
 
