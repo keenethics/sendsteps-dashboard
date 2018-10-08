@@ -28,7 +28,6 @@ class Users_Model extends Model {
     }
     
     public function getListFreeUser(){            
-        //Looks like Medoo doesn't like us using Enums in the WHERE clause. See NOV-3 in Jira
         $domainsAlwaysDeletable = array(
             'rabobank.nl',
             'deloitte.nl'
@@ -48,9 +47,13 @@ class Users_Model extends Model {
         LEFT JOIN accounts a 
         ON u.accountId = a.id
         WHERE
-            ".$emailsSQL."
-            (a.audienceSize = 20 AND
-            u.isDeleted != 1)";
+            (".$emailsSQL."
+                (
+                    u.role = 'admin' AND 
+                    a.audienceSize = 20
+                )
+            ) AND
+            u.isDeleted != 1;";
         $resultsDirty = $this->query($query);
         $resultsClean = array();
         foreach ($resultsDirty as $key => $r){
