@@ -13,8 +13,7 @@ class Phonenumbers extends NovaAPI {
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
             $results = $model->findActiveById($id)[0];
-            $keywords = $model->findKeywordsByPhonenumberId($id);
-            return json_encode(['content' => ['phonenumbers' => $results, 'keywords' => $keywords[0]]]);                
+            return json_encode(['content' => $results]);                
         }
         return false;        
     }

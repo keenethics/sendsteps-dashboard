@@ -1,7 +1,7 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
+import { fetchResult, clearData } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 
@@ -13,17 +13,13 @@ class SurveysOverview extends React.Component {
     }
 
     componentWillUnmount() {
-        // clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
+        this.props.dispatch(clearData());
     }
-
-    shouldRenderTable(data) {
-        return Array.isArray(data);
-    } 
 
     render() {
         
         const { data, match } = this.props;
-        console.log(data)
+
         return (
             <div>
                 <Panel><Panel.Body>
@@ -32,9 +28,7 @@ class SurveysOverview extends React.Component {
                 <BreadCrumbs urlList={match.url} />
                 <Panel><Panel.Body>
                     <div className="container-fluid">
-                        {this.shouldRenderTable(data) ? 
-                            <OverviewTable data={data} />
-                        : null}
+                        {data && <OverviewTable data={data} />}
                     </div>
                 </Panel.Body></Panel>
             </div>

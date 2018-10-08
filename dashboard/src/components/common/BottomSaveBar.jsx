@@ -15,14 +15,14 @@ const BottomSaveBar = props => {
                             type='button' 
                             id='save-btn' 
                             onClick={onSave || function(){ console.log("onSave")}}
-                            className='btn btn-success pull-right'>
+                            className='btn btn-success'>
                             <i className="fa fa-save"></i> Save
                         </button>
                         <Link to={prevPage || "/"}>
                             <button 
                                 type='button' 
                                 id='back-btn' 
-                                className='btn btn-default'>
+                                className='btn btn-default pull-right'>
                                 <i className="fa fa-chevron-left"></i> Back
                             </button>
                         </Link>

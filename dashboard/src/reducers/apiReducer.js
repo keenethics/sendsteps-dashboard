@@ -50,17 +50,10 @@ export default function apiReducer(state, action) {
             }
         }
         case 'API_FETCH_ADDITIONAL_SUCCESS': {
-            // @TODO Merge current additional data and action.additinalData perhaps?
-            const merged = {
-                ...state.additionalData, 
-                ...action.additionalData
-            }
-
-            console.log(Object.keys(merged).length);
-
+            // @TODO Merge current additional data and action.additionalData perhaps?
             return {
                 ...state,
-                additionalData: merged
+                additionalData: action.additionalData
             }
         }
         case 'CLEAR_ERRORS': {

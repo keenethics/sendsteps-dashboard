@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI, setPhonenumberData } from '../../../actions/api';
+import { fetchResult, updateAPI, setPhonenumberData, clearData } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -13,6 +13,11 @@ class PhonenumberDetails extends React.Component {
             id: this.props.match.params.id
         });
         this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
+        this.props.dispatch(fetchResult('phonenumbers', 'getKeywords', apiParams, true));
+    }
+
+    componentWillUnmount() {
+        this.props.dispatch(clearData());
     }
 
     savePhonenumber() {
@@ -40,6 +45,8 @@ class PhonenumberDetails extends React.Component {
     render() {
 
         let { data, additionalData } = this.props;
+
+        console.log(additionalData);
 
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
@@ -102,14 +109,22 @@ class PhonenumberDetails extends React.Component {
                                                     <button type='button' id='add-keyword' className='btn btn-success btn-group-addon'><i className="fa fa-plus"></i> Add</button>
                                                 </div> 
                                             </div>
-                                            {additionalData.keywords && <ul className="list-group">
-                                                {additionalData.keywords.map(keyword => {
-                                                    return (
-                                                        <li className="list-group-item">{keyword}</li>
-                                                    )
-                                                })}
-                                            </ul>}
                                         </div>
+                                        {additionalData && 
+                                        <div className="form-group">
+                                            <ul className="list-group keyword-list">
+                                                {additionalData.map(keyword => {
+                                                    return (<p>
+                                                        <li className="list-group-item">
+                                                            <strong>{keyword.keyword}</strong>
+                                                            <span className="pull-right">
+                                                                <i className="text-danger fa fa-times"></i>
+                                                            </span>
+                                                        </li>
+                                                    </p>)
+                                                })}
+                                            </ul>
+                                        </div>}
                                     </div>
                                 </div>
 
