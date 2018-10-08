@@ -25,23 +25,32 @@ class Users_Model extends Model {
         $params['userId'] = (int) $userId;
         $results = $this->query($query, $params)[0];
         return $results;
-        
     }
     
     public function getListFreeUser(){            
         //Looks like Medoo doesn't like us using Enums in the WHERE clause. See NOV-3 in Jira
-        $query = 'SELECT 
+        $domainsAlwaysDeletable = array(
+            'rabobank.nl',
+            'deloitte.nl'
+        );
+        $emailsSQL = '';
+        foreach ($domainsAlwaysDeletable as $d) {
+            $emailsSQL .= "u.email LIKE '%".$d."' OR ";
+        }
+        
+        $query = "SELECT 
             a.id AS account_id,
             u.email,
             u.origin,
             u.role,
-            u.id AS "user_id"
+            u.id AS 'user_id'
         FROM `users` u 
         LEFT JOIN accounts a 
         ON u.accountId = a.id
         WHERE
-            a.audienceSize = 20 AND
-            u.isDeleted != 1';
+            ".$emailsSQL."
+            (a.audienceSize = 20 AND
+            u.isDeleted != 1)";
         $resultsDirty = $this->query($query);
         $resultsClean = array();
         foreach ($resultsDirty as $key => $r){

@@ -19,6 +19,8 @@ class OverviewTable extends BaseTable {
         return {
             prePage: 'Prev', // Previous page button text
             nextPage: 'Next', // Next page button text
+            sortName: 'name',
+            sortOrder: 'asc',
             clearSearch: true,
             clearSearchBtn: this.getClearBtn,
             btnGroup: () => this.getExtraButtonGroup(data)
