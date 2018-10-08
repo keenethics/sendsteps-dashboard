@@ -22,8 +22,11 @@ class PhonenumberDetails extends React.Component {
 
     savePhonenumber() {
         const { data } = this.props;
-        const stringified = JSON.stringify(data);
-        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', stringified));
+        let apiParams = JSON.stringify({
+            id: data.id,
+            fields : data
+        });
+        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', apiParams));
     }
 
     setDisplayText(e) {
