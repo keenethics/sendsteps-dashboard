@@ -11,6 +11,14 @@ export function clearData() {
     }
 }
 
+export function setPhonenumberData(newData) {
+    return {
+        type: 'SET_PHONENUMBER_DATA',
+        newData
+    }
+}
+
+
 export function apiUpdateSuccess(updatedData) {
     return {
         type: 'API_UPDATE_SUCCESS',

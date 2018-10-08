@@ -70,6 +70,20 @@ export default function apiReducer(state, action) {
                 error: null
             }
         }
+        case 'SET_PHONENUMBER_DATA': {
+
+            let newData = {
+                ...state.data,
+                ...action.newData
+            }
+
+            console.log(newData);
+
+            return {
+                ...state,
+                data: newData
+            }
+        }
         default: {
             return {
                 ...state

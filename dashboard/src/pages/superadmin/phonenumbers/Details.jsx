@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI } from '../../../actions/api';
+import { fetchResult, updateAPI, setPhonenumberData } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -18,102 +18,130 @@ class PhonenumberDetails extends React.Component {
     savePhonenumber() {
         const { data } = this.props;
         const stringified = JSON.stringify(data);
-        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', stringified))
+        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', stringified));
+    }
+
+    setDisplayText(e) {
+        this.props.dispatch(setPhonenumberData({displayText: e.target.value}))
+    }
+
+    setCountry(e) {
+        this.props.dispatch(setPhonenumberData({countryIsoCode: e.target.value}));
+    }
+
+    setInternational(value) {
+        this.props.dispatch(setPhonenumberData({foreignerCompatible: value}));
+    }
+
+    setPublic(value) {
+        this.props.dispatch(setPhonenumberData({public: value}));
     }
     
     render() {
 
-        let { data } = this.props;
-
-        // Get rid of this soon
+        let { data, additionalData } = this.props;
 
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
             <div>
-                <Panel><Panel.Body>
+                <Panel>
+                    <Panel.Body>
                     <h1>Phonenumber ({data.displayText})</h1>   
-                </Panel.Body></Panel>
-                    <BreadCrumbs urlList={this.props.match.url} />   
-                    <Panel><Panel.Body>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <input name='id' id='phonenumber-id' type='hidden' />
+                    </Panel.Body>
+                </Panel>
+                <BreadCrumbs urlList={this.props.match.url} />   
+                <Panel>
+                    <Panel.Body>
+                        <div className="container-fluid">
                             <div className="row">
-                                <div className="col-sm-6">
-                                    <InputField 
-                                        labelText={"Country"}
-                                        value={data.countryIsoCode}
-                                        leftFaIcon={"globe"}
-                                    />
-                                </div>
+                                <input name='id' id='phonenumber-id' type='hidden' />
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <InputField 
+                                            onChange={this.setCountry.bind(this)}
+                                            labelText={"Country"}
+                                            value={data.countryIsoCode}
+                                            leftFaIcon={"globe"}
+                                        />
+                                    </div>
 
-                                <div className="col-sm-6">
-                                    <InputField 
-                                        labelText={"Phonenumber"}
-                                        value={data.displayText}
-                                        leftFaIcon={"sort-numeric-up"}
-                                    />
-                                </div>   
-                            </div>       
-                            
-                            <div className="row">
-                                <div className="col-sm-6">
-                                    <div className="form-group">
-                                        <label className="control-label">International</label>
-                                        <ButtonSwitch />
+                                    <div className="col-sm-6">
+                                        <InputField 
+                                            onChange={this.setDisplayText.bind(this)}
+                                            labelText={"Phonenumber"}
+                                            value={data.displayText}
+                                            leftFaIcon={"sort-numeric-up"}
+                                        />
+                                    </div>   
+                                </div>       
+                                
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label className="control-label">International</label>
+                                            <ButtonSwitch onChange={this.setInternational.bind(this)} selected={data.foreignerCompatible} />
+                                        </div>
+                                    </div>
+
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label className="control-label">Public</label>
+                                            <ButtonSwitch onChange={this.setPublic.bind(this)} selected={data.public} />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div className="col-sm-6">
-                                    <div className="form-group">
-                                        <label className="control-label">Public</label>
-                                        <ButtonSwitch />
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="form-group">
+                                            <label className="control-label"> Keyword(s) </label>
+                                            <div className="input-group">
+                                                <span className="input-group-addon"><i className="fa fa-key"></i></span>
+                                                <input className="form-control" id='new-keyword' value='' />
+                                                <div className="input-group-btn">
+                                                    <button type='button' id='add-keyword' className='btn btn-success btn-group-addon'><i className="fa fa-plus"></i> Add</button>
+                                                </div> 
+                                            </div>
+                                            {additionalData.keywords && <ul className="list-group">
+                                                {additionalData.keywords.map(keyword => {
+                                                    return (
+                                                        <li className="list-group-item">{keyword}</li>
+                                                    )
+                                                })}
+                                            </ul>}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="form-group">
-                                        <label className="control-label"> Keyword </label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-key"></i></span>
-                                            <input className="form-control" id='new-keyword' value='' />
-                                            <div className="input-group-btn">
-                                                <button type='button' id='add-keyword' className='btn btn-success btn-group-addon'><i className="fa fa-plus"></i> Add</button>
-                                            </div> 
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="form-group keyword-items">
+                                            <ul className="list-group">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-12">
+                                        <div className="form-group">
+                                            <button onClick={this.savePhonenumber.bind(this)} type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
+                                            </button>
+                                            <Link to="/superadmin/phonenumbers">
+                                                <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
+                                                </button>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="form-group keyword-items">
-                                        <ul className="list-group">
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="col-sm-12">
-                                    <div className="form-group">
-                                        <button onClick={this.savePhonenumber.bind(this)} type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
-                                        </button>
-                                        <Link to="/superadmin/phonenumbers">
-                                            <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
-                                            </button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-            </Panel.Body></Panel>
+                </Panel.Body>
+            </Panel>
         </div> : null;
     }
 } export default connect(
     (state) => {
         return {
             data: state.apiReducer.data,
+            additionalData: state.apiReducer.additionalData
         }
     }
 )(PhonenumberDetails);

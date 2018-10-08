@@ -14,7 +14,7 @@ class Phonenumbers extends NovaAPI {
             $model = $this->loadModel('phonenumbers');
             $results = $model->findActiveById($id)[0];
             $keywords = $model->findKeywordsByPhonenumberId($id);
-            return json_encode(['content' => $results, 'keywords' => $keywords]);                
+            return json_encode(['content' => ['phonenumbers' => $results, 'keywords' => $keywords[0]]]);                
         }
         return false;        
     }
