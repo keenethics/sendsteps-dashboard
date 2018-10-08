@@ -30,6 +30,6 @@ class Phonenumbers extends NovaAPI {
     }
     
     public function updateDetails($id = NULL){
-        
+        var_dump($_POST);exit();
     }
 }
