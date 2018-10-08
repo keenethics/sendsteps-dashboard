@@ -25,3 +25,10 @@ export function setView(currentView) {
         currentView
     }
 }
+
+export function toggleModal(modalOpen) {
+    return {
+        type: 'TOGGLE_MODAL',
+        modalOpen
+    }
+}

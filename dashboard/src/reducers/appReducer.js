@@ -14,6 +14,12 @@ export default function appReducer(state, action) {
                 currentView: action.currentView
             }
         }
+        case 'TOGGLE_MODAL': {
+            return {
+                ...state,
+                modalOpen: action.modalOpen
+            }
+        }
         default: {
             return {
                 ...state

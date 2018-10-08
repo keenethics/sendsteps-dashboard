@@ -11,8 +11,10 @@ import AboutSendsteps from "./pages/about/sendsteps";
 // Before Session
 import ResponsesiteLayout from "./pages/session-before/responsesite-layout/Details";
 import ResponsesiteSettings from "./pages/session-before/responsesite-settings/Details";
+import AudienceDetails from "./pages/session-before/audience-identification/Details";
 import SurveyOverview from "./pages/session-before/surveys/Overview";
 import SurveyDetails from "./pages/session-before/surveys/Details";
+import ResponsesiteDetails from "./pages/session-before/response-website/Details";
 // After Session
 import PresentationsOverview from "./pages/session-results/presentations/Overview";
 import PresentationsDetails from "./pages/session-results/presentations/Details";
@@ -37,7 +39,9 @@ const Routes = () =>
     <Route path="/session-before/responsesite-layout" exact component={ResponsesiteLayout} />
     <Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
     <Route path="/session-before/surveys" exact component={SurveyOverview} />
+    <Route path="/session-before/audience-identification" exact component={AudienceDetails} />
     <Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
+    <Route path="/session-before/response" exact component={ResponsesiteDetails} />
     <Route path="/superadmin/translations" exact component={TranslationsOverview} />
     <Route path="/superadmin/translations/details/:id" exact component={TranslationsDetails} />
     <Route path="/superadmin/edit-dashboard" exact component={EditDashboardOverview} />

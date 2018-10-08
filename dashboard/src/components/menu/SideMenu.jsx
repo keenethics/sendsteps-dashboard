@@ -29,7 +29,7 @@ class SideMenu extends Component {
                         menuOpened={menuOpened}
                         menuText="Audience Identification"
                         faIconClass="fa-users"
-                        link="/session-before/audience-id"
+                        link="/session-before/audience-identification"
                     />
                     <MenuItem 
                         menuOpened={menuOpened}
