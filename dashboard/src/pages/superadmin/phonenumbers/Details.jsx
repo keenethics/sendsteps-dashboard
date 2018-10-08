@@ -18,6 +18,7 @@ class PhonenumberDetails extends React.Component {
         let { data } = this.props;
 
         // Get rid of this soon
+        console.log(data);
 
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
@@ -116,7 +117,7 @@ class PhonenumberDetails extends React.Component {
     (state) => {
         return {
             data: state.apiReducer.data,
-            phonenumbers: state.apiReducer.data.phonenumbers
+            phonenumbers: state.apiReducer.data
         }
     }
 )(PhonenumberDetails);

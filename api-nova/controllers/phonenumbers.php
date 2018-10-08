@@ -12,8 +12,8 @@ class Phonenumbers extends NovaAPI {
         // Fetch data from single phonenumber
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
-            $results = $model->findActiveById($id);
-            $keywords = $model->findKeywordsByPhonenumberId($phonenumberId);
+            $results = $model->findActiveById($id)[0];
+            $keywords = $model->findKeywordsByPhonenumberId($id);
             return json_encode(['content' => $results, 'keywords' => $keywords]);                
         }
         return false;        
@@ -27,5 +27,9 @@ class Phonenumbers extends NovaAPI {
             return json_encode(['content' => $results]);                
         }
         return false;        
+    }
+    
+    public function updateDetails($id = NULL){
+        
     }
 }
