@@ -19,8 +19,8 @@
         // }
 
         protected function query($query = '', $params = array()) {            
-            $db_options = $this->getMedooOptions();
-            $database = new Medoo($db_options);
+            // $db_options = $this->getMedooOptions();
+            $database = new Medoo($this->getMedooOptions());
             if (count($params)){
                 $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
             } else {
@@ -28,6 +28,18 @@
             }
             return $data;
         }
+        
+        protected function update($table = '', $data = array(), $where = array()){
+            // $db_options = $this->getMedooOptions();
+            if ($table != '' OR count($data) == 0 OR count($where) == 0){
+                return false;
+            }
+            $database = new Medoo($this->getMedooOptions());
+            $data = $database->update($table, $data, $where);
+            $data->rowCount();
+            return $data;
+        }
+
         
         protected function isPhp7(){
             if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
