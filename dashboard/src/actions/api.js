@@ -11,10 +11,63 @@ export function clearData() {
     }
 }
 
+export function apiUpdateSuccess(updatedData) {
+    return {
+        type: 'API_UPDATE_SUCCESS',
+        updatedData
+    }
+}
+
+export function apiUpdateError(updateError) {
+    return {
+        type: 'API_UPDATE_ERROR',
+        updateError
+    }
+}
+
 export function apiFetchError(error) {
     return {
         type: 'API_FETCH_ERROR',
         error
+    }
+}
+
+export function updateAPI(controller = '', functionName = '', apiParam = '') {
+
+    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
+    return dispatch => {
+        dispatch(simulateLoading(true));
+        fetch(apiUrl,{
+            method: 'POST',
+            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam+'&token='+token
+        }).then(res => {
+            return res.json()
+        }).then(
+            (result) => {
+                try {
+                    if(result.error) {
+                        dispatch(apiUpdateError(result.error));
+                    } else {
+                        // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
+                        // if neither of these are available, don't let the user login and dispatch an error
+                        dispatch(apiUpdateSuccess(result.content));  
+                    }
+                } catch (error) {
+                    dispatch(apiUpdateError(error));
+                }
+            },
+            // Note: It is important to handle errors
+            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
+            (error) => {
+                // Dispatch error as an action. 
+                // error is accessible through mapStateToProps -> apiReducer.error
+                // (Maybe rename to apiError or something)
+                dispatch(apiFetchError(error));
+            }
+        )
+        dispatch(simulateLoading(false));
     }
 }
 

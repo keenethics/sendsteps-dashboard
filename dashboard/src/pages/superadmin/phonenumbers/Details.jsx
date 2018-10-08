@@ -1,9 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
+import { fetchResult, updateAPI } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
+import InputField from "../../../components/common/InputField";
+import ButtonSwitch from "../../../components/common/ButtonSwitch";
 
 class PhonenumberDetails extends React.Component {
     componentDidMount() {
@@ -12,13 +14,18 @@ class PhonenumberDetails extends React.Component {
         });
         this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
     }
+
+    savePhonenumber() {
+        const { data } = this.props;
+        const stringified = JSON.stringify(data);
+        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', stringified))
+    }
     
     render() {
 
         let { data } = this.props;
 
         // Get rid of this soon
-        console.log(data);
 
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
@@ -33,44 +40,34 @@ class PhonenumberDetails extends React.Component {
                             <input name='id' id='phonenumber-id' type='hidden' />
                             <div className="row">
                                 <div className="col-sm-6">
-                                    <div className="form-group">
-                                        <label className="control-label">Country</label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-globe"></i></span>
-                                            <input value={data.countryIsoCode} className="form-control" disabled="disabled" name='country' />
-                                        </div>
-                                    </div>
+                                    <InputField 
+                                        labelText={"Country"}
+                                        value={data.countryIsoCode}
+                                        leftFaIcon={"globe"}
+                                    />
                                 </div>
 
                                 <div className="col-sm-6">
-                                    <div className="form-group">
-                                        <label> Phonenumber </label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-sort-numeric-up"></i></span>
-                                            <input value={data.displayText} disabled="disabled" className="form-control" name='number' />
-                                        </div>
-                                    </div>
+                                    <InputField 
+                                        labelText={"Phonenumber"}
+                                        value={data.displayText}
+                                        leftFaIcon={"sort-numeric-up"}
+                                    />
                                 </div>   
                             </div>       
                             
                             <div className="row">
                                 <div className="col-sm-6">
                                     <div className="form-group">
-                                        <label className="control-label"> International </label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-globe"></i></span>
-                                            <input disabled="disabled" value={data.foreignerCompatible} className="form-control" name='international' />
-                                        </div>
+                                        <label className="control-label">International</label>
+                                        <ButtonSwitch />
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="form-group">
-                                        <label className="control-label"> Public </label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-users"></i></span>
-                                            <input disabled="disabled" value={data.public} className="form-control" name='public' />
-                                        </div>
+                                        <label className="control-label">Public</label>
+                                        <ButtonSwitch />
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +96,7 @@ class PhonenumberDetails extends React.Component {
                                 </div>
                                 <div className="col-sm-12">
                                     <div className="form-group">
-                                        <button type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-floppy-o"></i> Save
+                                        <button onClick={this.savePhonenumber.bind(this)} type='button' id='save-btn' className='btn btn-success pull-right'><i className="fa fa-save"></i> Save
                                         </button>
                                         <Link to="/superadmin/phonenumbers">
                                             <button type='button' id='back-btn' className='btn btn-default'><i className="fa fa-chevron-left"></i> Back
@@ -117,7 +114,6 @@ class PhonenumberDetails extends React.Component {
     (state) => {
         return {
             data: state.apiReducer.data,
-            phonenumbers: state.apiReducer.data
         }
     }
 )(PhonenumberDetails);

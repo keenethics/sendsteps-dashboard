@@ -7,6 +7,21 @@ export default function apiReducer(state, action) {
                 data: null
             }
         }
+        case 'API_UPDATE_ERROR': {
+            return {
+                ...state,
+                isLoading: false,
+                updateError: action.updateError
+            }
+        }
+        case 'API_UPDATE_SUCCESS': {
+            return {
+                ...state,
+                data: action.updatedData,
+                updateError: null,
+                isLoading: false
+            }
+        }
         case 'API_FETCH_ERROR': {
             return {
                 ...state,

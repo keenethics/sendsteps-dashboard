@@ -7,7 +7,10 @@ import ErrorView from './ErrorView';
 class View extends Component {
 
     render() {
-        const { isLoading, error, children } = this.props;
+
+        const { isLoading, error, children, updateError} = this.props;
+
+        console.log(updateError);
         
         if(isLoading) {
             return  <LoadingView> {children} </LoadingView>
@@ -23,6 +26,7 @@ export default connect(
         return {
             isLoading: state.apiReducer.isLoading,
             apiFetchError: state.apiReducer.apiFetchError,
+            updateError: state.apiReducer.updateError,
             error: state.apiReducer.error
         }
     }

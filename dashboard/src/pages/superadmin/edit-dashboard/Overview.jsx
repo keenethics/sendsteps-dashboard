@@ -82,7 +82,6 @@ class EditDashboardOverview extends React.Component {
                             {additionalData &&
                             <BottomSaveBar />
                             }
-                            {}
                         </div>
                     </div>
                 </div>
