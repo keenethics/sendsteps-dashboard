@@ -38,7 +38,7 @@ class Phonenumbers extends NovaAPI {
             $modelFields["foreignerCompatible"] = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
             
             $model = $this->loadModel('phonenumbers');
-            $update_id = $model->updateDetails($modelFields, $id);           
+            $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
             return $update_id;
             // return $this->getDetails($update_id);
         }

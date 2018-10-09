@@ -39,44 +39,23 @@
             return $data;
         }
         
-        protected function updateSingleTable($fields = array(), $id = NULL) {
+        protected function updateOneTableOneRecord($table = '', $fields = array(), $id = NULL) {
             // return 'asdasd';
             if (count($fields)) {
+                $database = new Medoo($this->getMedooOptions());
                 if (NULL != $id) { //Update existing record
-                    //** Attempt 2, via update **/
-                    $database = new Medoo($this->getMedooOptions());
-                    $table = 'phonenumbers';
-                    $data = $fields;
                     $where['id'] = $id;
-                    // $test = $database->update("phonenumbers", $fieldTest);
-                    $results = $database->update("phonenumbers", $data, $where);
-                    
-                    if (00000 != $results->errorCode()){
-                        //Add some proper error catching for this.                 
-                        var_dump($results->errorInfo());exit();   
+                    $results = $database->update($table, $fields, $where);
+                    if (00000 != $results->errorCode()){                 
+                        var_dump($results->errorInfo());exit(); //Add some proper error catching for this.
                     }
                     $returnedId = $id;
-                    
-                    
-                    //** Attempt 1, via query **//
-                    // $set = '';
-                    // foreach($fields as $key => $f){
-                    //     if ($set != '') {
-                    //         $set .= ', ';
-                    //     }
-                    //     // $set .= '<'.$key.'> = :'.$key;
-                    //     $set .= $key.' = :'.$key;
-                    // }
-                    // // $query = "UPDATE phonenumbers SET ".$set." WHERE id = :id ;";
-                    // $query = "UPDATE phonenumbers SET <countryIsoCode> = :countryIsoCode, <displayText> = :displayText, <public> = :public, <international> = :international WHERE <id> = :id ;";
-                    // // $params = $fields;
-                    // $fields['id'] = $id;
-                    
-                    // $database = new Medoo($this->getMedooOptions());
-                    // $results = (array) $database->query($query, $fields)->fetchAll(PDO::FETCH_ASSOC);
-                    // $returnedId = $id;
                 } else { // insert new record with the data we've been given
-                    
+                    $results = $database->insert($table, $fields);
+                    if (00000 != $results->errorCode()){                 
+                        var_dump($results->errorInfo());exit(); //Add some proper error catching for this.
+                    }
+                    $returnedId = $database->id();
                 }
             } else {
                 throw new Exception('ModelRequiresId');
