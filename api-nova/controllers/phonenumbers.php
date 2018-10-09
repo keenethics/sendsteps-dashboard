@@ -32,10 +32,10 @@ class Phonenumbers extends NovaAPI {
         // var_dump($fields);exit();
         if ($id != NULL){
             // $modelFields['']
-            $modelFields['countryIsoCode'] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
-            $modelFields['displayText'] = (isset($fields->displayText)? $fields->displayText : '');
-            $modelFields['public'] = (isset($fields->public) && $fields->public == true ? 1 : 0);
-            $modelFields['international'] = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
+            $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
+            $modelFields["displayText"] = (isset($fields->displayText)? $fields->displayText : '');
+            $modelFields["public"] = (isset($fields->public) && $fields->public == true ? 1 : 0);
+            $modelFields["foreignerCompatible"] = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
             
             $model = $this->loadModel('phonenumbers');
             $update_id = $model->updateDetails($modelFields, $id);           

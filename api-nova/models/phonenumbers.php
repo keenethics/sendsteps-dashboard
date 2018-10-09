@@ -27,7 +27,7 @@ class Phonenumbers_Model extends Model {
     
     public function updateDetails($fields = array(), $id = NULL){
         // var_dump('ace');exit();
-        $results = $this->updatetest($fields, $id);
+        $results = $this->updateSingleTable($fields, $id);
         return $results;
     }
 }

@@ -39,41 +39,42 @@
             return $data;
         }
         
-        protected function updatetest($fields = array(), $id = NULL) {
+        protected function updateSingleTable($fields = array(), $id = NULL) {
             // return 'asdasd';
             if (count($fields)) {
                 if (NULL != $id) { //Update existing record
-                
-                    // $query = "UPDATE phonenumbers p 
-                    //           SET 
-                    //             <p.countryIsoCode> = :countryIsoCode,
-                    //             <p.displayText> = :displayText,
-                    //             <p.public> = :public,
-                    //             <p.foreignerCompatible> = :international
-                    //           WHERE <p.id> = :id;";
-                    $set = '';
-                    foreach($fields as $key => $f){
-                        if ($set != '') {
-                            $set .= ',';
-                        }
-                        $set .= '<'.$key.'> = :'.$key;
-                    }
-                    $query = "UPDATE phonenumbers SET $set WHERE <id> = :id;";
-                    $params = $fields;
-                    $params['id'] = $id;
-                    
-                    
+                    //** Attempt 2, via update **/
                     $database = new Medoo($this->getMedooOptions());
-                    $results = $database->query($query, $params);
-                    // $params['id'] = $id;
-                    // $params['countryIsoCode'] = $countryIsoCode;
-                    // $params['displayText'] = $displayText;
-                    // $params['public'] = $public;
-                    // $params['international'] = $international;
+                    $table = 'phonenumbers';
+                    $data = $fields;
+                    $where['id'] = $id;
+                    // $test = $database->update("phonenumbers", $fieldTest);
+                    $results = $database->update("phonenumbers", $data, $where);
                     
-                    // $where['id'] = $id;
-                    // $result = $this->update('phonenumbers', $params, $where);
+                    if (00000 != $results->errorCode()){
+                        //Add some proper error catching for this.                 
+                        var_dump($results->errorInfo());exit();   
+                    }
                     $returnedId = $id;
+                    
+                    
+                    //** Attempt 1, via query **//
+                    // $set = '';
+                    // foreach($fields as $key => $f){
+                    //     if ($set != '') {
+                    //         $set .= ', ';
+                    //     }
+                    //     // $set .= '<'.$key.'> = :'.$key;
+                    //     $set .= $key.' = :'.$key;
+                    // }
+                    // // $query = "UPDATE phonenumbers SET ".$set." WHERE id = :id ;";
+                    // $query = "UPDATE phonenumbers SET <countryIsoCode> = :countryIsoCode, <displayText> = :displayText, <public> = :public, <international> = :international WHERE <id> = :id ;";
+                    // // $params = $fields;
+                    // $fields['id'] = $id;
+                    
+                    // $database = new Medoo($this->getMedooOptions());
+                    // $results = (array) $database->query($query, $fields)->fetchAll(PDO::FETCH_ASSOC);
+                    // $returnedId = $id;
                 } else { // insert new record with the data we've been given
                     
                 }
