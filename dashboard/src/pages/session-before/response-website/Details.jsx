@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Tooltip, OverlayTrigger, Modal, Button } from 'react-bootstrap';
 import { fetchResult, clearAdditionalData, clearData } from '../../../actions/api';
 import { toggleModal } from '../../../actions/app';
 import { Panel } from 'react-bootstrap';
@@ -9,7 +8,6 @@ import InputField from '../../../components/common/InputField';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
-import DefaultModal from '../../../components/common/DefaultModal';
 
 class Details extends React.Component {
 
@@ -26,10 +24,6 @@ class Details extends React.Component {
         this.props.dispatch(clearData());
     }
 
-    showResultModal() {
-        console.log('showing modal');
-    }
-
     handleOpen() {
         this.props.dispatch(toggleModal(true));
     }
@@ -40,8 +34,6 @@ class Details extends React.Component {
 
     render() {
 
-        const { modalOpen } = this.props;
-        
         return (
             <div>  
                 <HeaderPanel 
@@ -97,11 +89,11 @@ class Details extends React.Component {
                     
                                     <div className="form-group">
                                         <label className="control-label">E-mail Text</label>
-                                        <textarea className="form-control" rows={4} cols={50}>
-                                            Hi ! I would like to share the results of today's interactive presentation, 
-                                            they might be interesting for you! During the presentation we made use of Sendsteps; 
-                                            An exciting way of audience interaction via your own mobile device. 
-                                            You can find the results attached to this email. Best regards,
+                                        <textarea 
+                                            className="form-control" 
+                                            defaultValue="Hi ! I would like to share the results of today's interactive presentation, they might be interesting for you! During the presentation we made use of Sendsteps; An exciting way of audience interaction via your own mobile device. You can find the results attached to this email. Best regards,"
+                                            rows={4} 
+                                            cols={50}>
                                         </textarea>
                                     </div>
                                 </Panel.Body>
@@ -136,11 +128,6 @@ class Details extends React.Component {
                         <ResponseSiteContainer colWidth={6} />
                     </div>
                     <BottomSaveBar />
-
-                    <DefaultModal 
-                        title={"Tweets tab"}
-                        content={<p><img src={process.env.PUBLIC_URL + "/assets/images/tweets_tab.jpg"} /></p>}    
-                    />
                 </div>
             </div>
         );

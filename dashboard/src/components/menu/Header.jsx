@@ -4,22 +4,18 @@ import { toggleMenu } from '../../actions/app';
 import SignOutButton from './SignOutButton';
 
 class Header extends React.Component {
-
-    toggleSideBar() {
-        this.props.dispatch(toggleMenu(!this.props.menuOpened));
-    }
-
     render() {
-
         return (
             <header>
                 <div className="header-content">
-                    <i onClick={this.toggleSideBar.bind(this)} className="fa fa-bars menu-button"></i>
+                    <i onClick={() => this.props.dispatch(toggleMenu(!this.props.menuOpened))} className="fa fa-bars menu-button"></i>
+                    <span className="sst-logo">
+                        <img src={process.env.PUBLIC_URL + "/assets/images/logo.png"} />
+                    </span>
                     <span className="pull-right" >
                         {/* <p >({currentUser.userType})</p> */}
                         <SignOutButton />
                     </span>
-                    
                 </div>
             </header>
         )

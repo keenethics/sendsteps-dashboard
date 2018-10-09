@@ -20,24 +20,12 @@ class PresentationDetails extends React.Component {
         if(!data) {
             return null;
         }
-        console.log(data);
 
-            // active:"1"
-            // automaticallyClosed:"0"
-            // endTime:"2018-02-06 15:12:04"
-            // id:"183"
-            // isDeleted:"0"
-            // limited:"notLimited"
-            // name:"Presentation1"
-            // sessionId:"591"
-            // sessionRunId:"183"
-            // startTime:"2018-02-06 14:31:27"
+        const dateFormat = 'YYYY-MM-DD HH:mm:ss';
+        const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
 
-            const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-            const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
-
-            const startTime = moment(data.startTime, dateFormat);
-            const endTime = moment(data.endTime, dateFormat);
+        const startTime = moment(data.startTime, dateFormat);
+        const endTime = moment(data.endTime, dateFormat);
 
         return (
             <div>

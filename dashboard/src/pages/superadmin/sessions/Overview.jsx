@@ -15,27 +15,25 @@ class SessionsOverview extends React.Component {
         // clearInterval(this.apiRefresh);//If we use setInterval, we need this method to avoid memory leaks
     }
 
-    shouldRenderTable(data) {
-        return Array.isArray(data);
-    } 
-
     render() {
         
         const { data, match } = this.props;
       
         return (
                 <div>
-                    <Panel><Panel.Body>
-                        <h1>Sessions Overview</h1>   
-                    </Panel.Body></Panel>
+                    <Panel>
+                        <Panel.Body>
+                            <h1>Sessions Overview</h1>   
+                        </Panel.Body>
+                    </Panel>
                     <BreadCrumbs urlList={match.url} />
-                    <Panel><Panel.Body>
-                        <div className="container-fluid">
-                            {this.shouldRenderTable(data) ? 
-                                <OverviewTable data={data} />
-                            : null}
-                        </div>
-                    </Panel.Body></Panel>
+                    <Panel>
+                        <Panel.Body>
+                            <div className="container-fluid">
+                                {data && <OverviewTable data={data} />}
+                            </div>
+                        </Panel.Body>
+                    </Panel>
                 </div>
         )
     }

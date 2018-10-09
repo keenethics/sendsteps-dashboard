@@ -356,9 +356,7 @@ header {
   cursor: pointer;
 }
 
-.sst-logo {
-  /* background: url('./public/assets/images/logo.png'); */
-}
+
 
 h1, h2, h3, h4, h5, h6 {
   font-family: $titleFont;
@@ -517,4 +515,27 @@ ul.pagination {
 .keyword-list {
   overflow-y: scroll;
   max-height: 300px;
+}
+
+.toast-default {
+  background: #4e4e4e !important;
+  color: #ffffff;
+  .Toastify__close-button--default {
+    color: #ffffff;
+  }
+}
+
+
+.sst-logo {
+  img {
+    margin: -5px 0 0 30px;
+    max-width: 100%;
+    max-height: 100%;
+    width: 160px;
+  }
+}
+
+.img-container img {
+  max-width: 100%;
+  max-height: 100%;
 }

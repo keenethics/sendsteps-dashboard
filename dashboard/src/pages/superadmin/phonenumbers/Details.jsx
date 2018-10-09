@@ -6,6 +6,7 @@ import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
 import ButtonSwitch from "../../../components/common/ButtonSwitch";
+import { toast } from 'react-toastify';
 
 class PhonenumberDetails extends React.Component {
     componentDidMount() {
@@ -41,6 +42,10 @@ class PhonenumberDetails extends React.Component {
     setPublic(value) {
         this.props.dispatch(setPhonenumberData({public: value}));
     }
+
+    openToast() {
+        toast("Phonenumber Updated!");
+    }
     
     render() {
 
@@ -51,7 +56,7 @@ class PhonenumberDetails extends React.Component {
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
             <div>
-                <Panel>
+                <Panel onClick={this.openToast.bind(this)}>
                     <Panel.Body>
                     <h1>Phonenumber ({data.displayText})</h1>   
                     </Panel.Body>
