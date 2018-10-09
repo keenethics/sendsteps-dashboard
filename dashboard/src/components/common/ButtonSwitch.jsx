@@ -4,7 +4,7 @@ class ButtonSwitch extends Component {
 
     render() {
 
-        const { enabled, onChange, options, selected } = this.props;
+        const { onChange, options, selected } = this.props;
 
         const activeClassName = "btn btn-" + (selected ? "success active" : "default");
         const inactiveClassName = "btn btn-" + (!selected ? "default active" : "default");

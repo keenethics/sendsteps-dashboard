@@ -10,7 +10,7 @@ class Header extends React.Component {
                 <div className="header-content">
                     <i onClick={() => this.props.dispatch(toggleMenu(!this.props.menuOpened))} className="fa fa-bars menu-button"></i>
                     <span className="sst-logo">
-                        <img src={process.env.PUBLIC_URL + "/assets/images/logo.png"} />
+                        <img alt="Sendsteps"  src={process.env.PUBLIC_URL + "/assets/images/logo.png"} />
                     </span>
                     <span className="pull-right" >
                         {/* <p >({currentUser.userType})</p> */}

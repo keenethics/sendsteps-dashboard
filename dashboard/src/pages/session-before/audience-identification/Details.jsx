@@ -41,7 +41,7 @@ class Details extends React.Component {
     }
     
     render() {
-        const { data, additionalData, currentUser, modalOpen } = this.props;
+        const { modalOpen } = this.props;
         const { isAnonymous } = this.state;
         
         return (

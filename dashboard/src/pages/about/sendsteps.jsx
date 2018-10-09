@@ -15,7 +15,7 @@ class AboutSendsteps extends React.Component {
                             <Panel>
                                 <Panel.Body>
                                     <div className="col-md-6 text-center img-container">
-                                        <img src={process.env.PUBLIC_URL + "/assets/images/sst_dashboard_team.jpg"} />
+                                        <img alt="Sendsteps Team" src={process.env.PUBLIC_URL + "/assets/images/sst_dashboard_team.jpg"} />
                                     </div>
                                     <div className="col-md-6">
                                         <h2 className="text-center">What we believe</h2>

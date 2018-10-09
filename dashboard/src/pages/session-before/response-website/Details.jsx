@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../../actions/app';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
@@ -16,7 +17,7 @@ class Details extends React.Component {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        // this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
 
     handleOpen() {

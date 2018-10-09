@@ -4,9 +4,6 @@ import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 class SessionOverview extends React.Component {
     render() {
-            
-        const { match } = this.props;
-        
         return (
             <div>
                 <HeaderPanel
