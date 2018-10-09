@@ -46,7 +46,7 @@ export function apiFetchError(error) {
 export function updateAPI(controller = '', functionName = '', apiParam = '') {
 
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-
+    console.log(apiParam)
     return dispatch => {
         dispatch(simulateLoading(true));
         fetch(apiUrl,{

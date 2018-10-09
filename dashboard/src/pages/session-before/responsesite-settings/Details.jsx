@@ -113,7 +113,7 @@ class Settings extends React.Component {
                                                     <div className="col-sm-6">
                                                         <ButtonSwitch 
                                                             onChange={this.toggleResponseWebsite.bind(this)} 
-                                                            enabled={this.state.responseWebsiteEnabled} 
+                                                            selected={this.state.responseWebsiteEnabled} 
                                                         />
                                                     </div>
                                                 </div>
@@ -153,7 +153,7 @@ class Settings extends React.Component {
                                                     <div className="col-sm-6">
                                                         <ButtonSwitch 
                                                             onChange={this.toggleTxtSms.bind(this)} 
-                                                            enabled={this.state.txtSmsEnabled}
+                                                            selected={this.state.txtSmsEnabled}
                                                         />
                                                     </div>
                                                 </div>
@@ -195,7 +195,7 @@ class Settings extends React.Component {
                                                             <ButtonSwitch 
                                                                 options={["Yes", "No"]} 
                                                                 onChange={this.toggleInternatinonalAudience.bind(this)} 
-                                                                enabled={this.state.internationalAudience}
+                                                                selected={this.state.internationalAudience}
                                                             />
                                                         </div>
                                                     </div>

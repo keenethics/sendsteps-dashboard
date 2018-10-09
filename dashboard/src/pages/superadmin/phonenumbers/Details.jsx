@@ -36,11 +36,11 @@ class PhonenumberDetails extends React.Component {
     }
 
     setInternational(value) {
-        this.props.dispatch(setPhonenumberData({foreignerCompatible: value}));
+        this.props.dispatch(setPhonenumberData({foreignerCompatible: value ? "1" : "0"}));
     }
 
     setPublic(value) {
-        this.props.dispatch(setPhonenumberData({public: value}));
+        this.props.dispatch(setPhonenumberData({public: value ? "1" : "0"}));
     }
 
     openToast() {

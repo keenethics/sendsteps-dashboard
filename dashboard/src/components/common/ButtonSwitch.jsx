@@ -6,19 +6,18 @@ class ButtonSwitch extends Component {
 
         const { onChange, options, selected } = this.props;
 
-        const activeClassName = "btn btn-" + (selected ? "success active" : "default");
-        const inactiveClassName = "btn btn-" + (!selected ? "default active" : "default");
-
+        const isActive = selected === "0" && "success active";
+        const isInactive = selected === "1" && "active";
 
         return (
             <div>
                 <div className="btn-group">
                     {!options && 
                     <span>
-                        <div onClick={() => onChange ? onChange(true) : console.log(true)} className={activeClassName}>
+                        <div onClick={() => onChange ? onChange(true) : console.log(true)} className={"btn btn-default " + isInactive}>
                             <i className="fa fa-check"></i> On
                         </div>
-                        <div onClick={() => onChange ? onChange(false) : console.log(false)} className={inactiveClassName}>
+                        <div onClick={() => onChange ? onChange(false) : console.log(false)} className={"btn btn-default " + isActive}>
                             <i className="fa fa-times"></i> Off
                         </div>
                     </span>}
