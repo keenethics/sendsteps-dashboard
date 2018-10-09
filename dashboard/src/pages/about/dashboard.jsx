@@ -1,6 +1,5 @@
 import React from "react";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
-import BreadCrumbs from "../base/BreadCrumbs";
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../components/common/HeaderPanel";
 

@@ -1,5 +1,4 @@
 import React from "react";
-import BreadCrumbs from "../base/BreadCrumbs";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../components/common/HeaderPanel";
@@ -9,9 +8,7 @@ class AboutSendsteps extends React.Component {
     render() {
         return (
             <div>
-                <HeaderPanel
-                    title={"Sendsteps"}
-                />
+                <HeaderPanel title={"Sendsteps"} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">

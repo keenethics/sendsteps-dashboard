@@ -1,10 +1,10 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
+import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class SurveyDetails extends React.Component {
     componentDidMount() {
@@ -41,48 +41,47 @@ class SurveyDetails extends React.Component {
 
         return (
             <div>  
-                <Panel><Panel.Body>
-                    <h1>Presentation results</h1>   
-                </Panel.Body></Panel>
-                <Panel><Panel.Body>
-                    <div className="container-fluid">
-                        <div className="row">
-                            <input name='id' id='phonenumber-id' type='hidden' />
-                            <div className="row">  
-                                <div className="col-sm-12">
-                                    <h2>{data.name}</h2>
-                                </div>
-                                <div className="col-sm-6">
-                                    <p><strong>Start time:  </strong></p> 
-                                </div>   
-
-                                <div className="col-sm-6">
-                                    <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
-                                </div> 
-
-                                <div className="col-sm-6">
-                                    <p><strong>End time:</strong> </p>
-                                </div>  
-
-                                <div className="col-sm-6">
-                                    <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
-                                </div>  
-                            </div>       
-                            
+                <HeaderPanel title={"Presentation results"} />
+                <div className="container-fluid">
+                    <Panel>
+                        <Panel.Body>
                             <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="form-group keyword-items">
-                                        <ul className="list-group">
-                                        </ul>
+                                <input name='id' id='phonenumber-id' type='hidden' />
+                                <div className="row">  
+                                    <div className="col-sm-12">
+                                        <h2>{data.name}</h2>
                                     </div>
-                                </div>
+                                    <div className="col-sm-6">
+                                        <p><strong>Start time:  </strong></p> 
+                                    </div>   
+
+                                    <div className="col-sm-6">
+                                        <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
+                                    </div> 
+
+                                    <div className="col-sm-6">
+                                        <p><strong>End time:</strong> </p>
+                                    </div>  
+
+                                    <div className="col-sm-6">
+                                        <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
+                                    </div>  
+                                </div>       
                                 
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="form-group keyword-items">
+                                            <ul className="list-group">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </Panel.Body>
-                </Panel>
-                <BottomSaveBar />
+                        </Panel.Body>
+                    </Panel>
+                    <BottomSaveBar />
+                </div>
             </div>
         );
     }

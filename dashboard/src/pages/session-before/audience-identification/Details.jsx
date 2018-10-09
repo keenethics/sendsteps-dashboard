@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../../actions/api';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
@@ -28,11 +28,6 @@ class Details extends React.Component {
         });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
-
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-
 
     toggleAnonymous(value) {
         if(value.indexOf("Non") !== -1) {

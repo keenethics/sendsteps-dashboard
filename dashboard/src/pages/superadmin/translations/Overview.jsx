@@ -1,8 +1,7 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 class TranslationsOverview extends React.Component {
@@ -11,26 +10,20 @@ class TranslationsOverview extends React.Component {
         this.props.dispatch(fetchResult('translations', 'getOverview'));
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-
     render() {
         
-        const { data, match } = this.props;
+        const { data } = this.props;
       
         return (
             <div>
-                <HeaderPanel
-                    title={"Translations Overview"}
-                />
-                <Panel>
-                    <Panel.Body>
-                        <div className="container-fluid">
+                <HeaderPanel title={"Translations Overview"} />
+                <div className="container-fluid">
+                    <Panel>
+                        <Panel.Body>
                             {data && <OverviewTable data={data} />}
-                        </div>
-                    </Panel.Body>
-                </Panel>
+                        </Panel.Body>
+                    </Panel>
+                </div>
             </div>
         )
     }

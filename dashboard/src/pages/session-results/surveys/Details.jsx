@@ -1,8 +1,6 @@
 import React from "react";
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
@@ -17,7 +15,7 @@ class SurveyResultsDetails extends React.Component {
     }
     
     render() {
-        let { data, match } = this.props;
+        let { data } = this.props;
 
         // active:"1"
         // automaticallyClosed:"0"
@@ -38,47 +36,46 @@ class SurveyResultsDetails extends React.Component {
 
         return (
             <div>  
-                <HeaderPanel
-                    title={"Presentation results"}
-                />
-                <Panel><Panel.Body>
-                    <div className="container-fluid">
-                        
-                        <div className="row">
-                            <input name='id' id='phonenumber-id' type='hidden' />
-                            
-                            <div className="row">  
-                                <div className="col-sm-12">
-                                    <h2>{data && data.name}</h2>
-                                </div>
-                                <div className="col-sm-6">
-                                    <p><strong>Start time:  </strong></p> 
-                                </div>   
-
-                                <div className="col-sm-6">
-                                    <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
-                                </div> 
-
-                                <div className="col-sm-6">
-                                    <p><strong>End time:</strong> </p>
-                                </div>  
-
-                                <div className="col-sm-6">
-                                    <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
-                                </div>  
-                            </div>       
-                            
+                <HeaderPanel title={"Presentation results"} />
+                <div className="container-fluid">
+                    <Panel>
+                        <Panel.Body>
                             <div className="row">
-                                <div className="col-sm-12">
-                                    <div className="form-group keyword-items">
-                                        <ul className="list-group">
-                                        </ul>
+                                <input name='id' id='phonenumber-id' type='hidden' />
+                                
+                                <div className="row">  
+                                    <div className="col-sm-12">
+                                        <h2>{data && data.name}</h2>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <p><strong>Start time:  </strong></p> 
+                                    </div>   
+
+                                    <div className="col-sm-6">
+                                        <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
+                                    </div> 
+
+                                    <div className="col-sm-6">
+                                        <p><strong>End time:</strong> </p>
+                                    </div>  
+
+                                    <div className="col-sm-6">
+                                        <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
+                                    </div>  
+                                </div>       
+                                
+                                <div className="row">
+                                    <div className="col-sm-12">
+                                        <div className="form-group keyword-items">
+                                            <ul className="list-group">
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </Panel.Body></Panel>   
+                        </Panel.Body>
+                    </Panel>  
+                </div>
                 <BottomSaveBar />
             </div>
         );

@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
-import { clearData } from '../../actions/api';
 import { connect } from 'react-redux';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView'
 
 class BaseTable extends Component {
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
     nameFormatter = cell => {
         return <strong> {cell}</strong>
     }

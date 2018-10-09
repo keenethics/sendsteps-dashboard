@@ -3,6 +3,7 @@ import "./../Style.css";
 import { connect } from 'react-redux'; 
 import LoadingView from './LoadingView';
 import ErrorView from './ErrorView';
+import MainView from './MainView';
 
 class View extends Component {
 
@@ -16,7 +17,7 @@ class View extends Component {
         if(!isLoading && error) {
             return <ErrorView />;
         } 
-        return children;
+        return <MainView>{children}</MainView>;
     }
 } 
 export default connect(

@@ -1,5 +1,4 @@
 import React from "react";
-import BreadCrumbs from "../base/BreadCrumbs";
 import { AddinDownloadPanel, AddinInfoPanel, TutorialInfoPanel } from './extra_components/InfoPanels';
 import ResponseSiteContainer from '../base/ResponseSiteContainer';
 import { Panel } from 'react-bootstrap';
@@ -7,19 +6,13 @@ import HeaderPanel from "../../components/common/HeaderPanel";
 class AboutAddin extends React.Component {
 
     render() {
-        
-
         // @TODO, generate images of the videos to prevent long loading.
         // When the video is clicked, open a modal with the relevant Iframe, and play the video (autoplay)
         // This will increase performance (on this page) drastically
-        
-        
 
         return (
             <div>
-                <HeaderPanel
-                    title={"How it works"}
-                />
+                <HeaderPanel title={"How it works"} />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">

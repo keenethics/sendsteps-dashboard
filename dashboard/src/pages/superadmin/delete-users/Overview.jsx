@@ -1,8 +1,7 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../../actions/api';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 
@@ -12,25 +11,18 @@ class DeleteUsersOverview extends React.Component {
         this.props.dispatch(fetchResult('users', 'getDeleteUsersOverview'));
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-
     render() {
-        const { data, match } = this.props;
-        console.log(data);
+        const { data } = this.props;
         return (
             <div>
-                <HeaderPanel
-                    title={"Delete Users Overview"}
-                />
-                <Panel>
-                    <Panel.Body>
-                        <div className="container-fluid">
+                <HeaderPanel title={"Delete Users Overview"} />
+                <div className="container-fluid">
+                    <Panel>
+                        <Panel.Body>
                             {data && <OverviewTable data={data} />}
-                        </div>
-                    </Panel.Body>
-                </Panel>
+                        </Panel.Body>
+                    </Panel>
+                </div>
             </div>
         )
     }

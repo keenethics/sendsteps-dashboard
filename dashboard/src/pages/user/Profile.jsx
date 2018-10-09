@@ -1,21 +1,17 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../actions/api';
+import { fetchResult } from '../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ImageUploadField from "../../components/common/ImageUploadField";
 import BottomSaveBar from "../../components/common/BottomSaveBar";
 import HeaderPanel from "../../components/common/HeaderPanel";
 
-class PhonenumberDetails extends React.Component {
+class ProfileDetails extends React.Component {
     
     componentDidMount() {
         this.props.dispatch(fetchResult('users', 'getSelf'));
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-    
     render() {
 
         const { data, match } = this.props;
@@ -28,8 +24,7 @@ class PhonenumberDetails extends React.Component {
                     content={<p>On this page you can edit your personal profile.</p>}
                 />
                 <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-12">
+        
                             <Panel>
                                 <Panel.Body>
                                     <div className="row">
@@ -225,8 +220,7 @@ class PhonenumberDetails extends React.Component {
                                 </Panel.Body>
                             </Panel>
                             <BottomSaveBar />  
-                        </div>
-                    </div>
+           
                 </div>
             </div>
         )
@@ -237,4 +231,4 @@ class PhonenumberDetails extends React.Component {
             data: state.apiReducer.data,
         }
     }
-)(PhonenumberDetails);
+)(ProfileDetails);

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearAdditionalData, clearData } from '../../../actions/api';
 import { toggleModal } from '../../../actions/app';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
@@ -8,7 +7,6 @@ import InputField from '../../../components/common/InputField';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
-import BreadCrumbs from '../../base/BreadCrumbs';
 
 class Details extends React.Component {
 
@@ -19,10 +17,6 @@ class Details extends React.Component {
             id: this.props.match.params.id
         });
         // this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
-    }
-
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
     }
 
     handleOpen() {

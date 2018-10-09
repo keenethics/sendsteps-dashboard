@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearAdditionalData, clearData } from '../../../actions/api';
+import { fetchResult, clearAdditionalData } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
@@ -10,7 +10,6 @@ import { isValueInArray } from '../../../scripts/arrayHelper';
 import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
-import BreadCrumbs from '../../base/BreadCrumbs';
 
 class Settings extends React.Component {
 
@@ -23,10 +22,6 @@ class Settings extends React.Component {
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-
     fetchSiteSettings(e) {
         const value = e.target.value;
         if(value && this.props.data && isValueInArray(value, this.props.data.map((item) => item.id))) {
@@ -37,7 +32,7 @@ class Settings extends React.Component {
     }
     
     render() {
-        const { data, additionalData, currentUser, match } = this.props;
+        const { data, additionalData, currentUser } = this.props;
         
         return (
             <div>  

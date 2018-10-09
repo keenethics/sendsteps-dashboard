@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, clearData } from '../../../actions/api';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
@@ -25,10 +25,6 @@ class Settings extends React.Component {
             id: this.props.match.params.id
         });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
-    }
-
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
     }
 
     toggleInternatinonalAudience(state) {

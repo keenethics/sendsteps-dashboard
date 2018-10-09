@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearData, clearAdditionalData } from '../../../actions/api';
+import { fetchResult, clearAdditionalData } from '../../../actions/api';
 import { isValueInArray } from '../../../scripts/arrayHelper';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
@@ -33,10 +33,6 @@ class EditDashboardOverview extends React.Component {
         }
     }
 
-    componentWillUnmount() {
-        this.props.dispatch(clearData());
-    }
-
     render() {
         
         const { data, additionalData, match } = this.props;
@@ -54,38 +50,34 @@ class EditDashboardOverview extends React.Component {
                     </span>}
                 />
                 <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-md-12">
-                            <Panel>
-                                <Panel.Body>
-                                    <h3>Branded Dashboard Settings</h3>
-                                    <hr/>
-                                    <p>These settings are needed for branded dashboards to exists. But not only the branded branded dashboards use these. </p>
-                                    <p>The Addin is also dependant on these so be careful. <strong>Name</strong> and <strong>Max Free Audience</strong> are not editable once they are set.</p>
-                                    <p><strong>Dashboard Url</strong> needs to be unique because it is used to load the correct branded dashboard settings.</p>
-                                    <hr/>
-                                    <div className="form-group">
-                                        <label className="control-label">Select a Dashboard</label>
-                                        <select className="form-control" onChange={this.fetchDashboardInfo.bind(this)} value={selectedDashboard || null} >
-                                            <option value={null} >Select...</option>
-                                            {data && data.map(item => {
-                                                return <option key={item.id} value={item.id}>{item.name}</option>
-                                            })}
-                                            <option value={-1}>Create New</option>
-                                        </select>
-                                    </div>
-                                    <hr/>
-                                    {additionalData &&
-                                    <EditDashboardDetails data={additionalData} />}
-                                </Panel.Body>
-                            </Panel>
-                            {additionalData &&
-                            <BottomSaveBar />
-                            }
+                <Panel>
+                    <Panel.Body>
+                        <h3>Branded Dashboard Settings</h3>
+                        <hr/>
+                        <p>These settings are needed for branded dashboards to exists. But not only the branded branded dashboards use these. </p>
+                        <p>The Addin is also dependant on these so be careful. <strong>Name</strong> and <strong>Max Free Audience</strong> are not editable once they are set.</p>
+                        <p><strong>Dashboard Url</strong> needs to be unique because it is used to load the correct branded dashboard settings.</p>
+                        <hr/>
+                        <div className="form-group">
+                            <label className="control-label">Select a Dashboard</label>
+                            <select className="form-control" onChange={this.fetchDashboardInfo.bind(this)} value={selectedDashboard || null} >
+                                <option value={null} >Select...</option>
+                                {data && data.map(item => {
+                                    return <option key={item.id} value={item.id}>{item.name}</option>
+                                })}
+                                <option value={-1}>Create New</option>
+                            </select>
                         </div>
-                    </div>
+                        <hr/>
+                        {additionalData &&
+                        <EditDashboardDetails data={additionalData} />}
+                    </Panel.Body>
+                </Panel>
+                {additionalData &&
+                <BottomSaveBar />}
                 </div>
             </div>
+        
         )
     }
 } 
