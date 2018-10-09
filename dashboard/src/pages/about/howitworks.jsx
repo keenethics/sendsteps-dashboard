@@ -3,6 +3,7 @@ import BreadCrumbs from "../base/BreadCrumbs";
 import { AddinDownloadPanel, AddinInfoPanel, TutorialInfoPanel } from './extra_components/InfoPanels';
 import ResponseSiteContainer from '../base/ResponseSiteContainer';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from "../../components/common/HeaderPanel";
 class AboutAddin extends React.Component {
 
     render() {
@@ -16,13 +17,9 @@ class AboutAddin extends React.Component {
 
         return (
             <div>
-                <Panel><Panel.Body>
-                    <h1>How it works</h1>   
-                </Panel.Body></Panel>
-                <BreadCrumbs urlList={this.props.match.url} />  
-                {/* <PageHeaderPanel>
-                
-                </PageHeaderPanel> */}
+                <HeaderPanel
+                    title={"How it works"}
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">

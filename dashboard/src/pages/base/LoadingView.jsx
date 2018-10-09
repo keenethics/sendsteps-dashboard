@@ -12,7 +12,6 @@ class LoadingView extends Component {
                         <i className="fa fa-circle-notch fa-spin" style={{fontSize: '24px'}}></i>
                     </div>
                 </div>
-                {this.props.children}
             </div>
         )
     }

@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export default class BreadCrumbs extends Component {
+class BreadCrumbs extends Component {
 
     render() {
 
-        const { urlList } = this.props;
+        const { breadCrumbsUrl } = this.props;
 
-        if(urlList) {
+        if(breadCrumbsUrl) {
             
-            let crumbs = urlList.substring(1)
+            let crumbs = breadCrumbsUrl.substring(1)
             let crumbList = crumbs.split('/').filter(String);
             let actualCrumbs = crumbList.map((crumb, index) => (
                 <span key={index}> 
-                    <i className="crumbs fa fa-caret-right"></i> 
+                    <span> / </span>
                     <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')}>
                         {crumb.replace("-", " ").toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
                     </div>
@@ -31,3 +32,11 @@ export default class BreadCrumbs extends Component {
         return null;
     }
 }
+
+export default connect(
+    (state) => {
+        return {
+            breadCrumbsUrl: state.appReducer.breadCrumbsUrl
+        }
+    }
+) (BreadCrumbs);

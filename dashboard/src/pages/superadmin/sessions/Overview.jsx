@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from '../../../components/common/HeaderPanel';
 class SessionsOverview extends React.Component {
    
     componentDidMount() {
@@ -21,12 +22,9 @@ class SessionsOverview extends React.Component {
       
         return (
                 <div>
-                    <Panel>
-                        <Panel.Body>
-                            <h1>Sessions Overview</h1>   
-                        </Panel.Body>
-                    </Panel>
-                    <BreadCrumbs urlList={match.url} />
+                    <HeaderPanel
+                        title={"Sessions Overview"}
+                    />
                     <Panel>
                         <Panel.Body>
                             <div className="container-fluid">

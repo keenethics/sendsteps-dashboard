@@ -5,6 +5,13 @@ export function toggleMenu(isOpened) {
     }
 }
 
+export function setBreadcrumbsUrl(breadCrumbsUrl) {
+    return {
+        type: 'SET_BREADCRUMBS',
+        breadCrumbsUrl
+    }
+
+} 
 export function showRegistrationForm(showRegistrationForm) {
     return {
         type: 'SHOW_REGISTRATION_FORM',

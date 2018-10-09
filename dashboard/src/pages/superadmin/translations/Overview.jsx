@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult, clearData } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from '../../../components/common/HeaderPanel';
 class TranslationsOverview extends React.Component {
    
     componentDidMount() {
@@ -20,12 +21,9 @@ class TranslationsOverview extends React.Component {
       
         return (
             <div>
-                <Panel>
-                    <Panel.Body>
-                        <h1>Translations Overview</h1>   
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={match.url} />
+                <HeaderPanel
+                    title={"Translations Overview"}
+                />
                 <Panel>
                     <Panel.Body>
                         <div className="container-fluid">

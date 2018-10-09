@@ -44,7 +44,6 @@ class SurveyDetails extends React.Component {
                 <Panel><Panel.Body>
                     <h1>Presentation results</h1>   
                 </Panel.Body></Panel>
-                <BreadCrumbs urlList={this.props.match.url} />   
                 <Panel><Panel.Body>
                     <div className="container-fluid">
                         <div className="row">

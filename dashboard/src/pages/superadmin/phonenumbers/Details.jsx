@@ -7,6 +7,7 @@ import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
 import ButtonSwitch from "../../../components/common/ButtonSwitch";
 import { toast } from 'react-toastify';
+import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class PhonenumberDetails extends React.Component {
     componentDidMount() {
@@ -59,12 +60,9 @@ class PhonenumberDetails extends React.Component {
         // Requires api adjustment, might be able to change later @TODO
         return data ? 
             <div>
-                <Panel onClick={this.openToast.bind(this)}>
-                    <Panel.Body>
-                    <h1>Phonenumber ({data.displayText})</h1>   
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={this.props.match.url} />   
+                <HeaderPanel
+                    title={"Phonenumber (" + data.displayText + ")"}
+                />
                 <Panel>
                     <Panel.Body>
                         <div className="container-fluid">

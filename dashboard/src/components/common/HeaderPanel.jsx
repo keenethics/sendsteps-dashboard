@@ -4,18 +4,22 @@ import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 const HeaderPanel = props => {
 
-    const { title, content, match } = props;
+    const { title, content } = props;
+
 
     return (
         <span>
             <Panel>
                 <Panel.Body>
                     <h1>{title}</h1>  
-                    <hr/>
-                    {content}
+                    {content &&
+                    <span>
+                        <hr/>
+                        {content}
+                    </span>}
                 </Panel.Body>
             </Panel>
-            {match && <BreadCrumbs urlList={match.url} />}
+            <BreadCrumbs />
         </span>
     )
 }

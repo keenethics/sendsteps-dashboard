@@ -2,16 +2,16 @@ import React from "react";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
 import BreadCrumbs from "../base/BreadCrumbs";
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from "../../components/common/HeaderPanel";
 
 class AboutDashboard extends React.Component {
 
     render() {
         return (
             <div>
-                <Panel><Panel.Body>
-                    <h1>The Dashboard</h1>   
-                </Panel.Body></Panel>
-                <BreadCrumbs urlList={this.props.match.url} />  
+                <HeaderPanel 
+                    title={"The Dashboard"}                
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">

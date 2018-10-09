@@ -10,6 +10,7 @@ import { isValueInArray } from '../../../scripts/arrayHelper';
 import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import BreadCrumbs from '../../base/BreadCrumbs';
 
 class Settings extends React.Component {
 
@@ -36,7 +37,7 @@ class Settings extends React.Component {
     }
     
     render() {
-        const { data, additionalData, currentUser } = this.props;
+        const { data, additionalData, currentUser, match } = this.props;
         
         return (
             <div>  
@@ -47,7 +48,8 @@ class Settings extends React.Component {
                         <p>Colors need to be specified as one of the following:</p> 
                         <br/>
                         <ColorInfo />
-                    </span>}/>
+                    </span>}
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8">

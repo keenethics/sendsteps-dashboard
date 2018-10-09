@@ -8,6 +8,7 @@ import InputField from '../../../components/common/InputField';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import BreadCrumbs from '../../base/BreadCrumbs';
 
 class Details extends React.Component {
 
@@ -41,7 +42,8 @@ class Details extends React.Component {
                     content={<span>
                         <p>Here are some additional settings for your Response Website tabs. </p>
                         <p>Allow editing of answers, Twitter feed and sharing of results.</p>
-                    </span>}/>
+                    </span>}
+                />
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">

@@ -1,7 +1,7 @@
 import React from 'react';
-import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import InputField from '../../../components/common/InputField';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from '../../../components/common/HeaderPanel';
 class SessionOverview extends React.Component {
     render() {
             
@@ -9,13 +9,11 @@ class SessionOverview extends React.Component {
         
         return (
             <div>
+                <HeaderPanel
+                    title={"Session Overview Settings"}
+                />
                 <Panel>
-                    <Panel.Body>
-                        <h1>Session Overview Settings</h1>   
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={match.url} />
-                    <Panel><Panel.Body>        
+                    <Panel.Body>        
                         <div className="container-fluid">
                             <div className="row">
                                 <button type='button' id="clear-form" className="btn btn-danger pull-right">

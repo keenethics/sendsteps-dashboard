@@ -2,10 +2,15 @@ export default function appReducer(state, action) {
 
     switch(action.type) {
         case 'TOGGLE_MENU': {
-            console.log('Toggling menu', state);
             return {
                 ...state,
                 menuOpened: action.isOpened
+            }
+        }
+        case 'SET_BREADCRUMBS': {
+            return {
+                ...state,
+                breadCrumbsUrl: action.breadCrumbsUrl
             }
         }
         case 'SET_VIEW': {

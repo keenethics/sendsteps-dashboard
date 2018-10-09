@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult, clearData } from '../../../actions/api';
 import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import { Panel } from 'react-bootstrap';
+import HeaderPanel from '../../../components/common/HeaderPanel';
 
 class DeleteUsersOverview extends React.Component {
    
@@ -20,12 +21,9 @@ class DeleteUsersOverview extends React.Component {
         console.log(data);
         return (
             <div>
-                <Panel>
-                    <Panel.Body>
-                        <h1>Delete Users Overview</h1>   
-                    </Panel.Body>
-                </Panel>
-                <BreadCrumbs urlList={match.url} />
+                <HeaderPanel
+                    title={"Delete Users Overview"}
+                />
                 <Panel>
                     <Panel.Body>
                         <div className="container-fluid">

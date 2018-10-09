@@ -6,6 +6,7 @@ import BreadCrumbs from '../../../pages/base/BreadCrumbs';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
+import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class SurveyResultsDetails extends React.Component {
     componentDidMount() {
@@ -37,11 +38,9 @@ class SurveyResultsDetails extends React.Component {
 
         return (
             <div>  
-                <Panel><Panel.Body>
-                    <h1>Presentation results</h1>   
-                </Panel.Body></Panel>
-     
-                <BreadCrumbs urlList={match.url} />
+                <HeaderPanel
+                    title={"Presentation results"}
+                />
                 <Panel><Panel.Body>
                     <div className="container-fluid">
                         
