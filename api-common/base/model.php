@@ -39,17 +39,59 @@
             return $data;
         }
         
-        protected function update($table = '', $data = array(), $where = array()) {
-            // $db_options = $this->getMedooOptions();
-            if ($table != '' OR count($data) == 0 OR count($where) == 0) {
-                return false;
+        protected function updatetest($fields = array(), $id = NULL) {
+            // return 'asdasd';
+            if (count($fields)) {
+                if (NULL != $id) { //Update existing record
+                
+                    // $query = "UPDATE phonenumbers p 
+                    //           SET 
+                    //             <p.countryIsoCode> = :countryIsoCode,
+                    //             <p.displayText> = :displayText,
+                    //             <p.public> = :public,
+                    //             <p.foreignerCompatible> = :international
+                    //           WHERE <p.id> = :id;";
+                    $set = '';
+                    foreach($fields as $key => $f){
+                        if ($set != '') {
+                            $set .= ',';
+                        }
+                        $set .= '<'.$key.'> = :'.$key;
+                    }
+                    $query = "UPDATE phonenumbers SET $set WHERE <id> = :id;";
+                    $params = $fields;
+                    $params['id'] = $id;
+                    
+                    
+                    $database = new Medoo($this->getMedooOptions());
+                    $results = $database->query($query, $params);
+                    // $params['id'] = $id;
+                    // $params['countryIsoCode'] = $countryIsoCode;
+                    // $params['displayText'] = $displayText;
+                    // $params['public'] = $public;
+                    // $params['international'] = $international;
+                    
+                    // $where['id'] = $id;
+                    // $result = $this->update('phonenumbers', $params, $where);
+                    $returnedId = $id;
+                } else { // insert new record with the data we've been given
+                    
+                }
+            } else {
+                throw new Exception('ModelRequiresId');
             }
-            $database = new Medoo($this->getMedooOptions());
-            $data = $database->update($table, $data, $where);
-            $data->rowCount();
-            return $data;
+            return $returnedId;
         }
-
+        // protected function insertOn($table = '', $data = array(), $where = array()) {
+        //     // $db_options = $this->getMedooOptions();
+        //     if ($table != '' OR count($data) == 0 OR count($where) == 0) {
+        //         return false;
+        //     }
+        //     $database = new Medoo($this->getMedooOptions());
+        //     $data = $database->update($table, $data, $where);
+        //     $data->rowCount();
+        //     return $data;
+        // }
         
         protected function isPhp7() {
             if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
@@ -78,5 +120,4 @@
             return $db_options;
         }
     }
-
 ?>

@@ -23,6 +23,7 @@ class PhonenumberDetails extends React.Component {
 
     savePhonenumber() {
         const { data } = this.props;
+        
         let apiParams = JSON.stringify({
             id: data.id,
             fields : data

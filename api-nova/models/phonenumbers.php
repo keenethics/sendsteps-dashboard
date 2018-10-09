@@ -25,29 +25,9 @@ class Phonenumbers_Model extends Model {
         return $results;
     }
     
-    public function updateDetails($id = NULL, $countryIsoCode, $displayText, $public, $international){
-        if ($id != NULL) {
-            
-            $query = "UPDATE phonenumbers p 
-                      SET 
-                        <p.countryIsoCode> = :countryIsoCode,
-                        <p.displayText> = :displayText,
-                        <p.public> = :public,
-                        <p.foreignerCompatible> = :international
-                      WHERE <p.id> = :id;";
-            $params['id'] = $id;
-            $params['countryIsoCode'] = $countryIsoCode;
-            $params['displayText'] = $displayText;
-            $params['public'] = $public;
-            $params['international'] = $international;
-            
-            $where['id'] = $id;
-            $result = $this->update('phonenumbers', $params, $where);
-            $result->id;
-            var_dump($result);exit();
-            //Should return true/false
-            // $results = $this->query($query, $params);
-            return $id;
-        }
+    public function updateDetails($fields = array(), $id = NULL){
+        // var_dump('ace');exit();
+        $results = $this->updatetest($fields, $id);
+        return $results;
     }
 }
