@@ -17,7 +17,6 @@ export default function apiReducer(state, action) {
         case 'API_UPDATE_SUCCESS': {
             return {
                 ...state,
-                data: action.updatedData,
                 updateError: null,
                 isLoading: false
             }

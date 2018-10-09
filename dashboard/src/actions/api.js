@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './../scripts/localStorage';
 import { getCookieValues } from './../scripts/cookieStorage';
 import { getConfigSetting } from '../scripts/configFile';
+import { toast } from 'react-toastify';
 
 let apiUrl = getConfigSetting('apiUrlNova');
 
@@ -19,14 +20,15 @@ export function setPhonenumberData(newData) {
 }
 
 
-export function apiUpdateSuccess(updatedData) {
+export function apiUpdateSuccess() {
+    toast("Update success!");
     return {
         type: 'API_UPDATE_SUCCESS',
-        updatedData
     }
 }
 
 export function apiUpdateError(updateError) {
+    toast("Unable to update.");
     return {
         type: 'API_UPDATE_ERROR',
         updateError
@@ -34,6 +36,7 @@ export function apiUpdateError(updateError) {
 }
 
 export function apiFetchError(error) {
+    toast("Unable to fetch data.");
     return {
         type: 'API_FETCH_ERROR',
         error

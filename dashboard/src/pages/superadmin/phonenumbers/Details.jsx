@@ -136,7 +136,7 @@ class PhonenumberDetails extends React.Component {
                             </div>
                         </Panel.Body>
                     </Panel>
-                    <BottomSaveBar />
+                    <BottomSaveBar onSave={this.savePhonenumber.bind(this)}/>
                 </div>
             </div>
     }
