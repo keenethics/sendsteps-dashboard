@@ -9,9 +9,10 @@ class Dashboards_Model extends Model {
     }
     
     public function findById($id){
-        $query = 'SELECT * FROM addinsettings WHERE <id> = :id;';
-        $params['id'] = $id;
-        $results = $this->query($query, $params);
+        $results = $this->findByIdCentral($id, 'addinsettings');
+        // $query = 'SELECT * FROM addinsettings WHERE <id> = :id;';
+        // $params['id'] = $id;
+        // $results = $this->query($query, $params);
         return $results;
     }
 }

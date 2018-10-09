@@ -5,23 +5,33 @@
     require_once __DIR__.'/../medoo/src/Medoo.php';
     use Medoo\Medoo;
 
-    class Model extends Base{
+    class Model extends Base {
         // public function findAll(){
         //     $results = $this->query('SELECT * FROM '.$this->table.';');
         //     return $results;
         // }
-        // public function findById($id = NULL){
-        //     if($id == NULL){
-        //         throw new Exception('ModelRequiresId');
-        //     }
-        //     $results = $this->query('SELECT * FROM '.$this->table.';');
-        //     return $results;
-        // }
+        
+        protected function findByIdCentral($id = NULL, $table = '', $booleanColumn = '') {
+            $database = new Medoo($this->getMedooOptions());
+            if (NULL == $id) {
+                throw new Exception('ModelRequiresId');
+            }
+            if ('' == $table) {
+                throw new Exception('ModelRequiresTable');
+            }
+            if ('' != $booleanColumn) {
+                $where[$booleanColumn] = 0; //Select only rows, that have not been marked as deleted
+            }
+            $where['id'] = $id;
+            $where['LIMIT'] = 1;
+            $results = $database->select($table, '*', $where);
+            return $results;
+        }
 
         protected function query($query = '', $params = array()) {            
             // $db_options = $this->getMedooOptions();
             $database = new Medoo($this->getMedooOptions());
-            if (count($params)){
+            if (count($params)) {
                 $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
             } else {
                 $data = (array) $database->query($query)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
@@ -29,9 +39,9 @@
             return $data;
         }
         
-        protected function update($table = '', $data = array(), $where = array()){
+        protected function update($table = '', $data = array(), $where = array()) {
             // $db_options = $this->getMedooOptions();
-            if ($table != '' OR count($data) == 0 OR count($where) == 0){
+            if ($table != '' OR count($data) == 0 OR count($where) == 0) {
                 return false;
             }
             $database = new Medoo($this->getMedooOptions());
@@ -41,14 +51,14 @@
         }
 
         
-        protected function isPhp7(){
+        protected function isPhp7() {
             if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
                 return true;
             }
             return false;
         }
         
-        private function getMedooOptions(){
+        private function getMedooOptions() {
             $db_options = array(
                 // Required
                 'database_type' => 'mysql',

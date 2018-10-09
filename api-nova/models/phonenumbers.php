@@ -11,9 +11,10 @@ class Phonenumbers_Model extends Model {
     }
     
     public function findActiveById($id){
-        $query = 'SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND <p.id> = :id;';
-        $params['id'] = $id;
-        $results = $this->query($query, $params);
+        $results = $this->findByIdCentral($id, 'phonenumbers', 'isDeleted');
+        // $query = 'SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND <p.id> = :id;';
+        // $params['id'] = $id;
+        // $results = $this->query($query, $params);
         return $results;
     }
     
@@ -42,6 +43,7 @@ class Phonenumbers_Model extends Model {
             
             $where['id'] = $id;
             $result = $this->update('phonenumbers', $params, $where);
+            $result->id;
             var_dump($result);exit();
             //Should return true/false
             // $results = $this->query($query, $params);
