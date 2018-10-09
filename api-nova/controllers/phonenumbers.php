@@ -28,7 +28,19 @@ class Phonenumbers extends NovaAPI {
         return false;        
     }
     
-    public function updateDetails($id = NULL){
-        var_dump($_POST);exit();
+    public function updateDetails($id = NULL, $fields = array()){
+        // var_dump($fields);exit();
+        if ($id != NULL){
+            $countryIsoCode = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
+            $displayText = (isset($fields->displayText)? $fields->displayText : '');
+            $public = (isset($fields->public) && $fields->public == true ? 1 : 0);
+            $international = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
+            
+            $model = $this->loadModel('phonenumbers');
+            $update_id = $model->updateDetails($id, $countryIsoCode, $displayText, $public, $international);           
+
+            // return $this->getDetails($update_id);
+        }
+        // var_dump($_POST);exit();
     }
 }

@@ -7,6 +7,7 @@
         'ModelFileDoesNotExist' => 'Model name given, does not match any files found',
         'MethodReturnedNull' => 'Method gave a null response',
         'ModelRequiresId' => 'Model requires ID, no ID provided',
+        'ModelRequiresTable' => 'Model requires Table name, no table provided',
         'SpecifyControllerAndFunction' => 'Controller or Function fields not set',
         'SpecifyFunction' => 'Function field not set',
         'ValidTokenNotSet' => 'Valid token not found',

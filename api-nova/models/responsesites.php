@@ -8,9 +8,10 @@ class Responsesites_Model extends Model {
         return $results;
     }
     public function getActiveById($id){
-        $query = 'SELECT * FROM `response_websites` WHERE isDeleted = 0 AND <id> = :id;';
-        $params['id'] = $id;
-        $results = $this->query($query, $params);
+        $results = $this->findByIdCentral($id, 'response_websites', 'isDeleted');
+        // $query = 'SELECT * FROM `response_websites` WHERE isDeleted = 0 AND <id> = :id;';
+        // $params['id'] = $id;
+        // $results = $this->query($query, $params);
         return $results;
     }
 }
