@@ -26,7 +26,7 @@ class Phonenumbers_Model extends Model {
     }
     
     public function updateDetails($table = '', $fields = array(), $id = NULL){
-        $results = $this->updateOneTableOneRecord($table, $fields, $id);
+        $results = $this->insertOn($table, $fields, $id);
         return $results;
     }
 }

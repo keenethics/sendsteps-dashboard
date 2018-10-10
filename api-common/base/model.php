@@ -39,7 +39,7 @@
             return $data;
         }
         
-        protected function updateOneTableOneRecord($table = '', $fields = array(), $id = NULL) {
+        protected function insertOn($table = '', $fields = array(), $id = NULL) {
             // return 'asdasd';
             if (count($fields)) {
                 $database = new Medoo($this->getMedooOptions());

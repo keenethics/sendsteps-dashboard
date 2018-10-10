@@ -13,6 +13,7 @@ class Phonenumbers extends NovaAPI {
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
             $results = $model->findActiveById($id)[0];
+            var_dump($results);exit();
             return json_encode(['content' => $results]);                
         }
         return false;        
