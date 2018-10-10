@@ -12,8 +12,8 @@ class Phonenumbers extends NovaAPI {
         // Fetch data from single phonenumber
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
-            $results = $model->findActiveById($id)[0];
-            var_dump($results);exit();
+            $results = $model->findActiveById($id);
+            // var_dump($results);exit();
             return json_encode(['content' => $results]);                
         }
         return false;        
