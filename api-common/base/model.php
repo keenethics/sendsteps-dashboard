@@ -62,16 +62,6 @@
             }
             return $returnedId;
         }
-        // protected function insertOn($table = '', $data = array(), $where = array()) {
-        //     // $db_options = $this->getMedooOptions();
-        //     if ($table != '' OR count($data) == 0 OR count($where) == 0) {
-        //         return false;
-        //     }
-        //     $database = new Medoo($this->getMedooOptions());
-        //     $data = $database->update($table, $data, $where);
-        //     $data->rowCount();
-        //     return $data;
-        // }
         
         protected function isPhp7() {
             if (version_compare(PHP_VERSION, '7.0.0') >= 0) {
