@@ -27,13 +27,24 @@ class Settings extends React.Component {
     
     saveResponseSiteSettings() {
         const { data } = this.props;
-        let apiParams = JSON.stringify({id: data.id, fields : data});
+        let sentData = {
+            internetaddressoverwrite: data.internetaddressoverwrite,
+            internetselected: data.internetselected,
+            phonenumberCountryisocode: data.phonenumberCountryisocode,
+            phonenumberForeignerCompatible: data.phonenumberForeignerCompatible,
+            phonenumberId: data.phonenumberId,
+            textmessagingkeyword: data.textmessagingkeyword,
+            textmessagingselected: data.textmessagingselected
+        };
+        let apiParams = JSON.stringify({fields : sentData});
+        console.log(sentData);
         this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
     }
 
     render() {
 
-        const { data, match } = this.props;
+        let { data, match } = this.props;
+        // const { data, match } = this.props;
 
         return data && (
             <div>

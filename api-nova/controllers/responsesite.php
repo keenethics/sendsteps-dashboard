@@ -39,8 +39,17 @@ class Responsesite extends NovaAPI {
         return json_encode(['content' => $results[0]]);
     }
     
-    public function updateSettingsBasic($id = NULL, $fields = array()){
-        if ($id != NULL){
+    public function updateSettingsBasic($fields = array()){
+        var_dump($fields);exit();
+        if (count($fields) > 0){
+        
+            // var_dump($fields);exit();
+        
+            $sessionModel = $this->loadModel('sessions');
+            $sessionId = $this->getUserSessionId();
+            $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 
+        
+        
             // $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
             // $modelFields["displayText"] = (isset($fields->displayText)? $fields->displayText : '');
             // $modelFields["public"] = (isset($fields->public) && $fields->public == true ? 1 : 0);
