@@ -12,11 +12,8 @@ class Phonenumbers_Model extends Model {
     
     public function findActiveById($id){
         $results = $this->findByIdCentral($id, 'phonenumbers', 'isDeleted')[0];
-        // var_dump($results);exit();
-        $results['foreignerCompatible'] = ($results['foreignerCompatible'] == 1)? 0 : 1;
-        // $query = 'SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND <p.id> = :id;';
-        // $params['id'] = $id;
-        // $results = $this->query($query, $params);
+        //Some bright spark chose to use the foreignerCompatible field as a boolean, but uses 1 as false & 2 as true. They also set it to 3, to indicate an inactive number. OMG. 
+        $results['foreignerCompatible'] = ($results['foreignerCompatible'] == 2)? 1 : 0;
         return $results;
     }
     
