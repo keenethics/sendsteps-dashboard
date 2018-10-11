@@ -38,4 +38,17 @@ class Responsesite extends NovaAPI {
         $results = $responsesitesModel->getActiveById($id);
         return json_encode(['content' => $results[0]]);
     }
+    
+    public function updateSettingsBasic($id = NULL, $fields = array()){
+        if ($id != NULL){
+            // $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
+            // $modelFields["displayText"] = (isset($fields->displayText)? $fields->displayText : '');
+            // $modelFields["public"] = (isset($fields->public) && $fields->public == true ? 1 : 0);
+            // $modelFields["foreignerCompatible"] = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
+            
+            // $model = $this->loadModel('phonenumbers');
+            // $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
+            // return $update_id;
+        }
+    }
 }

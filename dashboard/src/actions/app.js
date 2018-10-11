@@ -1,3 +1,13 @@
+import { setData } from '../actions/api';
+
+export function setField(fieldName, event) {
+    if(event.target && event.target.value){
+        this.props.dispatch(setData({[fieldName]: event.target.value}));
+    } else {
+        this.props.dispatch(setData({[fieldName]: event}));
+    }
+}
+
 export function toggleMenu(isOpened) {
     return {
         type: 'TOGGLE_MENU',

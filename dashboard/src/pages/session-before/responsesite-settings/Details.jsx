@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI, setData} from '../../../actions/api';
+import { fetchResult, updateAPI } from '../../../actions/api';
+import { setField } from '../../../actions/app';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
@@ -20,30 +21,14 @@ class Settings extends React.Component {
     }
     
     componentDidMount() {
-        let apiController = 'responsesite';
-        let apiFunction = 'getSettingsBasic';
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+        let apiParams = JSON.stringify({id: this.props.match.params.id});
+        this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams));
     }
     
     saveResponseSiteSettings() {
         const { data } = this.props;
-        
-        let apiParams = JSON.stringify({
-            id: data.id,
-            fields : data
-        });
+        let apiParams = JSON.stringify({id: data.id, fields : data});
         this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
-    }
-    
-    setField(fieldName, event) {
-        if(event.target && event.target.value){
-            this.props.dispatch(setData({[fieldName]: event.target.value}));
-        } else {
-            this.props.dispatch(setData({[fieldName]: event}));
-        }
     }
 
     render() {
@@ -93,7 +78,7 @@ class Settings extends React.Component {
                                                     <div className="col-sm-6">
                                                         <div className="input-group" style={{paddingLeft:"15px"}}>
                                                             <InputField 
-                                                                onChange={this.setField.bind(this, 'textmessagingkeyword')}
+                                                                onChange={setField.bind(this, 'textmessagingkeyword')}
                                                                 // labelText={"Country"}
                                                                 value={data && data.textmessagingkeyword}
                                                                 leftFaIcon={"barcode"}
@@ -116,7 +101,7 @@ class Settings extends React.Component {
                                                     <div className="col-sm-6">
                                                         <div className="col-sm-6">
                                                             <div className="form-group">
-                                                                <ButtonSwitch onChange={this.setField.bind(this, 'responseWebsiteEnabled')} selected={data.responseWebsiteEnabled} />
+                                                                <ButtonSwitch onChange={setField.bind(this, 'responseWebsiteEnabled')} selected={data.responseWebsiteEnabled} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -155,7 +140,7 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch onChange={this.setField.bind(this, 'txtSmsEnabled')} selected={data.txtSmsEnabled} />
+                                                        <ButtonSwitch onChange={setField.bind(this, 'txtSmsEnabled')} selected={data.txtSmsEnabled} />
                                                     </div>
                                                 </div>
 
@@ -177,7 +162,7 @@ class Settings extends React.Component {
                                                         <div className="col-sm-6">
                                                             <div className="input-group" style={{paddingLeft:"15px"}}>
                                                                 <InputField 
-                                                                    onChange={this.setField.bind(this, 'phonenumberCountryisocode')}
+                                                                    onChange={setField.bind(this, 'phonenumberCountryisocode')}
                                                                     value={data.phonenumberCountryisocode}
                                                                     leftFaIcon={"globe"}
                                                                 />
@@ -196,7 +181,7 @@ class Settings extends React.Component {
                                                         />
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={this.setField.bind(this, 'internationalAudience')} selected={data.internationalAudience} />
+                                                            <ButtonSwitch onChange={setField.bind(this, 'internationalAudience')} selected={data.internationalAudience} />
                                                         </div>
                                                     </div>
 
@@ -213,7 +198,7 @@ class Settings extends React.Component {
                                                         <div className="col-sm-6">
                                                             <div className="input-group" style={{paddingLeft:"15px"}}>
                                                                 <InputField 
-                                                                    onChange={this.setField.bind(this, 'phonenumberId')}
+                                                                    onChange={setField.bind(this, 'phonenumberId')}
                                                                     value={data.phonenumberId}
                                                                     leftFaIcon={"phone"}
                                                                     // className="form-control input-lg"

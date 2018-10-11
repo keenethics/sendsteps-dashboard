@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI, setData } from '../../../actions/api';
+import { fetchResult, updateAPI } from '../../../actions/api';
+import { setField } from '../../../actions/app';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -10,29 +11,15 @@ import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class PhonenumberDetails extends React.Component {
     componentDidMount() {
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
+        let apiParams = JSON.stringify({id: this.props.match.params.id});
         this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
         this.props.dispatch(fetchResult('phonenumbers', 'getKeywords', apiParams, true));
     }
 
     savePhonenumber() {
         const { data } = this.props;
-        
-        let apiParams = JSON.stringify({
-            id: data.id,
-            fields : data
-        });
+        let apiParams = JSON.stringify({id: data.id, fields : data});
         this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', apiParams));
-    }
-    
-    setField(fieldName, event) {
-        if(event.target && event.target.value){
-            this.props.dispatch(setData({[fieldName]: event.target.value}));
-        } else {
-            this.props.dispatch(setData({[fieldName]: event}));
-        }
     }
 
     openToast() {
@@ -55,7 +42,7 @@ class PhonenumberDetails extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setField.bind(this, 'countryIsoCode')}
+                                        onChange={setField.bind(this, 'countryIsoCode')}
                                         labelText={"Country"}
                                         value={data.countryIsoCode}
                                         leftFaIcon={"globe"}
@@ -64,7 +51,7 @@ class PhonenumberDetails extends React.Component {
 
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setField.bind(this, 'displayText')}
+                                        onChange={setField.bind(this, 'displayText')}
                                         labelText={"Phonenumber"}
                                         value={data.displayText}
                                         leftFaIcon={"sort-numeric-up"}
@@ -76,14 +63,14 @@ class PhonenumberDetails extends React.Component {
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">International</label>
-                                        <ButtonSwitch onChange={this.setField.bind(this, 'foreignerCompatible')} selected={data.foreignerCompatible} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'foreignerCompatible')} selected={data.foreignerCompatible} />
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">Public</label>
-                                        <ButtonSwitch onChange={this.setField.bind(this, 'public')} selected={data.public} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'public')} selected={data.public} />
                                     </div>
                                 </div>
                             </div>

@@ -30,9 +30,7 @@ class Phonenumbers extends NovaAPI {
     }
     
     public function updateDetails($id = NULL, $fields = array()){
-        // var_dump($fields);exit();
         if ($id != NULL){
-            // $modelFields['']
             $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
             $modelFields["displayText"] = (isset($fields->displayText)? $fields->displayText : '');
             $modelFields["public"] = (isset($fields->public) && $fields->public == true ? 1 : 0);
@@ -41,8 +39,6 @@ class Phonenumbers extends NovaAPI {
             $model = $this->loadModel('phonenumbers');
             $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
             return $update_id;
-            // return $this->getDetails($update_id);
         }
-        // var_dump($_POST);exit();
     }
 }
