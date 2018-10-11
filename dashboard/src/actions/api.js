@@ -12,9 +12,9 @@ export function clearData() {
     }
 }
 
-export function setPhonenumberData(newData) {
+export function setData(newData) {
     return {
-        type: 'SET_PHONENUMBER_DATA',
+        type: 'SET_DATA',
         newData
     }
 }

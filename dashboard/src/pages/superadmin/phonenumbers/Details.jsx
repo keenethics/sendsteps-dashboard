@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI, setPhonenumberData } from '../../../actions/api';
+import { fetchResult, updateAPI, setData } from '../../../actions/api';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -29,9 +29,9 @@ class PhonenumberDetails extends React.Component {
     
     setField(fieldName, event) {
         if(event.target && event.target.value){
-            this.props.dispatch(setPhonenumberData({[fieldName]: event.target.value}));
+            this.props.dispatch(setData({[fieldName]: event.target.value}));
         } else {
-            this.props.dispatch(setPhonenumberData({[fieldName]: event}));
+            this.props.dispatch(setData({[fieldName]: event}));
         }
     }
 

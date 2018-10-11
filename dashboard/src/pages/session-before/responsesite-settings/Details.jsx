@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, setPhonenumberData} from '../../../actions/api';
+import { fetchResult, updateAPI, setData} from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
@@ -19,14 +19,6 @@ class Settings extends React.Component {
         }
     }
     
-    setField(fieldName, event) {
-        if(event.target && event.target.value){
-            this.props.dispatch(setPhonenumberData({[fieldName]: event.target.value}));
-        } else {
-            this.props.dispatch(setPhonenumberData({[fieldName]: event}));
-        }
-    }
-    
     componentDidMount() {
         let apiController = 'responsesite';
         let apiFunction = 'getSettingsBasic';
@@ -35,24 +27,22 @@ class Settings extends React.Component {
         });
         this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
-
-    // toggleInternatinonalAudience(state) {
-    //     this.setState({internationalAudience: state});
-    // }
-
-    // toggleResponseWebsite(state) {
-    //     this.setState({responseWebsiteEnabled: state});
-    // }
-
-    // toggleTxtSms(state) {
-    //     this.setState({txtSmsEnabled: state});
-    // }
+    
+    saveResponseSiteSettings() {
+        const { data } = this.props;
+        
+        let apiParams = JSON.stringify({
+            id: data.id,
+            fields : data
+        });
+        this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
+    }
     
     setField(fieldName, event) {
         if(event.target && event.target.value){
-            this.props.dispatch(setPhonenumberData({[fieldName]: event.target.value}));
+            this.props.dispatch(setData({[fieldName]: event.target.value}));
         } else {
-            this.props.dispatch(setPhonenumberData({[fieldName]: event}));
+            this.props.dispatch(setData({[fieldName]: event}));
         }
     }
 
@@ -237,7 +227,8 @@ class Settings extends React.Component {
                                     </div>
                                 </Panel.Body>
                             </Panel>
-                            <BottomSaveBar />
+                            {/* <BottomSaveBar /> */}
+                            <BottomSaveBar onSave={this.saveResponseSiteSettings.bind(this)}/>
                         </div>
                     </div>
                 </div>
