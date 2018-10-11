@@ -14,7 +14,7 @@ class Responsesite extends NovaAPI {
         $results['phonenumberId'] = $sessionResults['phoneNumberId'];
         //Get Phonenumber
         $phonenumberModel = $this->loadModel('phonenumbers');
-        $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId'])[0];
+        $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId']);
         $results['phonenumberCountryisocode'] = $phonenumberResults['countryIsoCode'];
         $countriesModel = $this->loadModel('countries');
         $countriesResults = $countriesModel->listAll();
