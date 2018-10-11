@@ -26,21 +26,13 @@ class PhonenumberDetails extends React.Component {
         });
         this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', apiParams));
     }
-
-    setDisplayText(e) {
-        this.props.dispatch(setPhonenumberData({displayText: e.target.value}))
-    }
-
-    setCountry(e) {
-        this.props.dispatch(setPhonenumberData({countryIsoCode: e.target.value}));
-    }
-
-    setInternational(value) {
-        this.props.dispatch(setPhonenumberData({foreignerCompatible: value}));
-    }
-
-    setPublic(value) {
-        this.props.dispatch(setPhonenumberData({public: value}));
+    
+    setField(fieldName, event) {
+        if(event.target && event.target.value){
+            this.props.dispatch(setPhonenumberData({[fieldName]: event.target.value}));
+        } else {
+            this.props.dispatch(setPhonenumberData({[fieldName]: event}));
+        }
     }
 
     openToast() {
@@ -63,7 +55,7 @@ class PhonenumberDetails extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setCountry.bind(this)}
+                                        onChange={this.setField.bind(this, 'countryIsoCode')}
                                         labelText={"Country"}
                                         value={data.countryIsoCode}
                                         leftFaIcon={"globe"}
@@ -72,7 +64,7 @@ class PhonenumberDetails extends React.Component {
 
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setDisplayText.bind(this)}
+                                        onChange={this.setField.bind(this, 'displayText')}
                                         labelText={"Phonenumber"}
                                         value={data.displayText}
                                         leftFaIcon={"sort-numeric-up"}
@@ -84,14 +76,14 @@ class PhonenumberDetails extends React.Component {
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">International</label>
-                                        <ButtonSwitch onChange={this.setInternational.bind(this)} selected={data.foreignerCompatible} />
+                                        <ButtonSwitch onChange={this.setField.bind(this, 'foreignerCompatible')} selected={data.foreignerCompatible} />
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">Public</label>
-                                        <ButtonSwitch onChange={this.setPublic.bind(this)} selected={data.public} />
+                                        <ButtonSwitch onChange={this.setField.bind(this, 'public')} selected={data.public} />
                                     </div>
                                 </div>
                             </div>

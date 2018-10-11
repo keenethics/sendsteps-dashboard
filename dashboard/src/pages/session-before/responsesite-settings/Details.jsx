@@ -39,6 +39,18 @@ class Settings extends React.Component {
         this.setState({txtSmsEnabled: state});
     }
     
+    // setWithTargetValue(fieldName, e) {
+    //     console.log(fieldName);
+    //     console.log(e.target.value );
+    //     this.props.dispatch(setPhonenumberData({countryIsoCode: e.target.value}));
+    // }
+
+    // setWithValue(fieldName, value) {
+    //     console.log(fieldName);
+    //     console.log(value);
+    //     this.props.dispatch(setPhonenumberData({foreignerCompatible: value}));
+    // }
+
     render() {
 
         const { data, match } = this.props;
