@@ -66,8 +66,9 @@ class Settings extends React.Component {
                                             <div className="form-horizontal">
                                                 <div className="form-group">
                                                     <label className="col-sm-3 control-label">
-                                                    {/* Refactor this to single component */}
-                                                        Response Code <TooltipNotification 
+                                                        Response Code
+                                                        {/* Refactor this to single component */} 
+                                                        <TooltipNotification 
                                                             title={"Response Code"}
                                                             content={
                                                                 <span className="text-left">
@@ -95,7 +96,6 @@ class Settings extends React.Component {
                                                                 placeholder=""
                                                             />
                                                         </div>
-                                                        
                                                     </div>
                                                 </div>
                                                 <hr/>
