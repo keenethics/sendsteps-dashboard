@@ -525,7 +525,6 @@ ul.pagination {
   }
 }
 
-
 .sst-logo {
   img {
     margin: -5px 0 0 30px;
@@ -538,4 +537,19 @@ ul.pagination {
 .img-container img {
   max-width: 100%;
   max-height: 100%;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: all 300ms ease-out 150ms;
+}
+.fade-exit {
+  opacity: 1;
+}
+.fade-exit-active {
+  opacity: 0;
+  transition: all 300ms ease-in;
 }

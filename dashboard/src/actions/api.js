@@ -12,7 +12,7 @@ export function clearData() {
     }
 }
 
-export function setData(newData) {
+export function setNewData(newData) {
     return {
         type: 'SET_DATA',
         newData

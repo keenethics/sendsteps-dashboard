@@ -1,10 +1,10 @@
-import { setData } from '../actions/api';
+import { setNewData } from '../actions/api';
 
 export function setField(fieldName, event) {
     if(event.target && event.target.value){
-        this.props.dispatch(setData({[fieldName]: event.target.value}));
+        this.props.dispatch(setNewData({[fieldName]: event.target.value}));
     } else {
-        this.props.dispatch(setData({[fieldName]: event}));
+        this.props.dispatch(setNewData({[fieldName]: event}));
     }
 }
 

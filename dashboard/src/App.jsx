@@ -7,7 +7,7 @@ import { getCookieValues } from './scripts/cookieStorage';
 import RegistrationOverview from './pages/registration/DetailsContainer';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import DashboardApp from './pages/base/DashboardApp';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
     
 export class App extends Component {
     componentDidMount() {
@@ -49,7 +49,7 @@ export class App extends Component {
 
     render() {
         const { isAuthorized, isAuthRequired } = this.props;
-        if(isAuthRequired && isAuthorized) { return <DashboardApp /> } 
+        if(isAuthRequired && isAuthorized) { return <Route path="/" component={DashboardApp}/>} 
         else if (false === isAuthorized) { return <RegistrationOverview /> } 
         return <AuthorizationLoadingView />; 
     }

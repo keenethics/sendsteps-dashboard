@@ -16,6 +16,8 @@ import AudienceDetails from "./pages/session-before/audience-identification/Deta
 import SurveyOverview from "./pages/session-before/surveys/Overview";
 import SurveyDetails from "./pages/session-before/surveys/Details";
 import ResponsesiteDetails from "./pages/session-before/response-website/Details";
+// During Session
+import MessageFilterLayout from './pages/session-during/message-filter/Overview';
 // After Session
 import PresentationsOverview from "./pages/session-results/presentations/Overview";
 import PresentationsDetails from "./pages/session-results/presentations/Details";
@@ -34,36 +36,46 @@ import SessionDetails from "./pages/superadmin/sessions/Details";
 import UserProfile from "./pages/user/Profile";
 
 
-const Routes = () =>
-  	<BrowserRouter>
-		<BreadcrumbsProvider>
-			<Switch>
-				<Route path="/" exact component={Home} />
-				<Route path="/session-before/responsesite-layout" exact component={ResponsesiteLayout} />
-				<Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
-				<Route path="/session-before/surveys" exact component={SurveyOverview} />
-				<Route path="/session-before/audience-identification" exact component={AudienceDetails} />
-				<Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
-				<Route path="/session-before/response" exact component={ResponsesiteDetails} />
-				<Route path="/superadmin/translations" exact component={TranslationsOverview} />
-				<Route path="/superadmin/translations/details/:id" exact component={TranslationsDetails} />
-				<Route path="/superadmin/edit-dashboard" exact component={EditDashboardOverview} />
-				<Route path="/superadmin/edit-dashboard/details/:id" exact component={EditDashboardDetails} />
-				<Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
-				<Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
-				<Route path="/superadmin/delete-users" exact component={DeleteUsersOverview} />
-				<Route path="/superadmin/sessions" exact component={SessionOverview} />
-				<Route path="/superadmin/sessions/details/:id" exact component={SessionDetails} />
-				<Route path="/session-results/presentations" exact component={PresentationsOverview} />
-				<Route path="/session-results/presentations/details/:id" exact component={PresentationsDetails} />
-				<Route path="/session-results/surveys" exact component={SurveyResultsOverview} />
-				<Route path="/about/dashboard" exact component={AboutDashboard} />
-				<Route path="/about/howitworks" exact component={AboutHowItWorks} />
-				<Route path="/about/sendsteps" exact component={AboutSendsteps} />
-				<Route path="/user/edit-profile" exact component={UserProfile} />
-				<Route component={PageNotFound} />
-			</Switch>
-		</BreadcrumbsProvider>
-  </BrowserRouter>;
+class Routes extends React.Component {
 
+	render() {
+		return (
+			<BrowserRouter>
+				<BreadcrumbsProvider>
+					<Switch>
+						<Route path="/" exact component={Home} />
+						<Route path="/session-before/responsesite-layout" exact component={ResponsesiteLayout} />
+						<Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
+						<Route path="/session-before/surveys" exact component={SurveyOverview} />
+						<Route path="/session-before/audience-identification" exact component={AudienceDetails} />
+						<Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
+						<Route path="/session-before/response" exact component={ResponsesiteDetails} />
+
+						<Route path="/session-during/message-filter" exact component={MessageFilterLayout} />
+
+						<Route path="/superadmin/translations" exact component={TranslationsOverview} />
+						<Route path="/superadmin/translations/details/:id" exact component={TranslationsDetails} />
+						<Route path="/superadmin/edit-dashboard" exact component={EditDashboardOverview} />
+						<Route path="/superadmin/edit-dashboard/details/:id" exact component={EditDashboardDetails} />
+						<Route path="/superadmin/phonenumbers" exact component={PhonenumbersOverview} />
+						<Route path="/superadmin/phonenumbers/details/:id" exact component={PhonenumberDetails} />
+						<Route path="/superadmin/delete-users" exact component={DeleteUsersOverview} />
+						<Route path="/superadmin/sessions" exact component={SessionOverview} />
+						<Route path="/superadmin/sessions/details/:id" exact component={SessionDetails} />
+						<Route path="/session-results/presentations" exact component={PresentationsOverview} />
+						<Route path="/session-results/presentations/details/:id" exact component={PresentationsDetails} />
+						<Route path="/session-results/surveys" exact component={SurveyResultsOverview} />
+						<Route path="/about/dashboard" exact component={AboutDashboard} />
+						<Route path="/about/howitworks" exact component={AboutHowItWorks} />
+						<Route path="/about/sendsteps" exact component={AboutSendsteps} />
+						<Route path="/user/edit-profile" exact component={UserProfile} />
+						<Route component={PageNotFound} />
+					</Switch>
+				</BreadcrumbsProvider>
+		</BrowserRouter>
+
+		)
+	}
+}
+	
 export default Routes;

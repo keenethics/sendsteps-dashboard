@@ -1,0 +1,31 @@
+
+.message-filter {
+    .panel {
+        h3 {
+            margin: 0px;
+        }
+    }
+
+    .filter-help:hover {
+        cursor: pointer;
+    }
+
+    .more-toolbar {
+        display:inline-flex;
+    }
+
+    .sort-button {
+        max-width: 100px;
+    }
+
+    .messages-body {
+        padding: 0;
+        .list-group-item {
+            padding: 10px 0;
+        }
+
+        .list-group {
+            margin-bottom: 0;
+        }
+    }
+}
