@@ -12,7 +12,8 @@ class Phonenumbers extends NovaAPI {
         // Fetch data from single phonenumber
         if($id != NULL){
             $model = $this->loadModel('phonenumbers');
-            $results = $model->findActiveById($id)[0];
+            $results = $model->findActiveById($id);
+            // var_dump($results);exit();
             return json_encode(['content' => $results]);                
         }
         return false;        
@@ -29,19 +30,15 @@ class Phonenumbers extends NovaAPI {
     }
     
     public function updateDetails($id = NULL, $fields = array()){
-        // var_dump($fields);exit();
         if ($id != NULL){
-            // $modelFields['']
             $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
             $modelFields["displayText"] = (isset($fields->displayText)? $fields->displayText : '');
             $modelFields["public"] = (isset($fields->public) && $fields->public == true ? 1 : 0);
             $modelFields["foreignerCompatible"] = (isset($fields->foreignerCompatible) && $fields->foreignerCompatible == true ? 2 : 1);
             
             $model = $this->loadModel('phonenumbers');
-            $update_id = $model->updateDetails($modelFields, $id);           
+            $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
             return $update_id;
-            // return $this->getDetails($update_id);
         }
-        // var_dump($_POST);exit();
     }
 }

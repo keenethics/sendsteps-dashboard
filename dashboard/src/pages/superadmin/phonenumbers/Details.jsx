@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI, setPhonenumberData } from '../../../actions/api';
+import { fetchResult, updateAPI } from '../../../actions/api';
+import { setField } from '../../../actions/app';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -18,46 +19,19 @@ class PhonenumberDetails extends React.Component {
     }
 
     componentDidMount() {
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
+        let apiParams = JSON.stringify({id: this.props.match.params.id});
         this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
         this.props.dispatch(fetchResult('phonenumbers', 'getKeywords', apiParams, true));
     }
 
     savePhonenumber() {
         const { data } = this.props;
-        
-        let apiParams = JSON.stringify({
-            id: data.id,
-            fields : data
-        });
+        let apiParams = JSON.stringify({id: data.id, fields : data});
         this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', apiParams));
     }
 
-    setDisplayText(e) {
-        this.props.dispatch(setPhonenumberData({displayText: e.target.value}))
-    }
-
-    setCountry(e) {
-        this.props.dispatch(setPhonenumberData({countryIsoCode: e.target.value}));
-    }
-
-    setInternational(value) {
-        this.props.dispatch(setPhonenumberData({foreignerCompatible: value ? "1" : "0"}));
-    }
-
-    setPublic(value) {
-        this.props.dispatch(setPhonenumberData({public: value ? "1" : "0"}));
-    }
-
-    setKeyword(e) {
-        this.setState({newKeyword: e.target.value});
-    }
-
-    addKeyword(e) {
-        console.log("")
-        // this.props.dispatch(addKeyword(e.target.value))
+    openToast() {
+        toast("Phonenumber Updated!");
     }
     
     render() {
@@ -77,7 +51,7 @@ class PhonenumberDetails extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setCountry.bind(this)}
+                                        onChange={setField.bind(this, 'countryIsoCode')}
                                         labelText={"Country"}
                                         value={data.countryIsoCode}
                                         leftFaIcon={"globe"}
@@ -86,7 +60,7 @@ class PhonenumberDetails extends React.Component {
 
                                 <div className="col-sm-6">
                                     <InputField 
-                                        onChange={this.setDisplayText.bind(this)}
+                                        onChange={setField.bind(this, 'displayText')}
                                         labelText={"Phonenumber"}
                                         value={data.displayText}
                                         leftFaIcon={"sort-numeric-up"}
@@ -98,14 +72,14 @@ class PhonenumberDetails extends React.Component {
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">International</label>
-                                        <ButtonSwitch onChange={this.setInternational.bind(this)} selected={data.foreignerCompatible} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'foreignerCompatible')} selected={data.foreignerCompatible} />
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">Public</label>
-                                        <ButtonSwitch onChange={this.setPublic.bind(this)} selected={data.public} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'public')} selected={data.public} />
                                     </div>
                                 </div>
                             </div>

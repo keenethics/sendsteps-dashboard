@@ -13,7 +13,7 @@ export class App extends Component {
     componentDidMount() {
         this.checkAuth();
 
-        console.log(process.env);
+        // console.log(process.env);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -25,7 +25,7 @@ export class App extends Component {
     }
 
     checkAuth() {
-        console.log('Checking if keys are still valid...');
+        // console.log('Checking if keys are still valid...');
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
         
         if(storedKey) 

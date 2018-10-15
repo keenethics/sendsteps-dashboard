@@ -1,11 +1,13 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
+import { fetchResult, updateAPI } from '../../../actions/api';
+import { setField } from '../../../actions/app';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
+import InputField from "../../../components/common/InputField";
 
 
 class Settings extends React.Component {
@@ -19,31 +21,32 @@ class Settings extends React.Component {
     }
     
     componentDidMount() {
-        let apiController = 'responsesite';
-        let apiFunction = 'getSettingsBasic';
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
-    }
-
-    toggleInternatinonalAudience(state) {
-        this.setState({internationalAudience: state});
-    }
-
-    toggleResponseWebsite(state) {
-        this.setState({responseWebsiteEnabled: state});
-    }
-
-    toggleTxtSms(state) {
-        this.setState({txtSmsEnabled: state});
+        let apiParams = JSON.stringify({id: this.props.match.params.id});
+        this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams));
     }
     
+    saveResponseSiteSettings() {
+        const { data } = this.props;
+        let sentData = {
+            internetaddressoverwrite: data.internetaddressoverwrite,
+            internetselected: data.internetselected,
+            phonenumberCountryisocode: data.phonenumberCountryisocode,
+            phonenumberForeignerCompatible: data.phonenumberForeignerCompatible,
+            phonenumberId: data.phonenumberId,
+            textmessagingkeyword: data.textmessagingkeyword,
+            textmessagingselected: data.textmessagingselected
+        };
+        let apiParams = JSON.stringify({fields : sentData});
+        console.log(sentData);
+        this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
+    }
+
     render() {
 
-        const { data, match } = this.props;
+        let { data, match } = this.props;
+        // const { data, match } = this.props;
 
-        return (
+        return data && (
             <div>
                 <HeaderPanel 
                     match={match}
@@ -66,8 +69,9 @@ class Settings extends React.Component {
                                             <div className="form-horizontal">
                                                 <div className="form-group">
                                                     <label className="col-sm-3 control-label">
-                                                    {/* Refactor this to single component */}
-                                                        Response Code <TooltipNotification 
+                                                        Response Code
+                                                        {/* Refactor this to single component */} 
+                                                        <TooltipNotification 
                                                             title={"Response Code"}
                                                             content={
                                                                 <span className="text-left">
@@ -83,19 +87,14 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <div className="input-group">
-                                                            <span className="input-group-addon">
-                                                                <i className="fa fa-barcode"></i>
-                                                            </span>
-                                                            <input 
-                                                                type="text" 
-                                                                value={data && data.textmessagingkeyword} 
-                                                                disabled={true} 
-                                                                className="form-control input-lg" 
-                                                                placeholder=""
+                                                        <div className="input-group" style={{paddingLeft:"15px"}}>
+                                                            <InputField 
+                                                                onChange={setField.bind(this, 'textmessagingkeyword')}
+                                                                // labelText={"Country"}
+                                                                value={data && data.textmessagingkeyword}
+                                                                leftFaIcon={"barcode"}
                                                             />
                                                         </div>
-                                                        
                                                     </div>
                                                 </div>
                                                 <hr/>
@@ -111,10 +110,11 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch 
-                                                            onChange={this.toggleResponseWebsite.bind(this)} 
-                                                            selected={this.state.responseWebsiteEnabled} 
-                                                        />
+                                                        <div className="col-sm-6">
+                                                            <div className="form-group">
+                                                                <ButtonSwitch onChange={setField.bind(this, 'responseWebsiteEnabled')} selected={data.responseWebsiteEnabled} />
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                                                 
@@ -134,7 +134,7 @@ class Settings extends React.Component {
                                                             <span className="input-group-addon">
                                                                 <i className="fa fa-link"></i>
                                                             </span>
-                                                            <input type="text" value={data && data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                                            <input type="text" value={data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </div>}
@@ -151,32 +151,32 @@ class Settings extends React.Component {
                                                         />
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch 
-                                                            onChange={this.toggleTxtSms.bind(this)} 
-                                                            selected={this.state.txtSmsEnabled}
-                                                        />
+                                                        <ButtonSwitch onChange={setField.bind(this, 'txtSmsEnabled')} selected={data.txtSmsEnabled} />
                                                     </div>
                                                 </div>
 
                                                 {this.state.txtSmsEnabled && 
                                                 <span>
                                                     <div className="form-group">
-                                                        <label className="col-sm-3 control-label">Country <TooltipNotification 
-                                                            title={"Country"}
-                                                            content={
-                                                                <span className="text-left">
-                                                                    <h5>Country</h5>
-                                                                    <p>Select the country in which your session will take place. </p>
-                                                                    <p>The instruction and question slides will contain the phone number related to your country of selection. This number can be used for those attendees wishing to use SMS as a response method.</p> 
-                                                                    <p>Please contact us if your country is not listed.</p>
-                                                                </span>}
-                                                        /></label>
+                                                        <label className="col-sm-3 control-label">Country 
+                                                            <TooltipNotification 
+                                                                title={"Country"}
+                                                                content={
+                                                                    <span className="text-left">
+                                                                        <h5>Country</h5>
+                                                                        <p>Select the country in which your session will take place. </p>
+                                                                        <p>The instruction and question slides will contain the phone number related to your country of selection. This number can be used for those attendees wishing to use SMS as a response method.</p> 
+                                                                        <p>Please contact us if your country is not listed.</p>
+                                                                    </span>}
+                                                            />
+                                                        </label>
                                                         <div className="col-sm-6">
-                                                            <div className="input-group">
-                                                                <span className="input-group-addon">
-                                                                    <i className="fa fa-globe"></i>
-                                                                </span>
-                                                                <input value={data && data.phonenumberCountryisocode} type="text" className="form-control input-lg" placeholder="" />
+                                                            <div className="input-group" style={{paddingLeft:"15px"}}>
+                                                                <InputField 
+                                                                    onChange={setField.bind(this, 'phonenumberCountryisocode')}
+                                                                    value={data.phonenumberCountryisocode}
+                                                                    leftFaIcon={"globe"}
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -192,11 +192,7 @@ class Settings extends React.Component {
                                                         />
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch 
-                                                                options={["Yes", "No"]} 
-                                                                onChange={this.toggleInternatinonalAudience.bind(this)} 
-                                                                selected={this.state.internationalAudience}
-                                                            />
+                                                            <ButtonSwitch onChange={setField.bind(this, 'internationalAudience')} selected={data.internationalAudience} />
                                                         </div>
                                                     </div>
 
@@ -211,11 +207,13 @@ class Settings extends React.Component {
                                                                 </span>}
                                                         /></label>
                                                         <div className="col-sm-6">
-                                                            <div className="input-group">
-                                                                <span className="input-group-addon">
-                                                                    <i className="fa fa-phone"></i>
-                                                                </span>
-                                                                <input value={data && data.phonenumberId} type="text" className="form-control input-lg" placeholder="" />
+                                                            <div className="input-group" style={{paddingLeft:"15px"}}>
+                                                                <InputField 
+                                                                    onChange={setField.bind(this, 'phonenumberId')}
+                                                                    value={data.phonenumberId}
+                                                                    leftFaIcon={"phone"}
+                                                                    // className="form-control input-lg"
+                                                                />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -225,7 +223,8 @@ class Settings extends React.Component {
                                     </div>
                                 </Panel.Body>
                             </Panel>
-                            <BottomSaveBar />
+                            {/* <BottomSaveBar /> */}
+                            <BottomSaveBar onSave={this.saveResponseSiteSettings.bind(this)}/>
                         </div>
                     </div>
                 </div>

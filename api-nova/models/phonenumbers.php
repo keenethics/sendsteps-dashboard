@@ -11,10 +11,10 @@ class Phonenumbers_Model extends Model {
     }
     
     public function findActiveById($id){
-        $results = $this->findByIdCentral($id, 'phonenumbers', 'isDeleted');
-        // $query = 'SELECT * FROM phonenumbers p WHERE p.isDeleted != 1 AND <p.id> = :id;';
-        // $params['id'] = $id;
-        // $results = $this->query($query, $params);
+        $results = $this->findByIdCentral($id, 'phonenumbers', 'isDeleted')[0];
+        //Some bright spark chose to use the foreignerCompatible field as a boolean, but uses 1 as false & 2 as true. They also set it to 3, to indicate an inactive number. OMG. 
+        $results['foreignerCompatible'] = ($results['foreignerCompatible'] == 2)? 1 : 0;
+        $results['public'] = ($results['public'] == 1)? 1 : 0;
         return $results;
     }
     
@@ -25,9 +25,10 @@ class Phonenumbers_Model extends Model {
         return $results;
     }
     
-    public function updateDetails($fields = array(), $id = NULL){
-        // var_dump('ace');exit();
-        $results = $this->updateSingleTable($fields, $id);
+    public function updateDetails($table = '', $fields = array(), $id = NULL){
+        //Some bright spark chose to use the foreignerCompatible field as a boolean, but uses 1 as false & 2 as true. They also set it to 3, to indicate an inactive number. OMG. 
+        $fields['foreignerCompatible'] = ($fields['foreignerCompatible'] == 1)? 1 : 2; 
+        $results = $this->insertOn($table, $fields, $id);
         return $results;
     }
 }

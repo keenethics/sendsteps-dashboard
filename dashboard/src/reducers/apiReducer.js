@@ -62,7 +62,7 @@ export default function apiReducer(state, action) {
                 error: null
             }
         }
-        case 'SET_PHONENUMBER_DATA': {
+        case 'SET_DATA': {
 
             let newData = {
                 ...state.data,
