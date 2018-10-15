@@ -9,6 +9,14 @@ import { toast } from 'react-toastify';
 import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class PhonenumberDetails extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            newKeyword: null
+        }
+    }
+
     componentDidMount() {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
@@ -43,15 +51,21 @@ class PhonenumberDetails extends React.Component {
         this.props.dispatch(setPhonenumberData({public: value ? "1" : "0"}));
     }
 
-    openToast() {
-        toast("Phonenumber Updated!");
+    setKeyword(e) {
+        this.setState({newKeyword: e.target.value});
+    }
+
+    addKeyword(e) {
+        console.log("")
+        // this.props.dispatch(addKeyword(e.target.value))
     }
     
     render() {
 
-        let { data, additionalData } = this.props;
+        const { data, additionalData } = this.props;
+        const { newKeyword } = this.state;
 
-        console.log(additionalData);
+        console.log(newKeyword);
 
         // Requires api adjustment, might be able to change later @TODO
         return data &&
@@ -102,9 +116,9 @@ class PhonenumberDetails extends React.Component {
                                         <label className="control-label"> Keyword(s) </label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-key"></i></span>
-                                            <input className="form-control" id='new-keyword' value='' />
+                                            <input value={newKeyword} onChange={this.setKeyword.bind(this)} className="form-control" id='new-keyword' />
                                             <div className="input-group-btn">
-                                                <button type='button' id='add-keyword' className='btn btn-success btn-group-addon'><i className="fa fa-plus"></i> Add</button>
+                                                <button type='button' id='add-keyword' onClick={this.addKeyword.bind(this)} className='btn btn-success btn-group-addon'><i className="fa fa-plus"></i> Add</button>
                                             </div> 
                                         </div>
                                     </div>
