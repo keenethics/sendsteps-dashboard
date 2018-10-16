@@ -59,7 +59,7 @@ export default class InputField extends React.Component {
                     <OverlayTrigger
                         delay={150}
                         placement={"top"}
-                        overlay={<Tooltip>Clear field</Tooltip>}>
+                        overlay={<Tooltip id={inputId || ""}>Clear field</Tooltip>}>
                         <span onClick={this.clearField.bind(this)} className="input-group-addon">
                             <i className={"fa fa-times"}></i>
                         </span>

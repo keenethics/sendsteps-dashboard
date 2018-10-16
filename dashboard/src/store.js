@@ -3,6 +3,7 @@ import apiReducer from './reducers/apiReducer';
 import loginReducer from './reducers/loginReducer';
 import registrationReducer from './reducers/registrationReducer';
 import authReducer from './reducers/authReducer';
+import messageFilterReducer from './pages/session-during/message-filter/reducers';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     apiReducer: apiReducer,
     loginReducer: loginReducer,
     registrationReducer: registrationReducer,
-    authReducer: authReducer
+    authReducer: authReducer,
+    messageFilterReducer
     // Other reducers here
 });
 
@@ -57,6 +59,57 @@ const initialState = {
         passwordConfirmError: '',
         termsAcceptedError: '',
         showPassword: false
+    },
+    messageFilterReducer: {
+        selectedIncomingIds: [],
+        selectedOnscreenIds: [],
+        selectedQueueIds: [],
+        selectedAppearedIds: [],
+        lastDeletedMessages: null,
+        messages: [
+            {
+                id: 4141,
+                connection: null,
+                destination: "-",
+                groupId: null,
+                messageRoundId: 5481,
+                participantId: 534149,
+                sessionId: 591,
+                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
+                starred: null,
+                upvoteCount: 10,
+                status: "unread",
+                text: "This is the first message with a veryyyyyyyyyyyyyyyyyyy loooooooooooooooooog message"
+            },
+            {
+                id: 827234,
+                connection: null,
+                destination: "-",
+                groupId: null,
+                messageRoundId: 5481,
+                participantId: 12341,
+                sessionId: 591,
+                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
+                starred: null,
+                upvoteCount: 23,
+                status: "unread",
+                text: "This is the second message"
+            },
+            {
+                id: 67151,
+                connection: null,
+                destination: "-",
+                groupId: null,
+                messageRoundId: 5481,
+                participantId: 535149,
+                sessionId: 591,
+                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
+                starred: null,
+                upvoteCount: 17,
+                status: "unread",
+                text: "This is the third message"
+            }
+        ]
     }
 }
   

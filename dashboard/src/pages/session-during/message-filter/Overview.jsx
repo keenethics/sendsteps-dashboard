@@ -5,7 +5,7 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import './Overview.scss';
 import QueuePanel from './extra-components/panels/QueuePanel';
-import LivePanel from './extra-components/panels/LivePanel';
+import OnscreenPanel from './extra-components/panels/OnscreenPanel';
 import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 
@@ -13,47 +13,6 @@ class MessageFilterOverview extends React.Component {
 
     state = {
         showMoreIncoming: false,
-        messages: [
-            {
-                id: 4141,
-                connection: null,
-                destination: "-",
-                groupId: null,
-                messageRoundId: 5481,
-                participantId: 534149,
-                sessionId: 591,
-                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                starred: null,
-                status: "unread",
-                text: "This is the first message"
-            },
-            {
-                id: 827234,
-                connection: null,
-                destination: "-",
-                groupId: null,
-                messageRoundId: 5481,
-                participantId: 12341,
-                sessionId: 591,
-                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                starred: null,
-                status: "unread",
-                text: "This is the second message"
-            },
-            {
-                id: 67151,
-                connection: null,
-                destination: "-",
-                groupId: null,
-                messageRoundId: 5481,
-                participantId: 535149,
-                sessionId: 591,
-                source: "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                starred: null,
-                status: "unread",
-                text: "This is the third message"
-            },
-        ]
     }
    
     /* States: 
@@ -113,7 +72,7 @@ class MessageFilterOverview extends React.Component {
 
     }
 
-    livePanelFullScreen() {
+    OnscreenPanelFullScreen() {
 
     }
 
@@ -129,21 +88,6 @@ class MessageFilterOverview extends React.Component {
 
     }
 
-    incomingPanelShowMore = () => {
-        this.setState({showMoreIncoming: !this.state.showMoreIncoming})
-    }
-
-    getMessageByProperty(property, value) {
-        let listWithProperty = [];
-        this.state.messages.forEach(message => {
-            message[property] === value && listWithProperty.push(message);
-        });
-        return listWithProperty;
-    }
-
-    getIncomingMessages() {
-        return this.getMessageByProperty('status', 'unread');
-    }
 
     getQueueMessages() {
         return this.getMessageByProperty('status', 'read');
@@ -202,18 +146,18 @@ class MessageFilterOverview extends React.Component {
                     
                     <div className="row">
                         <div className="col-md-8">
-                            <IncomingPanel messages={this.getIncomingMessages()} />
+                            <IncomingPanel />
                         </div>
 
                         <div className="col-md-4">
-                            <LivePanel messages={this.getLiveMessages()} />
-                            <QueuePanel messages={this.getQueueMessages()} />
+                            <OnscreenPanel />
+                            <QueuePanel />
                         </div>
                     </div>
 
                     <div className="row">
                         <div className="col-md-12">
-                            <AppearedPanel messages={this.getAppearedMessages()} />
+                            <AppearedPanel />
                         </div>
                     </div>
                     

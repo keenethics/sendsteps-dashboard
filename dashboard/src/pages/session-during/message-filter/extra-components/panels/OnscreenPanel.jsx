@@ -3,29 +3,29 @@ import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import { toggleSelectAppeared, sendToIncoming, clearAppearedSelect } from '../../actions';
-import { isMessageSelected, getAppearedMessages } from '../../../../../scripts/messageHelper';
+import { toggleSelectOnscreen, sendToAppeared, clearOnscreenSelect } from '../../actions';
+import { isMessageSelected, getOnscreenMessages } from '../../../../../scripts/messageHelper';
 
-class AppearedPanel extends Component {
+class OnscreenPanel extends Component {
 
     toggleSelect = message => {
-        this.props.dispatch(toggleSelectAppeared(message.id));
+        this.props.dispatch(toggleSelectOnscreen(message.id));
     }
 
-    sendIdsToIncoming = () => {
-        this.props.dispatch(sendToIncoming(this.props.selectedAppearedIds));
-        this.props.dispatch(clearAppearedSelect());
+    sendIdsToAppeared = () => {
+        this.props.dispatch(sendToAppeared(this.props.selectedOnscreenIds));
+        this.props.dispatch(clearOnscreenSelect());
     }
 
     render() {
 
-        const { messages, selectedAppearedIds } = this.props;
+        const { messages, selectedOnscreenIds } = this.props;
 
         return (
-            <Panel>
+            <Panel bsStyle="success">
                 <Panel.Heading>
                     <h4>
-                        <i className="filter-help fa fa-info-circle"></i> Appeared on screen 
+                        <i className="filter-help fa fa-info-circle"></i> Messages live on screen 
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>
@@ -33,23 +33,21 @@ class AppearedPanel extends Component {
                 </Panel.Heading>
                 <Panel.Footer>
                     <ButtonToolbar>
-                        <Button 
-                            disabled={selectedAppearedIds.length < 1} 
-                            onClick={() => this.sendIdsToIncoming()}>
-                            <i className="fa fa-recycle"></i> Back to Incoming
+                        <Button onClick={() => this.sendIdsToAppeared()} disabled={selectedOnscreenIds.length < 1} className="pull-right">
+                            <i className="fa fa-trash"></i>
                         </Button>
                     </ButtonToolbar>
                 </Panel.Footer>
                 <Panel.Body className="messages-body">
                     <ul className="list-group">
-                        {messages && getAppearedMessages(messages).map((message, index) => {
+                        {messages && getOnscreenMessages(messages).map((message, index) => {
                             return (
                                 <PanelMessage 
                                     key={index} 
                                     count={index + 1} 
-                                    message={message} 
-                                    selected={isMessageSelected(selectedAppearedIds, message.id)} 
-                                    onSelect={() => this.toggleSelect(message)} 
+                                    message={message}
+                                    selected={isMessageSelected(selectedOnscreenIds, message.id)} 
+                                    onSelect={(value) => this.toggleSelect(message)} 
                                 />)
                         })}
                     </ul>
@@ -62,8 +60,8 @@ class AppearedPanel extends Component {
 export default connect(
     (state) => {
         return {
-            selectedAppearedIds: state.messageFilterReducer.selectedAppearedIds,
+            selectedOnscreenIds: state.messageFilterReducer.selectedOnscreenIds,
             messages: state.messageFilterReducer.messages
         }
     }
-) (AppearedPanel);
+) (OnscreenPanel);
