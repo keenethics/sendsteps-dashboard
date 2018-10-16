@@ -82,7 +82,7 @@ export default function messageFilterReducer(state, action) {
         case 'CLEAR_ONSCREEN_SELECT': {
             return {
                 ...state,
-                selectedOnScreenIds: []
+                selectedOnscreenIds: []
             }
         }
 
