@@ -1,12 +1,16 @@
 .message {
-    display: table;
-    width: 100%;
+    display: table-row;
+    min-height: 37px;
+    box-sizing: border-box;
+    font-size: 13px;
+    background-color: #f7f7f7;
+    overflow: hidden;
+    border: 0px solid #dddddd;
+    border-bottom-width: 1px;
     div {
-        padding: 12px 16px;
-        display: inline;
-        border-left: 1px solid #dddddd;
-        border-collapse: collapse;
-        border-spacing: 0px;
+        display: table-cell;
+        height: 100%;
+        min-width: 35px;
     }
 }
 

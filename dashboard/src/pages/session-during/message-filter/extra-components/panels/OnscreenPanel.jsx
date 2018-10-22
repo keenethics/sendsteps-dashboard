@@ -39,18 +39,16 @@ class OnscreenPanel extends Component {
                     </ButtonToolbar>
                 </Panel.Footer>
                 <Panel.Body className="messages-body">
-                    <ul className="list-group">
-                        {messages && getOnscreenMessages(messages).map((message, index) => {
-                            return (
-                                <PanelMessage 
-                                    key={index} 
-                                    count={index + 1} 
-                                    message={message}
-                                    selected={isMessageSelected(selectedOnscreenIds, message.id)} 
-                                    onSelect={(value) => this.toggleSelect(message)} 
-                                />)
-                        })}
-                    </ul>
+                    {messages && getOnscreenMessages(messages).map((message, index) => {
+                        return (
+                            <PanelMessage 
+                                key={index} 
+                                count={index + 1} 
+                                message={message}
+                                selected={isMessageSelected(selectedOnscreenIds, message.id)} 
+                                onSelect={(value) => this.toggleSelect(message)} 
+                            />)
+                    })}
                 </Panel.Body>
             </Panel>
         );

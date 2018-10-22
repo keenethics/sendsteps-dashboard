@@ -41,18 +41,16 @@ class AppearedPanel extends Component {
                     </ButtonToolbar>
                 </Panel.Footer>
                 <Panel.Body className="messages-body">
-                    <ul className="list-group">
-                        {messages && getAppearedMessages(messages).map((message, index) => {
-                            return (
-                                <PanelMessage 
-                                    key={index} 
-                                    count={index + 1} 
-                                    message={message} 
-                                    selected={isMessageSelected(selectedAppearedIds, message.id)} 
-                                    onSelect={() => this.toggleSelect(message)} 
-                                />)
-                        })}
-                    </ul>
+                    {messages && getAppearedMessages(messages).map((message, index) => {
+                        return (
+                            <PanelMessage 
+                                key={index} 
+                                count={index + 1} 
+                                message={message} 
+                                selected={isMessageSelected(selectedAppearedIds, message.id)} 
+                                onSelect={() => this.toggleSelect(message)} 
+                            />)
+                    })}
                 </Panel.Body>
             </Panel>
         );

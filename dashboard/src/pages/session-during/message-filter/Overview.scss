@@ -19,7 +19,11 @@
     }
 
     .messages-body {
-        padding: 0;
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border-spacing: 0px;
         .list-group-item {
             padding: 10px 0;
         }

@@ -172,10 +172,6 @@ export default function messageFilterReducer(state, action) {
                     i--;
                 }
             }
-            
-            console.log(messages);
-            console.log(deletedMessages);
-
             return {
                 ...state,
                 messages,

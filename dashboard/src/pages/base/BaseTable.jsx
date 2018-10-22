@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView'
+import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
 
 class BaseTable extends Component {
 
     nameFormatter = cell => {
         return <strong> {cell}</strong>
     }
+
+
 
     // make this pretty somehow
     phonenumberFormatter = cell => {

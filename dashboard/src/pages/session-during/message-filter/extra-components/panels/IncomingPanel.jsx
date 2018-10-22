@@ -128,7 +128,6 @@ class IncomingPanel extends Component {
                 </Panel.Footer>
 
                 <Panel.Body className="messages-body">
-                    <ul className="list-group">
                     {messages && getIncomingMessages(messages).map((message, index) => {
                         return (
                             <PanelMessage 
@@ -138,7 +137,6 @@ class IncomingPanel extends Component {
                                 message={message} 
                             />)
                     })}
-                    </ul>
                 </Panel.Body>
             </Panel>
                 <Modal show={newMessageModalOpen} onHide={() => this.showNewMessageModal(false)}>

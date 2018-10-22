@@ -53,18 +53,16 @@ class QueuePanel extends Component {
                     </ButtonToolbar>
                 </Panel.Footer>
                 <Panel.Body className="messages-body">
-                    <ul className="list-group">
-                            {messages && getQueueMessages(messages).map((message, index) => {
-                                return (
-                                    <PanelMessage 
-                                        key={index} 
-                                        count={index + 1} 
-                                        message={message} 
-                                        selected={isMessageSelected(selectedQueueIds, message.id)} 
-                                        onSelect={() => this.toggleSelect(message)} 
-                                    />)
-                            })}
-                    </ul>
+                    {messages && getQueueMessages(messages).map((message, index) => {
+                        return (
+                            <PanelMessage 
+                                key={index} 
+                                count={index + 1} 
+                                message={message} 
+                                selected={isMessageSelected(selectedQueueIds, message.id)} 
+                                onSelect={() => this.toggleSelect(message)} 
+                            />)
+                    })}
                 </Panel.Body>
             </Panel>
         );

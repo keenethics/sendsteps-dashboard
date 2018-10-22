@@ -41,7 +41,7 @@ class SurveyDetails extends React.Component {
 
         return (
             <div>  
-                <HeaderPanel title={"Presentation results"} />
+                <HeaderPanel title={"Surveys"} />
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
