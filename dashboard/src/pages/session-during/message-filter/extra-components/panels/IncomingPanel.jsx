@@ -1,33 +1,33 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar, InputGroup, FormGroup, Modal } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import InputField from '../../../../../components/common/InputField';
-import { toggleSelectIncoming, sendToScreen, sendToQueue, clearIncomingSelect, addNewMessage, deleteSelectedMessages, undoRemove } from '../../actions';
+import { 
+    toggleSelectIncoming, 
+    sendToScreen, 
+    sendToQueue, 
+    clearIncomingSelect, 
+    addNewMessage, 
+    deleteSelectedMessages, 
+    undoRemove, 
+    addSelectedToGroup, 
+    expandIncomingPanel, 
+    selectGroup,
+    setGroupDetails,
+    updateGroups,
+    addNewGroup } from '../../actions';
 import { isMessageSelected, getIncomingMessages } from '../../../../../scripts/messageHelper';
 import { toast } from 'react-toastify';
+import GroupModal from '../modals/GroupModal';
+import MessageModal from '../modals/MessageModal';
+import IncomingToolbar from './toolbars/IncomingToolbar';
 import './Panels.scss';
 
 class IncomingPanel extends Component {
 
-    state = {
-        showMoreIncoming: false,
-        newMessageModalOpen: false,
-        newMessageContent: ''
-    }
-
     incomingPanelShowMore = () => {
-        this.setState({showMoreIncoming: !this.state.showMoreIncoming});
-    }
-
-    showNewMessageModal = value => {
-        this.setState({newMessageModalOpen: value})
-    }
-
-    updateNewMessage(e) {
-        console.log(e.target.value);
-        this.setState({newMessageContent: e.target.value});
+        this.props.dispatch(expandIncomingPanel(true));
     }
 
     addMessage() {
@@ -43,14 +43,10 @@ class IncomingPanel extends Component {
             starred: null,
             upvoteCount: Math.floor(Math.random() * 30),
             status: "unread",
-            text: this.state.newMessageContent
+            text: this.props.newMessage
         }
 
         this.props.dispatch(addNewMessage(newMessage));
-        this.setState({
-            newMessageModalOpen: false,
-            newMessageContent: ''
-        });
         toast("Message added!");
     }
 
@@ -78,6 +74,40 @@ class IncomingPanel extends Component {
         toast(this.ToastUndo);
     }
 
+
+
+    getGroupColor(groupId) {
+        for(let x = 0; x < this.props.messageGroups.length; x++) {
+            if(this.props.messageGroups[x].id === groupId) {
+                return this.props.messageGroups[x].groupColor;
+            }
+        }
+    }
+
+    deleteGroup(index) {
+        let groups = this.props.messageGroups;
+        if(index !== -1) {
+            groups.splice(index, 1);
+            this.props.dispatch(updateGroups(groups));
+        }
+    }
+
+    setSelectedGroup = e => {
+        this.props.dispatch(selectGroup(e.target.value));
+    }
+
+    addToGroup = () => {
+        this.props.dispatch(addSelectedToGroup(this.props.selectedGroup));
+    }
+
+    addGroup = () => {
+        const newGroup = {
+            id: Math.floor(Math.random() * 1337),
+            ...this.props.newMessageGroup
+        } 
+        this.props.dispatch(addNewGroup(newGroup));
+    }
+
     ToastUndo = () => {
         return (
           <div>
@@ -89,7 +119,8 @@ class IncomingPanel extends Component {
     render() {
 
         const { messages, selectedIncomingIds } = this.props;
-        const { showMoreIncoming, newMessageModalOpen } = this.state;
+
+        console.log(messages)
 
         return (
             <span>
@@ -102,64 +133,22 @@ class IncomingPanel extends Component {
                             </span>
                         </h4>
                     </Panel.Heading>
-                    <Panel.Footer>
-                        <ButtonToolbar>
-                            <Button onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1} bsStyle="success">Send to Screen</Button>
-                            <Button onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1} bsStyle="primary">Send to Queue</Button>
-                            <Button onClick={() => this.showNewMessageModal(true)} bsStyle="default">Add Message</Button>
-                            <Button onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}bsStyle="default"><i className="fa fa-trash"></i></Button>
-                            <Button onClick={() => this.incomingPanelShowMore()} className="pull-right">More <i className="fa fa-chevron-down"></i></Button>
-                        </ButtonToolbar>
-                        {showMoreIncoming && 
-                        <ButtonToolbar className="more-toolbar">
-                            <InputGroup>
-                                <span className="input-group-addon">Add to Group </span>
-                                <FormGroup>
-                                    <select className="form-control">
-                                        <option value="select">None</option>
-                                        <option value="other">...</option>
-                                    </select>
-                                </FormGroup>
-                                <span className="input-group-addon btn-success">Add </span>
-                            </InputGroup>
-                            <Button bsStyle="default">My Groups</Button>
-                            <Button bsStyle="default">Send to...</Button>
-                        </ButtonToolbar>}
-                </Panel.Footer>
-
-                <Panel.Body className="messages-body">
-                    {messages && getIncomingMessages(messages).map((message, index) => {
-                        return (
-                            <PanelMessage 
-                                selected={isMessageSelected(selectedIncomingIds, message.id)} 
-                                onSelect={() => this.toggleSelect(message.id)} 
-                                key={index} count={index + 1} 
-                                message={message} 
-                            />)
-                    })}
-                </Panel.Body>
-            </Panel>
-                <Modal show={newMessageModalOpen} onHide={() => this.showNewMessageModal(false)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Add new message</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <InputField 
-                            inputId="new-message"
-                            leftFaIcon={"comment"}
-                            clearButton={true}
-                            labelText={"Message"}
-                            placeholder={"Enter new message"}
-                            onChange={this.updateNewMessage.bind(this)}
-                        />
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button bsStyle={"success"} onClick={() => this.addMessage()}><i className="fa fa-plus"></i> Add</Button>
-                        <Button onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</Button>
-                    </Modal.Footer>
-                </Modal>
+                    <IncomingToolbar />
+                    <Panel.Body className="messages-body">
+                        {messages && getIncomingMessages(messages).map((message, index) => {
+                            return (
+                                <PanelMessage 
+                                    selected={isMessageSelected(selectedIncomingIds, message.id)} 
+                                    onSelect={() => this.toggleSelect(message.id)} 
+                                    key={index} count={index + 1} 
+                                    message={message} 
+                                />)
+                        })}
+                    </Panel.Body>
+                </Panel>
+                <MessageModal />    
+                <GroupModal />
             </span>
-            
         );
     }
 }
@@ -168,7 +157,10 @@ export default connect(
     (state) => {
         return {
             selectedIncomingIds: state.messageFilterReducer.selectedIncomingIds,
-            messages: state.messageFilterReducer.messages
+            selectedGroup: state.messageFilterReducer.selectedGroup,
+            messages: state.messageFilterReducer.messages,
+            newMessage: state.messageFilterReducer.newMessage,
+            newMessageGroup: state.messageFilterReducer.newMessageGroup
         }
     }
 ) (IncomingPanel);

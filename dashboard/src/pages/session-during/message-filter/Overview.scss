@@ -6,6 +6,10 @@
         }
     }
 
+    .panel-footer {
+        border-bottom: 1px solid #dddddd;
+    }
+
     .filter-help:hover {
         cursor: pointer;
     }
@@ -21,12 +25,8 @@
     .messages-body {
         display: table;
         width: 100%;
-        table-layout: fixed;
         border-collapse: collapse;
         border-spacing: 0px;
-        .list-group-item {
-            padding: 10px 0;
-        }
 
         .list-group {
             margin-bottom: 0;

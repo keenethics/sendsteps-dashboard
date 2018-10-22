@@ -17,7 +17,7 @@ class ColorPickerField extends Component {
 
     render() {
 
-        const { labelText, color, infoContent } = this.props;
+        const { labelText, color, infoContent, onChange } = this.props;
 
         return (
             <div>
@@ -40,7 +40,7 @@ class ColorPickerField extends Component {
                             </span>
                         </OverlayTrigger>
                         
-                        <input className="form-control" value={color} placeholder="#000000" />
+                        <input className="form-control" value={color} onChange={onChange} placeholder="#000000" />
 
                         <OverlayTrigger 
                             overlay={<Tooltip id={"Colorpicker"}>{color || "#000000"}</Tooltip>}

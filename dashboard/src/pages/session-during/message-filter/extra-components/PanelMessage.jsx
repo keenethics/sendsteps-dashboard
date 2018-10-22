@@ -24,42 +24,34 @@ class PanelMessage extends Component {
                 <div className="counter">
                     <span>{count}</span>
                 </div>
-                <div className="starred">
-                    <span><i className={message.starred ? "fa fa-star" : "far fa-star" }></i></span>
-                </div>
-                <div className="select">
+                <div className="starred" onClick={() => this.onToggleStar()}>
                     <span>
-                        <input type="checkbox" />
+                        <i className={message.starred ? "fa fa-star" : "far fa-star" }></i>
+                    </span>
+                </div>
+                <div className="select" onClick={() => this.onToggleSelect()}>
+                    <span>
+                        <input 
+                            onChange={() => this.onToggleSelect()} 
+                            onClick={() => this.onToggleSelect()} 
+                            checked={isChecked} 
+                            type="checkbox" 
+                        />
                     </span>
                 </div>
                 <div className="upvotes">
                     <span>
-                        <i className="fa fa-heart"></i> x {message.upvoteCount}
+                        <i className="fa fa-heart"></i> {message.upvoteCount}
                     </span>
                 </div>
                 <div className="msg-text">
+                    {message.groupId && <span className="grouped-msg"></span>}
                     <span>
                         {message.text}
                     </span>
+                   
                 </div>
-            
             </div>
-            // <li className="list-group-item message">
-            //     <div className="counter">{count}</div>
-            //     <div className="starred" onClick={() => this.onToggleStar()}>
-            //         <i className={message.starred ? "fa fa-star" : "far fa-star" }></i>
-            //     </div>
-            //     <div onClick={() => this.onToggleSelect()} className="select">
-            //         <input 
-            //             onChange={() => this.onToggleSelect()} 
-            //             onClick={() => this.onToggleSelect()} 
-            //             checked={isChecked} 
-            //             type="checkbox" /></div>
-            //     <div className="upvotes"><i className="fa fa-heart"></i> x {message.upvoteCount}</div>
-            //     <div>
-            //         <span>{message.text}</span>
-            //     </div>
-            // </li>
         );
     }
 }

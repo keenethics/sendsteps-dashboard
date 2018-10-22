@@ -1,40 +1,91 @@
-function addOrRemoveFromList(idList, id) {
-    let selectedIds = [ ...idList || [] ];
-    let alreadyExistsInList = selectedIds.find(messageId => messageId === id)
-    !alreadyExistsInList && selectedIds.push(id);
-    alreadyExistsInList && selectedIds.splice(selectedIds.indexOf(id), 1);
-    return selectedIds;
-}
+import { updateMessagesStatus, updateMessagesGroup, addOrRemoveFromList} from '../../../scripts/messageHelper';
 
-function updateMessageStatus(messages = [], selectedIds = [], newStatus) {
-
-    // @TODO double for? hmmm. worst case: O(messages^2) 
-    // Maybe this can be optimized. 
-
-    let clonedMessages = [ ...messages ];
-
-    console.log(clonedMessages, selectedIds);
-
-    for(let x = 0; x < clonedMessages.length; x++) {
-        for(let y = 0; y < selectedIds.length; y++) {
-            if(selectedIds[y] === clonedMessages[x].id) {
-                clonedMessages[x].status = newStatus;
-                // y = 0, x++ ? O(n log n)
-            }
+const initialState = {
+    incomingPanelExpanded: false,
+    messageModalOpen: false,
+    groupModalOpen: false,
+    messageGroups: [
+        {
+            id: 313,
+            groupName: 'test_1',
+            hexColor: '#EE5500',
+        },
+        {
+            id: 415,
+            groupName: 'test_2',
+            hexColor: '#99EE33'
         }
-    }
-    return clonedMessages;
+    ],
+    newMessageGroup: {
+        id: null,
+        groupName: '',
+        groupColor: ''
+    },
+    selectedGroupId: null
 }
 
-export default function messageFilterReducer(state, action) {
+export default function messageFilterReducer(state = initialState, action) {
 
     switch(action.type) {
+        case 'ADD_NEW_GROUP': {
+            let updatedGroups = [ ...state.messageGroups, action.newGroup ];
+
+            return {
+                ...state,
+                messageGroups: updatedGroups
+            }
+        }
+        case 'UPDATE_GROUPS': {
+            return {
+                ...state,
+                messageGroups: action.newGroups
+            }
+        }
+        case 'SET_GROUP_DETAILS': {
+            return {
+                ...state,
+                newMessageGroup: {
+                    ...state.newMessageGroup,
+                    [action.newProperty]: action.newValue
+                }
+            }
+        }
+        case 'SELECT_GROUP': {
+            return {
+                ...state,
+                selectedGroupId: action.selectedGroupId
+            }
+        }
+        case 'SET_MESSAGE_TEXT': {
+            return {
+                ...state,
+                messageText: action.messageText
+            }
+        }
+        case 'TOGGLE_MESSAGE_MODAL': {
+            return {
+                ...state,
+                messageModalOpen: action.messageModalOpen
+            }
+        }
+        case 'TOGGLE_GROUPS_MODAL': {
+            return {
+                ...state,
+                groupModalOpen: action.groupModalOpen
+            }
+        }
+        case 'EXPAND_INCOMING_PANEL': {
+            return {
+                ...state,
+                incomingPanelExpanded: action.incomingPanelExpanded
+            }
+        }
         case 'SEND_TO_SCREEN': {
             return {
                 ...state,
-                messages: updateMessageStatus(
+                messages: updateMessagesStatus(
                     state.messages, 
-                    action.selectedIds, 
+                    action.selectedIds,
                     'showing'
                 ),
             }
@@ -43,7 +94,7 @@ export default function messageFilterReducer(state, action) {
         case 'SEND_TO_APPEARED': {
             return {
                 ...state,
-                messages: updateMessageStatus(
+                messages: updateMessagesStatus(
                     state.messages, 
                     action.selectedIds, 
                     'shown'
@@ -54,7 +105,7 @@ export default function messageFilterReducer(state, action) {
         case 'SEND_TO_QUEUE': {
             return {
                 ...state,
-                messages: updateMessageStatus(
+                messages: updateMessagesStatus(
                     state.messages, 
                     action.selectedIds, 
                     'read'
@@ -65,7 +116,7 @@ export default function messageFilterReducer(state, action) {
         case 'SEND_TO_INCOMING': {
             return {
                 ...state,
-                messages: updateMessageStatus(
+                messages: updateMessagesStatus(
                     state.messages, 
                     action.selectedIds, 
                     'unread'
@@ -156,7 +207,9 @@ export default function messageFilterReducer(state, action) {
             messages.push(action.newMessage);
             return {
                 ...state,
-                messages
+                messages,
+                messageModalOpen: false,
+                newMessage: ''
             }
         }
         case 'DELETE_MESSAGES': {
@@ -186,6 +239,16 @@ export default function messageFilterReducer(state, action) {
                     ...state.lastDeletedMessages
                 ],
                 lastDeletedMessages: null
+            }
+        }
+        case 'ADD_TO_GROUP': {
+            return {
+                ...state,
+                messages: updateMessagesGroup(
+                    state.messages, 
+                    state.selectedIncomingIds, 
+                    action.selectedGroup
+                )
             }
         }
         default: {

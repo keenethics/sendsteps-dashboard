@@ -36,25 +36,6 @@ class MessageFilterOverview extends React.Component {
                 Alert with explanation
 
     */
-    sendMessageToIncomingScreen(messages) {
-
-    }
-
-    sendMessageToLiveScreen(messages) {
-
-    }
-
-    sendMessageToQueue(messages) {
-
-    }
-
-    sendMessageToTrash(messages) {
-
-    }
-
-    addMessage(newMessage) {
-
-    }
 
     selectNewQuestionSlide(id) {
 
@@ -87,6 +68,8 @@ class MessageFilterOverview extends React.Component {
     setAutoAcceptTimer(value) {
 
     }
+
+    
 
 
     getQueueMessages() {

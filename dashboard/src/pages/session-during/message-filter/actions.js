@@ -1,3 +1,60 @@
+export function addNewGroup(newGroup) {
+    return {
+        type: 'ADD_NEW_GROUP',
+        newGroup
+    }
+}
+
+export function updateGroups(newGroups) {
+    return {
+        type: 'UPDATE_GROUPS',
+        newGroups
+    }
+}
+
+export function setGroupDetails(newProperty, newValue) {
+    return {
+        type: 'SET_GROUP_DETAILS',
+        newProperty,
+        newValue
+    }
+}
+
+export function selectGroup(selectedGroupId) {
+    return {
+        type: 'SELECT_GROUP',
+        selectedGroupId
+    }
+}
+
+export function setMessageText(messageText) {
+    return {
+        type: 'SET_MESSAGE_TEXT',
+        messageText
+    }
+}
+
+export function toggleMessageModal(isOpen) {
+    return {
+        type: 'TOGGLE_MESSAGE_MODAL',
+        isOpen
+    }
+}
+
+export function toggleGroupsModal(isOpen) {
+    return {
+        type: 'TOGGLE_GROUPS_MODAL',
+        isOpen
+    }
+}
+
+export function expandIncomingPanel(isExpanded) {
+    return {
+        type: 'EXPAND_INCOMING_PANEL',
+        isExpanded
+    }
+}
+
 export function sendToScreen(selectedIds) {
     return {
         type: 'SEND_TO_SCREEN',
@@ -102,5 +159,12 @@ export function deleteSelectedMessages(selectedMessageIds) {
 export function undoRemove() {
     return {
         type: 'UNDO_REMOVE',
+    }
+}
+
+export function addSelectedToGroup(selectedGroup) {
+    return {
+        type: 'ADD_TO_GROUP',
+        selectedGroup
     }
 }

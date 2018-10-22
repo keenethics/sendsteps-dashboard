@@ -3,3 +3,33 @@
     color: white;
     font-weight: 600;
 }
+
+.message-group {
+    p {
+        margin: 0;
+    }
+}
+
+.group-opts, .group-name {
+    display: inline-block;
+    padding-right: 15px;
+}
+
+.delete-icon {
+    display: inline-block;
+    float: right;
+}
+
+.delete-icon:hover {
+    cursor: pointer;
+}
+
+.grouped-message {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    width: 0px;
+    height: 0px;
+    border-top: 14px solid #333333;
+    border-left: 14px solid transparent;
+}

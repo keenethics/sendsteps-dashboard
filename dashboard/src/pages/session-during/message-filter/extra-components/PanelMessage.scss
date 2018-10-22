@@ -7,10 +7,29 @@
     overflow: hidden;
     border: 0px solid #dddddd;
     border-bottom-width: 1px;
+    background: #ffffff;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
     div {
         display: table-cell;
-        height: 100%;
-        min-width: 35px;
+        padding: 10px;
+    }
+    .msg-text {
+        text-align: left !important;
+        vertical-align: top;
+    }
+    .upvotes {
+        max-width: 55px;
+        text-align: center;
+        border-right: 1px solid #dddddd;
+    }
+    .counter, .starred, .select, {
+        max-width: 40px;
+        text-align: center;
+        border-right: 1px solid #dddddd;
     }
 }
 
