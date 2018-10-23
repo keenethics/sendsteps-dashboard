@@ -1,33 +1,9 @@
 import { updateMessagesStatus, updateMessagesGroup, addOrRemoveFromList} from '../../../scripts/messageHelper';
 
-const initialState = {
-    incomingPanelExpanded: false,
-    messageModalOpen: false,
-    groupModalOpen: false,
-    messageGroups: [
-        {
-            id: 313,
-            groupName: 'test_1',
-            hexColor: '#EE5500',
-        },
-        {
-            id: 415,
-            groupName: 'test_2',
-            hexColor: '#99EE33'
-        }
-    ],
-    newMessageGroup: {
-        id: null,
-        groupName: '',
-        groupColor: ''
-    },
-    selectedGroupId: null
-}
-
-export default function messageFilterReducer(state = initialState, action) {
-
+export default function messageFilterReducer(state = {}, action) {
     switch(action.type) {
         case 'ADD_NEW_GROUP': {
+            console.log(state.messageGroups)
             let updatedGroups = [ ...state.messageGroups, action.newGroup ];
 
             return {
@@ -41,25 +17,10 @@ export default function messageFilterReducer(state = initialState, action) {
                 messageGroups: action.newGroups
             }
         }
-        case 'SET_GROUP_DETAILS': {
-            return {
-                ...state,
-                newMessageGroup: {
-                    ...state.newMessageGroup,
-                    [action.newProperty]: action.newValue
-                }
-            }
-        }
         case 'SELECT_GROUP': {
             return {
                 ...state,
                 selectedGroupId: action.selectedGroupId
-            }
-        }
-        case 'SET_MESSAGE_TEXT': {
-            return {
-                ...state,
-                messageText: action.messageText
             }
         }
         case 'TOGGLE_MESSAGE_MODAL': {
@@ -209,7 +170,6 @@ export default function messageFilterReducer(state = initialState, action) {
                 ...state,
                 messages,
                 messageModalOpen: false,
-                newMessage: ''
             }
         }
         case 'DELETE_MESSAGES': {
@@ -247,7 +207,7 @@ export default function messageFilterReducer(state = initialState, action) {
                 messages: updateMessagesGroup(
                     state.messages, 
                     state.selectedIncomingIds, 
-                    action.selectedGroup
+                    action.selectedGroupId
                 )
             }
         }

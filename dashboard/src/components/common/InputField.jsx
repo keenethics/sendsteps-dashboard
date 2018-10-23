@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import TooltipNotification from './TooltipNotification';
 
 export default class InputField extends React.Component {
 
@@ -56,14 +56,11 @@ export default class InputField extends React.Component {
                         <i className={"fa fa-" + rightFaIcon}></i>
                     </span>}    
                     {clearButton && !rightFaIcon &&
-                    <OverlayTrigger
-                        delay={150}
-                        placement={"top"}
-                        overlay={<Tooltip id={inputId || ""}>Clear field</Tooltip>}>
+                    <TooltipNotification title={inputId || ""} tooltip="Clear field" placement="top">
                         <span onClick={this.clearField.bind(this)} className="input-group-addon">
                             <i className={"fa fa-times"}></i>
                         </span>
-                    </OverlayTrigger>}                               
+                    </TooltipNotification>}                               
                 </div>
             </div>
         )

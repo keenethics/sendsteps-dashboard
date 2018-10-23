@@ -3,7 +3,7 @@ import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
 import BaseTable from '../../base/BaseTable';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import TooltipNotification from '../../../components/common/TooltipNotification';
 import moment from 'moment';
 
 class OverviewTable extends BaseTable {
@@ -19,11 +19,7 @@ class OverviewTable extends BaseTable {
     dateFormatter = (cell, row) => {
         let startTime = moment(row.startTime, 'YYYY-MM-DD HH:mm:ss')
         return <span>
-            <OverlayTrigger 
-                overlay={<Tooltip id={1}><span><i className="fas fa-clock"></i> {startTime.fromNow()}</span></Tooltip>}
-                delay={150}
-                placement="top" 
-                >
+            <TooltipNotification placement="top" title={1} tooltip={<span><i className="fas fa-clock"></i> {startTime.fromNow()}</span>} >
                 <span>
                     <div className="btn btn-static date">
                         <i className="far fa-calendar-alt"></i> {startTime.format("dddd, MMMM Do YYYY")} 
@@ -32,7 +28,7 @@ class OverviewTable extends BaseTable {
                         <i className="far fa-clock"></i> {startTime.format("h:mm:ss a")} 
                     </div>
                 </span>
-            </OverlayTrigger>
+            </TooltipNotification>
         </span>;
     }
 

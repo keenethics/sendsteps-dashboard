@@ -66,6 +66,22 @@ const initialState = {
         selectedQueueIds: [],
         selectedAppearedIds: [],
         lastDeletedMessages: null,
+        incomingPanelExpanded: false,
+        messageModalOpen: false,
+        groupModalOpen: false,
+        messageGroups: [
+            {
+                id: 313,
+                groupName: 'test_1',
+                groupColor: '#EE5500',
+            },
+            {
+                id: 415,
+                groupName: 'test_2',
+                groupColor: '#99EE33'
+            }
+        ],
+        selectedGroupId: null,
         messages: [
             {
                 id: 4141,

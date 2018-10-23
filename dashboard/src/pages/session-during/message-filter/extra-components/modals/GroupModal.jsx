@@ -2,30 +2,53 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
 import ColorPickerField from '../../../../../components/common/ColorPickerField';
-import { toggleGroupsModal, setGroupDetails } from '../../actions';
-
+import { toggleGroupsModal, updateGroups, addNewGroup } from '../../actions';
 import { connect } from 'react-redux';
 
 class GroupModal extends Component {
 
-    showNewGroupModal = value => {
-        this.props.dispatch(toggleGroupsModal(value));
+    state = {
+        newGroupName: '',
+        newGroupColor: '',
+    }
+
+    hideGroupModal = () => {
+        this.props.dispatch(toggleGroupsModal(false));
+    }
+
+    deleteGroup(index) {
+        let groups = [ ...this.props.messageGroups ];
+        if(index !== -1) {
+            groups.splice(index, 1);
+            this.props.dispatch(updateGroups(groups));
+        }
     }
 
     setGroupName(e) {
-        this.props.dispatch(setGroupDetails('groupName', e.target.value));
+        this.setState({newGroupName: e.target.value});
     }
 
     setGroupColor(e) {
-        this.props.dispatch(setGroupDetails('groupColor', e.target.value));
+        this.setState({newGroupColor: e.target.value});
+    }
+
+    addGroup = () => {
+        const newGroup = {
+            // @TODO get the ID from database after creating it (Livemessageroundmessagegroups)
+            id: Math.floor(Math.random() * 1337),
+            groupName: this.state.newGroupName,
+            groupColor: this.state.newGroupColor
+        } 
+        this.props.dispatch(addNewGroup(newGroup));
     }
 
     render() {
 
-        const { groupModalOpen, messageGroups, newMessageGroup } = this.props;
+        const { groupModalOpen, messageGroups } = this.props;
+        const { newGroupName, newGroupColor } = this.state;
 
         return (
-            <Modal show={groupModalOpen} onHide={() => this.showNewGroupModal(false)}>
+            <Modal show={groupModalOpen} onHide={() => this.hideGroupModal()}>
                 <Modal.Header closeButton>
                     <Modal.Title>Manage Groups</Modal.Title>
                 </Modal.Header>
@@ -33,7 +56,7 @@ class GroupModal extends Component {
                     <div className="row">
                         <div className="col-md-6">
                             <InputField 
-                                value={newMessageGroup && newMessageGroup.groupName}
+                                value={newGroupName}
                                 labelText="Group name"
                                 leftFaIcon=""
                                 placeholder="New group name..."
@@ -45,7 +68,7 @@ class GroupModal extends Component {
                         </div>
                         <div className="col-md-6">
                             <ColorPickerField 
-                                color={newMessageGroup && newMessageGroup.groupColor}
+                                color={newGroupColor}
                                 labelText="Group color"
                                 onChange={this.setGroupColor.bind(this)}
                             />
@@ -77,7 +100,7 @@ class GroupModal extends Component {
                     </span>}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => this.showNewGroupModal(false)}><i className="fa fa-times"></i> Close</Button>
+                    <Button onClick={() => this.hideGroupModal(false)}><i className="fa fa-times"></i> Close</Button>
                 </Modal.Footer>
             </Modal>
         );

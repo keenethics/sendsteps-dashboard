@@ -5,15 +5,17 @@ class TooltipNotification extends Component {
 
     render() {
 
-        const { title, tooltip, placement, children } = this.props;
+        const { title, tooltip, placement, children, delay } = this.props;
 
         return (
                 <OverlayTrigger 
                     overlay={<Tooltip id={title}>{tooltip}</Tooltip>}
-                    delay={150}
+                    delay={delay || 150}
                     placement={placement || "right"} 
                 >
+                    <span>
                     {children}
+                    </span>
                 </OverlayTrigger>
         )
     }

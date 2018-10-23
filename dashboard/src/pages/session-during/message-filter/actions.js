@@ -12,14 +12,6 @@ export function updateGroups(newGroups) {
     }
 }
 
-export function setGroupDetails(newProperty, newValue) {
-    return {
-        type: 'SET_GROUP_DETAILS',
-        newProperty,
-        newValue
-    }
-}
-
 export function selectGroup(selectedGroupId) {
     return {
         type: 'SELECT_GROUP',
@@ -27,31 +19,24 @@ export function selectGroup(selectedGroupId) {
     }
 }
 
-export function setMessageText(messageText) {
-    return {
-        type: 'SET_MESSAGE_TEXT',
-        messageText
-    }
-}
-
-export function toggleMessageModal(isOpen) {
+export function toggleMessageModal(messageModalOpen) {
     return {
         type: 'TOGGLE_MESSAGE_MODAL',
-        isOpen
+        messageModalOpen
     }
 }
 
-export function toggleGroupsModal(isOpen) {
+export function toggleGroupsModal(groupModalOpen) {
     return {
         type: 'TOGGLE_GROUPS_MODAL',
-        isOpen
+        groupModalOpen
     }
 }
 
-export function expandIncomingPanel(isExpanded) {
+export function expandIncomingPanel(incomingPanelExpanded) {
     return {
         type: 'EXPAND_INCOMING_PANEL',
-        isExpanded
+        incomingPanelExpanded
     }
 }
 
@@ -162,9 +147,9 @@ export function undoRemove() {
     }
 }
 
-export function addSelectedToGroup(selectedGroup) {
+export function addSelectedToGroup(selectedGroupId) {
     return {
         type: 'ADD_TO_GROUP',
-        selectedGroup
+        selectedGroupId
     }
 }

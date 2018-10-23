@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import TooltipNotification from './TooltipNotification';
 
 class ColorPickerField extends Component {
 
@@ -23,33 +23,25 @@ class ColorPickerField extends Component {
             <div>
                 <div className="form-group">
                     <label className="control-label">
-                        {labelText} {infoContent && <OverlayTrigger 
-                            overlay={<Tooltip id={"Colorpicker"}>{infoContent}</Tooltip>}
-                            delay={150}
-                            placement={"top"}>
-                                <i className="fa fa-question-circle"></i>
-                        </OverlayTrigger>}
+                        {labelText} 
+                        {infoContent && 
+                        <TooltipNotification title="Colorpicker" placement={"top"} tooltip={infoContent}>
+                            <i className="fa fa-question-circle"></i>
+                        </TooltipNotification>}
                     </label>
                     <div className="input-group">
-                        <OverlayTrigger 
-                            overlay={<Tooltip id={"Colorpicker"}>Edit Color</Tooltip>}
-                            delay={150}
-                            placement={"top"}>
-                            <span onClick={this.toggleModal.bind(this)} className="input-group-addon">
-                                <i className="fa fa-paint-brush"></i>
-                            </span>
-                        </OverlayTrigger>
-                        
+                    <TooltipNotification title="Colorpicker" placement={"top"} tooltip={"Edit Color"}>
+                        <span onClick={this.toggleModal.bind(this)} className="input-group-addon">
+                            <i className="fa fa-paint-brush"></i>
+                        </span>
+                    </TooltipNotification>
                         <input className="form-control" value={color} onChange={onChange} placeholder="#000000" />
 
-                        <OverlayTrigger 
-                            overlay={<Tooltip id={"Colorpicker"}>{color || "#000000"}</Tooltip>}
-                            delay={150}
-                            placement={"top"}>
-                            <span className="input-group-addon">
-                                <i className="fa fa-circle" style={{color: color || "#000000"}}></i>
-                            </span>
-                        </OverlayTrigger>
+                    <TooltipNotification title="Colorpicker" placement={"top"} tooltip={color || "#000000"}>
+                        <span className="input-group-addon">
+                            <i className="fa fa-circle" style={{color: color || "#000000"}}></i>
+                        </span>
+                    </TooltipNotification>
                     </div>
                 </div>
             </div>

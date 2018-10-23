@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import TooltipNotification from '../common/TooltipNotification';
+import { ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class MenuItem extends Component {
@@ -9,11 +10,7 @@ class MenuItem extends Component {
 
         return (
             <div className="menu-item">
-                <OverlayTrigger 
-                    overlay={<Tooltip id={menuText}>{menuText}</Tooltip>}
-                    delay={!menuOpened ? 150 : 133337}
-                    placement="right" 
-                >
+                <TooltipNotification placement="right" tooltip={menuText} title={menuText} delay={menuOpened ? 133337 : 150}>
                     <Link to={this.props.link}>
                         <ListGroupItem>
                             <i className={"fa " + faIconClass}></i> 
@@ -22,7 +19,7 @@ class MenuItem extends Component {
                             </span>
                         </ListGroupItem>
                     </Link>
-                </OverlayTrigger>
+                </TooltipNotification>
             </div>
         )
     }

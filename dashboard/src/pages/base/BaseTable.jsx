@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
+import TooltipNotification from '../../components/common/TooltipNotification';
 
 class BaseTable extends Component {
 
@@ -31,11 +31,7 @@ class BaseTable extends Component {
     dateFormatter = (cell, row) => {
         let startTime = moment(row.startTime, 'YYYY-MM-DD HH:mm:ss')
         return <span>
-            <OverlayTrigger 
-                overlay={<Tooltip id={1}><span><i className="fas fa-clock"></i> {startTime.fromNow()}</span></Tooltip>}
-                delay={150}
-                placement="top" 
-                >
+            <TooltipNotification title={1} placement="top" tooltip={<span><i className="fas fa-clock"></i> {startTime.fromNow()}</span>} >
                 <span>
                     <div className="btn btn-static date">
                         <i className="far fa-calendar-alt"></i> {startTime.format("dddd, MMMM Do YYYY")} 
@@ -44,7 +40,7 @@ class BaseTable extends Component {
                         <i className="far fa-clock"></i> {startTime.format("h:mm:ss a")} 
                     </div>
                 </span>
-            </OverlayTrigger>
+            </TooltipNotification>
         </span>;
     }
 

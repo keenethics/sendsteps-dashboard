@@ -5,18 +5,9 @@ import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
 import { 
     toggleSelectIncoming, 
-    sendToScreen, 
-    sendToQueue, 
-    clearIncomingSelect, 
     addNewMessage, 
-    deleteSelectedMessages, 
-    undoRemove, 
-    addSelectedToGroup, 
-    expandIncomingPanel, 
-    selectGroup,
-    setGroupDetails,
-    updateGroups,
-    addNewGroup } from '../../actions';
+    updateGroups 
+} from '../../actions';
 import { isMessageSelected, getIncomingMessages } from '../../../../../scripts/messageHelper';
 import { toast } from 'react-toastify';
 import GroupModal from '../modals/GroupModal';
@@ -26,55 +17,9 @@ import './Panels.scss';
 
 class IncomingPanel extends Component {
 
-    incomingPanelShowMore = () => {
-        this.props.dispatch(expandIncomingPanel(true));
-    }
-
-    addMessage() {
-        const newMessage = {
-            id: Math.floor(Math.random() * 999999),
-            connection: null,
-            destination: "-",
-            groupId: null,
-            messageRoundId: 5481,
-            participantId: 534149,
-            sessionId: 591,
-            source: "",
-            starred: null,
-            upvoteCount: Math.floor(Math.random() * 30),
-            status: "unread",
-            text: this.props.newMessage
-        }
-
-        this.props.dispatch(addNewMessage(newMessage));
-        toast("Message added!");
-    }
-
     toggleSelect = id => {
         this.props.dispatch(toggleSelectIncoming(id));
     }
-
-    sendIdsToScreen = () => {
-        this.props.dispatch(sendToScreen(this.props.selectedIncomingIds));
-        this.props.dispatch(clearIncomingSelect());
-    }
-
-    sendIdsToQueue = () => {
-        this.props.dispatch(sendToQueue(this.props.selectedIncomingIds));
-        this.props.dispatch(clearIncomingSelect());
-    }
-
-    undoRemoveMessages = () => {
-        this.props.dispatch(undoRemove());
-    }
-
-    deleteSelected = () => {
-        this.props.dispatch(deleteSelectedMessages(this.props.selectedIncomingIds));
-        this.props.dispatch(clearIncomingSelect());
-        toast(this.ToastUndo);
-    }
-
-
 
     getGroupColor(groupId) {
         for(let x = 0; x < this.props.messageGroups.length; x++) {
@@ -83,38 +28,6 @@ class IncomingPanel extends Component {
             }
         }
     }
-
-    deleteGroup(index) {
-        let groups = this.props.messageGroups;
-        if(index !== -1) {
-            groups.splice(index, 1);
-            this.props.dispatch(updateGroups(groups));
-        }
-    }
-
-    setSelectedGroup = e => {
-        this.props.dispatch(selectGroup(e.target.value));
-    }
-
-    addToGroup = () => {
-        this.props.dispatch(addSelectedToGroup(this.props.selectedGroup));
-    }
-
-    addGroup = () => {
-        const newGroup = {
-            id: Math.floor(Math.random() * 1337),
-            ...this.props.newMessageGroup
-        } 
-        this.props.dispatch(addNewGroup(newGroup));
-    }
-
-    ToastUndo = () => {
-        return (
-          <div>
-              Message(s) deleted! <span className="pull-right undo" onClick={() => this.undoRemoveMessages()}>UNDO</span>
-          </div>
-        );
-      }
 
     render() {
 
@@ -157,7 +70,7 @@ export default connect(
     (state) => {
         return {
             selectedIncomingIds: state.messageFilterReducer.selectedIncomingIds,
-            selectedGroup: state.messageFilterReducer.selectedGroup,
+            selectedGroupId: state.messageFilterReducer.selectedGroupId,
             messages: state.messageFilterReducer.messages,
             newMessage: state.messageFilterReducer.newMessage,
             newMessageGroup: state.messageFilterReducer.newMessageGroup
