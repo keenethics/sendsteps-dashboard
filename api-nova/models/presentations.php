@@ -21,6 +21,7 @@ class Presentations_Model extends Model {
             LEFT JOIN sessionruns s ON s.id = p.sessionRunId
             WHERE 
                 p.active = 1 AND
+                p.isDeleted = 0 AND
                 <p.id> = :presentationId
         ;';
         $params['presentationId'] = $presentationId;
@@ -28,7 +29,7 @@ class Presentations_Model extends Model {
         return $results;
     }
     
-    public function getParticipantNumbersByPresentationId($sessionId) {
+    public function getParticipantNumbersBySessionId($sessionId) {
         // $presentationIds = '('.implode( ",", $presentationIds ).')';
         $query = "SELECT 
                 a.id,
@@ -59,20 +60,55 @@ class Presentations_Model extends Model {
         $params['sessionId1'] = $sessionId;
         $params['sessionId2'] = $sessionId;
         $data = $this->query($query, $params);
-
-        
-        
-        
-        // $query = "SELECT * FROM presentations WHERE <presentations.id> IN :presentationIds  ";
-        // $params['presentationIds'] =' "('.implode( ",", $presentationIds ).')"';
-        // // $params['presentationIds'] =  $presentationIds ;
-        // // var_dump($params);exit();
-        // $data = $this->query($query, $params);
-        // var_dump($data);exit();
-        // $results = [];
         foreach($data as $row) {
             $results[$row['id']] = $row['participantCount'];
         }
         return $results;
+    }
+    
+    public function getParticipantNumbersByPresentationId($presentationId) {
+        // $presentationIds = '('.implode( ",", $presentationIds ).')';
+        $query = "SELECT 
+                COUNT(DISTINCT a.participantId) as participantCount
+            FROM (
+                (
+                    SELECT presentations.id,livevotemessages.participantId
+                    FROM presentations
+                    LEFT JOIN votes on presentations.id = votes.presentationId
+                    LEFT JOIN livevotemessages on votes.id = livevotemessages.voteId
+                    WHERE 
+                        presentations.active = 1 AND
+                        <presentations.id> = :presentationId1
+                ) UNION ALL (
+                    SELECT presentations.id,livemessageroundmessages.participantId
+                    FROM presentations
+                    LEFT JOIN messagerounds on presentations.id = messagerounds.presentationId
+                    LEFT JOIN livemessageroundmessages on messagerounds.id = livemessageroundmessages.messageRoundId
+                    WHERE 
+                        presentations.active = 1 AND
+                        <presentations.id> = :presentationId2
+                )
+            ) AS a
+            GROUP BY a.id
+        ;";
+        $params['presentationId1'] = $presentationId;
+        $params['presentationId2'] = $presentationId;
+        $data = $this->query($query, $params)[0]['participantCount'];
+        // foreach($data as $row) {
+        //     $results[$row['id']] = $row['participantCount'];
+        // }
+        return $data;
+    }
+    
+    public function getMessagesByPresentationId($presentationId){
+        $query = "SELECT * 
+            FROM `messagerounds` mr
+            LEFT JOIN `livemessageroundmessages` lmrm ON lmrm.messageRoundId = mr.id 
+            WHERE <mr.presentationId> = :presentationId
+            ORDER BY mr.id
+        ;";
+        $params['presentationId'] = $presentationId;
+        $data = $this->query($query, $params);
+        return $data;
     }
 }

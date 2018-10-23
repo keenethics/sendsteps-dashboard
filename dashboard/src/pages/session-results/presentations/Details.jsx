@@ -46,11 +46,10 @@ class PresentationDetails extends React.Component {
     
     render() {
         let { data } = this.props;
-
         if(!data) {
             return null;
         }
-
+        console.log(data);
         return (
             <div>
                 <HeaderPanel 
