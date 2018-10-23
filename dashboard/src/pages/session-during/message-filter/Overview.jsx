@@ -10,80 +10,98 @@ import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 
 class MessageFilterOverview extends React.Component {
-
-    state = {
-        showMoreIncoming: false,
-    }
-   
-    /* States: 
-        Always:     
-                    Auto accept/upvoting switches, Dropdown for 'Slide Title question
-        Inactive:   
-                    No session/messageround active:
-                    Button with See old presentation results
-        Session Active:
-                    No active OPEN ENDED questions? > "There are no open ended questions in the current active presentation"
-                    Incoming messages, Messages live on screen, in Queue, appeared on screen
-
-
-        Conditional:
-            Auto accept messages on:
-                Upvoting off
-                Messages on live screen with timer
-                Dropdown : 3, 5, 10, 20, custom => opens modal with input
-            Upvoting on:
-                Auto accept messages off
-                Alert with explanation
-
-    */
-
-    selectNewQuestionSlide(id) {
-
-    }
-
-    toggleAutoAccept(value) {
-
-    }
-
-    toggleUpvoting(value) {
-
-    }
-
-    incomingPanelFullScreen() {
-
-    }
-
-    OnscreenPanelFullScreen() {
-
-    }
-
-    queuePanelFullScreen() {
-
-    }
-
-    appearedFullScreen() {
-
-    }
-
-    setAutoAcceptTimer(value) {
-
-    }
-
     
+    /*
+        Functionality & Requests (Backend)
 
+        - Initial Fetch
+        Fetch a list of messageRounds. if one of the messagerounds is active on the presentation, request livemessageroundmessages 
+        based on the messageRoundId.
 
-    getQueueMessages() {
-        return this.getMessageByProperty('status', 'read');
-    }
+        Fetch session settings (hasUpvoting, autoApprove)
 
-    getLiveMessages() {
-        return this.getMessageByProperty('status', 'showing');
-    }
+        Fetch groups (livemessageroundmessagegroups)
 
-    getAppearedMessages() {
-        return this.getMessageByProperty('status', 'shown');
-    }
+        e.g.: 
+        
+        content: {
+            messageRounds: {
+                ...messageRounds
+            },
+            currentMessageroundMessages: {
+                ...messages
+            },
+            messageGroups: {
+                ...messageGroups
+            },
+            currentSessionSettings: {
+                ...sessionSettings
+            }
+        }
 
+        - Selecting a slide/question(/messageRound)
+        Should return a set of messages associated to a messageRoundId (getMessagesByMessageroundId)
+
+        - Toggle upvoting 
+        Should set the hasUpvoting value for a specific session Id to true/false
+        if true, toggle auto accept (autoApprove) off
+
+        - Toggle auto accept
+        Should set the autoApprove value for a specific session Id to true/false (1/-1 in db?)
+        if true, toggle upvoting (hasUpvoting) off
+
+        - Add message
+        Should generate a new message based on passed text. 
+        A message generally looks like this:
+        {
+            id: someId                      (auto increment ID from adding to DB)
+            connection: null,               (not sure what this is supposed to be)
+            destination: "-",               (not sure what this is supposed to be)
+            groupId: null,          
+            messageRoundId: someMessageRoundId,
+            participantId: currentParticipantId,
+            sessionId: currentSessionId,
+            source: "",                     (not sure what this is supposed to be)
+            starred: null,          
+            upvoteCount: messageUpvoteCount
+            status: "unread",               (enum [read, shown, unread, showing, edited, removed, copied] with unread as initial)
+            text: passedText
+        }
+
+        - Delete message(s)
+        Softdelete message, pass list of message id's and change status to removed.
+
+        - Undo delete messages
+        Undelete messages (I keep a list of deleted Id's saved on the client side).
+        This will require some backend validation such as checking if the messages belong to the
+        sessionid/messageround etc.
+
+        - Add group
+        Adding a new group color (livemessageroundmessagegroups)
+        Passing group name and group color. Should link to current logged in userId.
+        Returns list of groups along with newly created group
+
+        - Remove group
+        Removes group (livemessageroundmessagegroups) based on id & userId
+
+        - Add messages to group
+        Should change status of a passed list of message Id's and changing their groupId to passed groupId
+
+        - Send to [Queue, LiveScreen, Incoming, Appeared]
+        Should change the status of messages (livemessageroundmessages) based on passed messageId's 
+            - Queue (read)
+            - LiveScreen (showing)
+            - Incoming (unread)
+            - Appeared (shown)
+        
+
+        - Send to Button
+        Sends a message (livemessageroundmessages) to a different messageround on the current presentation
+        *Not implemented yet clientside
+
+        - Auto accept timers & Stuff
+        Haven't looked at this yet. 
+    */
 
     render() {
         return (
