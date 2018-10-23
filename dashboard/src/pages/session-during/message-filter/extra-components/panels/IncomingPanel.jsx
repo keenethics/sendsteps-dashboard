@@ -3,13 +3,8 @@ import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import { 
-    toggleSelectIncoming, 
-    addNewMessage, 
-    updateGroups 
-} from '../../actions';
+import { toggleSelectIncoming }  from '../../actions';
 import { isMessageSelected, getIncomingMessages } from '../../../../../scripts/messageHelper';
-import { toast } from 'react-toastify';
 import GroupModal from '../modals/GroupModal';
 import MessageModal from '../modals/MessageModal';
 import IncomingToolbar from './toolbars/IncomingToolbar';

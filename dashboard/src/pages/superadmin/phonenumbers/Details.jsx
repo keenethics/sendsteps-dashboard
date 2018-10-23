@@ -18,6 +18,14 @@ class PhonenumberDetails extends React.Component {
         }
     }
 
+    addKeyword = () => {
+        console.log('not implemented yet')
+    }
+
+    setKeyword = () => {
+        console.log('not implemented yet')
+    }
+
     componentDidMount() {
         let apiParams = JSON.stringify({id: this.props.match.params.id});
         this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
