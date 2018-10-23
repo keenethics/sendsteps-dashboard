@@ -62,10 +62,13 @@ class Details extends React.Component {
                                     <div className="form-group">
                                         <label>How to Participate <TooltipNotification 
                                             title={"How to Participate"}
-                                            content={<span className="text-left">
-                                                <p>By default all responses received are anonymous. </p> 
-                                                <p>This allows you to receive the most authentic responses.</p>
-                                            </span>}/>
+                                            tooltip={
+                                                <span className="text-left">
+                                                    <p>By default all responses received are anonymous. </p> 
+                                                    <p>This allows you to receive the most authentic responses.</p>
+                                                </span>}>
+                                                <i className="fa fa-question-circle"></i>
+                                            </TooltipNotification>
                                         </label>
                                         <ButtonSwitch onChange={this.toggleAnonymous.bind(this)} options={["Anonymous", "Non Anonymous"]} />
                                         <hr/>

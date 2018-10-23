@@ -1,0 +1,37 @@
+@import "../../index.scss";
+
+.menu-profile {
+    text-align:left;
+}
+
+.profile-image {
+  width: 64px;
+  height: 64px;
+  background: #ffffff;
+  border-radius: 100%;
+  border: 4px solid $lighterGray;
+  text-align: center;
+  line-height: 56px;
+  color: $darkerGray;
+  margin: 16px;
+  float: left;
+}
+
+.profile-image:hover {
+    cursor: pointer;
+}
+
+.profile-details {
+    padding: 16px 0;
+}
+
+.profile-details p {
+    padding: 8px 0px;
+}
+.profile-container {
+    padding: 0 0 8px 0;
+}
+
+.profile-image, .profile-details {
+    display: inline-block;
+}

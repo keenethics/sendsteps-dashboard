@@ -4,6 +4,7 @@ import { setView } from '../../actions/app';
 import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
+import './Forms.scss';
 
 class PasswordResetForm extends Component {
 

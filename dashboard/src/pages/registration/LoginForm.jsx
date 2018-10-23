@@ -5,6 +5,7 @@ import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, r
 import { authorizeLogin, authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
+import './Forms.scss';
 
 class LoginForm extends Component {
 

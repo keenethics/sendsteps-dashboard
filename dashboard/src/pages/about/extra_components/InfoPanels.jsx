@@ -1,5 +1,6 @@
 import React from 'react';
 import { Panel } from 'react-bootstrap';
+import './InfoPanels.scss';
 
 export const AddinInfoPanel = () => {
     return (

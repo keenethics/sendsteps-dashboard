@@ -3,6 +3,7 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
 import TooltipNotification from '../../components/common/TooltipNotification';
+import './BaseTable.scss';
 
 class BaseTable extends Component {
 

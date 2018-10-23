@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import './SectionHeader.scss';
 
 class SectionHeader extends Component {
     render() {

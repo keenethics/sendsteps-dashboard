@@ -21,6 +21,7 @@ import {
 import { authLoading } from '../../actions/auth';
 import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
+import './Forms.scss';
 
 class RegistrationForm extends Component {
 

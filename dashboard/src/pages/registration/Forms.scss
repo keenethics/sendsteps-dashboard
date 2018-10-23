@@ -1,0 +1,56 @@
+.show-pass:hover {
+    cursor: pointer;
+}  
+
+.registration-form .panel-body, .password-reset-form .panel-body {
+    padding: 15px 15px 0 15px;
+}
+
+.registration-form, .password-reset-form, .login-form {
+    margin: 0 auto;
+    max-width: 512px;
+}
+
+.vertical-center {
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+}
+.not-logged-in.jumbotron {
+    background-color: transparent !important;
+}
+
+.forgot-password:hover {
+    cursor: pointer;
+}
+
+
+.auth-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(255, 255, 255);
+    z-index: 9999;
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    background: white !important;
+    font-size: 24px;
+}
+  
+.auth-loading-content .fa {
+    text-align:center;
+    margin: 0 auto;
+}
+
+.panel-body.login, .panel-body.register {
+    position: relative;
+}
+
+.fa-spin {
+    -webkit-animation: fa-spin 1s infinite linear !important;
+    animation: fa-spin 1s infinite linear !important;
+}
+  

@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignOutButton from './SignOutButton';
+import './MenuProfile.scss';
 
 class MenuProfile extends React.Component {
     render() {

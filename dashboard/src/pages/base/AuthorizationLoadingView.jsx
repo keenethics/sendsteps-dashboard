@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import './View.scss';
 class AuthorizationLoadingView extends Component {
 
     render() {

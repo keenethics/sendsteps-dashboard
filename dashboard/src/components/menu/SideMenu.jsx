@@ -4,6 +4,7 @@ import MenuItem from './MenuItem';
 import SectionHeader from './SectionHeader';
 import MenuProfile from './MenuProfile';
 import { connect } from 'react-redux';
+import './SideMenu.scss';
 
 class SideMenu extends Component {
     render() {

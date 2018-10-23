@@ -1,0 +1,18 @@
+@import "../../index.scss";
+
+.picture-upload {
+	padding-top: 25px;
+	background-color: $lightestGray;
+}
+
+.current-picture {
+	margin: 0 auto;
+	text-align: center;
+	width: 128px;
+	height: 128px;
+	vertical-align: middle;
+	border: 5px solid $lighterGray;
+	border-radius: 100%;
+	padding: 10px;
+	cursor: pointer;
+}

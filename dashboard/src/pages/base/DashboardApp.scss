@@ -1,0 +1,9 @@
+@import "../../index.scss";
+
+.view {
+    transition: $defaultAnimation;
+    padding-top:35px;
+    height: 100%;
+    position: relative;
+    z-index: 0;
+}

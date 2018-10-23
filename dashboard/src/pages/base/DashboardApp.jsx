@@ -6,9 +6,11 @@ import ToastComponent from '../../components/common/ToastComponent'
 import View from '../../pages/base/View';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import './DashboardApp.scss';
 class DashboardApp extends Component {
     render() {
-        return (
+
+    return (
             <div className="App">
                 <Header />
                 <div className="wrapper">

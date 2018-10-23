@@ -1,36 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
-const BottomSaveBar = props => {
+class BottomSaveBar extends Component  {
 
-    const { prevPage, onSave } = props;
-    
-    return (
-        <Panel>
-            <Panel.Body>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <button 
-                            type='button' 
-                            id='save-btn' 
-                            onClick={onSave || function(){ console.log("onSave")}}
-                            className='btn btn-success'>
-                            <i className="fa fa-save"></i> Save
-                        </button>
-                        <Link to={prevPage || "/"}>
+    goBack() {
+        this.props.history.goBack();
+    }
+    render() {
+
+        const { onSave } = this.props;
+
+        return (
+            <Panel>
+                <Panel.Body>
+                    <div className="row">
+                        <div className="col-sm-12">
                             <button 
                                 type='button' 
-                                id='back-btn' 
-                                className='btn btn-default pull-right'>
-                                <i className="fa fa-chevron-left"></i> Back
+                                id='save-btn' 
+                                onClick={onSave || function(){ console.log("onSave")}}
+                                className='btn btn-success'>
+                                <i className="fa fa-save"></i> Save
                             </button>
-                        </Link>
+                                <button 
+                                    onClick={() => this.goBack()}
+                                    type='button' 
+                                    id='back-btn' 
+                                    className='btn btn-default pull-right'>
+                                    <i className="fa fa-chevron-left"></i> Back
+                                </button>
+                        </div>
                     </div>
-                </div>
-            </Panel.Body>
-        </Panel>            
-    )
+                </Panel.Body>
+            </Panel>            
+        )
+    }
 }
 
-export default BottomSaveBar;
+export default withRouter(BottomSaveBar)
