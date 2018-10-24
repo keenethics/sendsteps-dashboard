@@ -111,4 +111,18 @@ class Presentations_Model extends Model {
         $data = $this->query($query, $params);
         return $data;
     }
+    
+    public function getSlidesByPresentationId($presentationId){
+        $query = "SELECT 
+            v.id, v.slideIndex, v.presentationId, v.title, v.graphType, 
+            va.answer, va.answerCode, va.correctAnswer
+            FROM votes v
+            LEFT JOIN voteanswers va ON va.voteId = v.id
+            WHERE <v.presentationId> = :presentationId
+            ORDER BY v.slideIndex
+        ;";
+        $params['presentationId'] = $presentationId;
+        $data = $this->query($query, $params);
+        return $data;
+    }
 }
