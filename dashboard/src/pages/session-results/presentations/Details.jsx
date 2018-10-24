@@ -39,8 +39,8 @@ class PresentationDetails extends React.Component {
         const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
 
         return {
-            startTime: moment(this.props.data.startTime, dateFormat).format(stringFormat),
-            endTime: moment(this.props.data.endTime, dateFormat).format(stringFormat)
+            startTime: moment(this.props.data.presentationStart, dateFormat).format(stringFormat),
+            endTime: moment(this.props.data.presentationEnd, dateFormat).format(stringFormat)
         }
     } 
     
@@ -62,7 +62,7 @@ class PresentationDetails extends React.Component {
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
-                                        <h2>{data.name}</h2>
+                                        <h2>{data.presentationTitle}</h2>
                                         <hr/>
                                     </div>
                                     

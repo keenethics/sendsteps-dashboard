@@ -19,40 +19,52 @@ class Presentations extends NovaAPI {
         // Fetch data from single presentation
         if ($id != NULL) {
             $presentaionModel = $this->loadModel('presentations');
-            $results = $presentaionModel->findActiveById($id)[0];
-            $parts = explode('\\', $results['name']);
-            $results['name'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
-            $results['numberOfParticipants'] = $presentaionModel->getParticipantNumbersByPresentationId($id);
+            $record = $presentaionModel->findActiveById($id)[0];
             
             
             
-            // $messagesTmp = $presentaionModel->getMessagesByPresentationId($id);
+            $results = array();
+            $parts = explode('\\', $record['name']);
+            $results['presentationTitle'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
+            $results['presentationId'] = (int) $record['id'];
+            $results['presentationStart'] = $record['startTime'];
+            $results['presentationEnd'] = $record['endTime'];
+            // $parts = explode('\\', $record['name']);
+            $results['nrOfActiveAttendees'] = (int) $presentaionModel->getParticipantNumbersByPresentationId($id);
+            
+            
+            
+            // Loop Through the messages & message rounds once & use this process to populate remaining parts of the array
+            $nrOfResponses = 0;
             $messages = $messagesSubArray = array();
-            $test = $presentaionModel->getMessagesByPresentationId($id);
-            foreach($test as $key => $m) {
-                if ($key == 0 OR $m['messageRoundId'] != $test[($key-1)]['messageRoundId'] ) {
-                    if ($key != 0) {
-                        $messages[] = $messagesSubArray;
-                        $messagesSubArray = array();
+            $messagesFromDB = $presentaionModel->getMessagesByPresentationId($id);
+            if (count($messagesFromDB) > 0){
+                foreach($messagesFromDB as $key => $m) {
+                    if ($key == 0 OR $m['messageRoundId'] != $messagesFromDB[($key-1)]['messageRoundId'] ) {
+                        if ($key != 0) {
+                            $messages[] = $messagesSubArray;
+                            $nrOfResponses += count($messagesSubArray['results']);
+                            $messagesSubArray = array();
+                        }
+                        //New message round
+                        $messagesSubArray['id'] = (int) $m['messageRoundId'];
+                        $messagesSubArray['type'] = 'messages';
+                        $messagesSubArray['title'] = $m['title'];
+                        $messagesSubArray['labels'] = [ 0 => 'Message', 1 => 'Date/Time', 2 => 'Status', 3 => 'Upvotes'];           
                     }
-                    //New message round
-                    $messagesSubArray['id'] = $m['messageRoundId'];
-                    $messagesSubArray['type'] = 'messages';
-                    $messagesSubArray['title'] = $m['title'];
-                    $messagesSubArray['labels'] = [ 0 => 'Message', 1 => 'Date/Time', 2 => 'Status', 3 => 'Upvotes'];           
+                    $messagesSubArray['results'][] = [
+                        $m['text'],
+                        $m['timestamp'],
+                        $m['status'] 
+                    ];//This should have a final element with the message's upvote count
                 }
-                $messagesSubArray['results'][] = [
-                    $m['text'],
-                    $m['timestamp'],
-                    $m['status'] 
-                ];//This should have a final element with the message's upvote count
+                $messages[] = $messagesSubArray;
+                $nrOfResponses += count($messagesSubArray['results']);
             }
-            $messages[] = $messagesSubArray;
-            // $messages = array();
             
+            $results['rounds'] = $messages;
+            $results['nrOfResponses'] = $nrOfResponses;
             
-            
-            $results['messages'] = $messages;
             
             return json_encode(['content' => $results]);                
         }
