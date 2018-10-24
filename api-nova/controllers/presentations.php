@@ -18,18 +18,16 @@ class Presentations extends NovaAPI {
     public function getDetails($id = NULL) {
         // Fetch data from single presentation
         if ($id != NULL) {
+            //Add what we can from a the presentation record
             $presentaionModel = $this->loadModel('presentations');
             $record = $presentaionModel->findActiveById($id)[0];
-            
             $results = array();
             $parts = explode('\\', $record['name']);
             $results['presentationTitle'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
             $results['presentationId'] = (int) $record['id'];
             $results['presentationStart'] = $record['startTime'];
             $results['presentationEnd'] = $record['endTime'];
-            $results['nrOfActiveAttendees'] = (int) $presentaionModel->getParticipantNumbersByPresentationId($id);
-            // $results['test'] = $record;
-            
+            $results['nrOfActiveAttendees'] = (int) $presentaionModel->getParticipantNumbersByPresentationId($id);            
             
             // Check for open ended questions & populate rounds with the results
             $nrOfResponses = 0;
@@ -62,13 +60,13 @@ class Presentations extends NovaAPI {
             // Check for rating questions & populate rounds with the results
             $ratingsResult = array();
             $slides = $presentaionModel->getSlidesByPresentationId($id);
-            if (count($slides) > 0){
+            $votesAndPercentages = $presentaionModel->getVotesWithPercentages($id);
+            if (count($slides) > 0) {
                 $results['slides'] = $slides;
                 foreach($slides as $key => $s) {
                     if ($key == 0 OR $s['slideIndex'] != $slides[($key-1)]['slideIndex'] ) {
                         if ($key != 0) {
                             $results['rounds'][] = $ratingsResult;
-                            $nrOfResponses += count($ratingsResult['results']);
                             $ratingsResult = array();
                             
                         }
@@ -77,17 +75,22 @@ class Presentations extends NovaAPI {
                         $ratingsResult['type'] = 'votes'; // this will be switched on
                         $ratingsResult['title'] = $s['title']; // question title
                         $ratingsResult['labels'] = [0 => 'Answer', 1 => 'Options', 2 => 'Votes', 3 => 'Percentages', 4 => 'IsCorrect'];
-                        
                     }
+                    $votes = (int) $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['votes'];
+                    $percentage = $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['percentage'].'%';
+                    $nrOfResponses += $votes;
                     $ratingsResult['results'][] = [
                         $s['answerCode'],
-                        $s['answer']
+                        (int) $s['answer'],
+                        $votes,
+                        $percentage,
+                        (int) $s['correctAnswer']
+                        
                     ];
                 }
                 $results['rounds'][] = $ratingsResult;
-                $nrOfResponses += count($ratingsResult['results']);
-            }        
-            // $results['rounds'] = $messages;
+            }
+            $results['votesAndPercentages'] = $votesAndPercentages;
             $results['nrOfResponses'] = $nrOfResponses;
             return json_encode(['content' => $results]);                
         }

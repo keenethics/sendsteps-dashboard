@@ -125,4 +125,29 @@ class Presentations_Model extends Model {
         $data = $this->query($query, $params);
         return $data;
     }
+    
+    public function getVotesWithPercentages($presentationId){
+        $voteIds = array(2250597,2250598, 2250599);
+        $query = "SELECT 
+            COUNT(lvm.voteId) AS votes, 
+            lvm.voteId, 
+            lvm.text,
+            (SELECT ROUND(COUNT(lvm.voteId)/COUNT(t2.id), 2) FROM livevotemessages t2 WHERE t2.voteId = lvm.voteId) AS `percentage`
+            FROM livevotemessages lvm
+            LEFT JOIN votes v ON lvm.voteId = v.id
+            WHERE <v.presentationId> = :presentationId
+            GROUP BY lvm.voteId, lvm.text
+        ;";
+        $params['presentationId'] = $presentationId;
+        $results = $this->query($query, $params); 
+        $returned = array();
+        foreach ($results as $r){
+            $returned[$r['voteId'].'-'.$r['text']] = [
+                'votes' => $r['votes'],
+                'percentage' => $r['percentage'],
+            ];
+        }
+        return $returned;
+        
+    }
 }
