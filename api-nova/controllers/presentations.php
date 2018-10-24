@@ -2,7 +2,7 @@
 require_once __DIR__.'/../base/nova-api.php';
 
 class Presentations extends NovaAPI {
-    public function getOverview(){
+    public function getOverview() {
         $presentaionModel = $this->loadModel('presentations');
         $sessionId = $this->getUserSessionId();
         $results = $presentaionModel->getOverviewData($sessionId);
@@ -22,6 +22,7 @@ class Presentations extends NovaAPI {
             $presentaionModel = $this->loadModel('presentations');
             $record = $presentaionModel->findActiveById($id)[0];
             $results = array();
+            $nrOfResponses = 0;
             $parts = explode('\\', $record['name']);
             $results['presentationTitle'] = preg_replace('/\\.[^.\\s]{3,4}$/', '', end($parts));
             $results['presentationId'] = (int) $record['id'];
@@ -30,7 +31,6 @@ class Presentations extends NovaAPI {
             $results['nrOfActiveAttendees'] = (int) $presentaionModel->getParticipantNumbersByPresentationId($id);            
             
             // Check for open ended questions & populate rounds with the results
-            $nrOfResponses = 0;
             $results['rounds'] = $openEndedResult = array();
             $messagesFromDB = $presentaionModel->getMessagesByPresentationId($id);
             if (count($messagesFromDB) > 0){
@@ -85,7 +85,6 @@ class Presentations extends NovaAPI {
                         $votes,
                         $percentage,
                         (int) $s['correctAnswer']
-                        
                     ];
                 }
                 $results['rounds'][] = $ratingsResult;
@@ -94,8 +93,6 @@ class Presentations extends NovaAPI {
             $results['nrOfResponses'] = $nrOfResponses;
             return json_encode(['content' => $results]);                
         }
-        return false;        
-      
-        
+        return false;
     }
 }
