@@ -50,7 +50,8 @@ class Presentations extends NovaAPI {
                     $openEndedResult['results'][] = [
                         $m['text'],
                         $m['timestamp'],
-                        $m['status'] 
+                        $m['status'],
+                        $m['upvotes']
                     ];//This should have a final element with the message's upvote count
                 }
                 $results['rounds'][] = $openEndedResult;

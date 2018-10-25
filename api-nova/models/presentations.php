@@ -30,7 +30,6 @@ class Presentations_Model extends Model {
     }
     
     public function getParticipantNumbersBySessionId($sessionId) {
-        // $presentationIds = '('.implode( ",", $presentationIds ).')';
         $query = "SELECT 
                 a.id,
                 COUNT(DISTINCT a.participantId) as participantCount
@@ -67,7 +66,6 @@ class Presentations_Model extends Model {
     }
     
     public function getParticipantNumbersByPresentationId($presentationId) {
-        // $presentationIds = '('.implode( ",", $presentationIds ).')';
         $query = "SELECT 
                 COUNT(DISTINCT a.participantId) as participantCount
             FROM (
@@ -94,14 +92,15 @@ class Presentations_Model extends Model {
         $params['presentationId1'] = $presentationId;
         $params['presentationId2'] = $presentationId;
         $data = $this->query($query, $params)[0]['participantCount'];
-        // foreach($data as $row) {
-        //     $results[$row['id']] = $row['participantCount'];
-        // }
         return $data;
     }
     
     public function getMessagesByPresentationId($presentationId){
-        $query = "SELECT * 
+        $query = "SELECT 
+            mr.title, lmrm.status, lmrm.timestamp, lmrm.text, lmrm.messageRoundId,
+            (SELECT COUNT(mu.id) FROM `messageupvotes` mu 
+                WHERE mu.messageId = lmrm.id
+            ) AS upvotes
             FROM `messagerounds` mr
             LEFT JOIN `livemessageroundmessages` lmrm ON lmrm.messageRoundId = mr.id 
             WHERE <mr.presentationId> = :presentationId
