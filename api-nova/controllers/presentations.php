@@ -77,16 +77,18 @@ class Presentations extends NovaAPI {
                         $ratingsResult['title'] = $s['title']; // question title
                         $ratingsResult['labels'] = [0 => 'Answer', 1 => 'Options', 2 => 'Votes', 3 => 'Percentages', 4 => 'IsCorrect'];
                     }
-                    $votes = (int) $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['votes'];
-                    $percentage = $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['percentage'].'%';
-                    $nrOfResponses += $votes;
-                    $ratingsResult['results'][] = [
-                        $s['answerCode'],
-                        (int) $s['answer'],
-                        $votes,
-                        $percentage,
-                        (int) $s['correctAnswer']
-                    ];
+                    if (isset($votesAndPercentages[$s['id'].'-'.$s['answerCode']])){
+                        $votes = (int) $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['votes'];
+                        $percentage = $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['percentage'].'%';
+                        $nrOfResponses += $votes;
+                        $ratingsResult['results'][] = [
+                            $s['answerCode'],
+                            (int) $s['answer'],
+                            $votes,
+                            $percentage,
+                            (int) $s['correctAnswer']
+                        ];
+                    }
                 }
                 $results['rounds'][] = $ratingsResult;
             }

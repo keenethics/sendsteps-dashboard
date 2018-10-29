@@ -126,7 +126,7 @@ class Presentations_Model extends Model {
     }
     
     public function getVotesWithPercentages($presentationId){
-        $voteIds = array(2250597,2250598, 2250599);
+        // $voteIds = array(2250597,2250598, 2250599);
         $query = "SELECT 
             COUNT(lvm.voteId) AS votes, 
             lvm.voteId, 
