@@ -4,16 +4,18 @@ import loginReducer from './reducers/loginReducer';
 import registrationReducer from './reducers/registrationReducer';
 import authReducer from './reducers/authReducer';
 import messageFilterReducer from './pages/session-during/message-filter/reducers';
+import sessionResultsReducer from './pages/session-results/reducers.js'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 const rootReducer = combineReducers({
-    appReducer: appReducer,
-    apiReducer: apiReducer,
-    loginReducer: loginReducer,
-    registrationReducer: registrationReducer,
-    authReducer: authReducer,
-    messageFilterReducer
+    appReducer,
+    apiReducer,
+    loginReducer,
+    registrationReducer,
+    authReducer,
+    messageFilterReducer,
+    sessionResultsReducer
     // Other reducers here
 });
 
@@ -59,6 +61,9 @@ const initialState = {
         passwordConfirmError: '',
         termsAcceptedError: '',
         showPassword: false
+    },
+    sessionResultsReducer: {
+        selectedResultIds: []
     },
     messageFilterReducer: {
         selectedIncomingIds: [],

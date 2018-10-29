@@ -1,0 +1,69 @@
+import React, { Component } from 'react';
+import { Panel } from 'react-bootstrap';
+import MessageResult from './result-types/MessageResult';
+import VotesResult from './result-types/VotesResult';
+import ResultsToolbar from './ResultsToolbar';
+import { isValueInArray } from '../../../../scripts/arrayHelper';
+import { selectResult } from '../actions';
+import { connect } from 'react-redux';
+import './PresentationResults.scss';
+
+class PresentationResults extends Component {
+
+    onToggleSelect = (id) => {
+        console.log('un/selecting: ' + id);
+        this.props.dispatch(selectResult(id))
+    }
+
+    render() {
+        const { data, selectedResultIds } = this.props;
+        return (
+            <div>
+                <div className="row">
+                    <div className="col-md-3">
+                        <h3 className="question-title">Questions </h3>
+                    </div>
+                    <div className="col-md-9">
+                        <ResultsToolbar />
+                    </div>
+                </div>
+                {data.rounds && data.rounds.map((round, roundIndex) => {
+                    return (
+                        <Panel key={roundIndex} defaultExpanded={roundIndex === 0}>
+                            <Panel.Heading>
+                                <span>
+                                <input 
+                                    className="select-result"
+                                    checked={isValueInArray(round.id, selectedResultIds)} 
+                                    type="checkbox"
+                                    onClick={() => this.onToggleSelect(round.id)} 
+                                /> 
+                                </span>
+                                <Panel.Title toggle>
+                                    <strong>{round.title}</strong>
+                                <span className="pull-right">
+                                    <i className="fa fa-chevron-down"></i>
+                                </span>
+                                </Panel.Title>
+                            </Panel.Heading>
+                            <Panel.Collapse>
+                                <Panel.Body>
+                                    {round.type === "messages" && <MessageResult messageRound={round} />}
+                                    {round.type === "votes" && <VotesResult messageRound={round} />}
+                                </Panel.Body>
+                            </Panel.Collapse>
+                        </Panel>
+                    )
+                })}
+            </div>
+        );
+    }
+}
+
+export default connect(
+    (state) => {
+        return {
+            selectedResultIds: state.sessionResultsReducer.selectedResultIds
+        }
+    }
+) (PresentationResults);
