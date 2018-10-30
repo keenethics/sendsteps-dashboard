@@ -1,38 +1,101 @@
 import React, { Component } from 'react';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { connect } from 'react-redux';
+import { formatLabelsToKeyValuePairs } from '../../../../scripts/arrayHelper';
 import * as jsPDF from 'jspdf';
 
 class ResultsToolbar extends Component {
 
-    exportExcel = () => {
+    state = {
+        resultsGrouped: true,
+        resultsPerPerson: false,
 
+        pieChartResults: true,
+        barChartResults: false,
+        sideBarChart: false,
+
+        numericResults: true,
+        percentageResults: false
+    }
+
+    changeSideChart = () => {
+        this.setState({
+            sideBarChart: !this.state.sideBarChart
+        });
+    }
+
+    changeChartType = () => {
+        this.setState({
+            pieChartResults: this.state.barChartResults,
+            barChartResults: this.state.pieChartResults
+        });
+    }
+
+    changeResultsNumericType = () => {
+        this.setState({
+            numericResults: this.state.percentageResults,
+            percentageResults: this.state.numericResults
+        })
+    }
+
+    changeResultGroupType = () => {
+        this.setState({
+            resultsGrouped: this.state.resultsPerPerson,
+            resultsPerPerson: this.state.resultsGrouped
+        })
+    }
+
+    exportExcel = () => {
+        const results = this.getSelectedResults();
+    }
+
+    getSelectedResults() {
+        const { data, selectedResultIds } = this.props;
+        const { rounds } = data;
+        let resultsList = [];
+        selectedResultIds.forEach(selectedId => {
+            rounds.forEach(round => {
+                if(selectedId === round.id) {
+                    resultsList.push(formatLabelsToKeyValuePairs(round.labels, round.results));
+                }
+            })
+        })
+        return resultsList;
     }
 
     exportPDF = () => {
+        const results = this.getSelectedResults();
 
-        // @TODO Move this to separate component
+        console.log(results);
+
         const doc = new jsPDF();
-        const { data } = this.props;
 
-        doc.setFont('Roboto Slab');
+        // Create title page
         doc.setTextColor(0, 122, 194);
-        doc.setFontSize(24);
+        doc.setFontSize(20);
+        doc.setFont('Helvetica');
+        doc.text("Presentation Results", 30, 30);
 
-        doc.text(data.name, 20, 20);
+        doc.addPage();
 
         doc.setFontSize(16);
-        doc.text('StartTime: ' + this.getTime().startTime, 20, 30);
-        doc.text('EndTime: ' + this.getTime().endTime, 20, 40);
-        doc.save(data.name + '.pdf');
+        doc.save('test.pdf');
     }
 
     render() {
         const { selectedResultIds } = this.props;
+        const { 
+            resultsGrouped, 
+            resultsPerPerson, 
+            pieChartResults, 
+            barChartResults, 
+            sideBarChart, 
+            numericResults, 
+            percentageResults } = this.state;
 
         return (
-            <div className="btn-toolbar pull-right">
+            <div className="btn-toolbar pull-right result-options">
                 <TooltipNotification title="pie-chart" tooltip={selectedResultIds.length < 1 ? "Select some results to export" : "Export"} placement={"top"}>
                     <DropdownButton title={"Export (" + selectedResultIds.length + ")"} disabled={selectedResultIds.length < 1} id="bg-vertical-dropdown-3">
                         <MenuItem onClick={() => this.exportPDF()}>Export PDF (.pdf)</MenuItem>
@@ -41,41 +104,41 @@ class ResultsToolbar extends Component {
                 </TooltipNotification>
 
                 <div className="btn-group">
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeResultGroupType} active={resultsGrouped}>
                         Group Results
-                    </button>
-                    <button className="btn btn-default">
+                    </Button>
+                    <Button onClick={this.changeResultGroupType} active={resultsPerPerson}>
                         Results per Person
-                    </button>
+                    </Button>
                 </div>
                 <TooltipNotification title="pie-chart" tooltip={"Pie Chart"} placement={"top"}>
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeChartType} active={pieChartResults}>
                         <i className="fa fa-chart-pie"></i>
-                    </button>
+                    </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="bar-chart" tooltip={"Bar Chart"} placement={"top"}>
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeChartType} active={barChartResults} className="btn btn-default">
                         <i className="fa fa-chart-bar"></i>
-                    </button>
+                    </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="side-bar-chart" tooltip={"Side Bar Chart"} placement={"top"}>
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeSideChart} active={sideBarChart} className="btn btn-default">
                         <i className="fa fa-chart-bar side-chart"></i>
-                    </button>
+                    </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="percentage-result" tooltip={"Results as Percentage"} placement={"top"}>
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeResultsNumericType} active={percentageResults} className="btn btn-default">
                         <i className="fa fa-percent"></i>
-                    </button>
+                    </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="numeric-result" tooltip={"Numeric Results"} placement={"top"}>
-                    <button className="btn btn-default">
+                    <Button onClick={this.changeResultsNumericType} active={numericResults} className="btn btn-default">
                         <strong><small>...123</small></strong>
-                    </button>
+                    </Button>
                 </TooltipNotification>
             </div>
         );
@@ -85,7 +148,8 @@ class ResultsToolbar extends Component {
 export default connect(
     (state) => {
         return {
-            selectedResultIds: state.sessionResultsReducer.selectedResultIds
+            selectedResultIds: state.sessionResultsReducer.selectedResultIds,
+            data: state.apiReducer.data
         }
     }
 ) (ResultsToolbar);

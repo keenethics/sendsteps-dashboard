@@ -4,15 +4,26 @@ import MessageResult from './result-types/MessageResult';
 import VotesResult from './result-types/VotesResult';
 import ResultsToolbar from './ResultsToolbar';
 import { isValueInArray } from '../../../../scripts/arrayHelper';
+import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { selectResult } from '../actions';
 import { connect } from 'react-redux';
-import './PresentationResults.scss';
 
 class PresentationResults extends Component {
 
     onToggleSelect = (id) => {
-        console.log('un/selecting: ' + id);
-        this.props.dispatch(selectResult(id))
+        this.props.dispatch(selectResult(id));
+    }
+
+    // Select all results on mounting
+    componentDidMount() {
+        if(this.props.data) {
+            const { data } = this.props;
+            const { rounds } = data;
+            rounds.forEach(round => {
+                this.props.dispatch(selectResult(round.id));
+            })
+        }
+
     }
 
     render() {
@@ -32,12 +43,15 @@ class PresentationResults extends Component {
                         <Panel key={roundIndex} defaultExpanded={roundIndex === 0}>
                             <Panel.Heading>
                                 <span>
-                                <input 
-                                    className="select-result"
-                                    checked={isValueInArray(round.id, selectedResultIds)} 
-                                    type="checkbox"
-                                    onClick={() => this.onToggleSelect(round.id)} 
-                                /> 
+                                <TooltipNotification title={1} tooltip={"Select Result"} placement="top">
+                                    <input 
+                                        className="select-result"
+                                        checked={isValueInArray(round.id, selectedResultIds)} 
+                                        type="checkbox"
+                                        onClick={() => this.onToggleSelect(round.id)} 
+                                    /> 
+                                </TooltipNotification>
+                               
                                 </span>
                                 <Panel.Title toggle>
                                     <strong>{round.title}</strong>

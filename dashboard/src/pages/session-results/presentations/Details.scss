@@ -6,3 +6,26 @@
     float: left;
     margin-right: 10px !important;
 }
+
+.message-col {
+    word-break: break-word;
+    text-align: left;
+}
+
+.question-title {
+    margin-top: 0;
+}
+
+.table-header {
+    text-align: center;
+}
+
+.result-options {
+    padding-bottom: 20px;
+}
+
+.message-result {
+    td {
+        text-align: center !important;
+    }
+}

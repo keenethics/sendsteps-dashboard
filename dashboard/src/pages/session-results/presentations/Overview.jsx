@@ -21,7 +21,6 @@ class PresentationsOverview extends React.Component {
                     title={"Presentation Results Overview"} 
                     content={"Download the results of previous sessions. Decide to keep this information to yourself or to share it with your session attendees."} 
                 />
-                
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>

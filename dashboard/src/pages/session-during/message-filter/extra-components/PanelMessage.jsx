@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { setStarred } from '../actions';
-import './PanelMessage.scss';
 import { connect } from 'react-redux';
 
 class PanelMessage extends Component {
