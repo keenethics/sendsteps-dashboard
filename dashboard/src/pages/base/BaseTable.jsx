@@ -8,7 +8,6 @@ export const getNameFormatter = cell => {
     return <strong>{cell}</strong>
 }
 
-// make this pretty somehow
 export const getPhonenumberFormatter = cell => {
     return <span><code>{cell}</code></span>;
 }

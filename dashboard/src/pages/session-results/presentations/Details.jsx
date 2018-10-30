@@ -89,7 +89,7 @@ class PresentationDetails extends React.Component {
                         </div>
                     </Panel.Body>
                 </Panel>
-                <BottomSaveBar />
+                <BottomSaveBar noSave={true} />
             </div>
         );
     }

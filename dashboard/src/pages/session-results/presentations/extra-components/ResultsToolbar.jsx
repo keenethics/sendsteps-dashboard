@@ -4,6 +4,7 @@ import TooltipNotification from '../../../../components/common/TooltipNotificati
 import { connect } from 'react-redux';
 import { formatLabelsToKeyValuePairs } from '../../../../scripts/arrayHelper';
 import * as jsPDF from 'jspdf';
+import { toast } from 'react-toastify';
 
 class ResultsToolbar extends Component {
 
@@ -48,6 +49,7 @@ class ResultsToolbar extends Component {
 
     exportExcel = () => {
         const results = this.getSelectedResults();
+        toast("This doesn't really do anything yet.")
     }
 
     getSelectedResults() {
@@ -66,21 +68,20 @@ class ResultsToolbar extends Component {
 
     exportPDF = () => {
         const results = this.getSelectedResults();
-
-        console.log(results);
-
         const doc = new jsPDF();
-
         // Create title page
         doc.setTextColor(0, 122, 194);
         doc.setFontSize(20);
         doc.setFont('Helvetica');
         doc.text("Presentation Results", 30, 30);
-
-        doc.addPage();
-
-        doc.setFontSize(16);
-        doc.save('test.pdf');
+        // For each round/question or something. do this:
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.text("Something", 20, 20)
+            doc.save('someResults.pdf');
+        
+        
+        toast("PDF exported as someResults.pdf!");
     }
 
     render() {
