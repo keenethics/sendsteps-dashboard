@@ -5,7 +5,7 @@ import VotesResult from './result-types/VotesResult';
 import ResultsToolbar from './ResultsToolbar';
 import { isValueInArray } from '../../../../scripts/arrayHelper';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
-import { selectResult } from '../actions';
+import { selectResult, clearSelects } from '../actions';
 import { connect } from 'react-redux';
 
 class PresentationResults extends Component {
@@ -16,14 +16,14 @@ class PresentationResults extends Component {
 
     // Select all results on mounting
     componentDidMount() {
+        this.props.dispatch(clearSelects());
         if(this.props.data) {
             const { data } = this.props;
             const { rounds } = data;
-            rounds.forEach(round => {
+            rounds && rounds.forEach(round => {
                 this.props.dispatch(selectResult(round.id));
             })
         }
-
     }
 
     render() {
@@ -43,21 +43,20 @@ class PresentationResults extends Component {
                         <Panel key={roundIndex} defaultExpanded={roundIndex === 0}>
                             <Panel.Heading>
                                 <span>
-                                <TooltipNotification title={1} tooltip={"Select Result"} placement="top">
-                                    <input 
-                                        className="select-result"
-                                        checked={isValueInArray(round.id, selectedResultIds)} 
-                                        type="checkbox"
-                                        onClick={() => this.onToggleSelect(round.id)} 
-                                    /> 
-                                </TooltipNotification>
-                               
+                                    <TooltipNotification title={1} tooltip={"Select Result"} placement="top">
+                                        <input 
+                                            className="select-result"
+                                            checked={isValueInArray(round.id, selectedResultIds)} 
+                                            type="checkbox"
+                                            onChange={() => this.onToggleSelect(round.id)} 
+                                        /> 
+                                    </TooltipNotification>
                                 </span>
                                 <Panel.Title toggle>
                                     <strong>{round.title}</strong>
-                                <span className="pull-right">
-                                    <i className="fa fa-chevron-down"></i>
-                                </span>
+                                    <span className="pull-right">
+                                        <i className="fa fa-chevron-down"></i>
+                                    </span>
                                 </Panel.Title>
                             </Panel.Heading>
                             <Panel.Collapse>

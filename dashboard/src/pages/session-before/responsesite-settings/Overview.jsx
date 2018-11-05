@@ -10,7 +10,7 @@ import HeaderPanel from "../../../components/common/HeaderPanel";
 import InputField from "../../../components/common/InputField";
 
 
-class Settings extends React.Component {
+class SettingsOverview extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -247,4 +247,4 @@ export default connect(
             dataHash: state.apiReducer.dataHash
         }
     }
-)(Settings);
+)(SettingsOverview);

@@ -6,7 +6,6 @@ import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import PresentationResults from "./extra-components/PresentationResults";
-import './Details.scss';
 class PresentationDetails extends React.Component {
     componentDidMount() {
         let apiParams = JSON.stringify({
@@ -36,10 +35,9 @@ class PresentationDetails extends React.Component {
                 <HeaderPanel 
                     title={"Presentation results"}
                 />
+                <div className="container-fluid">
                 <Panel>
                     <Panel.Body>
-                        <div className="container-fluid">
-                            <div className="row">
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
@@ -85,11 +83,10 @@ class PresentationDetails extends React.Component {
                                         {data && <PresentationResults data={data} />}
                                     </div>                                
                                 </div>
-                            </div>
-                        </div>
-                    </Panel.Body>
-                </Panel>
+                        </Panel.Body>
+                    </Panel>
                 <BottomSaveBar noSave={true} />
+                </div>
             </div>
         );
     }

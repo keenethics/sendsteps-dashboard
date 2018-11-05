@@ -11,7 +11,7 @@ import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 
-class Settings extends React.Component {
+class LayoutOverview extends React.Component {
 
     componentDidMount() {
         let apiController = 'responsesite';
@@ -374,4 +374,4 @@ export default connect(
             currentUser: state.authReducer.currentUser
         }
     }
-)(Settings);
+)(LayoutOverview);

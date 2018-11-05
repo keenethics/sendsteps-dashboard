@@ -9,7 +9,7 @@ import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 
-class Details extends React.Component {
+class ResponseOverview extends React.Component {
 
     componentDidMount() {
         let apiController = 'responsesite';
@@ -131,4 +131,4 @@ class Details extends React.Component {
     }
 }
 
-export default connect() (Details);
+export default connect() (ResponseOverview);

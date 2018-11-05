@@ -4,7 +4,7 @@ import loginReducer from './reducers/loginReducer';
 import registrationReducer from './reducers/registrationReducer';
 import authReducer from './reducers/authReducer';
 import messageFilterReducer from './pages/session-during/message-filter/reducers';
-import sessionResultsReducer from './pages/session-results/reducers.js'
+import sessionResultsReducer from './pages/session-results/presentations/reducers'
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 

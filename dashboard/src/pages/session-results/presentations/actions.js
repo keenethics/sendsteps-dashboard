@@ -4,3 +4,15 @@ export function selectResult(resultId) {
         resultId
     }
 }
+
+export function filterEmptyResults() {
+    return {
+        type: 'FILTER_EMPTY_RESULTS',
+    }
+}
+
+export function clearSelects() {
+    return {
+        type: 'CLEAR_SELECTS'
+    }
+}

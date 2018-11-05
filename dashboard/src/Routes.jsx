@@ -10,12 +10,12 @@ import AboutDashboard from "./pages/about/dashboard";
 import AboutHowItWorks from "./pages/about/howitworks";
 import AboutSendsteps from "./pages/about/sendsteps";
 // Before Session
-import ResponsesiteLayout from "./pages/session-before/responsesite-layout/Details";
-import ResponsesiteSettings from "./pages/session-before/responsesite-settings/Details";
-import AudienceDetails from "./pages/session-before/audience-identification/Details";
+import ResponsesiteLayout from "./pages/session-before/responsesite-layout/Overview";
+import ResponsesiteSettings from "./pages/session-before/responsesite-settings/Overview";
+import AudienceDetails from "./pages/session-before/audience-identification/Overview";
 import SurveyOverview from "./pages/session-before/surveys/Overview";
 import SurveyDetails from "./pages/session-before/surveys/Details";
-import ResponsesiteDetails from "./pages/session-before/response-website/Details";
+import ResponsesiteDetails from "./pages/session-before/response-website/Overview";
 // During Session
 import MessageFilterLayout from './pages/session-during/message-filter/Overview';
 // After Session
@@ -33,8 +33,7 @@ import DeleteUsersOverview from "./pages/superadmin/delete-users/Overview";
 import SessionOverview from "./pages/superadmin/sessions/Overview";
 import SessionDetails from "./pages/superadmin/sessions/Details";
 //User & Dropdown Menu
-import UserProfile from "./pages/user/Profile";
-
+import UserOverview from "./pages/user/Overview";
 
 class Routes extends React.Component {
 
@@ -68,7 +67,7 @@ class Routes extends React.Component {
 						<Route path="/about/dashboard" exact component={AboutDashboard} />
 						<Route path="/about/howitworks" exact component={AboutHowItWorks} />
 						<Route path="/about/sendsteps" exact component={AboutSendsteps} />
-						<Route path="/user/edit-profile" exact component={UserProfile} />
+						<Route path="/user/edit-profile" exact component={UserOverview} />
 						<Route component={PageNotFound} />
 					</Switch>
 				</BreadcrumbsProvider>

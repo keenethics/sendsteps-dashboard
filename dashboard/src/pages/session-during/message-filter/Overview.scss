@@ -27,6 +27,7 @@
         width: 100%;
         border-collapse: collapse;
         border-spacing: 0px;
+        table-layout: auto;
 
         .list-group {
             margin-bottom: 0;
@@ -55,19 +56,29 @@
     user-drag: none;
     div {
         display: table-cell;
-        padding: 10px;
+        vertical-align: middle;
     }
     .msg-text {
+        padding: 10px;
         text-align: left !important;
-        vertical-align: top;
+        vertical-align: middle;
+        word-break: break-all;
+        width: 100% !important;
     }
     .upvotes {
-        max-width: 55px;
+        padding: 10px !important;
         text-align: center;
         border-right: 1px solid #dddddd;
+
+        span {
+            width: 50px !important;
+            margin: 0px;
+            display: inline-block;
+        }
     }
-    .counter, .starred, .select, {
-        max-width: 40px;
+    .counter, .starred, .select, .upvotes {
+        width: 40px;
+        padding: 10px 16px;
         text-align: center;
         border-right: 1px solid #dddddd;
     }

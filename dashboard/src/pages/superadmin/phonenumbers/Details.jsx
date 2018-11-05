@@ -8,7 +8,6 @@ import InputField from "../../../components/common/InputField";
 import ButtonSwitch from "../../../components/common/ButtonSwitch";
 import { toast } from 'react-toastify';
 import HeaderPanel from "../../../components/common/HeaderPanel";
-import './Details.scss';
 
 class PhonenumberDetails extends React.Component {
 
@@ -20,11 +19,11 @@ class PhonenumberDetails extends React.Component {
     }
 
     addKeyword = () => {
-        console.log('not implemented yet')
+        toast('not implemented yet');
     }
 
     setKeyword = () => {
-        console.log('not implemented yet')
+        toast('not implemented yet');
     }
 
     componentDidMount() {

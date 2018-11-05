@@ -1,4 +1,4 @@
-function getMessageByProperty(messages, property, value) {
+export function getMessageByProperty(messages, property, value) {
     let listWithProperty = [];
     messages.forEach(message => {
         message[property] === value && listWithProperty.push(message);

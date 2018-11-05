@@ -16,6 +16,10 @@ export const getCountryFormatter = (cell, row) => {
     return <span>{cell} ({row.countryIsoCode})</span>;
 }
 
+export const getLabelFormatter = (cell, row) => {
+    return <span className="label label-primary">{cell}</span>
+}
+
 export const getTrueFalseFormatter = cell => {
     if(cell === "1") {
         return <button disabled={true} className="tf-button btn btn-sm btn-danger"><i className="fa fa-times"></i> No </button>;
@@ -77,9 +81,8 @@ export const getUpvoteColumn = upvoteCount => {
 
 export const getDateFormatter = time => {
     let startTime = moment(time, 'YYYY-MM-DD HH:mm:ss')
-    return <span>
-        <TooltipNotification title={1} placement="top" tooltip={<span><i className="fas fa-clock"></i> {startTime.fromNow()}</span>} >
-            <span>
+    return <TooltipNotification title={1} placement="top" tooltip={<span><i className="fas fa-clock"></i> {startTime.fromNow()}</span>} >
+            <span className="date-col">
                 <div className="btn btn-static date">
                     <i className="far fa-calendar-alt"></i> {startTime.format("dddd, MMMM Do YYYY")} 
                 </div>
@@ -87,8 +90,7 @@ export const getDateFormatter = time => {
                     <i className="far fa-clock"></i> {startTime.format("h:mm:ss a")} 
                 </div>
             </span>
-        </TooltipNotification>
-    </span>;
+    </TooltipNotification>
 }
 
 export const getExcelBtn = data => {

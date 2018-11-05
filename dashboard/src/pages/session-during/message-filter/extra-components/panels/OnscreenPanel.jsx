@@ -4,7 +4,7 @@ import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
 import { toggleSelectOnscreen, sendToAppeared, clearOnscreenSelect } from '../../actions';
-import { isMessageSelected, getOnscreenMessages } from '../../../../../scripts/messageHelper';
+import { isMessageSelected, getOnscreenMessages, getMessageByProperty } from '../../../../../scripts/messageHelper';
 
 class OnscreenPanel extends Component {
 
@@ -25,7 +25,7 @@ class OnscreenPanel extends Component {
             <Panel bsStyle="success">
                 <Panel.Heading>
                     <h4>
-                        <i className="filter-help fa fa-info-circle"></i> Messages live on screen 
+                        <i className="filter-help fa fa-info-circle"></i> Messages live on screen ({getMessageByProperty(messages, 'status', 'shown').length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>

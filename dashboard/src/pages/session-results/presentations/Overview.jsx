@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import './Overview.scss';
 
 class PresentationsOverview extends React.Component {
    

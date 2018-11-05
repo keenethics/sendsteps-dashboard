@@ -36,6 +36,16 @@ class MessageResult extends Component {
         }
     }
 
+    hasUpvotes = messageRound => {
+
+        let upvoteCount = 0;
+        messageRound.results && messageRound.results.forEach(result => {
+            upvoteCount += parseInt(result[3], 10);
+            console.log(result[3]);
+        }) 
+        return upvoteCount > 0;
+    }
+
     render() {
         
         const { messageRound } = this.props;
@@ -44,7 +54,9 @@ class MessageResult extends Component {
             <div>
                 <BootstrapTable search keyField='id' className="message-result" pagination data={formatLabelsToKeyValuePairs(messageRound.labels, messageRound.results)} options={this.getOptions()}>
                     {messageRound.labels && messageRound.labels.map((label, index) => {
-                        return this.getTableHeader(label, index);
+                        if(index !== 3 || this.hasUpvotes(messageRound)) {
+                            return this.getTableHeader(label, index);
+                        }
                     })}
                 </BootstrapTable>
             </div>

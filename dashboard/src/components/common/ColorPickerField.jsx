@@ -1,23 +1,33 @@
 import React, { Component } from 'react';
 import TooltipNotification from './TooltipNotification';
+import ColorPickerModal from './ColorPickerModal';
+import './ColorPickerField.scss';
 
 class ColorPickerField extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            modalOpen: false
-        }
+    state = {
+        modalOpen: false,
+        color: this.props.color
     }
 
-    toggleModal() {
+    toggleColorPicker = () => {
         // @TODO Dispatch this
-        this.setState({modalOpen: !this.state.modalOpen})
+        this.setState({modalOpen: !this.state.modalOpen});
+    }
+
+    onChange = color => {
+        console.log(color)
+        this.setState({color: color.hex});
+    }
+
+    changeDirect = color => {
+        this.setState({color})
     }
 
     render() {
 
-        const { labelText, color, infoContent, onChange } = this.props;
+        const { labelText, infoContent } = this.props;
+        const { modalOpen, color } = this.state;
 
         return (
             <div>
@@ -31,21 +41,21 @@ class ColorPickerField extends Component {
                     </label>
                     <div className="input-group">
                     <TooltipNotification title="Colorpicker" placement={"top"} tooltip={"Edit Color"}>
-                        <span onClick={this.toggleModal.bind(this)} className="input-group-addon">
+                        <span onClick={this.toggleColorPicker} className="input-group-addon">
                             <i className="fa fa-paint-brush"></i>
                         </span>
                     </TooltipNotification>
-                        <input className="form-control" value={color} onChange={onChange} placeholder="#000000" />
+                        <input className="form-control" value={color} onChange={this.changeDirect} placeholder="#000000" />
 
                     <TooltipNotification title="Colorpicker" placement={"top"} tooltip={color || "#000000"}>
-                        <span className="input-group-addon">
-                            <i className="fa fa-circle" style={{color: color || "#000000"}}></i>
+                        <span onClick={this.toggleColorPicker} className="input-group-addon">
+                            <i className="fa fa-square" style={{color: color || "#000000"}}></i>
                         </span>
                     </TooltipNotification>
                     </div>
                 </div>
+                <ColorPickerModal toggle={this.toggleColorPicker} onChange={this.onChange} modalOpen={modalOpen} color={color || "#000000"} />
             </div>
-            
         )
     }
 }
