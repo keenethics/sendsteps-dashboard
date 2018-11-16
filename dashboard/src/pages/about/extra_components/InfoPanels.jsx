@@ -47,7 +47,7 @@ export const AddinDownloadPanel = () => {
 
 export const BlogPanel = () => {
     return (
-        <div className="col-md-4">
+        <div className="col-md-6">
             <Panel>
                 <Panel.Body>
                     <h3>Read our blog!</h3>
@@ -63,7 +63,7 @@ export const BlogPanel = () => {
 
 export const QAPanel = () => {
     return (
-        <div className="col-md-4">
+        <div className="col-md-6">
             <Panel>
                 <Panel.Body>
                     <h3>Got a question?</h3>

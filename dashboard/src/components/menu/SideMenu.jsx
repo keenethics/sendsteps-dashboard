@@ -5,11 +5,12 @@ import SectionHeader from './SectionHeader';
 import MenuProfile from './MenuProfile';
 import { connect } from 'react-redux';
 import './SideMenu.scss';
+import { isSuperAdmin } from '../../scripts/roleHelper';
 
 class SideMenu extends Component {
     render() {
 
-        const { menuOpened } = this.props;
+        const { menuOpened, currentUser } = this.props;
         return (
             <div id="sideBar" className={"sideBar" + (menuOpened ? "" : " in")}>
                 <ListGroup>
@@ -101,39 +102,43 @@ class SideMenu extends Component {
                         faIconClass="fa-info-circle"
                         link="/about/sendsteps"
                     />
-                    <SectionHeader 
-                        headerText="Super Admin"
-                    />
-                    <MenuItem 
-                        menuOpened={menuOpened}
-                        menuText="Translations"
-                        faIconClass="fa-language"
-                        link="/superadmin/translations"
-                    />
-                    <MenuItem 
-                        menuOpened={menuOpened}
-                        menuText="Edit Dashboard Layout"
-                        faIconClass="fa-magic"
-                        link="/superadmin/edit-dashboard"
-                    />
-                    <MenuItem 
-                        menuOpened={menuOpened}
-                        menuText="Phonenumbers"
-                        faIconClass="fa-phone"
-                        link="/superadmin/phonenumbers"
-                    />
-                    <MenuItem 
-                        menuOpened={menuOpened}
-                        menuText="Session Overview"
-                        faIconClass="fa-envelope"
-                        link="/superadmin/sessions"
-                    />
-                    <MenuItem 
-                        menuOpened={menuOpened}
-                        menuText="Delete Users"
-                        faIconClass="fa-trash"
-                        link="/superadmin/delete-users"
-                    />
+
+                    {isSuperAdmin(currentUser) &&
+                        <span>
+                        <SectionHeader 
+                            headerText="Super Admin"
+                        />
+                        <MenuItem 
+                            menuOpened={menuOpened}
+                            menuText="Translations"
+                            faIconClass="fa-language"
+                            link="/superadmin/translations"
+                        />
+                        <MenuItem 
+                            menuOpened={menuOpened}
+                            menuText="Edit Dashboard Layout"
+                            faIconClass="fa-magic"
+                            link="/superadmin/edit-dashboard"
+                        />
+                        <MenuItem 
+                            menuOpened={menuOpened}
+                            menuText="Phonenumbers"
+                            faIconClass="fa-phone"
+                            link="/superadmin/phonenumbers"
+                        />
+                        <MenuItem 
+                            menuOpened={menuOpened}
+                            menuText="Session Overview"
+                            faIconClass="fa-envelope"
+                            link="/superadmin/sessions"
+                        />
+                        <MenuItem 
+                            menuOpened={menuOpened}
+                            menuText="Delete Users"
+                            faIconClass="fa-trash"
+                            link="/superadmin/delete-users"
+                        />
+                        </span>}
                 </ListGroup>
             </div>
         )
@@ -142,7 +147,8 @@ class SideMenu extends Component {
 export default connect(
     (state) => {
         return {
-            menuOpened: state.appReducer.menuOpened
+            menuOpened: state.appReducer.menuOpened,
+            currentUser: state.authReducer.currentUser
         }
     }
 ) (SideMenu);
