@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setAudienceData } from './actions';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
@@ -12,21 +13,21 @@ import DefaultModal from '../../../components/common/DefaultModal';
 
 class AudienceOverview extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            isAnonymous: false
-        }
+    state = {
+        isAnonymous: false
     }
 
     componentDidMount() {
-        let apiController = 'responsesite';
-        let apiFunction = 'getSiteList';
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+        this.props.dispatch(
+            fetchResult(
+                'responsesite', 
+                'getSiteList', 
+                JSON.stringify({
+                    id: this.props.match.params.id
+                }),
+                setAudienceData
+            )
+        );
     }
 
     toggleAnonymous(value) {
@@ -97,8 +98,7 @@ class AudienceOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
-            additionalData: state.apiReducer.additionalData,
+            audienceData: state.audienceReducer.audienceData,
             currentUser: state.authReducer.currentUser,
             modalOpen: state.appReducer.modalOpen
         }

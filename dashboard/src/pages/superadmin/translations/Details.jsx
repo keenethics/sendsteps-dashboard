@@ -1,27 +1,33 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setTranslationDetails } from './actions';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class TranslationDetails extends React.Component {
     componentDidMount() {
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
+        this.props.dispatch(
+            fetchResult(
+                'phonenumbers', 
+                'getDetails', 
+                JSON.stringify({
+                    id: this.props.match.params.id
+                }),
+                setTranslationDetails 
+            )
+        );
     }
     
     render() {
 
-        const { data, match } = this.props;
+        const { translationDetails } = this.props;
 
         return (
             <div>
                 <HeaderPanel 
-                    title={"Phonenumber (" + (data && data.displayText) + ")"}
-                    match={match}
+                    title={"Phonenumber (" + (translationDetails && translationDetails.displayText) + ")"}
                 />
                 <Panel>
                     <Panel.Body>
@@ -34,7 +40,7 @@ class TranslationDetails extends React.Component {
                                             <label className="control-label">Country</label>
                                             <div className="input-group">
                                                 <span className="input-group-addon"><i className="fa fa-globe"></i></span>
-                                                <input value={data && data.countryIsoCode} className="form-control" disabled="disabled" name='country' />
+                                                <input value={translationDetails && translationDetails.countryIsoCode} className="form-control" disabled="disabled" name='country' />
                                             </div>
                                         </div>
                                     </div>
@@ -44,7 +50,7 @@ class TranslationDetails extends React.Component {
                                             <label> Phonenumber </label>
                                             <div className="input-group">
                                                 <span className="input-group-addon"><i className="fa fa-sort-numeric-up"></i></span>
-                                                <input value={data && data.displayText} disabled="disabled" className="form-control" name='number' />
+                                                <input value={translationDetails && translationDetails.displayText} disabled="disabled" className="form-control" name='number' />
                                             </div>
                                         </div>
                                     </div>   
@@ -56,7 +62,7 @@ class TranslationDetails extends React.Component {
                                             <label className="control-label"> International </label>
                                             <div className="input-group">
                                                 <span className="input-group-addon"><i className="fa fa-globe"></i></span>
-                                                <input disabled="disabled" value={data && data.foreignerCompatible} className="form-control" name='international' />
+                                                <input disabled="disabled" value={translationDetails && translationDetails.foreignerCompatible} className="form-control" name='international' />
                                             </div>
                                         </div>
                                     </div>
@@ -66,7 +72,7 @@ class TranslationDetails extends React.Component {
                                             <label className="control-label"> Public </label>
                                             <div className="input-group">
                                                 <span className="input-group-addon"><i className="fa fa-users"></i></span>
-                                                <input disabled="disabled" value={data && data.public} className="form-control" name='public' />
+                                                <input disabled="disabled" value={translationDetails && translationDetails.public} className="form-control" name='public' />
                                             </div>
                                         </div>
                                     </div>
@@ -105,7 +111,7 @@ class TranslationDetails extends React.Component {
 } export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            translationDetails: state.translationReducer.translationDetails
         }
     }
 )(TranslationDetails);

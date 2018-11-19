@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearAdditionalData } from '../../../actions/api';
+import { fetchResult } from '../../../actions/api';
+import { setDashboardData, setDashboardSettings } from './actions';
 import { isValueInArray } from '../../../scripts/arrayHelper';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
@@ -20,29 +21,39 @@ class EditDashboardOverview extends React.Component {
     }
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('dashboards', 'getOverview'));
+        this.props.dispatch(
+            fetchResult(
+                'dashboards', 
+                'getOverview', 
+                {}, 
+                setDashboardData
+            )
+        );
     }
 
     fetchDashboardInfo(e) {
         const dashboardId = e.target.value;
-        if(dashboardId === -1) {
-            this.props.dispatch(clearAdditionalData({}))
-        }
-        if(this.props.data && isValueInArray(dashboardId, this.props.data.map((item) => item.id))) {
-            this.props.dispatch(fetchResult('dashboards', 'getDetails', JSON.stringify({dashboardId}), true));
+        if(this.props.dashboardSites && isValueInArray(dashboardId, this.props.dashboardSites.map((item) => item.id))) {
+            this.props.dispatch(
+                fetchResult(
+                    'dashboards', 
+                    'getDetails', 
+                    JSON.stringify({dashboardId}),
+                    setDashboardSettings
+                )
+            );
         }
     }
 
     render() {
         
-        const { data, additionalData, match } = this.props;
+        const { dashboardSites, dashboardSettings } = this.props;
         const { selectedDashboard } = this.state;
 
         return (
             <div>
                 <HeaderPanel 
                     title={"Edit Dashboard Overview"}
-                    match={match}
                     content={<span>
                         <p>If you want to overwrite settings for a branded dashboard you can select it from the list below and all known settings will be loaded. If you are not satisfied with the results you can revert to the previous branding styles (this option will be explained later). </p>
                         <p>If you would like to create an entirely new branded dashboard please select the bottom option Or create a new one.</p>
@@ -62,18 +73,18 @@ class EditDashboardOverview extends React.Component {
                             <label className="control-label">Select a Dashboard</label>
                             <select className="form-control" onChange={this.fetchDashboardInfo.bind(this)} value={selectedDashboard || null} >
                                 <option value={null} >Select...</option>
-                                {data && data.map(item => {
+                                {dashboardSites && dashboardSites.map(item => {
                                     return <option key={item.id} value={item.id}>{item.name}</option>
                                 })}
                                 <option value={-1}>Create New</option>
                             </select>
                         </div>
                         <hr/>
-                        {additionalData &&
-                        <EditDashboardDetails data={additionalData} />}
+                        {dashboardSettings &&
+                        <EditDashboardDetails data={dashboardSettings} />}
                     </Panel.Body>
                 </Panel>
-                {additionalData &&
+                {dashboardSettings &&
                 <BottomSaveBar />}
                 </div>
             </div>
@@ -85,8 +96,8 @@ class EditDashboardOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
-            additionalData: state.apiReducer.additionalData,
+            dashboardSites: state.dashboardLayoutReducer.dashboardSites,
+            dashboardSettings: state.dashboardLayoutReducer.dashboardSettings,
         }
     }
 )(EditDashboardOverview);

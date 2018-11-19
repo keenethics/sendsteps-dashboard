@@ -3,13 +3,14 @@ import "./../Style.css";
 import { connect } from 'react-redux'; 
 import LoadingView from './LoadingView';
 import ErrorView from './ErrorView';
-import MainView from './MainView';
+import PageNotFound from './PageNotFound';
 
 class View extends Component {
 
     render() {
 
         const { isLoading, error, children } = this.props;
+        console.log(children)
 
         if(isLoading) {
             return  <LoadingView />;
@@ -17,7 +18,10 @@ class View extends Component {
         if(!isLoading && error) {
             return <ErrorView />;
         } 
-        return <MainView>{children}</MainView>;
+        if(!children) {
+            return <PageNotFound />
+        }
+        return children;
     }
 } 
 export default connect(

@@ -1,12 +1,6 @@
 export default function apiReducer(state, action) {
 
     switch(action.type) {
-        case 'CLEAR_DATA': {
-            return {
-                ...state,
-                data: null
-            }
-        }
         case 'API_UPDATE_ERROR': {
             return {
                 ...state,
@@ -24,7 +18,6 @@ export default function apiReducer(state, action) {
         case 'API_FETCH_ERROR': {
             return {
                 ...state,
-                data: null,
                 isLoading: false,
                 error: action.error
             }
@@ -38,7 +31,6 @@ export default function apiReducer(state, action) {
         case 'API_FETCH_SUCCESS': {
             return {
                 ...state,
-                data: action.data,
                 error: null,
                 isLoading: false,
             }
@@ -60,20 +52,6 @@ export default function apiReducer(state, action) {
                 ...state,
                 isLoading: false,
                 error: null
-            }
-        }
-        case 'SET_DATA': {
-
-            let newData = {
-                ...state.data,
-                ...action.newData
-            }
-
-            console.log(newData);
-
-            return {
-                ...state,
-                data: newData
             }
         }
         default: {

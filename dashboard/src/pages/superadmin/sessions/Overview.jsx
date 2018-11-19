@@ -2,17 +2,18 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setSessionData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 class SessionsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('sessions', 'getOverview'));
+        this.props.dispatch(fetchResult('sessions', 'getOverview', {}, setSessionData));
     }
 
     render() {
         
-        const { data } = this.props;
+        const { sessionData } = this.props;
       
         return (
                 <div>
@@ -20,7 +21,7 @@ class SessionsOverview extends React.Component {
                     <div className="container-fluid">
                         <Panel>
                             <Panel.Body>
-                                    {data && <OverviewTable data={data} />}
+                                    {sessionData && <OverviewTable data={sessionData} />}
                             </Panel.Body>
                         </Panel>
                     </div>
@@ -32,7 +33,7 @@ class SessionsOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            sessionData: state.sessionOverviewReducer.sessionData,
         }
     }
 )(SessionsOverview);

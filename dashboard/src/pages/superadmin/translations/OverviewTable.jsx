@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { getOptions, getSort, getNameFormatter } from '../../base/BaseTable';
 import ExcelView from './extra_components/ExcelView';
 
-class OverviewTable extends Component {
+export default class OverviewTable extends Component {
 
     viewFormatter = (cell, row) => {
         return <Link to={'/superadmin/translations/details/' + row.keyId}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
@@ -48,4 +48,3 @@ class OverviewTable extends Component {
         )
     }
 }
-export default OverviewTable;

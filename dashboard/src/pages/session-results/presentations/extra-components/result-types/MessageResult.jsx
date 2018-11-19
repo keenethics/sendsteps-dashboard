@@ -57,6 +57,7 @@ class MessageResult extends Component {
                         if(index !== 3 || this.hasUpvotes(messageRound)) {
                             return this.getTableHeader(label, index);
                         }
+                        return null;
                     })}
                 </BootstrapTable>
             </div>

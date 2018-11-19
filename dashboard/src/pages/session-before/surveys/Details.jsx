@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setSurveyDetails } from './actions'; 
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
@@ -11,16 +12,23 @@ class SurveyDetails extends React.Component {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        this.props.dispatch(fetchResult('surveys', 'getDetails', apiParams));
+        this.props.dispatch(fetchResult('surveys', 'getDetails', apiParams, setSurveyDetails));
+    }
+
+    formatTime(time) {
+        const dateFormat = 'YYYY-MM-DD HH:mm:ss';
+        const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
+
+        const momented = moment(time, stringFormat);
+        const stringed = momented.format(dateFormat);
+
+        console.log(momented);
+        console.log(stringed);
+        return moment(time, dateFormat).format(stringFormat);
     }
     
     render() {
-        let { data } = this.props;
-
-        if(!data) {
-            return null;
-        }
-        console.log(data);
+        let { surveyDetails } = this.props;
 
             // active:"1"
             // automaticallyClosed:"0"
@@ -33,11 +41,7 @@ class SurveyDetails extends React.Component {
             // sessionRunId:"183"
             // startTime:"2018-02-06 14:31:27"
 
-            const dateFormat = 'YYYY-MM-DD HH:mm:ss';
-            const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
-
-            const startTime = moment(data.startTime, dateFormat);
-            const endTime = moment(data.endTime, dateFormat);
+        console.log(surveyDetails);
 
         return (
             <div>  
@@ -49,14 +53,14 @@ class SurveyDetails extends React.Component {
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
-                                        <h2>{data.name}</h2>
+                                        <h2>{surveyDetails && surveyDetails.name}</h2>
                                     </div>
                                     <div className="col-sm-6">
                                         <p><strong>Start time:  </strong></p> 
                                     </div>   
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
+                                        <p><i className="far fa-clock"></i> {surveyDetails && this.formatTime(surveyDetails.startTime)}</p> 
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -64,7 +68,7 @@ class SurveyDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
+                                        <p><i className="far fa-clock"></i> {surveyDetails && this.formatTime(surveyDetails.endTime)}</p>
                                     </div>  
                                 </div>       
                                 
@@ -88,7 +92,7 @@ class SurveyDetails extends React.Component {
 } export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            surveyDetails: state.surveyReducer.surveyDetails,
         }
     }
 )(SurveyDetails);

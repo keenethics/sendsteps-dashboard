@@ -6,12 +6,6 @@ import { toast } from 'react-toastify';
 
 let apiUrl = getConfigSetting('apiUrlNova');
 
-export function clearData() {
-    return {
-        type: 'CLEAR_DATA'
-    }
-}
-
 export function setNewData(newData) {
     return {
         type: 'SET_DATA',
@@ -89,23 +83,9 @@ export function simulateLoading(isLoading) {
     }
 }
 
-export function apiFetchSuccess(data) {
+export function apiFetchSuccess() {
     return {
         type: 'API_FETCH_SUCCESS',
-        data
-    }
-}
-
-export function apiFetchSuccessAdditional(additionalData) {
-    return {
-        type: 'API_FETCH_ADDITIONAL_SUCCESS',
-        additionalData
-    }
-}
-
-export function clearAdditionalData() {
-    return {
-        type: 'CLEAR_ADDITIONAL_DATA',
     }
 }
 
@@ -115,7 +95,7 @@ export function clearErrors() {
     }
 }
 
-export function fetchResult(controller = '', functionName = '', apiParam = '', additional = false) {
+export function fetchResult(controller = '', functionName = '', apiParam = '', callBack = null) {
     
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
     
@@ -135,7 +115,10 @@ export function fetchResult(controller = '', functionName = '', apiParam = '', a
                     } else {
                         // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
                         // if neither of these are available, don't let the user login and dispatch an error
-                        dispatch(additional ? apiFetchSuccessAdditional(result.content) : apiFetchSuccess(result.content));  
+                        dispatch(apiFetchSuccess());
+                        if(typeof callBack === "function") {
+                            dispatch(callBack(result.content));
+                        }
                     }
                 } catch (error) {
                     dispatch(apiFetchError(error));

@@ -11,6 +11,12 @@ export default function messageFilterReducer(state = {}, action) {
                 messageGroups: updatedGroups
             }
         }
+        case 'SET_DATA': {
+            return {
+                ...state,
+                messages: action.data
+            }
+        }
         case 'UPDATE_GROUPS': {
             return {
                 ...state,

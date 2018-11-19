@@ -16,3 +16,17 @@ export function clearSelects() {
         type: 'CLEAR_SELECTS'
     }
 }
+
+export function setPresentationData(data) {
+    return {
+        type: 'SET_DATA',
+        data
+    }
+}
+
+export function setPresentationDetails(details) {
+    return {
+        type: 'SET_DETAILS',
+        details
+    }
+}

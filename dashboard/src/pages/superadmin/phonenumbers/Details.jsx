@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult, updateAPI } from '../../../actions/api';
 import { setField } from '../../../actions/app';
+import { setPhonenumber, setKeywords } from './actions';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import { Panel } from 'react-bootstrap';
 import InputField from "../../../components/common/InputField";
@@ -27,15 +28,45 @@ class PhonenumberDetails extends React.Component {
     }
 
     componentDidMount() {
-        let apiParams = JSON.stringify({id: this.props.match.params.id});
-        this.props.dispatch(fetchResult('phonenumbers', 'getDetails', apiParams));
-        this.props.dispatch(fetchResult('phonenumbers', 'getKeywords', apiParams, true));
+
+        let apiParams = JSON.stringify({
+            id: this.props.match.params.id
+        });
+
+        this.props.dispatch(
+            fetchResult(
+                'phonenumbers', 
+                'getDetails', 
+                apiParams, 
+                setPhonenumber
+            )
+        );
+
+        this.props.dispatch(
+            fetchResult(
+                'phonenumbers', 
+                'getKeywords', 
+                apiParams,
+                setKeywords
+            )
+        );
     }
 
     savePhonenumber() {
-        const { data } = this.props;
-        let apiParams = JSON.stringify({id: data.id, fields : data});
-        this.props.dispatch(updateAPI('phonenumbers', 'updateDetails', apiParams));
+        const { selectedPhonenumber } = this.props;
+
+        let apiParams = JSON.stringify({
+            id: selectedPhonenumber.id, 
+            fields: selectedPhonenumber
+        });
+        
+        this.props.dispatch(
+            updateAPI(
+                'phonenumbers', 
+                'updateDetails', 
+                apiParams
+            )
+        );
     }
 
     openToast() {
@@ -44,15 +75,15 @@ class PhonenumberDetails extends React.Component {
     
     render() {
 
-        const { data, additionalData } = this.props;
+        const { selectedPhonenumber, phonenumberKeywords } = this.props;
         const { newKeyword } = this.state;
 
         console.log(newKeyword);
 
         // Requires api adjustment, might be able to change later @TODO
-        return data &&
+        return (
             <div>
-                <HeaderPanel title={"Phonenumber (" + data.displayText + ")"} />
+                <HeaderPanel title={"Phonenumber (" + (selectedPhonenumber && selectedPhonenumber.displayText) + ")"} />
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
@@ -61,7 +92,7 @@ class PhonenumberDetails extends React.Component {
                                     <InputField 
                                         onChange={setField.bind(this, 'countryIsoCode')}
                                         labelText={"Country"}
-                                        value={data.countryIsoCode}
+                                        value={selectedPhonenumber && selectedPhonenumber.countryIsoCode}
                                         leftFaIcon={"globe"}
                                     />
                                 </div>
@@ -70,7 +101,7 @@ class PhonenumberDetails extends React.Component {
                                     <InputField 
                                         onChange={setField.bind(this, 'displayText')}
                                         labelText={"Phonenumber"}
-                                        value={data.displayText}
+                                        value={selectedPhonenumber && selectedPhonenumber.displayText}
                                         leftFaIcon={"sort-numeric-up"}
                                     />
                                 </div>   
@@ -80,14 +111,14 @@ class PhonenumberDetails extends React.Component {
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">International</label>
-                                        <ButtonSwitch onChange={setField.bind(this, 'foreignerCompatible')} selected={data.foreignerCompatible} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'foreignerCompatible')} selected={selectedPhonenumber && selectedPhonenumber.foreignerCompatible} />
                                     </div>
                                 </div>
 
                                 <div className="col-sm-6">
                                     <div className="form-group">
                                         <label className="control-label">Public</label>
-                                        <ButtonSwitch onChange={setField.bind(this, 'public')} selected={data.public} />
+                                        <ButtonSwitch onChange={setField.bind(this, 'public')} selected={selectedPhonenumber && selectedPhonenumber.public} />
                                     </div>
                                 </div>
                             </div>
@@ -104,10 +135,10 @@ class PhonenumberDetails extends React.Component {
                                             </div> 
                                         </div>
                                     </div>
-                                    {additionalData && 
+                                    {phonenumberKeywords && 
                                     <div className="form-group">
                                         <ul className="list-group keyword-list">
-                                            {additionalData.map(keyword => {
+                                            {phonenumberKeywords.map(keyword => {
                                                 return (<p>
                                                     <li className="list-group-item">
                                                         <strong>{keyword.keyword}</strong>
@@ -135,13 +166,14 @@ class PhonenumberDetails extends React.Component {
                     <BottomSaveBar onSave={this.savePhonenumber.bind(this)}/>
                 </div>
             </div>
+        )
     }
 } 
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
-            additionalData: state.apiReducer.additionalData
+            selectedPhonenumber: state.phonenumberReducer.selectedPhonenumber,
+            phonenumberKeywords: state.phonenumberReducer.phonenumberKeywords
         }
     }
 )(PhonenumberDetails);

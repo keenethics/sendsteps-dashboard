@@ -48,7 +48,7 @@ class ResultsToolbar extends Component {
     }
 
     exportExcel = () => {
-        const results = this.getSelectedResults();
+        // const results = this.getSelectedResults();
         toast("This doesn't really do anything yet.")
     }
 
@@ -67,7 +67,7 @@ class ResultsToolbar extends Component {
     }
 
     exportPDF = () => {
-        const results = this.getSelectedResults();
+        // const results = this.getSelectedResults();
         const doc = new jsPDF();
         // Create title page
         doc.setTextColor(0, 122, 194);
@@ -150,7 +150,6 @@ export default connect(
     (state) => {
         return {
             selectedResultIds: state.sessionResultsReducer.selectedResultIds,
-            data: state.apiReducer.data
         }
     }
 ) (ResultsToolbar);

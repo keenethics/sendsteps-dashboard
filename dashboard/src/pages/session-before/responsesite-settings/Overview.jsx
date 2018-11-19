@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult, updateAPI } from '../../../actions/api';
 import { setField } from '../../../actions/app';
+import { setResponseSiteSettings } from './actions';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
@@ -22,34 +23,32 @@ class SettingsOverview extends React.Component {
     
     componentDidMount() {
         let apiParams = JSON.stringify({id: this.props.match.params.id});
-        this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams));
+        this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams, setResponseSiteSettings));
     }
     
     saveResponseSiteSettings() {
-        const { data } = this.props;
-        let sentData = {
-            internetaddressoverwrite: data.internetaddressoverwrite,
-            internetselected: data.internetselected,
-            phonenumberCountryisocode: data.phonenumberCountryisocode,
-            phonenumberForeignerCompatible: data.phonenumberForeignerCompatible,
-            phonenumberId: data.phonenumberId,
-            textmessagingkeyword: data.textmessagingkeyword,
-            textmessagingselected: data.textmessagingselected
+        const { settings } = this.props;
+        let sentsettings = {
+            internetaddressoverwrite: settings.internetaddressoverwrite,
+            internetselected: settings.internetselected,
+            phonenumberCountryisocode: settings.phonenumberCountryisocode,
+            phonenumberForeignerCompatible: settings.phonenumberForeignerCompatible,
+            phonenumberId: settings.phonenumberId,
+            textmessagingkeyword: settings.textmessagingkeyword,
+            textmessagingselected: settings.textmessagingselected
         };
-        let apiParams = JSON.stringify({fields : sentData});
-        console.log(sentData);
+        let apiParams = JSON.stringify({fields : sentsettings});
+        console.log(sentsettings);
         this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
     }
 
     render() {
 
-        let { data, match } = this.props;
-        // const { data, match } = this.props;
+        const { settings } = this.props;
 
-        return data && (
+        return (
             <div>
                 <HeaderPanel 
-                    match={match}
                     title={"Response Website Settings"}
                     content={<p>
                         On this page you can edit your session details, 
@@ -90,7 +89,7 @@ class SettingsOverview extends React.Component {
                                                             <InputField 
                                                                 onChange={setField.bind(this, 'textmessagingkeyword')}
                                                                 // labelText={"Country"}
-                                                                value={data && data.textmessagingkeyword}
+                                                                value={settings && settings.textmessagingkeyword}
                                                                 leftFaIcon={"barcode"}
                                                             />
                                                         </div>
@@ -112,7 +111,7 @@ class SettingsOverview extends React.Component {
                                                     <div className="col-sm-6">
                                                         <div className="col-sm-6">
                                                             <div className="form-group">
-                                                                <ButtonSwitch onChange={setField.bind(this, 'responseWebsiteEnabled')} selected={data.responseWebsiteEnabled} />
+                                                                <ButtonSwitch onChange={setField.bind(this, 'responseWebsiteEnabled')} selected={settings && settings.responseWebsiteEnabled} />
                                                             </div>
                                                         </div>
                                                     </div>
@@ -135,7 +134,7 @@ class SettingsOverview extends React.Component {
                                                             <span className="input-group-addon">
                                                                 <i className="fa fa-link"></i>
                                                             </span>
-                                                            <input type="text" value={data.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                                            <input type="text" value={settings && settings.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </div>}
@@ -153,7 +152,7 @@ class SettingsOverview extends React.Component {
                                                         </TooltipNotification>
                                                     </label>
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch onChange={setField.bind(this, 'txtSmsEnabled')} selected={data.txtSmsEnabled} />
+                                                        <ButtonSwitch onChange={setField.bind(this, 'txtSmsEnabled')} selected={settings && settings.txtSmsEnabled} />
                                                     </div>
                                                 </div>
 
@@ -177,7 +176,7 @@ class SettingsOverview extends React.Component {
                                                             <div className="input-group" style={{paddingLeft:"15px"}}>
                                                                 <InputField 
                                                                     onChange={setField.bind(this, 'phonenumberCountryisocode')}
-                                                                    value={data.phonenumberCountryisocode}
+                                                                    value={settings && settings.phonenumberCountryisocode}
                                                                     leftFaIcon={"globe"}
                                                                 />
                                                             </div>
@@ -196,7 +195,7 @@ class SettingsOverview extends React.Component {
                                                         </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={setField.bind(this, 'internationalAudience')} selected={data.internationalAudience} />
+                                                            <ButtonSwitch onChange={setField.bind(this, 'internationalAudience')} selected={settings && settings.internationalAudience} />
                                                         </div>
                                                     </div>
 
@@ -216,7 +215,7 @@ class SettingsOverview extends React.Component {
                                                             <div className="input-group" style={{paddingLeft:"15px"}}>
                                                                 <InputField 
                                                                     onChange={setField.bind(this, 'phonenumberId')}
-                                                                    value={data.phonenumberId}
+                                                                    value={settings && settings.phonenumberId}
                                                                     leftFaIcon={"phone"}
                                                                     // className="form-control input-lg"
                                                                 />
@@ -243,8 +242,7 @@ class SettingsOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
-            dataHash: state.apiReducer.dataHash
+            settings: state.responseSettingsReducer.settings,
         }
     }
 )(SettingsOverview);

@@ -3,7 +3,7 @@
 const roleTypes = {
     superAdmin: 'admin',
     admin: 'admin',
-    guest: 'guest'
+    user: 'user'
 }
 
 export function isSuperAdmin(currentUser) {
@@ -15,5 +15,5 @@ export function isAdmin(currentUser) {
 }
 
 export function isGuest(currentUser) {
-    return currentUser && currentUser.userType && currentUser.userType === roleTypes.guest;
+    return currentUser && currentUser.userType && currentUser.userType === roleTypes.user;
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setPresentationDetails } from './actions';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../../components/common/HeaderPanel";
@@ -11,7 +12,12 @@ class PresentationDetails extends React.Component {
         let apiParams = JSON.stringify({
             id: this.props.match.params.id
         });
-        this.props.dispatch(fetchResult('presentations', 'getDetails', apiParams));
+        this.props.dispatch(
+            fetchResult(
+                'presentations', 
+                'getDetails', 
+                apiParams,
+                setPresentationDetails));
     }
 
     
@@ -21,14 +27,14 @@ class PresentationDetails extends React.Component {
         const stringFormat = "dddd, MMMM Do YYYY, h:mm:ss A";
 
         return {
-            startTime: moment(this.props.data.presentationStart, dateFormat).format(stringFormat),
-            endTime: moment(this.props.data.presentationEnd, dateFormat).format(stringFormat)
+            startTime: moment(this.props.presentationDetails.presentationStart, dateFormat).format(stringFormat),
+            endTime: moment(this.props.presentationDetails.presentationEnd, dateFormat).format(stringFormat)
         }
     } 
 
     render() {
         
-        let { data } = this.props;
+        let { presentationDetails } = this.props;
 
         return (
             <div>
@@ -41,7 +47,7 @@ class PresentationDetails extends React.Component {
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
-                                        <h2>{data && data.presentationTitle}</h2>
+                                        <h2>{presentationDetails && presentationDetails.presentationTitle}</h2>
                                         <hr/>
                                     </div>
                                     
@@ -50,7 +56,7 @@ class PresentationDetails extends React.Component {
                                     </div>   
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {data && this.getTime().startTime}</p> 
+                                        <p><i className="far fa-clock"></i> {presentationDetails && this.getTime().startTime}</p> 
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -58,7 +64,7 @@ class PresentationDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {data && this.getTime().endTime}</p>
+                                        <p><i className="far fa-clock"></i> {presentationDetails && this.getTime().endTime}</p>
                                     </div>  
 
                                     <div className="col-sm-6">
@@ -66,7 +72,7 @@ class PresentationDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="fa fa-users"></i> x {data && data.nrOfActiveAttendees}</p>
+                                        <p><i className="fa fa-users"></i> x {presentationDetails && presentationDetails.nrOfActiveAttendees}</p>
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -74,13 +80,13 @@ class PresentationDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="fa fa-comments"></i> x {data && data.nrOfResponses}</p>
+                                        <p><i className="fa fa-comments"></i> x {presentationDetails && presentationDetails.nrOfResponses}</p>
                                     </div> 
                                 </div>       
                                 <hr/>
                                 <div className="row">
                                     <div className="col-md-12">
-                                        {data && <PresentationResults data={data} />}
+                                        {presentationDetails && <PresentationResults data={presentationDetails} />}
                                     </div>                                
                                 </div>
                         </Panel.Body>
@@ -93,7 +99,7 @@ class PresentationDetails extends React.Component {
 } export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            presentationDetails: state.sessionResultsReducer.presentationDetails,
         }
     }
 )(PresentationDetails);

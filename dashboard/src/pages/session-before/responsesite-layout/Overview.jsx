@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult, clearAdditionalData } from '../../../actions/api';
+import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
@@ -10,29 +10,39 @@ import { isValueInArray } from '../../../scripts/arrayHelper';
 import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { setResponseSettings, setLayoutSettings } from './actions';
 
 class LayoutOverview extends React.Component {
 
     componentDidMount() {
-        let apiController = 'responsesite';
-        let apiFunction = 'getSiteList';
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
+        this.props.dispatch(
+            fetchResult(
+                'responsesite', 
+                'getSiteList', 
+                JSON.stringify({
+                    id: this.props.match.params.id
+                }), 
+                setResponseSettings
+            )
+        );
     }
 
     fetchSiteSettings(e) {
         const value = e.target.value;
-        if(value && this.props.data && isValueInArray(value, this.props.data.map((item) => item.id))) {
-            this.props.dispatch(fetchResult('responsesite', 'getSiteById', JSON.stringify({value}), true));
-        } else {
-            this.props.dispatch(clearAdditionalData());
+        if(value && this.props.responseSites && isValueInArray(value, this.props.responseSites.map((item) => item.id))) {
+            this.props.dispatch(
+                fetchResult(
+                    'responsesite', 
+                    'getSiteById', 
+                    JSON.stringify({value}), 
+                    setLayoutSettings
+                )
+            );
         }
     }
     
     render() {
-        const { data, additionalData, currentUser } = this.props;
+        const { responseSites, responseSettings, currentUser } = this.props;
         
         return (
             <div>  
@@ -56,13 +66,13 @@ class LayoutOverview extends React.Component {
                                         <label>Select a Response Website</label>
                                         <select className="form-control" onChange={this.fetchSiteSettings.bind(this)} value={null} >
                                             <option value={''} >Select...</option>
-                                            {data && data.map(item => {
+                                            {responseSites && responseSites.map(item => {
                                                 return <option key={item.id} value={item.id}>{item.domain}</option>
                                             })}
                                         </select>
                                     </div>
                                     <hr/>
-                                    {additionalData && 
+                                    {responseSettings && 
                                     <div>
                                         {currentUser && currentUser.userType === "admin" && 
                                         <span>
@@ -74,7 +84,7 @@ class LayoutOverview extends React.Component {
                                                         leftFaIcon={"globe"}
                                                         labelText={"Domain"}
                                                         placeholder={"Sendc.com"}
-                                                        value={additionalData.domain}
+                                                        value={responseSettings.domain}
                                                     /> 
                                                 </div>
                                                 <div className="col-md-6">
@@ -83,7 +93,7 @@ class LayoutOverview extends React.Component {
                                                         leftFaIcon={"user"}    
                                                         labelText={"User"}
                                                         placeholder={"Sendc.com"}
-                                                        value={additionalData.userId}
+                                                        value={responseSettings.userId}
                                                     /> 
                                                 </div>
                                             </div>
@@ -96,7 +106,7 @@ class LayoutOverview extends React.Component {
                                                     leftFaIcon={"pencil-alt"}
                                                     labelText={"Title"}
                                                     placeholder={"Response website title"}
-                                                    value={additionalData.title}
+                                                    value={responseSettings.title}
                                                 /> 
                                             </div>
                                             <div className="col-md-6">
@@ -105,7 +115,7 @@ class LayoutOverview extends React.Component {
                                                     leftFaIcon={"globe"}
                                                     labelText={"Language"}
                                                     placeholder={"Select Language"}
-                                                    value={additionalData.default_language}
+                                                    value={responseSettings.default_language}
                                                 /> 
                                             </div>
                                         </div>
@@ -116,25 +126,25 @@ class LayoutOverview extends React.Component {
                                                 <ColorPickerField 
                                                     infoContent={"Color of the loading indicator."}
                                                     labelText={"Loader Color"}
-                                                    color={additionalData.loader_color}
+                                                    color={responseSettings.loader_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Graph Results Color"}
-                                                    color={additionalData.chart_results_color}
+                                                    color={responseSettings.chart_results_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Popup Background Color"}
-                                                    color={additionalData.popup_background_color}
+                                                    color={responseSettings.popup_background_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Main Background Color"}
-                                                    color={additionalData.body_background_color}
+                                                    color={responseSettings.body_background_color}
                                                 />
                                             </div>
                                         </div>
@@ -144,13 +154,13 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Active Tab Color"}
-                                                    color={additionalData.tab_active_color}
+                                                    color={responseSettings.tab_active_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Inactive Tab Color"}
-                                                    color={additionalData.tab_inactive_color}
+                                                    color={responseSettings.tab_inactive_color}
                                                 />
                                             </div>
                                         </div>
@@ -160,19 +170,19 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Back Button Background Color"}
-                                                    color={additionalData.button_back_background_color}
+                                                    color={responseSettings.button_back_background_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Button Background Color"}
-                                                    color={additionalData.button_background_color}
+                                                    color={responseSettings.button_background_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Connect Button Text Color"}
-                                                    color={additionalData.connect_button_color}
+                                                    color={responseSettings.connect_button_color}
                                                 />
                                             </div>
                                         </div>
@@ -182,13 +192,13 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Menu Icon Color"}
-                                                    color={additionalData.menu_icon_color}
+                                                    color={responseSettings.menu_icon_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Menu Background Color"}
-                                                    color={additionalData.menu_background_color}
+                                                    color={responseSettings.menu_background_color}
                                                 />
                                             </div>
                                         </div>
@@ -198,31 +208,31 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Text Color"}
-                                                    color={additionalData.body_color}
+                                                    color={responseSettings.body_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Answer Background Color"}
-                                                    color={additionalData.option_background_color}
+                                                    color={responseSettings.option_background_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Answer Text Color"}
-                                                    color={additionalData.option_color}
+                                                    color={responseSettings.option_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Login Code Background Color"}
-                                                    color={additionalData.login_code_background_color}
+                                                    color={responseSettings.login_code_background_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Login Code Text Color"}
-                                                    color={additionalData.login_code_color}
+                                                    color={responseSettings.login_code_color}
                                                 />
                                             </div>
                                         </div>
@@ -246,7 +256,7 @@ class LayoutOverview extends React.Component {
                                                     clearButton={true}
                                                     leftFaIcon={"text-height"}
                                                     labelText={"Logo Distance From Top"}
-                                                    value={additionalData.logo_padding_top}
+                                                    value={responseSettings.logo_padding_top}
                                                 />
                                             </div>
                                             <div className="col-md-6">
@@ -254,7 +264,7 @@ class LayoutOverview extends React.Component {
                                                     clearButton={true} 
                                                     leftFaIcon={"link"}
                                                     labelText={"Logo Url"}
-                                                    value={additionalData.logo_url}
+                                                    value={responseSettings.logo_url}
                                                 />
                                             </div>
                                             <div className="col-md-6">
@@ -278,7 +288,7 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                                 <ColorPickerField 
                                                     labelText={"Background Color"}
-                                                    color={additionalData.main_color}
+                                                    color={responseSettings.main_color}
                                                 />
                                             </div>
                                             <div className="col-md-6">
@@ -286,7 +296,7 @@ class LayoutOverview extends React.Component {
                                                     clearButton={true}
                                                     leftFaIcon={"images"}
                                                     labelText={"Logo Image"}
-                                                    value={additionalData.logo_image}
+                                                    value={responseSettings.logo_image}
                                                 />
                                             </div>
                                         </div>
@@ -337,7 +347,7 @@ class LayoutOverview extends React.Component {
                                                             clearButton={true}
                                                             leftFaIcon={"link"}
                                                             labelText={"CDN Url Overwrite"}
-                                                            value={additionalData.cdn_url_overwrite}
+                                                            value={responseSettings.cdn_url_overwrite}
                                                         />
                                                     </div>
                                                 </div>
@@ -347,7 +357,7 @@ class LayoutOverview extends React.Component {
                                                             clearButton={true}
                                                             leftFaIcon={"arrows-alt-v"}
                                                             labelText={"Header Height"}
-                                                            value={additionalData.header_height}
+                                                            value={responseSettings.header_height}
                                                         />
                                                     </div>
                                                 </div>
@@ -357,7 +367,7 @@ class LayoutOverview extends React.Component {
                                 </Panel.Body>
                             </Panel>
                         </div>
-                        <ResponseSiteContainer url={additionalData && additionalData.domain} /* Pass selected url, if nothings selected, don't render response site */ />
+                        <ResponseSiteContainer url={responseSettings && responseSettings.domain} /* Pass selected url, if nothings selected, don't render response site */ />
                     </div>
                     <BottomSaveBar />
                 </div>
@@ -369,8 +379,8 @@ class LayoutOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
-            additionalData: state.apiReducer.additionalData,
+            responseSites: state.siteLayoutReducer.responseSites,
+            responseSettings: state.siteLayoutReducer.responseSettings,
             currentUser: state.authReducer.currentUser
         }
     }

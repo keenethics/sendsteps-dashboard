@@ -2,6 +2,7 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setPresentationData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import './Overview.scss';
@@ -9,12 +10,12 @@ import './Overview.scss';
 class PresentationsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('presentations', 'getOverview'));
+        this.props.dispatch(fetchResult('presentations', 'getOverview', {}, setPresentationData));
     }
 
     render() {
         
-        const { data } = this.props;
+        const { presentationResults } = this.props;
 
         return (
             <div>
@@ -25,7 +26,7 @@ class PresentationsOverview extends React.Component {
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
-                            {data && <OverviewTable data={data} />}
+                            {presentationResults && <OverviewTable data={presentationResults} />}
                         </Panel.Body>
                     </Panel>
                 </div>
@@ -37,7 +38,7 @@ class PresentationsOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            presentationResults: state.sessionResultsReducer.presentationResults
         }
     }
 )(PresentationsOverview);

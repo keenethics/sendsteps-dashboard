@@ -35,7 +35,7 @@ class PresentationResults extends Component {
                         <h3 className="question-title">Questions </h3>
                     </div>
                     <div className="col-md-9">
-                        <ResultsToolbar />
+                        {data && <ResultsToolbar data={data} />}
                     </div>
                 </div>
                 {data.rounds && data.rounds.map((round, roundIndex) => {

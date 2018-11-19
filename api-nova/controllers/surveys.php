@@ -17,7 +17,7 @@ class Surveys extends NovaAPI {
             $surveyModel = $this->loadModel('surveys');
             $results = $surveyModel->getActiveById($id);
     
-            return json_encode(['content' => $results]);           
+            return json_encode(['content' => $results[0]]);           
         }
         return false;        
     }

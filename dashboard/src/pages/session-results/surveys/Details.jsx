@@ -83,7 +83,7 @@ class SurveyResultsDetails extends React.Component {
 } export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            surveyDetails: state.surveyResultsReducer.surveyDetails
         }
     }
 )(SurveyResultsDetails);

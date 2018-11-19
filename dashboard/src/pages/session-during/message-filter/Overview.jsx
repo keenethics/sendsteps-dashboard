@@ -8,8 +8,21 @@ import QueuePanel from './extra-components/panels/QueuePanel';
 import OnscreenPanel from './extra-components/panels/OnscreenPanel';
 import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
+import { fetchResult } from '../../../actions/api';
+import { setMessageFilterData } from './actions';
 
 class MessageFilterOverview extends React.Component {
+
+    componentDidMount() {
+        this.props.dispatch(
+            fetchResult(
+                'messagefilter', 
+                'getMessageFilterData', 
+                {}, 
+                setMessageFilterData
+            )
+        );
+    }
     
     /*
         Functionality & Requests (Backend)
@@ -104,6 +117,7 @@ class MessageFilterOverview extends React.Component {
     */
 
     render() {
+
         return (
             <div className="message-filter">
                 <HeaderPanel 
@@ -161,7 +175,6 @@ class MessageFilterOverview extends React.Component {
                             <AppearedPanel />
                         </div>
                     </div>
-                    
                 </div>
             </div>
         )
@@ -171,7 +184,7 @@ class MessageFilterOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            messages: state.messageFilterReducer.messages
         }
     }
 )(MessageFilterOverview);

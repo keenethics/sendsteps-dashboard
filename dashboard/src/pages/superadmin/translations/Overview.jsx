@@ -2,17 +2,18 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setTranslationData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 class TranslationsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('translations', 'getOverview'));
+        this.props.dispatch(fetchResult('translations', 'getOverview', {}, setTranslationData));
     }
 
     render() {
         
-        const { data } = this.props;
+        const { translations } = this.props;
       
         return (
             <div>
@@ -20,7 +21,7 @@ class TranslationsOverview extends React.Component {
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
-                            {data && <OverviewTable data={data} />}
+                            {translations && <OverviewTable data={translations} />}
                         </Panel.Body>
                     </Panel>
                 </div>
@@ -32,7 +33,7 @@ class TranslationsOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            translations: state.translationReducer.translations
         }
     }
 )(TranslationsOverview);

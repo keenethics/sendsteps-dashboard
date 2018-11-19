@@ -8,6 +8,18 @@ export default function sessionResultsReducer(state = {}, action) {
                 selectedResultIds: []
             }
         }
+        case 'SET_DATA': {
+            return {
+                ...state,
+                presentationResults: action.data
+            }
+        }
+        case 'SET_DETAILS': {
+            return {
+                ...state,
+                presentationDetails: action.details
+            }
+        }
         case 'SELECT_RESULT': {
             console.log(action.resultId);
             console.log(state.selectedResultIds);

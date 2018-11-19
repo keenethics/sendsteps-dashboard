@@ -2,19 +2,20 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { setSurveyData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 
 class SurveysOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('surveys', 'getOverview'));
+        this.props.dispatch(fetchResult('surveys', 'getOverview', null, setSurveyData));
         // this.apiRefresh = setInterval(fetchResult, 5000, 'phonenumbers', 'getOverview');
     }
 
     render() {
         
-        const { data } = this.props;
+        const { surveys } = this.props;
 
         return (
             <div>
@@ -22,7 +23,7 @@ class SurveysOverview extends React.Component {
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
-                            {data && <OverviewTable data={data} />}
+                            {surveys && <OverviewTable data={surveys} />}
                         </Panel.Body>
                     </Panel>
                 </div>
@@ -34,7 +35,7 @@ class SurveysOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            surveys: state.surveyReducer.surveys,
         }
     }
 )(SurveysOverview);

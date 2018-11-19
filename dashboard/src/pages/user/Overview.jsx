@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../actions/api';
+import { setProfileData } from './actions';
 import { Panel } from 'react-bootstrap';
 import ImageUploadField from "../../components/common/ImageUploadField";
 import BottomSaveBar from "../../components/common/BottomSaveBar";
@@ -9,18 +10,24 @@ import HeaderPanel from "../../components/common/HeaderPanel";
 class ProfileOverview extends React.Component {
     
     componentDidMount() {
-        this.props.dispatch(fetchResult('users', 'getSelf'));
+        this.props.dispatch(
+            fetchResult(
+                'users', 
+                'getSelf',
+                {}, 
+                setProfileData
+            )
+        );
     }
 
     render() {
 
-        const { data, match } = this.props;
+        const { profileDetails } = this.props;
 
         return (
             <div>
                 <HeaderPanel 
                     title={"Your Profile"} 
-                    match={match} 
                     content={<p>On this page you can edit your personal profile.</p>}
                 />
                 <div className="container-fluid">
@@ -52,7 +59,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">First Name</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-user"></i></span>
-                                            <input value={data && data.firstName} placeholder="Enter your first name" className="form-control" name='firstName' />
+                                            <input value={profileDetails && profileDetails.firstName} placeholder="Enter your first name" className="form-control" name='firstName' />
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +69,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Last Name</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-user"></i></span>
-                                            <input value={data && data.lastName} placeholder="Enter your last name"  className="form-control" name='lastName' />
+                                            <input value={profileDetails && profileDetails.lastName} placeholder="Enter your last name"  className="form-control" name='lastName' />
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +81,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Organisation</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-building"></i></span>
-                                            <input value={data && data.organisation} placeholder="Enter your Organisation" className="form-control" name='organisation' />
+                                            <input value={profileDetails && profileDetails.organisation} placeholder="Enter your Organisation" className="form-control" name='organisation' />
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +90,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Department</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-warehouse"></i></span>
-                                            <input value={data && data.departmentName} placeholder="Enter your Department" className="form-control" name='department' />
+                                            <input value={profileDetails && profileDetails.departmentName} placeholder="Enter your Department" className="form-control" name='department' />
                                         </div>
                                     </div>
                                 </div>
@@ -95,7 +102,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Role</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-user-shield"></i></span>
-                                            <input value={data && data.role} className="form-control" disabled="disabled" name='role' />
+                                            <input value={profileDetails && profileDetails.role} className="form-control" disabled="disabled" name='role' />
                                         </div>
                                     </div>
                                 </div>
@@ -105,7 +112,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Email</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-envelope"></i></span>
-                                            <input value={data && data.email} placeholder="Enter your E-mail" className="form-control" name='email' />
+                                            <input value={profileDetails && profileDetails.email} placeholder="Enter your E-mail" className="form-control" name='email' />
                                         </div>
                                     </div>
                                 </div>
@@ -117,7 +124,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Phonenumber</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-phone"></i></span>
-                                            <input value={data && data.phonenumber} placeholder="Enter your phonenumber" className="form-control" name='phonenumber' />
+                                            <input value={profileDetails && profileDetails.phonenumber} placeholder="Enter your phonenumber" className="form-control" name='phonenumber' />
                                         </div>
                                     </div>
                                 </div>
@@ -132,7 +139,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Language</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fa fa-globe"></i></span>
-                                            <input value={data && data.language} placeholder="Enter your prefered language" className="form-control" name='language' />
+                                            <input value={profileDetails && profileDetails.language} placeholder="Enter your prefered language" className="form-control" name='language' />
                                         </div>
                                     </div>
                                 </div>
@@ -142,7 +149,7 @@ class ProfileOverview extends React.Component {
                                         <label className="control-label">Timezone</label>
                                         <div className="input-group">
                                             <span className="input-group-addon"><i className="fas fa-globe"></i></span>
-                                            <input value={data && data.timezone} placeholder="Enter your Timezone" className="form-control" name='timezone' />
+                                            <input value={profileDetails && profileDetails.timezone} placeholder="Enter your Timezone" className="form-control" name='timezone' />
                                         </div>
                                     </div>
                                 </div>
@@ -226,7 +233,7 @@ class ProfileOverview extends React.Component {
 } export default connect(
     (state) => {
         return {
-            data: state.apiReducer.data,
+            profileDetails: state.userReducer.profileDetails
         }
     }
 )(ProfileOverview);
