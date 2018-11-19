@@ -23,7 +23,7 @@ class MessageFilterOverview extends React.Component {
             )
         );
     }
-    
+
     /*
         Functionality & Requests (Backend)
 

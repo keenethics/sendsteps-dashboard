@@ -77,6 +77,7 @@ class Presentations extends NovaAPI {
                         $ratingsResult['title'] = $s['title']; // question title
                         $ratingsResult['labels'] = [0 => 'Answer', 1 => 'Options', 2 => 'Votes', 3 => 'Percentages', 4 => 'IsCorrect'];
                     }
+                    //If there are no votes, there can be no percentages. But the slide will still exist. Hence this 'if'
                     if (isset($votesAndPercentages[$s['id'].'-'.$s['answerCode']])){
                         $votes = (int) $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['votes'];
                         $percentage = $votesAndPercentages[$s['id'].'-'.$s['answerCode']]['percentage'].'%';

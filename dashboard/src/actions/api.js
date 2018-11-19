@@ -13,7 +13,6 @@ export function setNewData(newData) {
     }
 }
 
-
 export function apiUpdateSuccess() {
     toast("Update success!");
     return {
