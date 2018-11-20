@@ -23,7 +23,8 @@
         public function loadModel($model_name = ''){
             //Check model file exists
             if ($model_name == '' OR !in_array($model_name.'.php', scandir(__DIR__."/../models/"))) {
-                throw new Exceptipn('ModelFileDoesNotExist');
+                $errors = json_encode(array('General' => 'ModelFileDoesNotExist'));
+                throw new Exception($errors);
             }
             require_once __DIR__."/../models/".$model_name.'.php';
             
@@ -32,7 +33,8 @@
             
             //Check model class exists
             if (!class_exists($model_name)) {
-                throw new Exception('ModelClassDoesNotExist');
+                $errors = json_encode(array('General' => 'ModelClassDoesNotExist'));
+                throw new Exception($errors);
             }
             
             return new $model_name;
