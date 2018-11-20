@@ -10,6 +10,9 @@
         //     $results = $this->query('SELECT * FROM '.$this->table.';');
         //     return $results;
         // }
+        protected function database(){
+            return new Medoo($this->getMedooOptions());
+        }
         
         protected function findByIdCentral($id = NULL, $table = '', $booleanColumn = '') {
             $database = new Medoo($this->getMedooOptions());

@@ -9,7 +9,14 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 class SurveyResultsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('surveys', 'getResultsOverview', {}, setSurveyData));
+        this.props.dispatch(
+            fetchResult(
+                'surveys', 
+                'getResultsOverview', 
+                {}, 
+                setSurveyData
+            )
+        );
     }
 
     render() {

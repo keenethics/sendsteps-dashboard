@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import { toggleSelectAppeared, sendToIncoming, clearAppearedSelect } from '../../actions';
+import { toggleSelectAppeared } from '../../actions';
+import AppearedToolbar from './toolbars/AppearedToolbar';
 import { isMessageSelected, getAppearedMessages } from '../../../../../scripts/messageHelper';
 
 class AppearedPanel extends Component {
 
     toggleSelect = message => {
         this.props.dispatch(toggleSelectAppeared(message.id));
-    }
-
-    sendIdsToIncoming = () => {
-        this.props.dispatch(sendToIncoming(this.props.selectedAppearedIds));
-        this.props.dispatch(clearAppearedSelect());
     }
 
     render() {
@@ -31,15 +27,7 @@ class AppearedPanel extends Component {
                         </span>
                     </h4>
                 </Panel.Heading>
-                <Panel.Footer>
-                    <ButtonToolbar>
-                        <Button 
-                            disabled={selectedAppearedIds.length < 1} 
-                            onClick={() => this.sendIdsToIncoming()}>
-                            <i className="fa fa-recycle"></i> Back to Incoming
-                        </Button>
-                    </ButtonToolbar>
-                </Panel.Footer>
+                <AppearedToolbar />
                 <Panel.Body className="messages-body">
                     {messages && getAppearedMessages(messages).map((message, index) => {
                         return (

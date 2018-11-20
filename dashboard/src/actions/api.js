@@ -36,10 +36,39 @@ export function apiFetchError(error) {
     }
 }
 
+export function callAPI(controller = '', functionName = '', apiParams = '', onFail = null) {
+    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
+    const fetchParams = {
+        method: 'POST',
+        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+        body: 'controller='+controller+'&function='+functionName+'&params='+apiParams+'&token='+token
+    }
+
+    return dispatch => {
+        fetch(apiUrl, fetchParams)
+        .then(
+            result => { 
+                return result.json()
+            })
+        .then(
+            result => {
+                if(result.error) {
+                    toast("Something went wrong.");
+                    dispatch(onFail);
+                }
+            },
+            error => {
+                toast("Something went wrong.");
+                dispatch(onFail);
+            }
+        )
+    }
+}
+
 export function updateAPI(controller = '', functionName = '', apiParam = '') {
 
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    console.log(apiParam)
     return dispatch => {
         dispatch(simulateLoading(true));
         fetch(apiUrl,{

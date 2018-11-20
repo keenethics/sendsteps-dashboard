@@ -1,3 +1,7 @@
+export function isValidHexColor(color) {
+    return /^#[0-9A-F]{6}$/i.test(color);
+}
+
 export function formatCompanyColors(colors, index = -1) {
     
     // Company colors exists of a string with four different hex colors.

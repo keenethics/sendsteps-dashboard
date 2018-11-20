@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { HuePicker, TwitterPicker } from 'react-color';
-import { generateColorList } from '../../scripts/colorHelper';
+import { generateColorList, isValidHexColor } from '../../scripts/colorHelper';
 
 class ColorPickerModal extends Component {
 
@@ -10,12 +10,14 @@ class ColorPickerModal extends Component {
         this.state = {
             advancedSettings: false,
             modalOpen: false,
+            color: this.props.color
         }
     }
 
     changeColor = color => {
-        this.props.onChange(color);
+        this.setState({color: color.hex})
     }
+
 
     toggleAdvanced = () => {
         this.setState({
@@ -23,10 +25,16 @@ class ColorPickerModal extends Component {
         });
     }
 
+    saveColor = () => {
+        this.props.onChange(this.state.color);
+        this.props.toggle();
+    }
+
     render() {
 
-        const { modalOpen, color, toggle } = this.props;
-        const { advancedSettings } = this.state;
+        const { modalOpen, toggle } = this.props;
+        const { advancedSettings, color } = this.state;
+        const validColor = isValidHexColor(color) ? color : "#000000";
 
         return (
             <Modal show={modalOpen} onHide={toggle}>
@@ -39,14 +47,14 @@ class ColorPickerModal extends Component {
                             <span className="hue-pick-container">
                                 <HuePicker width={"100%"} color={color} onChange={this.changeColor} />
                             </span>
-                            <TwitterPicker width={"100%"} colors={generateColorList(color)} color={color} onChange={this.changeColor} />
+                            <TwitterPicker width={"100%"} colors={generateColorList(validColor)} color={validColor} onChange={this.changeColor} />
                         </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle={"success"} className="pull-left" onClick={this.toggle}><i className="fa fa-save"></i> Save</Button>
+                    <Button bsStyle={"success"} className="pull-left" onClick={this.saveColor}><i className="fa fa-save"></i> Save</Button>
                     <Button bsStyle={"primary"} active={advancedSettings} onClick={this.toggleAdvanced}><i className="fa fa-cog"></i> Advanced Colors</Button>
-                    <Button onClick={this.toggle}><i className="fa fa-times"></i> Close</Button>
+                    <Button onClick={toggle}><i className="fa fa-times"></i> Close</Button>
                 </Modal.Footer>
             </Modal>
         );

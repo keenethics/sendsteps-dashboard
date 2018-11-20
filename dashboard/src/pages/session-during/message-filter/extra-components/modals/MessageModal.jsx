@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
-import { toggleMessageModal, addNewMessage } from '../../actions';
+import { toggleMessageModal, addNewMessage, deleteSelectedMessages } from '../../actions';
+import { callAPI } from '../../../../../actions/api';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
@@ -36,6 +37,14 @@ class MessageModal extends Component {
         }
 
         this.props.dispatch(addNewMessage(newMessage));
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'addMessage',
+                JSON.stringify(newMessage),
+                deleteSelectedMessages()
+            )
+        );
         this.setState({newMessageText: ''})
         toast("Message added!");
     }

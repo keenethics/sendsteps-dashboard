@@ -9,7 +9,7 @@ import OnscreenPanel from './extra-components/panels/OnscreenPanel';
 import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { fetchResult } from '../../../actions/api';
-import { setMessageFilterData } from './actions';
+import { setMessageFilterData, setMessageGroupData } from './actions';
 
 class MessageFilterOverview extends React.Component {
 
@@ -18,10 +18,28 @@ class MessageFilterOverview extends React.Component {
             fetchResult(
                 'messagefilter', 
                 'getMessageFilterData', 
-                {}, 
+                JSON.stringify({
+                    // Static messageround ID (Change this)
+                    msgRoundId: 364
+                }), 
                 setMessageFilterData
             )
         );
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.currentUser !== this.props.currentUser) {
+            this.props.dispatch(
+                fetchResult(
+                    'messagefilter', 
+                    'getMessageGroups', 
+                    JSON.stringify({
+                        userId: this.props.currentUser.userId
+                    }), 
+                    setMessageGroupData
+                )
+            );
+        }
     }
 
     /*
@@ -184,7 +202,8 @@ class MessageFilterOverview extends React.Component {
 export default connect(
     (state) => {
         return {
-            messages: state.messageFilterReducer.messages
+            messages: state.messageFilterReducer.messages,
+            currentUser: state.authReducer.currentUser
         }
     }
 )(MessageFilterOverview);

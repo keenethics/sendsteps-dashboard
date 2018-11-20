@@ -11,6 +11,7 @@
         'SpecifyControllerAndFunction' => 'Controller or Function fields not set',
         'SpecifyFunction' => 'Function field not set',
         'ValidTokenNotSet' => 'Valid token not found',
+        'UpdateFailed' => 'An update failed',
     ];
     $bastetErrors = [ 
         'HashUnknown' => 'Unknown error occurred while generating hash',

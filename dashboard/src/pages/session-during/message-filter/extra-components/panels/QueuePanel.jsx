@@ -1,36 +1,16 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import { toggleSelectQueue, sendToScreen, sendToIncoming, clearQueueSelect } from '../../actions';
+import { toggleSelectQueue } from '../../actions';
 import { isMessageSelected, getQueueMessages } from '../../../../../scripts/messageHelper';
+import QueueToolbar from './toolbars/QueueToolbar';
 class QueuePanel extends Component {
 
     toggleSelect = message => {
         this.props.dispatch(toggleSelectQueue(message.id));
     };
-
-    sendIdsToScreen = () => {
-        this.props.dispatch(sendToScreen(this.props.selectedQueueIds));
-        this.props.dispatch(clearQueueSelect());
-    }
-
-    sendIdsToIncoming = () => {
-        this.props.dispatch(sendToIncoming(this.props.selectedQueueIds));
-        this.props.dispatch(clearQueueSelect());
-    }
-
-    sendIdsToScreen = () => {
-        this.props.dispatch(sendToScreen(this.props.selectedQueueIds));
-        this.props.dispatch(clearQueueSelect());
-    }
-
-    sendIdsToIncoming = () => {
-        this.props.dispatch(sendToIncoming(this.props.selectedQueueIds));
-        this.props.dispatch(clearQueueSelect());
-    }
-
 
     render() {
 
@@ -46,12 +26,7 @@ class QueuePanel extends Component {
                         </span>
                     </h4>
                 </Panel.Heading>
-                <Panel.Footer>
-                    <ButtonToolbar>
-                        <Button disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToScreen()} bsStyle="success">Send to Screen</Button>
-                        <Button disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToIncoming()}bsStyle="primary">Send to Incoming</Button>
-                    </ButtonToolbar>
-                </Panel.Footer>
+                <QueueToolbar />
                 <Panel.Body className="messages-body">
                     {messages && getQueueMessages(messages).map((message, index) => {
                         return (

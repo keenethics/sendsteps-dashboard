@@ -9,6 +9,7 @@ import GroupModal from '../modals/GroupModal';
 import MessageModal from '../modals/MessageModal';
 import IncomingToolbar from './toolbars/IncomingToolbar';
 import './Panels.scss';
+import EditMessageModal from '../modals/EditMessageModal';
 
 class IncomingPanel extends Component {
 
@@ -27,8 +28,6 @@ class IncomingPanel extends Component {
     render() {
 
         const { messages, selectedIncomingIds } = this.props;
-
-        console.log(messages)
 
         return (
             <span>
@@ -55,6 +54,7 @@ class IncomingPanel extends Component {
                     </Panel.Body>
                 </Panel>
                 <MessageModal />    
+                <EditMessageModal />
                 <GroupModal />
             </span>
         );

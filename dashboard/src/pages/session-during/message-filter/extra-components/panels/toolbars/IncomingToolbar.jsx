@@ -11,7 +11,9 @@ import {
     undoRemove, 
     deleteSelectedMessages, 
     addSelectedToGroup,
+    sendToIncoming,
 } from '../../../actions';
+import { callAPI } from '../../../../../../actions/api';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
@@ -19,15 +21,39 @@ class IncomingToolbar extends Component {
 
     sendIdsToScreen = () => {
         this.props.dispatch(sendToScreen(this.props.selectedIncomingIds));
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'sendToScreen',
+                JSON.stringify({
+                    ids: this.props.selectedIncomingIds
+                }),
+                sendToIncoming(this.props.selectedIncomingIds)
+            )
+        );
         this.props.dispatch(clearIncomingSelect());
     }
 
     sendIdsToQueue = () => {
         this.props.dispatch(sendToQueue(this.props.selectedIncomingIds));
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'sendToQueue',
+                JSON.stringify({
+                    ids: this.props.selectedIncomingIds
+                }),
+                sendToIncoming(this.props.selectedIncomingIds)
+            )
+        );
         this.props.dispatch(clearIncomingSelect());
     }
 
     showMessageModal = () => {
+        this.props.dispatch(toggleMessageModal(true));
+    }
+
+    showEditMessageModal = () => {
         this.props.dispatch(toggleMessageModal(true));
     }
 
@@ -36,18 +62,61 @@ class IncomingToolbar extends Component {
     }
 
     undoRemoveMessages = () => {
+        const deletedIds = this.props.lastDeletedMessages.map(message => {
+            return message.id
+        });
         this.props.dispatch(undoRemove());
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'sendToIncoming',
+                JSON.stringify({
+                    ids: deletedIds
+                }),
+                deleteSelectedMessages(deletedIds)
+            )
+        );
     }
 
     deleteSelected = () => {
         this.props.dispatch(deleteSelectedMessages(this.props.selectedIncomingIds));
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'deleteMessages',
+                JSON.stringify({
+                    ids: this.props.selectedIncomingIds
+                }),
+                sendToIncoming(this.props.selectedIncomingIds)
+            )
+        );
         this.props.dispatch(clearIncomingSelect());
-        toast(<div>Message(s) deleted! <span className="pull-right undo" onClick={() => this.undoRemoveMessages()}>UNDO</span></div>);
+        
+        toast(
+            <div>
+                Message(s) deleted! 
+                <span className="pull-right undo" onClick={() => this.undoRemoveMessages()}>
+                    UNDO
+                </span>
+            </div>
+        );
     }
 
     addToGroup = () => {
         this.props.dispatch(addSelectedToGroup(this.props.selectedGroupId));
+        this.props.dispatch(
+            callAPI(
+                'messagefilter',
+                'addToGroup',
+                JSON.stringify({
+                    groupId: this.props.selectedGroupId,
+                    selectedIds: this.props.selectedIncomingIds
+                }),
+                sendToIncoming(this.props.selectedIncomingIds)
+            )
+        );
         this.props.dispatch(clearIncomingSelect());
+
     }
 
     showGroupModal = () => {
@@ -67,7 +136,10 @@ class IncomingToolbar extends Component {
                 <ButtonToolbar>
                     <Button onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1} bsStyle="success">Send to Screen</Button>
                     <Button onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1} bsStyle="primary">Send to Queue</Button>
-                    <Button onClick={() => this.showMessageModal()} bsStyle="default">Add Message</Button>
+                    
+                    
+                    {selectedIncomingIds.length < 1 && <Button  onClick={() => this.showMessageModal()} bsStyle="default">Add Message</Button>}
+                    {selectedIncomingIds.length >= 1 && <Button disabled={selectedIncomingIds.length > 1} onClick={() => this.showEditMessageModal()} bsStyle="default">Edit Message</Button>}
                     <Button onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}bsStyle="default"><i className="fa fa-trash"></i></Button>
                     <Button onClick={() => this.expandPanel()} className="pull-right">More <i className="fa fa-chevron-down"></i></Button>
                 </ButtonToolbar>
@@ -77,14 +149,18 @@ class IncomingToolbar extends Component {
                         <span className="input-group-addon">Add to Group </span>
                         <FormGroup>
                             <select onChange={this.setSelectedGroup.bind(this)} className="form-control">
-                                <option value="">None</option>
-                                {messageGroups && messageGroups.map((group, index) => {
-                                    return <option key={index} value={group.id}>{group.groupName}</option>
+                                <option value={false}>None</option>
+                                {messageGroups && Object.keys(messageGroups).map(group => {
+                                    return (
+                                        <option key={group} value={group}>
+                                            {messageGroups[group].name} 
+                                        </option>
+                                    )
                                 })}
                             </select>
                         </FormGroup>
-                        <span onClick={() => this.addToGroup()} className="input-group-addon btn-success">Add </span>
                     </InputGroup>
+                    <Button disabled={selectedIncomingIds.length < 1}onClick={() => this.addToGroup()} >Add </Button>
                     <Button onClick={() => this.showGroupModal(true)}bsStyle="default">My Groups</Button>
                     <Button bsStyle="default">Send to...</Button>
                 </ButtonToolbar>}
@@ -99,7 +175,8 @@ export default connect(
             incomingPanelExpanded: state.messageFilterReducer.incomingPanelExpanded,
             messageGroups: state.messageFilterReducer.messageGroups,
             selectedIncomingIds: state.messageFilterReducer.selectedIncomingIds,
-            selectedGroupId: state.messageFilterReducer.selectedGroupId
+            selectedGroupId: state.messageFilterReducer.selectedGroupId,
+            lastDeletedMessages: state.messageFilterReducer.lastDeletedMessages
         }
     }
 ) (IncomingToolbar);

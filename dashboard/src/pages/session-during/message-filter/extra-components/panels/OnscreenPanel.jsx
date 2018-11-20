@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
-import { toggleSelectOnscreen, sendToAppeared, clearOnscreenSelect } from '../../actions';
+import { toggleSelectOnscreen } from '../../actions';
 import { isMessageSelected, getOnscreenMessages, getMessageByProperty } from '../../../../../scripts/messageHelper';
+import OnscreenToolbar from './toolbars/OnscreenToolbar';
 
 class OnscreenPanel extends Component {
 
     toggleSelect = message => {
         this.props.dispatch(toggleSelectOnscreen(message.id));
-    }
-
-    sendIdsToAppeared = () => {
-        this.props.dispatch(sendToAppeared(this.props.selectedOnscreenIds));
-        this.props.dispatch(clearOnscreenSelect());
     }
 
     render() {
@@ -25,19 +21,13 @@ class OnscreenPanel extends Component {
             <Panel bsStyle="success">
                 <Panel.Heading>
                     <h4>
-                        <i className="filter-help fa fa-info-circle"></i> Messages live on screen ({getMessageByProperty(messages, 'status', 'shown').length})
+                        <i className="filter-help fa fa-info-circle"></i> Messages live on screen ({getMessageByProperty(messages, 'status', 'showing').length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>
                     </h4>
                 </Panel.Heading>
-                <Panel.Footer>
-                    <ButtonToolbar>
-                        <Button onClick={() => this.sendIdsToAppeared()} disabled={selectedOnscreenIds.length < 1} className="pull-right">
-                            <i className="fa fa-trash"></i>
-                        </Button>
-                    </ButtonToolbar>
-                </Panel.Footer>
+                <OnscreenToolbar />
                 <Panel.Body className="messages-body">
                     {messages && getOnscreenMessages(messages).map((message, index) => {
                         return (

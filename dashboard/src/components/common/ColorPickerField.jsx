@@ -7,7 +7,6 @@ class ColorPickerField extends Component {
 
     state = {
         modalOpen: false,
-        color: this.props.color
     }
 
     toggleColorPicker = () => {
@@ -16,18 +15,18 @@ class ColorPickerField extends Component {
     }
 
     onChange = color => {
-        console.log(color)
-        this.setState({color: color.hex});
+        this.props.onChange(color);
     }
 
-    changeDirect = color => {
-        this.setState({color})
+    changeDirect = e => {
+        this.props.onChange(e.target.value);
     }
 
     render() {
 
-        const { labelText, infoContent } = this.props;
-        const { modalOpen, color } = this.state;
+        const { labelText, infoContent, color } = this.props;
+        const { modalOpen } = this.state;
+
 
         return (
             <div>

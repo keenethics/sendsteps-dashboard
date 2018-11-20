@@ -10,7 +10,6 @@ class View extends Component {
     render() {
 
         const { isLoading, error, children } = this.props;
-        console.log(children)
 
         if(isLoading) {
             return  <LoadingView />;

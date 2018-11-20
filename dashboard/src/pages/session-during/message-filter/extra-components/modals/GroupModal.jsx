@@ -3,7 +3,9 @@ import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
 import ColorPickerField from '../../../../../components/common/ColorPickerField';
 import { toggleGroupsModal, updateGroups, addNewGroup } from '../../actions';
+import { isValidHexColor } from '../../../../../scripts/colorHelper'; 
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 class GroupModal extends Component {
 
@@ -28,18 +30,20 @@ class GroupModal extends Component {
         this.setState({newGroupName: e.target.value});
     }
 
-    setGroupColor(e) {
-        this.setState({newGroupColor: e.target.value});
+    setGroupColor(color) {
+        // console.log(color)
+        this.setState({newGroupColor: color});
     }
 
     addGroup = () => {
-        const newGroup = {
-            // @TODO get the ID from database after creating it (Livemessageroundmessagegroups)
-            id: Math.floor(Math.random() * 1337),
-            groupName: this.state.newGroupName,
-            groupColor: this.state.newGroupColor
-        } 
-        this.props.dispatch(addNewGroup(newGroup));
+        toast("Inserting doesn't work yet")
+        // const newGroup = {
+        //     // @TODO get the ID from database after creating it (Livemessageroundmessagegroups)
+        //     id: Math.floor(Math.random() * 1337),
+        //     groupName: this.state.newGroupName,
+        //     groupColor: this.state.newGroupColor
+        // } 
+        // this.props.dispatch(addNewGroup(newGroup));
     }
 
     render() {
@@ -63,34 +67,34 @@ class GroupModal extends Component {
                                 clearButton={true}
                                 onChange={this.setGroupName.bind(this)}
                             />
-                            <button onClick={() => this.addGroup()} className="btn btn-success"><i className="fa fa-plus"></i> Add group</button>
-
                         </div>
                         <div className="col-md-6">
                             <ColorPickerField 
                                 color={newGroupColor}
                                 labelText="Group color"
+                                disabled={true}
                                 onChange={this.setGroupColor.bind(this)}
                             />
+                            <Button disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} className="btn-success"><i className="fa fa-plus"></i> Add group</Button>
                         </div>
                     </div>
-                    {messageGroups && messageGroups.length > 0 && 
+                    {messageGroups &&
                     <span>
                         <hr/>
                         <div className="form-group">
                             <label className="control-label">Groups</label>
                             <ul className="list-group">
-                                {messageGroups.map((group, index) => {
+                                {Object.keys(messageGroups).map(group => {
                                     return (
-                                        <span key={index}>
+                                        <span key={group}>
                                             <li className="list-group-item message-group">
                                                 <span className="group-opts">
-                                                    <i style={{color: group.hexColor}} className="fa fa-circle"></i>
+                                                    <i style={{color: messageGroups[group].color}} className="fa fa-circle"></i>
                                                 </span>
                                                 <span className="group-name">
-                                                    <p>{group.groupName}</p>
+                                                    <p>{messageGroups[group].name}</p>
                                                 </span>
-                                                <button onClick={() => this.deleteGroup(index)} className="btn btn-xs btn-default delete-icon"><i className="fa fa-trash"></i></button>
+                                                <button onClick={() => this.deleteGroup(group)} className="btn btn-xs btn-default delete-icon"><i className="fa fa-trash"></i></button>
                                             </li>
                                         </span>
                                     )

@@ -24,12 +24,11 @@
     cursor: pointer;
 }
 
-.grouped-message {
-    position: absolute;
+.grouped-msg { 
+    position: relative;
     right: 0px;
-    top: 0px;
+    top: 12px;
     width: 0px;
     height: 0px;
-    border-top: 14px solid #333333;
     border-left: 14px solid transparent;
 }

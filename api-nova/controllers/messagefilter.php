@@ -56,76 +56,51 @@ class MessageFilter extends NovaAPI {
 
     }
 
-    public function addToMessageGroup() {
+    public function deleteMessages($messageIds) {
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->delete($messageIds);
+    }
 
+    public function addToGroup($groupId = null, $messageIds) {
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->updateGroupId($groupId, $messageIds);
     }
 
     public function sendToQueue($messageIds) {
-
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->sendToQueue($messageIds);
     }
 
     public function sendToScreen($messageIds) {
-
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->sendToScreen($messageIds);
     }
 
     public function sendToIncoming($messageIds) {
-
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->sendToIncoming($messageIds);
     }
 
     public function sendToAppeared($messageIds) {
-
+        $model = $this->loadModel('livemessageroundmessages');
+        return $model->sendToAppeared($messageIds);
     }
 
-    public function getMessageFilterData() {
-        return json_encode(['content' => [
-            [
-                'id' => 4141,
-                'connection' => null,
-                'destination' => "-",
-                'groupId' => null,
-                'messageRoundId' => 5481,
-                'participantId' => 534149,
-                'sessionId' => 591,
-                'source' => "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                'starred' => null,
-                'upvoteCount' => 10,
-                'status' => "unread",
-                'text' => "This is the first message with a veryyyyyyyyyyyyyyyyyyy loooooooooooooooooog message"
-            ],
-            [
-                'id' => 827234,
-                'connection' => null,
-                'destination' => "-",
-                'groupId' => null,
-                'messageRoundId' => 5481,
-                'participantId' => 12341,
-                'sessionId' => 591,
-                'source' => "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                'starred' => null,
-                'upvoteCount' => 23,
-                'status' => "unread",
-                'text' => "This is the second message"
-            ],
-            [
-                'id' => 67151,
-                'connection' => null,
-                'destination' => "-",
-                'groupId' => null,
-                'messageRoundId' => 5481,
-                'participantId' => 535149,
-                'sessionId' => 591,
-                'source' => "56b51709fb203035011a1e69f7be1ffc71eb012c",
-                'starred' => null,
-                'upvoteCount' => 17,
-                'status' => "unread",
-                'text' => "This is the third message"
-            ]
-        ]]
-        );
+    public function starMessage($messageId) {
+        $model = $this->loadModel('livemessageroundmessages');
+        if($messageId) {
+            return $model->setStar($messageId);
+        }
     }
 
+    public function getMessageGroups($userId) {
+        $model = $this->loadModel('livemessageroundmessagegroups');
+        return json_encode(['content' => $model->getGroupsByUserId($userId)]);
+    }
 
-
-
-
+    public function getMessageFilterData($messageRoundId) {
+        $model = $this->loadModel('livemessageroundmessages');
+        $results = $model->findByMessageRoundId($messageRoundId);
+        return json_encode(['content' => $results]);
+    }
 }

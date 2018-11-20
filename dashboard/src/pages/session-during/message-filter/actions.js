@@ -13,6 +13,13 @@ export function setMessageFilterData(data) {
     }
 }
 
+export function setMessageGroupData(data) {
+    return {
+        type: 'SET_GROUP_DATA',
+        data
+    }
+}
+
 export function updateGroups(newGroups) {
     return {
         type: 'UPDATE_GROUPS',
