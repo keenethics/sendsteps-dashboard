@@ -25,10 +25,9 @@
 }
 
 .grouped-msg { 
-    position: relative;
-    right: 0px;
-    top: 12px;
+    position: absolute;
+    right: 16px;
+    margin: 0px;
     width: 0px;
-    height: 0px;
     border-left: 14px solid transparent;
 }

@@ -7,46 +7,50 @@ import {
     selectGroup, 
     toggleGroupsModal, 
     toggleMessageModal, 
+    toggleEditMessageModal,
     expandIncomingPanel, 
     undoRemove, 
-    deleteSelectedMessages, 
-    addSelectedToGroup,
     sendToIncoming,
+    addSelectedToGroup
 } from '../../../actions';
-import { callAPI } from '../../../../../../actions/api';
+import { post } from '../../../../../../scripts/api';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
 class IncomingToolbar extends Component {
 
     sendIdsToScreen = () => {
-        this.props.dispatch(sendToScreen(this.props.selectedIncomingIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToScreen',
-                JSON.stringify({
-                    ids: this.props.selectedIncomingIds
-                }),
-                sendToIncoming(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearIncomingSelect());
+        post('messagefilter','sendToScreen',
+            JSON.stringify({
+                ids: this.props.selectedIncomingIds
+            }),
+            result => {
+                console.log(result);
+                this.props.dispatch(sendToScreen(result));
+                this.props.dispatch(clearIncomingSelect());
+                toast('Messages sent to screen!');
+            },
+            error => {
+                toast(`Unable to send messages to screen... ${error}`);
+            }
+        )
     }
 
     sendIdsToQueue = () => {
-        this.props.dispatch(sendToQueue(this.props.selectedIncomingIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToQueue',
-                JSON.stringify({
-                    ids: this.props.selectedIncomingIds
-                }),
-                sendToIncoming(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearIncomingSelect());
+        post('messagefilter','sendToQueue',
+            JSON.stringify({
+                ids: this.props.selectedIncomingIds
+            }),
+            result => {
+                console.log(result);
+                this.props.dispatch(sendToQueue(result));
+                this.props.dispatch(clearIncomingSelect());
+                toast('Messages sent to queue!');
+            },
+            error => {
+                toast(`Unable to send messages to queue... ${error}`);
+            }
+        )
     }
 
     showMessageModal = () => {
@@ -54,7 +58,7 @@ class IncomingToolbar extends Component {
     }
 
     showEditMessageModal = () => {
-        this.props.dispatch(toggleMessageModal(true));
+        this.props.dispatch(toggleEditMessageModal(true));
     }
 
     expandPanel = () => {
@@ -62,61 +66,63 @@ class IncomingToolbar extends Component {
     }
 
     undoRemoveMessages = () => {
+        if(!this.props.lastDeletedMessages) {
+            return false;
+        }
         const deletedIds = this.props.lastDeletedMessages.map(message => {
             return message.id
         });
-        this.props.dispatch(undoRemove());
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToIncoming',
-                JSON.stringify({
-                    ids: deletedIds
-                }),
-                deleteSelectedMessages(deletedIds)
-            )
-        );
+
+        post('messagefilter','sendToIncoming',
+            JSON.stringify({
+                ids: deletedIds
+            }),
+            result => {
+                this.props.dispatch(undoRemove());
+                toast('Messages restored!');
+            },
+            error => {
+                toast(`Unable to undo action... ${error}`);
+            }
+        )
     }
 
     deleteSelected = () => {
-        this.props.dispatch(deleteSelectedMessages(this.props.selectedIncomingIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'deleteMessages',
-                JSON.stringify({
-                    ids: this.props.selectedIncomingIds
-                }),
-                sendToIncoming(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearIncomingSelect());
-        
-        toast(
-            <div>
-                Message(s) deleted! 
-                <span className="pull-right undo" onClick={() => this.undoRemoveMessages()}>
-                    UNDO
-                </span>
-            </div>
-        );
+        post('messagefilter','deleteMessages',
+            JSON.stringify({
+                ids: this.props.selectedIncomingIds
+            }),
+            result => {
+                this.props.dispatch(sendToIncoming(result));
+                this.props.dispatch(clearIncomingSelect());
+                toast(<div>
+                        Message(s) deleted! 
+                        <span className="pull-right undo" onClick={() => this.undoRemoveMessages()}>
+                            UNDO
+                        </span>
+                    </div>);
+            },
+            error => {
+                toast(`Unable to remove messages... ${error}`);
+            }
+        )
     }
 
     addToGroup = () => {
-        this.props.dispatch(addSelectedToGroup(this.props.selectedGroupId));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'addToGroup',
-                JSON.stringify({
-                    groupId: this.props.selectedGroupId,
-                    selectedIds: this.props.selectedIncomingIds
-                }),
-                sendToIncoming(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearIncomingSelect());
-
+        post('messagefilter','addToGroup',
+            JSON.stringify({
+                groupId: this.props.selectedGroupId,
+                selectedIds: this.props.selectedIncomingIds
+            }),
+            result => {
+                this.props.dispatch(addSelectedToGroup(result));
+                this.props.dispatch(clearIncomingSelect());
+                toast('Messages added to group!');
+            },
+            error => {
+                toast(`Unable to add messages to group... ${error}`);
+            }
+        )
     }
 
     showGroupModal = () => {
@@ -129,15 +135,13 @@ class IncomingToolbar extends Component {
 
     render() {
 
-        const { incomingPanelExpanded, messageGroups, selectedIncomingIds } = this.props;
+        const { incomingPanelExpanded, messageGroups, selectedIncomingIds, messages } = this.props;
 
         return (
             <Panel.Footer>
                 <ButtonToolbar>
                     <Button onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1} bsStyle="success">Send to Screen</Button>
                     <Button onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1} bsStyle="primary">Send to Queue</Button>
-                    
-                    
                     {selectedIncomingIds.length < 1 && <Button  onClick={() => this.showMessageModal()} bsStyle="default">Add Message</Button>}
                     {selectedIncomingIds.length >= 1 && <Button disabled={selectedIncomingIds.length > 1} onClick={() => this.showEditMessageModal()} bsStyle="default">Edit Message</Button>}
                     <Button onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}bsStyle="default"><i className="fa fa-trash"></i></Button>
@@ -176,7 +180,9 @@ export default connect(
             messageGroups: state.messageFilterReducer.messageGroups,
             selectedIncomingIds: state.messageFilterReducer.selectedIncomingIds,
             selectedGroupId: state.messageFilterReducer.selectedGroupId,
-            lastDeletedMessages: state.messageFilterReducer.lastDeletedMessages
+            lastDeletedMessages: state.messageFilterReducer.lastDeletedMessages,
+            messages: state.messageFilterReducer.messages
+
         }
     }
 ) (IncomingToolbar);

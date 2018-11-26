@@ -14,7 +14,7 @@ import EditMessageModal from '../modals/EditMessageModal';
 class IncomingPanel extends Component {
 
     toggleSelect = id => {
-        this.props.dispatch(toggleSelectIncoming(id));
+    this.props.dispatch(toggleSelectIncoming(id));
     }
 
     getGroupColor(groupId) {

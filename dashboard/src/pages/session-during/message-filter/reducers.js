@@ -3,8 +3,12 @@ import { updateMessagesStatus, updateMessagesGroup, addOrRemoveFromList} from '.
 export default function messageFilterReducer(state = {}, action) {
     switch(action.type) {
         case 'ADD_NEW_GROUP': {
-            let updatedGroups = [ ...state.messageGroups, action.newGroup ];
-
+            console.log(action.newGroup);
+            let updatedGroups = { ...state.messageGroups };
+            updatedGroups[action.newGroup.id] = {
+                name: action.newGroup.name,
+                color: action.newGroup.color
+            }
             return {
                 ...state,
                 messageGroups: updatedGroups
@@ -35,10 +39,24 @@ export default function messageFilterReducer(state = {}, action) {
                 selectedGroupId: action.selectedGroupId
             }
         }
+        case 'REMOVE_GROUP': {
+            let updatedGroups = {...state.messageGroups};
+            delete updatedGroups[action.groupId];
+            return {
+                ...state,
+                messageGroups: updatedGroups
+            }
+        }
         case 'TOGGLE_MESSAGE_MODAL': {
             return {
                 ...state,
                 messageModalOpen: action.messageModalOpen
+            }
+        }
+        case 'TOGGLE_EDIT_MESSAGE_MODAL': {
+            return {
+                ...state,
+                editMessageModalOpen: action.editMessageModalOpen
             }
         }
         case 'TOGGLE_GROUPS_MODAL': {
@@ -178,6 +196,8 @@ export default function messageFilterReducer(state = {}, action) {
         case 'ADD_MESSAGE': {
             let messages = [ ...state.messages ];
             messages.push(action.newMessage);
+
+            console.log(messages);
             return {
                 ...state,
                 messages,

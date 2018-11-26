@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
 import ColorPickerField from '../../../../../components/common/ColorPickerField';
-import { toggleGroupsModal, updateGroups, addNewGroup } from '../../actions';
+import { toggleGroupsModal, removeGroup, addNewGroup } from '../../actions';
+import { post } from '../../../../../scripts/api';
 import { isValidHexColor } from '../../../../../scripts/colorHelper'; 
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -19,10 +20,27 @@ class GroupModal extends Component {
     }
 
     deleteGroup(index) {
-        let groups = [ ...this.props.messageGroups ];
-        if(index !== -1) {
-            groups.splice(index, 1);
-            this.props.dispatch(updateGroups(groups));
+        const { messageGroups, currentUser } = this.props;
+
+        const group = messageGroups[index];
+        const userId = currentUser.userId;
+
+        if(group) {
+            post(
+                // Controller
+                'messagefilter',
+                // Function
+                'removeFromGroup',
+                // Params
+                JSON.stringify({userId, groupId: index}),
+                // OnSuccess
+                groupId => {
+                    this.props.dispatch(removeGroup(groupId))
+                    toast('Group removed!');
+                },
+                // OnFail
+                error => toast(`Unable to remove group: [${error}]`)
+            )
         }
     }
 
@@ -36,14 +54,29 @@ class GroupModal extends Component {
     }
 
     addGroup = () => {
-        toast("Inserting doesn't work yet")
-        // const newGroup = {
-        //     // @TODO get the ID from database after creating it (Livemessageroundmessagegroups)
-        //     id: Math.floor(Math.random() * 1337),
-        //     groupName: this.state.newGroupName,
-        //     groupColor: this.state.newGroupColor
-        // } 
-        // this.props.dispatch(addNewGroup(newGroup));
+        const { currentUser } = this.props;
+        
+        const newGroup = {
+            userId: currentUser.userId,
+            groupName: this.state.newGroupName,
+            groupColor: this.state.newGroupColor
+        } 
+        post(
+            // Controller
+            'messagefilter',
+            // Function
+            'addMessageGroup',
+            // Params
+            JSON.stringify(newGroup),
+            // OnSuccess
+            group => {
+                this.props.dispatch(addNewGroup(group))
+                toast(`Group added!`);
+                this.setState({newGroupName: '', newGroupColor: ''})
+            },
+            // OnFail
+            error => toast(`Unable to add group: [${error}]`)
+        )
     }
 
     render() {
@@ -75,10 +108,12 @@ class GroupModal extends Component {
                                 disabled={true}
                                 onChange={this.setGroupColor.bind(this)}
                             />
+                        </div>
+                        <div className="col-md-6">
                             <Button disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} className="btn-success"><i className="fa fa-plus"></i> Add group</Button>
                         </div>
                     </div>
-                    {messageGroups &&
+                    {messageGroups && Object.keys(messageGroups).length > 0 &&
                     <span>
                         <hr/>
                         <div className="form-group">
@@ -116,7 +151,8 @@ export default connect(
         return {
             groupModalOpen: state.messageFilterReducer.groupModalOpen,
             messageGroups: state.messageFilterReducer.messageGroups,
-            newMessageGroup: state.messageFilterReducer.newMessageGroup
+            newMessageGroup: state.messageFilterReducer.newMessageGroup,
+            currentUser: state.authReducer.currentUser
         }
     }
 ) (GroupModal);

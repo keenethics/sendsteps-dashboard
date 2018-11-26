@@ -10,6 +10,7 @@ import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { fetchResult } from '../../../actions/api';
 import { setMessageFilterData, setMessageGroupData } from './actions';
+import { toast } from 'react-toastify';
 
 class MessageFilterOverview extends React.Component {
 

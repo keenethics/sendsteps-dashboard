@@ -34,10 +34,25 @@ export function selectGroup(selectedGroupId) {
     }
 }
 
+export function removeGroup(groupId) {
+    return {
+        type: 'REMOVE_GROUP',
+        groupId
+    }
+}
+
 export function toggleMessageModal(messageModalOpen) {
     return {
         type: 'TOGGLE_MESSAGE_MODAL',
         messageModalOpen
+    }
+}
+
+
+export function toggleEditMessageModal(editMessageModalOpen) {
+    return {
+        type: 'TOGGLE_EDIT_MESSAGE_MODAL',
+        editMessageModalOpen
     }
 }
 

@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
-import { sendToAppeared, clearOnscreenSelect, sendToScreen } from '../../../actions';
-import { callAPI } from '../../../../../../actions/api';
+import { sendToAppeared, clearOnscreenSelect } from '../../../actions';
+import { post } from '../../../../../../scripts/api';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 class OnscreenToolbar extends Component {
 
     sendIdsToAppeared = () => {
-        this.props.dispatch(sendToAppeared(this.props.selectedOnscreenIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToAppeared',
-                JSON.stringify({
-                    ids: this.props.selectedOnscreenIds
-                }),
-                sendToScreen(this.props.selectedOnscreenIds)
-            )
-        );
-        this.props.dispatch(clearOnscreenSelect());
+        post('messagefilter', 'sendToAppeared',
+            JSON.stringify({ids: this.props.selectedOnscreenIds}),
+            result => {
+                this.props.dispatch(sendToAppeared(result));
+                this.props.dispatch(clearOnscreenSelect());
+            },
+            error => {
+                toast(`Unable to remove messages... [${error}]`);
+            }
+        )
     }
 
     render() {

@@ -1,39 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { sendToScreen, sendToIncoming, clearQueueSelect, sendToQueue } from '../../../actions';
-import { callAPI } from '../../../../../../actions/api';
+import { sendToScreen, sendToIncoming, clearQueueSelect } from '../../../actions';
+import { post } from '../../../../../../scripts/api';
 import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 
 class QueueToolbar extends Component {
 
     sendIdsToScreen = () => {
-        this.props.dispatch(sendToScreen(this.props.selectedQueueIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToScreen',
-                JSON.stringify({
-                    ids: this.props.selectedQueueIds
-                }),
-                sendToQueue(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearQueueSelect());
+        post(
+            'messagefilter', 'sendToScreen',
+            JSON.stringify({ids: this.props.selectedQueueIds}),
+            result => {
+                this.props.dispatch(sendToScreen(result));
+                this.props.dispatch(clearQueueSelect());
+            },
+            error => {
+                toast(`Unable to send messages to screen... [${error}]`);
+            }
+        )
     }
 
     sendIdsToIncoming = () => {
-        this.props.dispatch(sendToIncoming(this.props.selectedQueueIds));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'sendToIncoming',
-                JSON.stringify({
-                    ids: this.props.selectedQueueIds
-                }),
-                sendToQueue(this.props.selectedIncomingIds)
-            )
-        );
-        this.props.dispatch(clearQueueSelect());
+        post(
+            'messagefilter', 'sendToIncoming',
+            JSON.stringify({ids: this.props.selectedQueueIds}),
+            result => {
+                this.props.dispatch(sendToIncoming(result));
+                this.props.dispatch(clearQueueSelect());
+            },
+            error => {
+                toast(`Unable to send messages to incoming... [${error}]`);
+            }
+        )
     }
 
     render() {

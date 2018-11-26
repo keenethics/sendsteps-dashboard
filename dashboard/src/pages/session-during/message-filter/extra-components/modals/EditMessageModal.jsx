@@ -2,58 +2,46 @@ import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
 import { toggleMessageModal, addNewMessage, deleteSelectedMessages } from '../../actions';
-import { callAPI } from '../../../../../actions/api';
-import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
-class MessageModal extends Component {
+class EditMessageModal extends Component {
 
     state = {
-        updatedMessage: this.getSelectedMessage()
+        updatedMessage: ""
     }
 
     showNewMessageModal = value => {
         this.props.dispatch(toggleMessageModal(value));
     }
 
-    componentDidMount() {
-        this.getSelectedMessage();
+    componentWillReceiveProps(prevProps, nextProps) {
+        const { messages, selectedIncomingIds } = nextProps;
+
+        if(selectedIncomingIds && messages) {
+            this.getSelectedMessage();
+        }
     }
 
     getSelectedMessage() {
-        const { messages, selectedIncomingIds } = this.props;
-        for(let x = 0; x < messages.length; x++) {
-            if(messages[x].id === selectedIncomingIds[0]) {
-                this.setState({updatedMessage: messages[x].text});
+        const { selectedIncomingIds, messages } = this.props;
+
+        messages.forEach(message => {
+            if(message.id === selectedIncomingIds[0]) {
+                this.setState({updatedMessage: message.text});
             }
-        }
+        })
     }
 
     updateMessage = e => {
         this.setState({updatedMessage: e.target.value});
     }
 
-    // updateMessage() {
-    //     this.props.dispatch(addNewMessage(newMessage));
-    //     this.props.dispatch(
-    //         callAPI(
-    //             'messagefilter',
-    //             'editMessage',
-    //             JSON.stringify(newMessage),
-    //             deleteSelectedMessages()
-    //         )
-    //     );
-    //     this.setState({newMessageText: ''})
-    //     toast("Message updated!");
-    // }
-
     render() {
 
-        const { messageModalOpen } = this.props;
+        const { EditmessageModalOpen, messages, selectedIncomingIds } = this.props;
         const { updatedMessage } = this.state;
-
         return (
-            <Modal show={messageModalOpen} onHide={() => this.showNewMessageModal(false)}>
+            <Modal show={EditmessageModalOpen} onHide={() => this.showNewMessageModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit message</Modal.Title>
                 </Modal.Header>
@@ -81,8 +69,9 @@ export default connect(
     (state) => {
         return {
             messageModalOpen: state.messageFilterReducer.messageModalOpen,
+            EditmessageModalOpen: state.messageFilterReducer.EditmessageModalOpen,
             selectedIncomingIds: state.messageFilterReducer.selectedIncomingIds,
             messages: state.messageFilterReducer.messages,
         }
     }
-) (MessageModal);
+) (EditMessageModal);

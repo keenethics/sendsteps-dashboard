@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { setEmailError, setPasswordError } from './login';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
-// import navigationHistory from '../scripts/navigationHistory';
+import { toast } from 'react-toastify';
 import { getConfigSetting } from '../scripts/configFile';
 
 let authUrl = getConfigSetting('apiUrlBastet');
@@ -107,6 +107,8 @@ export function authorizeLogin(email = '', password = '') {
                         // USER IS AUTHORIZED HERE
                         // Add key to localStorage, or Cookies, if failed to do both,
                         // redirect to login page with security warning
+                        console.log(result);
+                        toast("Logged in as " + email);
                         if(!addToLocalStorage('token',result.token)) {
                             if(!addCookieValues('SSTToken', result.token, 48)) {
                                 dispatch(securityError('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'))

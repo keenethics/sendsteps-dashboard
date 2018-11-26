@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { setStarred } from '../actions';
 import { connect } from 'react-redux';
-import { callAPI } from '../../../../actions/api';
+import { post } from '../../../../scripts/api';
 import { isValueInArray } from '../../../../scripts/arrayHelper';
+import { toast } from 'react-toastify';
 
 class PanelMessage extends Component {
 
@@ -12,17 +13,18 @@ class PanelMessage extends Component {
 
     onToggleStar() {
         const messageId = this.props.message.id;
-        this.props.dispatch(setStarred(this.props.message.id));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'starMessage',
-                JSON.stringify({
-                    id: messageId
-                }),
-                setStarred(this.props.message.id)
-            )
-        );
+        post(
+            'messagefilter',
+            'starMessage',
+            JSON.stringify({id: messageId}),
+            response => {
+                console.log(response);
+                this.props.dispatch(setStarred(messageId));
+            },
+            error => {
+                toast(`Unable to favourite message... [${error}]`);
+            }
+        )
     }
 
     getGroupStyle() {

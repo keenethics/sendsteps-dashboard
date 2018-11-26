@@ -11,17 +11,53 @@ class Livemessageroundmessages_Model extends Model {
     const EDITED = "edited";
     const COPIED = "copied";
 
+    private function sendTo($messageIds, $destination) {
+        $update = $this->database()->update(
+            "livemessageroundmessages",
+            ["status" => $destination],
+            ["id" => $messageIds]
+        );
+        return $update->execute();
+    }
+
+    public function addNewMessage($message) {
+        $insertedMessageId = $this->insertOn(
+            'livemessageroundmessages',
+            [
+                'connection' => '', // Not null
+                'destination' => '', // Not null
+                'groupId' => null,
+                'messageRoundId' => $message->messageRoundId,
+                'participantId' => $message->participantId,
+                'sessionId' => $message->sessionId,
+                'source' => '', // Binary(40) ?? How to generate
+                'starred' => false, // Not null
+                'status' => 'unread',
+                'text' => $message->text
+            ]
+        );
+        return $this->database()->select(
+            "livemessageroundmessages", 
+            "*", 
+            ["id" => $insertedMessageId]
+        )[0];
+    }
+
     public function findById($id){
         $results = $this->findByIdCentral($id, 'livemessageroundmessages');
         return $results[0];
     }
 
     public function updateGroupId($groupId, $ids) {
-        return $this->database()->update(
+        $update = $this->database()->update(
             "livemessageroundmessages", 
             ["groupId" => $groupId],
             ["id" => $ids]
-        )->execute();
+        );
+        if($update->execute()) {
+            return $groupId;
+        }
+        return false;
     }
 
     public function findByMessageRoundId($id) {
@@ -52,29 +88,32 @@ class Livemessageroundmessages_Model extends Model {
         );
         return $update->execute();
     }
-    
-    public function sendTo($messageIds, $destination) {
-        $update = $this->database()->update(
-            "livemessageroundmessages",
-            ["status" => $destination],
-            ["id" => $messageIds]
-        );
-        return $update->execute();
-    }
 
     public function sendToScreen($messageIds) {
-        return $this->sendTo($messageIds, $this::SCREEN);
+        if($this->sendTo($messageIds, $this::SCREEN)) {
+            return $messageIds;
+        }
+        return false;
     }
 
     public function sendToQueue($messageIds) {
-        return $this->sendTo($messageIds, $this::QUEUE);
+        if($this->sendTo($messageIds, $this::QUEUE)) {
+            return $messageIds;
+        }
+        return false;
     }
 
     public function sendToIncoming($messageIds) {
-        return $this->sendTo($messageIds, $this::INCOMING);
+        if($this->sendTo($messageIds, $this::INCOMING)) {
+            return $messageIds;
+        }
+        return false;
     }
 
     public function sendToAppeared($messageIds) {
-        return $this->sendTo($messageIds, $this::APPEARED);
+        if($this->sendTo($messageIds, $this::APPEARED)) {
+            return $messageIds;
+        }
+        return false;
     }
 }

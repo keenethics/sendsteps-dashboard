@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import InputField from '../../../../../components/common/InputField';
-import { toggleMessageModal, addNewMessage, deleteSelectedMessages } from '../../actions';
-import { callAPI } from '../../../../../actions/api';
+import { toggleMessageModal, addNewMessage } from '../../actions';
+import { post } from '../../../../../scripts/api';
 import { toast } from 'react-toastify';
 import { connect } from 'react-redux';
 
@@ -21,32 +21,27 @@ class MessageModal extends Component {
     }
 
     addMessage() {
-        const newMessage = {
-            id: Math.floor(Math.random() * 999999),
-            connection: null,
-            destination: "-",
-            groupId: null,
+        const message = {
+            // Get these from current props such as session, messageRound
             messageRoundId: 5481,
             participantId: 534149,
             sessionId: 591,
-            source: "",
-            starred: null,
-            upvoteCount: Math.floor(Math.random() * 30),
-            status: "unread",
             text: this.state.newMessageText
         }
 
-        this.props.dispatch(addNewMessage(newMessage));
-        this.props.dispatch(
-            callAPI(
-                'messagefilter',
-                'addMessage',
-                JSON.stringify(newMessage),
-                deleteSelectedMessages()
-            )
-        );
-        this.setState({newMessageText: ''})
-        toast("Message added!");
+        post(
+            'messagefilter',
+            'addNewMessage',
+            JSON.stringify({message}),
+            messageResult => {
+                this.props.dispatch(addNewMessage(messageResult));
+                this.setState({newMessageText: ''})
+                toast("Message added!");
+            },
+            error => {
+                toast(`Unable to add new message... ${JSON.stringify(error)}`);
+            }
+        )
     }
 
     render() {
