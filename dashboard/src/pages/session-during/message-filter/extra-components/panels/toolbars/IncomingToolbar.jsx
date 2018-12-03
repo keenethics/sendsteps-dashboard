@@ -25,7 +25,6 @@ class IncomingToolbar extends Component {
                 ids: this.props.selectedIncomingIds
             }),
             result => {
-                console.log(result);
                 this.props.dispatch(sendToScreen(result));
                 this.props.dispatch(clearIncomingSelect());
                 toast('Messages sent to screen!');

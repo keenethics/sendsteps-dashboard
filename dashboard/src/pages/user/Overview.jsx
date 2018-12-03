@@ -89,7 +89,7 @@ class ProfileOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="control-label">Department</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-warehouse"></i></span>
+                                            <span className="input-group-addon"><i className="fa fa-user-md"></i></span>
                                             <input value={profileDetails && profileDetails.departmentName} placeholder="Enter your Department" className="form-control" name='department' />
                                         </div>
                                     </div>
@@ -101,7 +101,7 @@ class ProfileOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="control-label">Role</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user-shield"></i></span>
+                                            <span className="input-group-addon"><i className="fa fa-user-times"></i></span>
                                             <input value={profileDetails && profileDetails.role} className="form-control" disabled="disabled" name='role' />
                                         </div>
                                     </div>
@@ -148,7 +148,7 @@ class ProfileOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="control-label">Timezone</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fas fa-globe"></i></span>
+                                            <span className="input-group-addon"><i className="fa fa-globe"></i></span>
                                             <input value={profileDetails && profileDetails.timezone} placeholder="Enter your Timezone" className="form-control" name='timezone' />
                                         </div>
                                     </div>
@@ -185,7 +185,7 @@ class ProfileOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="control-label">City</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fas fa-home"></i></span>
+                                            <span className="input-group-addon"><i className="fa fa-home"></i></span>
                                             <input value="" placeholder="Enter your City" className="form-control" name='city' />
                                         </div>
                                     </div>

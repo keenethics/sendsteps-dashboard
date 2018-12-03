@@ -1,9 +1,12 @@
 export function getMessageByProperty(messages, property, value) {
-    let listWithProperty = [];
-    messages.forEach(message => {
-        message[property] === value && listWithProperty.push(message);
-    });
-    return listWithProperty;
+    if(messages && property && value) {
+        let listWithProperty = [];
+        messages.forEach(message => {
+            message[property] === value && listWithProperty.push(message);
+        });
+        return listWithProperty;
+    } 
+    return null;
 }
 
 export function addOrRemoveFromList(idList, id) {

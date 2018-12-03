@@ -81,13 +81,13 @@ export const getUpvoteColumn = upvoteCount => {
 
 export const getDateFormatter = time => {
     let startTime = moment(time, 'YYYY-MM-DD HH:mm:ss')
-    return <TooltipNotification title={1} placement="top" tooltip={<span><i className="fas fa-clock"></i> {startTime.fromNow()}</span>} >
+    return <TooltipNotification title={1} placement="top" tooltip={<span><i className="fas fa-clock-o"></i> {startTime.fromNow()}</span>} >
             <span className="date-col">
                 <div className="btn btn-static date">
-                    <i className="far fa-calendar-alt"></i> {startTime.format("dddd, MMMM Do YYYY")} 
+                    <i className="fa fa-calendar"></i> {startTime.format("dddd, MMMM Do YYYY")} 
                 </div>
                 <div className="btn btn-static date">
-                    <i className="far fa-clock"></i> {startTime.format("h:mm:ss a")} 
+                    <i className="fa fa-clock-o"></i> {startTime.format("h:mm:ss a")} 
                 </div>
             </span>
     </TooltipNotification>

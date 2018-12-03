@@ -56,7 +56,7 @@ class PresentationDetails extends React.Component {
                                     </div>   
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {presentationDetails && this.getTime().startTime}</p> 
+                                        <p><i className="fa fa-clock-o"></i> {presentationDetails && this.getTime().startTime}</p> 
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -64,7 +64,7 @@ class PresentationDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {presentationDetails && this.getTime().endTime}</p>
+                                        <p><i className="fa fa-clock-o"></i> {presentationDetails && this.getTime().endTime}</p>
                                     </div>  
 
                                     <div className="col-sm-6">

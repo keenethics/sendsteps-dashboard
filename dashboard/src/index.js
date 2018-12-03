@@ -1,10 +1,4 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import App from './App';
-// import registerServiceWorker from './registerServiceWorker';
-
-// ReactDOM.render(<App />, document.getElementById('root'));
-// registerServiceWorker();
+'use-strict';
 
 // Polyfills for < IE11
 import 'core-js/es6/map';
@@ -15,7 +9,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import registerServiceWorker from "./registerServiceWorker";
 import "./index.scss";
 import { Provider } from 'react-redux';
 import store from './store';
@@ -29,4 +22,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById("root")
 );
-registerServiceWorker();

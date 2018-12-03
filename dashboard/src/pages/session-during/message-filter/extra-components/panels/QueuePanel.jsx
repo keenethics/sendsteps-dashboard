@@ -20,7 +20,7 @@ class QueuePanel extends Component {
             <Panel bsStyle="info">
                 <Panel.Heading>
                     <h4>
-                        <i className="filter-help fa fa-info-circle"></i> In Queue 
+                        <i className="filter-help fa fa-info-circle"></i> In Queue ({getQueueMessages(messages).length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>

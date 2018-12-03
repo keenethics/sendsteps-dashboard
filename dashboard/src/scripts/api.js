@@ -1,8 +1,7 @@
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
-import { getConfigSetting } from '../scripts/configFile';
 
-const apiUrl = getConfigSetting('apiUrlNova');
+const apiUrl = process.env.NOVA_API_URL;
 
 export function post(controller, functionName, params, onSuccess, onFail) {
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');

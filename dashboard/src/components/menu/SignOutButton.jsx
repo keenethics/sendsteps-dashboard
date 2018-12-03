@@ -15,7 +15,7 @@ class SignOutButton extends React.Component {
                 <button 
                     onClick={this.signOut.bind(this)} 
                     className="btn btn-xs btn-primary pull-right logout">
-                    <i className="fa fa-sign-out-alt"></i>
+                    <i className="fa fa-sign-out"></i>
                 </button>
             </TooltipNotification>
         )

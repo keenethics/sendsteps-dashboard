@@ -114,19 +114,19 @@ class ResultsToolbar extends Component {
                 </div>
                 <TooltipNotification title="pie-chart" tooltip={"Pie Chart"} placement={"top"}>
                     <Button onClick={this.changeChartType} active={pieChartResults}>
-                        <i className="fa fa-chart-pie"></i>
+                        <i className="fa fa-pie-chart"></i>
                     </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="bar-chart" tooltip={"Bar Chart"} placement={"top"}>
                     <Button onClick={this.changeChartType} active={barChartResults} className="btn btn-default">
-                        <i className="fa fa-chart-bar"></i>
+                        <i className="fa fa-bar-chart"></i>
                     </Button>
                 </TooltipNotification>
 
                 <TooltipNotification title="side-bar-chart" tooltip={"Side Bar Chart"} placement={"top"}>
                     <Button onClick={this.changeSideChart} active={sideBarChart} className="btn btn-default">
-                        <i className="fa fa-chart-bar side-chart"></i>
+                        <i className="fa fa-bar-chart side-chart"></i>
                     </Button>
                 </TooltipNotification>
 

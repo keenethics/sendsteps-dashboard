@@ -49,7 +49,7 @@ class PanelMessage extends Component {
                 </div>
                 <div className="starred" onClick={() => this.onToggleStar()}>
                     <span>
-                        <i className={isStarred ? "fa fa-star" : "far fa-star" }></i>
+                        <i className={isStarred ? "fa fa-star" : "fa fa-star-o" }></i>
                     </span>
                 </div>
                 <div className="select" onClick={() => this.onToggleSelect()}>

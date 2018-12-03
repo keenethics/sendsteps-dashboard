@@ -61,7 +61,7 @@ class SessionOverview extends React.Component {
                                         <InputField 
                                             labelText="Start date"
                                             placeholder="YYYY-MM-DD"
-                                            leftFaIcon="calendar-alt"
+                                            leftFaIcon="calendar"
                                             rightFaIcon="times"
                                             inputId="startDate"
                                         />
@@ -71,7 +71,7 @@ class SessionOverview extends React.Component {
                                         <InputField 
                                             labelText="End date"
                                             placeholder="YYYY-MM-DD"
-                                            leftFaIcon="calendar-alt"
+                                            leftFaIcon="calendar"
                                             rightFaIcon="times"
                                             inputId="endDate"
                                         />
@@ -83,7 +83,7 @@ class SessionOverview extends React.Component {
                                         <div className="form-group">    
                                             <label className="control-label">Timezone</label>
                                             <div className="input-group" >
-                                                <span className="input-group-addon"><i className="fa fa-clock"></i></span>
+                                                <span className="input-group-addon"><i className="fa fa-clock-o"></i></span>
                                                 <select className="form-control" name='timezone' id='timezone'>
                                                     <option value=''>Select a timezone</option>
                                                     <option value='' > </option>
@@ -131,13 +131,13 @@ class SessionOverview extends React.Component {
                                                 <div className="btn-group" data-toggle="buttons">
                                                     <label className="btn btn-default">
                                                         <div className="btn-group">
-                                                            <span className="btn-group-addon"><i className="far fa-calendar"></i> Yearly</span>
+                                                            <span className="btn-group-addon"><i className="fa fa-calendar"></i> Yearly</span>
                                                             <input type="radio" id="licenseYearly" name="licenseType" value="yearly" />
                                                         </div>
                                                     </label>
                                                     <label className="btn btn-default">
                                                         <div className="btn-group">
-                                                            <span className="btn-group-addon"><i className="far fa-calendar"></i> Monthly</span>
+                                                            <span className="btn-group-addon"><i className="fa fa-calendar"></i> Monthly</span>
                                                             <input type="radio" id="licenseMonthly" name="licenseType" value="monthly" />
                                                         </div>
                                                     </label>

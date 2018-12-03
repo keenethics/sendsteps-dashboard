@@ -52,7 +52,7 @@ class SurveyResultsDetails extends React.Component {
                                     </div>   
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {startTime.format(stringFormat)}</p> 
+                                        <p><i className="fa fa-clock-o"></i> {startTime.format(stringFormat)}</p> 
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -60,7 +60,7 @@ class SurveyResultsDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {endTime.format(stringFormat)}</p>
+                                        <p><i className="fa fa-clock-o"></i> {endTime.format(stringFormat)}</p>
                                     </div>  
                                 </div>       
                                 

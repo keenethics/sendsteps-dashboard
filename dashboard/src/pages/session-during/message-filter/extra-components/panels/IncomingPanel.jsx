@@ -34,7 +34,7 @@ class IncomingPanel extends Component {
                 <Panel bsStyle="primary">
                     <Panel.Heading>
                         <h4>
-                            <i className="filter-help fa fa-info-circle"></i> Incoming Messages 
+                            <i className="filter-help fa fa-info-circle"></i> Incoming Messages ({getIncomingMessages(messages).length})
                             <span className="pull-right">
                                 <FullScreenButton />
                             </span>

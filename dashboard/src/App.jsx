@@ -12,8 +12,6 @@ import { withRouter, Route } from 'react-router-dom';
 export class App extends Component {
     componentDidMount() {
         this.checkAuth();
-
-        // console.log(process.env);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -48,8 +46,8 @@ export class App extends Component {
     }
 
     render() {
-        const { isAuthorized, isAuthRequired } = this.props;
-        if(isAuthRequired && isAuthorized) { return <Route path="/" component={DashboardApp}/>} 
+        const { isAuthorized, isAuthRequired, currentUser } = this.props;
+        if(isAuthRequired && isAuthorized && currentUser) { return <Route path="/" component={DashboardApp}/>} 
         else if (false === isAuthorized) { return <RegistrationOverview /> } 
         return <AuthorizationLoadingView />; 
     }
@@ -58,7 +56,8 @@ export default withRouter(connect(
     (state) => {
         return {
             isAuthorized: state.authReducer.isAuthorized,
-            isAuthRequired: state.authReducer.isAuthRequired
+            isAuthRequired: state.authReducer.isAuthRequired,
+            currentUser: state.authReducer.currentUser
         }
     }
 ) (App));   

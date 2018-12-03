@@ -7,7 +7,7 @@ export function localStorageIsAccesible() {
         localStorage.removeItem(storageTest);
         return true;
     } catch (error) {
-        console.log('LocalStorage is not accessible');
+        // console.log('LocalStorage is not accessible');
         return false;
     }
 }
@@ -22,7 +22,7 @@ export function addToLocalStorage(key, value) {
             return storedItem;
         }
     }
-    console.log('Unable to add item to localStorage');
+    // console.log('Unable to add item to localStorage');
     return false;
 }
 
@@ -34,7 +34,7 @@ export function getFromLocalStorage(key) {
             return storedObject;
         }
     }
-    console.log('Unable to get key: ' + key + ' from localStorage');
+    // console.log('Unable to get key: ' + key + ' from localStorage');
     return false;
 }
 
@@ -48,6 +48,6 @@ export function removeFromLocalStorage(key) {
             }
         }
     }
-    console.log('Unable to remove key: ' + key + ' from localStorage');
+    // console.log('Unable to remove key: ' + key + ' from localStorage');
     return false;
 }

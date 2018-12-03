@@ -7,7 +7,7 @@ class AuthorizationLoadingView extends Component {
             <div className="container fill">
                 <div id="map" className="fa-lg">
                     <p>
-                        Checking authentication... <i className="fa fa-circle-notch fa-spin"></i>
+                        Checking authentication... <i className="fa fa-circle-o-notch fa-spin"></i>
                     </p>
                 </div> 
             </div>

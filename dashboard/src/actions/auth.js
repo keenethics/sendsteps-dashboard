@@ -3,9 +3,8 @@ import { setEmailError, setPasswordError } from './login';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
 import { toast } from 'react-toastify';
-import { getConfigSetting } from '../scripts/configFile';
 
-let authUrl = getConfigSetting('apiUrlBastet');
+let authUrl = process.env.AUTH_API_URL;
 
 export function setAuthorized(isAuthorized) {
     return {
@@ -43,7 +42,9 @@ export function checkAuthorized(token = '') {
         dispatch(authRequired(true));
         fetch(authUrl,{
             method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
             body: 'function=checkAuth&params='+params
         }).then(res => {
             return res.json()
@@ -97,7 +98,9 @@ export function authorizeLogin(email = '', password = '') {
             dispatch(authRequired(true));
             fetch(authUrl,{
                 method: 'POST',
-                headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+                headers: {
+                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
                 body: 'function=login&params='+params
             }).then(res => {
                 return res.json()

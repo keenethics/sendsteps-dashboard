@@ -60,7 +60,7 @@ class SurveyDetails extends React.Component {
                                     </div>   
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {surveyDetails && this.formatTime(surveyDetails.startTime)}</p> 
+                                        <p><i className="fa fa-clock-o"></i> {surveyDetails && this.formatTime(surveyDetails.startTime)}</p> 
                                     </div> 
 
                                     <div className="col-sm-6">
@@ -68,7 +68,7 @@ class SurveyDetails extends React.Component {
                                     </div>  
 
                                     <div className="col-sm-6">
-                                        <p><i className="far fa-clock"></i> {surveyDetails && this.formatTime(surveyDetails.endTime)}</p>
+                                        <p><i className="fa fa-clock-o"></i> {surveyDetails && this.formatTime(surveyDetails.endTime)}</p>
                                     </div>  
                                 </div>       
                                 

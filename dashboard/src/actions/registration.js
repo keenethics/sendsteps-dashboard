@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 import { authLoading, authorizeLogin } from './auth';
 
-let authUrl = 'http://local-bastet.sendsteps.com/index.php';
+let authUrl = process.env.AUTH_API_URL;
 
 export function setFirstName(firstName) {
     return {

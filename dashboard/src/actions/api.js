@@ -1,10 +1,9 @@
 import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './../scripts/localStorage';
 import { getCookieValues } from './../scripts/cookieStorage';
-import { getConfigSetting } from '../scripts/configFile';
 import { toast } from 'react-toastify';
 
-let apiUrl = getConfigSetting('apiUrlNova');
+let apiUrl = process.env.NOVA_API_URL;
 
 export function setNewData(newData) {
     return {

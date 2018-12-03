@@ -21,7 +21,7 @@ class AppearedPanel extends Component {
             <Panel>
                 <Panel.Heading>
                     <h4>
-                        <i className="filter-help fa fa-info-circle"></i> Appeared on screen 
+                        <i className="filter-help fa fa-info-circle"></i> Appeared on screen ({getAppearedMessages(messages).length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>

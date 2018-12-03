@@ -26,21 +26,17 @@ class MessageFilterOverview extends React.Component {
                 setMessageFilterData
             )
         );
-    }
 
-    componentDidUpdate(prevProps) {
-        if(prevProps.currentUser !== this.props.currentUser) {
-            this.props.dispatch(
-                fetchResult(
-                    'messagefilter', 
-                    'getMessageGroups', 
-                    JSON.stringify({
-                        userId: this.props.currentUser.userId
-                    }), 
-                    setMessageGroupData
-                )
-            );
-        }
+        this.props.dispatch(
+            fetchResult(
+                'messagefilter', 
+                'getMessageGroups', 
+                JSON.stringify({
+                    userId: this.props.currentUser.userId
+                }), 
+                setMessageGroupData
+            )
+        );
     }
 
     /*

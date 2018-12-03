@@ -72,7 +72,7 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuOpened={menuOpened}
                         menuText="Presentation Results"
-                        faIconClass="fa-chart-bar"
+                        faIconClass="fa-bar-chart"
                         link="/session-results/presentations"
                     />
                     <MenuItem 
@@ -87,13 +87,13 @@ class SideMenu extends Component {
                     <MenuItem 
                         menuOpened={menuOpened}
                         menuText="How It Works"
-                        faIconClass="fa-file-powerpoint"
+                        faIconClass="fa-file-powerpoint-o"
                         link="/about/howitworks"
                     />
                     <MenuItem 
                         menuOpened={menuOpened}
                         menuText="Dashboard"
-                        faIconClass="fa-tachometer-alt"
+                        faIconClass="fa-tachometer"
                         link="/about/dashboard"
                     />
                     <MenuItem 

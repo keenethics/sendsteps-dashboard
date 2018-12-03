@@ -29,7 +29,13 @@ class MessageFilter extends NovaAPI {
     }
 
     public function toggleAutoAccept() {
-
+        // Toggle auto accept triggers counter
+        // Counter starts with (20, 10, 5, 3)
+        // Counter based on unix timestamp
+        // Calculate time left on frontend, 
+        // Frontend sends signal to backend when time is over
+        // Backend checks if time is actually over
+        // Send first queuemessage to screen
     }
 
     public function addNewMessage($message) {
@@ -46,10 +52,6 @@ class MessageFilter extends NovaAPI {
     }
 
     public function undoMarkAsDeleted($deletedMessageIds) {
-
-    }
-
-    public function removeMessageGroup() {
 
     }
 
@@ -93,7 +95,7 @@ class MessageFilter extends NovaAPI {
         return json_encode(['content' => $model->getGroupsByUserId($userId)]);
     }
 
-    public function removeFromGroup($userId, $groupId) {
+    public function removeGroup($userId, $groupId) {
         $model = $this->loadModel('livemessageroundmessagegroups');
         return json_encode($model->removeGroup($userId, $groupId));
     }

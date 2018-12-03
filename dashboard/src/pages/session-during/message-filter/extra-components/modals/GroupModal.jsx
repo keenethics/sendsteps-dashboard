@@ -30,7 +30,7 @@ class GroupModal extends Component {
                 // Controller
                 'messagefilter',
                 // Function
-                'removeFromGroup',
+                'removeGroup',
                 // Params
                 JSON.stringify({userId, groupId: index}),
                 // OnSuccess

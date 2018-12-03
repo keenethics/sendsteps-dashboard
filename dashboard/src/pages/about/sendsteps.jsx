@@ -2,6 +2,7 @@ import React from "react";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../components/common/HeaderPanel";
+import TeamImage from '../../assets/images/sst_dashboard_team.jpg';
 
 class AboutSendsteps extends React.Component {
     
@@ -15,7 +16,7 @@ class AboutSendsteps extends React.Component {
                             <Panel>
                                 <Panel.Body>
                                     <div className="col-md-6 text-center img-container">
-                                        <img alt="Sendsteps Team" src={process.env.PUBLIC_URL + "/assets/images/sst_dashboard_team.jpg"} />
+                                        <img alt="Sendsteps Team" src={TeamImage} />
                                     </div>
                                     <div className="col-md-6">
                                         <h2 className="text-center">What we believe</h2>
