@@ -9,6 +9,21 @@ class Sessions_Model extends Model {
         $results = $this->findByIdCentral($sessionId, 'sessions');
         return $results;
     }
+
+    public function toggleUpvoting() {
+     
+        // $update = $this->database()->update(
+        //     "sessions",
+        //     ["hasUpvoting" => $newValue],
+        //     ["id" => $id]
+        // );
+        // return $update->execute();
+    }
+    
+    public function checkUniqueResponseCode($responseCode, $userId) {
+        $results = $this->database()->select('sessions', '*', ['internetKeyword' => $responseCode, 'textMessagingKeyword' => $responseCode, 'userId[!]' => $userId]);
+        return count($results);
+    }
     
     public function getOverview(){
 

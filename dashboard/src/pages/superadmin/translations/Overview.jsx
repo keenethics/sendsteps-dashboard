@@ -1,14 +1,21 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setTranslationData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { get } from '../../../scripts/api';
+import { toast } from 'react-toastify';
 class TranslationsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('translations', 'getOverview', {}, setTranslationData));
+        get('translations', 'getOverview', 
+            {},
+            result => setTranslationData(result.content),
+            error => {
+                toast(`Unable to fetch translations...`);
+            }
+        )
     }
 
     render() {

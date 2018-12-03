@@ -29,9 +29,7 @@ class MessageModal extends Component {
             text: this.state.newMessageText
         }
 
-        post(
-            'messagefilter',
-            'addNewMessage',
+        post('messagefilter', 'addNewMessage',
             JSON.stringify({message}),
             messageResult => {
                 this.props.dispatch(addNewMessage(messageResult));

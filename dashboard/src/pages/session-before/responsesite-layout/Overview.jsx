@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
@@ -11,33 +10,39 @@ import ColorInfo from '../../../components/common/ColorInfo';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { setResponseSettings, setLayoutSettings } from './actions';
+import { post } from '../../../scripts/api';
+import { toast } from 'react-toastify';
 
 class LayoutOverview extends React.Component {
 
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'responsesite', 
-                'getSiteList', 
-                JSON.stringify({
-                    id: this.props.match.params.id
-                }), 
-                setResponseSettings
-            )
-        );
+        post('responsesite', 'getSiteList', 
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => {
+                console.log(result);
+                this.props.dispatch(setResponseSettings(result.content));
+            },
+            error => {
+                toast(`Unable to load responsesites... [${error}]`)
+            }
+        )
     }
 
     fetchSiteSettings(e) {
         const value = e.target.value;
         if(value && this.props.responseSites && isValueInArray(value, this.props.responseSites.map((item) => item.id))) {
-            this.props.dispatch(
-                fetchResult(
-                    'responsesite', 
-                    'getSiteById', 
-                    JSON.stringify({value}), 
-                    setLayoutSettings
-                )
-            );
+            post('responsesite', 'getSiteById', 
+                JSON.stringify({value}), 
+                result => {
+                    console.log(result);
+                    this.props.dispatch(setLayoutSettings(result.content))
+                },
+                error => {
+                    toast(`Unable to load site settings... [${error}]`)
+                }
+            )
         }
     }
     

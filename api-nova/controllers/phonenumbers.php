@@ -19,6 +19,14 @@ class Phonenumbers extends NovaAPI {
         return false;        
     }
 
+    public function getNumberByIsoCode($isoCode = NULL) {
+        if($isoCode != NULL) {
+            $model = $this->loadModel('phonenumbers');
+            return json_encode(['content' => $model->getByIsoCode($isoCode)]);
+        }
+        return false;
+    }
+
     public function getKeywords($phonenumberId = NULL) {
         // Fetch data from single phonenumber
         if($phonenumberId != NULL){

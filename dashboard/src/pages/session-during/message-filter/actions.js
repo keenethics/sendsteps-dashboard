@@ -1,3 +1,16 @@
+export function toggleUpvoting(isEnabled) {
+    return {
+        type: 'TOGGLE_UPVOTING',
+        isEnabled
+    }
+}
+
+export function toggleAutoAccept(isEnabled) {
+    return {
+        type: 'TOGGLE_AUTO_ACCEPT',
+        isEnabled
+    }
+}
 
 export function addNewGroup(newGroup) {
     return {

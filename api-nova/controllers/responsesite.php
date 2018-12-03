@@ -17,7 +17,7 @@ class Responsesite extends NovaAPI {
         $phonenumberResults = $phonenumberModel->findActiveById($sessionResults['phoneNumberId']);
         $results['phonenumberCountryisocode'] = $phonenumberResults['countryIsoCode'];
         $countriesModel = $this->loadModel('countries');
-        $countriesResults = $countriesModel->listAll();
+        $countriesResults = $countriesModel->listAllByPhonenumbers();
         $results['countriesList'] = $countriesResults;
         $results['phonenumberForeignerCompatible'] = $phonenumberResults['foreignerCompatible'];
         //Get Responsesites list
@@ -59,5 +59,10 @@ class Responsesite extends NovaAPI {
             // $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
             // return $update_id;
         }
+    }
+
+    public function checkResponseCode($responseCode, $userId) {
+        $model = $this->loadModel('sessions');
+        return json_encode($model->checkUniqueResponseCode($responseCode, $userId));
     }
 }

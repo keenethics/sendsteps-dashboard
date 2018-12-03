@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult } from '../../../actions/api';
+import { get } from '../../../scripts/api';
 import { setTranslationDetails } from './actions';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";

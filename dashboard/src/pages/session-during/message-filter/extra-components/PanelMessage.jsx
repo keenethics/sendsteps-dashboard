@@ -13,9 +13,7 @@ class PanelMessage extends Component {
 
     onToggleStar() {
         const messageId = this.props.message.id;
-        post(
-            'messagefilter',
-            'starMessage',
+        post('messagefilter', 'starMessage',
             JSON.stringify({id: messageId}),
             response => {
                 console.log(response);

@@ -17,7 +17,9 @@ class MessageFilter extends NovaAPI {
             $results = $model->findById($id);
             return json_encode(['content' => $results[0]]);                
         }
-        return false;        
+        return false;  
+        
+        // SELECT * FROM sessions JOIN  WHERE sessions.running = 1 LIMIT 1
     }
 
     public function selectSlide($messageRoundId) {
@@ -28,7 +30,8 @@ class MessageFilter extends NovaAPI {
 
     }
 
-    public function toggleAutoAccept() {
+    public function toggleAutoAccept($isEnabled) {
+        $model = $this->loadModel('sessions');
         // Toggle auto accept triggers counter
         // Counter starts with (20, 10, 5, 3)
         // Counter based on unix timestamp

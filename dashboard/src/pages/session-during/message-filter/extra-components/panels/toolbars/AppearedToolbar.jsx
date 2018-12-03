@@ -7,9 +7,7 @@ import { toast } from 'react-toastify';
 class AppearedToolbar extends Component {
 
     sendIdsToIncoming = () => {
-        post(
-            'messagefilter',
-            'sendToIncoming',
+        post('messagefilter', 'sendToIncoming',
             JSON.stringify({ids: this.props.selectedAppearedIds}),
             response => {
                 this.props.dispatch(sendToIncoming(response));

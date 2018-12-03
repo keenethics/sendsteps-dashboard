@@ -243,6 +243,18 @@ export default function messageFilterReducer(state = {}, action) {
                 )
             }
         }
+        case 'TOGGLE_UPVOTING': {
+            return {
+                ...state,
+                upvotingEnabled: action.isEnabled
+            }
+        }
+        case 'TOGGLE_AUTO_ACCEPT': {
+            return {
+                ...state,
+                autoAcceptEnabled: action.isEnabled
+            }
+        }
         default: {
             return {
                 ...state

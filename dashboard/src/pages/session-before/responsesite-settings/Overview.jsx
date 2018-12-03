@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI } from '../../../actions/api';
+import { fetchResult} from '../../../actions/api';
 import { setField } from '../../../actions/app';
 import { setResponseSiteSettings } from './actions';
 import { Panel } from 'react-bootstrap';
@@ -9,25 +9,67 @@ import TooltipNotification from '../../../components/common/TooltipNotification'
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import InputField from "../../../components/common/InputField";
-
+import { post, get } from "../../../scripts/api";
+import { toast } from 'react-toastify';
 
 class SettingsOverview extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            responseWebsiteEnabled: true,
-            txtSmsEnabled: true,
-            internationalAudience: true
-        }
+
+    state = {
+        internationalAudience: true,
+        selectablePhonenumberList: []
+    }
+
+    setStateValue = (value, field) => {
+        const newSettings = { ...this.props.settings }
+        newSettings[field] = value;
+        console.log(newSettings)
+        this.props.dispatch(setResponseSiteSettings(newSettings));
+    }
+
+    getPhonenumberList = isoCode => {
+        get('phonenumbers', 'getNumberByIsoCode',
+            JSON.stringify({isoCode}),
+            result => {
+
+                let internationalAudience = this.props.settings.phonenumberForeignerCompatible;
+                console.log(this.props.settings.phonenumberId)
+                result.content.map(number => {
+                    if(number.id === this.props.settings.phonenumberId) {
+                        if(number.foreignerCompatible === 1) {
+                            internationalAudience = true;
+                        }
+                    }
+                });
+                console.log(internationalAudience)
+                this.setState({
+                    selectablePhonenumberList: result.content,
+                    internationalAudience
+                })
+            },
+            error => {
+                console.log(error)
+            }
+        );
     }
     
     componentDidMount() {
         let apiParams = JSON.stringify({id: this.props.match.params.id});
+        get('responsesite', 'getSettingsBasic', 
+            apiParams,
+            result => {
+                this.props.dispatch(setResponseSiteSettings(result.content));
+                this.getPhonenumberList(result.content.phonenumberCountryisocode);
+            },
+            error => {
+                toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
+            }
+        )
         this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams, setResponseSiteSettings));
     }
     
     saveResponseSiteSettings() {
         const { settings } = this.props;
+    
         let sentsettings = {
             internetaddressoverwrite: settings.internetaddressoverwrite,
             internetselected: settings.internetselected,
@@ -39,12 +81,41 @@ class SettingsOverview extends React.Component {
         };
         let apiParams = JSON.stringify({fields : sentsettings});
         console.log(sentsettings);
-        this.props.dispatch(updateAPI('responsesite', 'updateSettingsBasic', apiParams));
+        post(
+            'responsesite', 'updateSettingsBasic',
+            apiParams,
+            result => {
+                console.log(result)
+                toast(result)
+            },
+            error => {
+                console.log(error)
+                toast(JSON.stringify(error));
+            }
+        )
+    }
+
+    validateResponseCode = () => {
+        get('responsesite', 'checkResponseCode',
+            JSON.stringify({
+                keyword: this.props.settings.textmessagingkeyword,
+                userId: this.props.currentUser.userId
+            }),
+            result => {
+               if(result) {
+                   toast('This response code already exists!');
+               }
+            },
+            error => {
+                toast(`Unable to check response code... [${JSON.stringify(error)}]`)
+            }
+        );
     }
 
     render() {
 
         const { settings } = this.props;
+        const { selectablePhonenumberList } = this.state;
 
         return (
             <div>
@@ -84,20 +155,20 @@ class SettingsOverview extends React.Component {
                                                             <i className="fa fa-question-circle"></i>
                                                         </TooltipNotification>
                                                     </label>
+                                                    {settings && 
                                                     <div className="col-sm-6">
-                                                        <div className="input-group" style={{paddingLeft:"15px"}}>
-                                                            <InputField 
-                                                                onChange={setField.bind(this, 'textmessagingkeyword')}
-                                                                // labelText={"Country"}
-                                                                value={settings && settings.textmessagingkeyword}
-                                                                leftFaIcon={"barcode"}
-                                                            />
+                                                        <div className="input-group">
+                                                            <span className="input-group-addon">
+                                                                <i className="fa fa-barcode"></i>
+                                                            </span>
+                                                            <input onBlur={this.validateResponseCode} type="text" onChange={e => this.setStateValue(e.target.value, 'textmessagingkeyword')} value={settings.textmessagingkeyword} className="input-lg form-control" placeholder="" />
                                                         </div>
-                                                    </div>
+                                                    </div>}
                                                 </div>
                                                 <hr/>
                                                 <div className="form-group">
-                                                    <label className="col-sm-3 control-label">Response Website <TooltipNotification 
+                                                    <label className="col-sm-3 control-label">
+                                                        Response Website <TooltipNotification 
                                                             title={"Response Website"}
                                                             tooltip={
                                                                 <span className="text-left">
@@ -108,16 +179,13 @@ class SettingsOverview extends React.Component {
                                                             <i className="fa fa-question-circle"></i>
                                                         </TooltipNotification>
                                                     </label>
+                                                    {settings && 
                                                     <div className="col-sm-6">
-                                                        <div className="col-sm-6">
-                                                            <div className="form-group">
-                                                                <ButtonSwitch onChange={setField.bind(this, 'responseWebsiteEnabled')} selected={settings && settings.responseWebsiteEnabled} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                            <ButtonSwitch onChange={() => this.setStateValue(!settings.internetselected, 'internetselected')} selected={settings.internetselected ? "1" : "0"} />
+                                                    </div>}
                                                 </div>
                                                                                 
-                                                {this.state.responseWebsiteEnabled && <div className="form-group">
+                                                {settings && settings.internetselected && <div className="form-group">
                                                     <label className="col-sm-3 control-label">URL <TooltipNotification 
                                                             title={"URL"}
                                                             tooltip={
@@ -134,7 +202,7 @@ class SettingsOverview extends React.Component {
                                                             <span className="input-group-addon">
                                                                 <i className="fa fa-link"></i>
                                                             </span>
-                                                            <input type="text" value={settings && settings.internetaddressoverwrite} disabled="disabled" className="form-control input-lg" placeholder="" />
+                                                            <input type="text" value={settings.internetaddressoverwrite} disabled="disabled" className="form-control" placeholder="" />
                                                         </div>
                                                     </div>
                                                 </div>}
@@ -151,20 +219,20 @@ class SettingsOverview extends React.Component {
                                                             <i className="fa fa-question-circle"></i>
                                                         </TooltipNotification>
                                                     </label>
+                                                    {settings && 
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch onChange={setField.bind(this, 'txtSmsEnabled')} selected={settings && settings.txtSmsEnabled} />
-                                                    </div>
+                                                        <ButtonSwitch onChange={() => this.setStateValue(!settings.textmessagingselected, 'textmessagingselected')} selected={settings.textmessagingselected ? "1" : "0"} />
+                                                    </div>}
                                                 </div>
 
-                                                {this.state.txtSmsEnabled && 
+                                                {settings && settings.textmessagingselected && 
                                                 <span>
                                                     <div className="form-group">
-                                                        <label className="col-sm-3 control-label">Country 
-                                                            <TooltipNotification 
+                                                        <label className="col-sm-3 control-label">Country <TooltipNotification 
                                                                 title={"Country"}
                                                                 tooltip={
                                                                     <span className="text-left">
-                                                                        <h5>Country</h5>
+                                                                        <h5>Country </h5>
                                                                         <p>Select the country in which your session will take place. </p>
                                                                         <p>The instruction and question slides will contain the phone number related to your country of selection. This number can be used for those attendees wishing to use SMS as a response method.</p> 
                                                                         <p>Please contact us if your country is not listed.</p>
@@ -173,13 +241,17 @@ class SettingsOverview extends React.Component {
                                                             </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <div className="input-group" style={{paddingLeft:"15px"}}>
-                                                                <InputField 
-                                                                    onChange={setField.bind(this, 'phonenumberCountryisocode')}
-                                                                    value={settings && settings.phonenumberCountryisocode}
-                                                                    leftFaIcon={"globe"}
-                                                                />
-                                                            </div>
+                                                        {settings.countriesList &&
+                                                            <div className="input-group">
+                                                                <span className="input-group-addon" id="basic-addon1">
+                                                                    <i className="fa fa-globe"></i>
+                                                                </span>
+                                                                <select onChange={e => this.getPhonenumberList(e.target.value)} className="form-control">
+                                                                    {settings.countriesList.map(country => {
+                                                                        return <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                                                                    })}
+                                                                </select>
+                                                            </div>}
                                                         </div>
                                                     </div>
 
@@ -195,7 +267,7 @@ class SettingsOverview extends React.Component {
                                                         </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={setField.bind(this, 'internationalAudience')} selected={settings && settings.internationalAudience} />
+                                                            <ButtonSwitch onChange={() => this.setStateValue(!settings.phonenumberForeignerCompatible , 'phonenumberForeignerCompatible')} selected={settings.phonenumberForeignerCompatible ? "1" : "0"} />
                                                         </div>
                                                     </div>
 
@@ -211,16 +283,22 @@ class SettingsOverview extends React.Component {
                                                                 <i className="fa fa-question-circle"></i>
                                                             </TooltipNotification>
                                                         </label>
+                                                        {selectablePhonenumberList &&
                                                         <div className="col-sm-6">
-                                                            <div className="input-group" style={{paddingLeft:"15px"}}>
-                                                                <InputField 
-                                                                    onChange={setField.bind(this, 'phonenumberId')}
-                                                                    value={settings && settings.phonenumberId}
-                                                                    leftFaIcon={"phone"}
-                                                                    // className="form-control input-lg"
-                                                                />
+                                                            <div className="input-group">
+                                                                <span className="input-group-addon">
+                                                                    <i className="fa fa-phone"></i>
+                                                                </span>
+                                                                <select onChange={this.setCountry} className="form-control">
+                                                                    {selectablePhonenumberList.map(phonenumber => {
+                                                                        if(phonenumber.foreignerCompatible == "1" && settings.pho) {
+                                                                            // if 
+                                                                        }
+                                                                        return <option key={phonenumber.id} value={phonenumber.id}>{phonenumber.displayText}</option>
+                                                                    })}
+                                                                </select>
                                                             </div>
-                                                        </div>
+                                                        </div>}
                                                     </div>
                                                 </span>}
                                             </div>
@@ -228,7 +306,6 @@ class SettingsOverview extends React.Component {
                                     </div>
                                 </Panel.Body>
                             </Panel>
-                            {/* <BottomSaveBar /> */}
                             <BottomSaveBar onSave={this.saveResponseSiteSettings.bind(this)}/>
                         </div>
                     </div>
@@ -243,6 +320,7 @@ export default connect(
     (state) => {
         return {
             settings: state.responseSettingsReducer.settings,
+            currentUser: state.authReducer.currentUser
         }
     }
 )(SettingsOverview);

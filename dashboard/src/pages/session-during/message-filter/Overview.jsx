@@ -9,7 +9,8 @@ import OnscreenPanel from './extra-components/panels/OnscreenPanel';
 import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { fetchResult } from '../../../actions/api';
-import { setMessageFilterData, setMessageGroupData } from './actions';
+import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
+import { post } from '../../../scripts/api';
 import { toast } from 'react-toastify';
 
 class MessageFilterOverview extends React.Component {
@@ -39,6 +40,25 @@ class MessageFilterOverview extends React.Component {
         );
     }
 
+    toggleAutoAccept = value => {
+        post(
+            'messagefilter', 'toggleAutoAccept',
+            JSON.stringify({isEnabled: value}),
+            result => {
+                this.props.dispatch(toggleAutoAccept(result))
+                this.props.dispatch(toggleUpvoting(!result))
+            },
+            error => {
+                console.log(error)
+                toast(`Unable to toggle Auto accept... [${JSON.stringify(error)}]`);
+            }
+        )
+    }
+    
+    toggleUpvoting = value => {
+        console.log(value)
+        this.props.dispatch(toggleUpvoting(value))
+    }
     /*
         Functionality & Requests (Backend)
 
@@ -133,6 +153,8 @@ class MessageFilterOverview extends React.Component {
 
     render() {
 
+        const { upvotingEnabled, autoAcceptEnabled, sessionData } = this.props;
+
         return (
             <div className="message-filter">
                 <HeaderPanel 
@@ -161,13 +183,13 @@ class MessageFilterOverview extends React.Component {
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label className="control-label">Upvoting</label>
-                                        <ButtonSwitch />    
+                                        <ButtonSwitch onChange={this.toggleUpvoting} selected={upvotingEnabled ? "1" : "0"} />    
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
                                         <label className="control-label">Auto Accept messages</label>
-                                        <ButtonSwitch />
+                                        <ButtonSwitch onChange={this.toggleAutoAccept} selected={autoAcceptEnabled ? "1" : "0"} />
                                     </div>
                                 </div>      
                             </div>
@@ -200,7 +222,10 @@ export default connect(
     (state) => {
         return {
             messages: state.messageFilterReducer.messages,
-            currentUser: state.authReducer.currentUser
+            currentUser: state.authReducer.currentUser,
+            autoAcceptEnabled: state.messageFilterReducer.autoAcceptEnabled,
+            upvotingEnabled: state.messageFilterReducer.upvotingEnabled,
+            sessionData: state.sessionOverviewReducer.sessionData,
         }
     }
 )(MessageFilterOverview);

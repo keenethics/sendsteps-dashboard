@@ -31,4 +31,10 @@ class Phonenumbers_Model extends Model {
         $results = $this->insertOn($table, $fields, $id);
         return $results;
     }
+
+    public function getByIsoCode($isoCode) {
+        // return $isoCode;
+        $fields = ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'];
+        return $this->database()->select('phonenumbers', $fields, ['countryIsoCode' => $isoCode, 'isDeleted' => 0, 'foreignerCompatible' => [1,2]]);
+    }
 }

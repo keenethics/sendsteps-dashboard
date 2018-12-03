@@ -26,11 +26,7 @@ class GroupModal extends Component {
         const userId = currentUser.userId;
 
         if(group) {
-            post(
-                // Controller
-                'messagefilter',
-                // Function
-                'removeGroup',
+            post('messagefilter', 'removeGroup',
                 // Params
                 JSON.stringify({userId, groupId: index}),
                 // OnSuccess
@@ -61,11 +57,7 @@ class GroupModal extends Component {
             groupName: this.state.newGroupName,
             groupColor: this.state.newGroupColor
         } 
-        post(
-            // Controller
-            'messagefilter',
-            // Function
-            'addMessageGroup',
+        post('messagefilter', 'addMessageGroup',
             // Params
             JSON.stringify(newGroup),
             // OnSuccess

@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../actions/api';
+import { get } from '../../scripts/api';
 import { setProfileData } from './actions';
 import { Panel } from 'react-bootstrap';
 import ImageUploadField from "../../components/common/ImageUploadField";
@@ -10,14 +10,11 @@ import HeaderPanel from "../../components/common/HeaderPanel";
 class ProfileOverview extends React.Component {
     
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'users', 
-                'getSelf',
-                {}, 
-                setProfileData
-            )
-        );
+        get('users', 'getSelf',
+            {},
+            user => this.props.dispatch(setProfileData(user.content)),
+            error => toast(`Unable to fetch user data... [${error}]`)
+        )
     }
 
     render() {

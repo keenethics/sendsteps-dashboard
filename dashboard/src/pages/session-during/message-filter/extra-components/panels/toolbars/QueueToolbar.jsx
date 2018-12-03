@@ -8,8 +8,7 @@ import { toast } from 'react-toastify';
 class QueueToolbar extends Component {
 
     sendIdsToScreen = () => {
-        post(
-            'messagefilter', 'sendToScreen',
+        post('messagefilter', 'sendToScreen',
             JSON.stringify({ids: this.props.selectedQueueIds}),
             result => {
                 this.props.dispatch(sendToScreen(result));
@@ -22,8 +21,7 @@ class QueueToolbar extends Component {
     }
 
     sendIdsToIncoming = () => {
-        post(
-            'messagefilter', 'sendToIncoming',
+        post('messagefilter', 'sendToIncoming',
             JSON.stringify({ids: this.props.selectedQueueIds}),
             result => {
                 this.props.dispatch(sendToIncoming(result));

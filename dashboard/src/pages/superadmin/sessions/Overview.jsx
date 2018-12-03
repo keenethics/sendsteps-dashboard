@@ -1,14 +1,20 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setSessionData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { get } from '../../../scripts/api';
 class SessionsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('sessions', 'getOverview', {}, setSessionData));
+        get('sessions', 'getOverview', 
+            {},
+            result => {
+                console.log(result);
+                this.props.dispatch(setSessionData(result.content));
+            }
+        )
     }
 
     render() {
