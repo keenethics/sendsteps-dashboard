@@ -1,70 +1,53 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { fetchResult} from '../../../actions/api';
-import { setField } from '../../../actions/app';
-import { setResponseSiteSettings } from './actions';
+import { setResponseSiteSettings, setSelectablePhonenumbers } from './actions';
 import { Panel } from 'react-bootstrap';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
-import InputField from "../../../components/common/InputField";
 import { post, get } from "../../../scripts/api";
 import { toast } from 'react-toastify';
 
 class SettingsOverview extends React.Component {
 
-    state = {
-        internationalAudience: true,
-        selectablePhonenumberList: []
-    }
-
-    setStateValue = (value, field) => {
+    updateSettings = (value, field) => {
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
         console.log(newSettings)
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
 
-    getPhonenumberList = isoCode => {
+    getPhonenumberList = (isoCode, foreignerCompatible) => {
         get('phonenumbers', 'getNumberByIsoCode',
-            JSON.stringify({isoCode}),
+            JSON.stringify({isoCode, foreignerCompatible}),
             result => {
-
-                let internationalAudience = this.props.settings.phonenumberForeignerCompatible;
-                console.log(this.props.settings.phonenumberId)
-                result.content.map(number => {
-                    if(number.id === this.props.settings.phonenumberId) {
-                        if(number.foreignerCompatible === 1) {
-                            internationalAudience = true;
-                        }
-                    }
-                });
-                console.log(internationalAudience)
-                this.setState({
-                    selectablePhonenumberList: result.content,
-                    internationalAudience
-                })
+                this.props.dispatch(setSelectablePhonenumbers(result.content))
             },
             error => {
                 console.log(error)
             }
         );
     }
-    
-    componentDidMount() {
+
+    getOverviewSettings = () => {
         let apiParams = JSON.stringify({id: this.props.match.params.id});
         get('responsesite', 'getSettingsBasic', 
             apiParams,
             result => {
                 this.props.dispatch(setResponseSiteSettings(result.content));
-                this.getPhonenumberList(result.content.phonenumberCountryisocode);
+                this.getPhonenumberList(result.content.phonenumberCountryisocode, result.content.phonenumberForeignerCompatible + 1);
             },
             error => {
                 toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
             }
         )
         this.props.dispatch(fetchResult('responsesite', 'getSettingsBasic', apiParams, setResponseSiteSettings));
+    }
+    
+    componentDidMount() {
+        this.getOverviewSettings();
     }
     
     saveResponseSiteSettings() {
@@ -112,11 +95,31 @@ class SettingsOverview extends React.Component {
         );
     }
 
+    changeCountry = e => {
+        this.updateSettings(e.target.value, 'phonenumberCountryisocode')
+        this.getPhonenumberList(e.target.value)
+    }
+
+    filterInternational = phonenumberList => {
+        console.log(phonenumberList)
+        if(this.props.settings.phonenumberForeignerCompatible) {
+            return phonenumberList.filter(number => {
+                return number.foreignerCompatible == "2"
+            })
+        }
+        return phonenumberList
+    }
+
+    toggleInternational = () => {
+        this.updateSettings(!this.props.settings.phonenumberForeignerCompatible , 'phonenumberForeignerCompatible')
+        this.getPhonenumberList(this.props.settings.phonenumberCountryisocode)
+    }
+
     render() {
 
-        const { settings } = this.props;
-        const { selectablePhonenumberList } = this.state;
-
+        const { settings, selectablePhonenumbers } = this.props;
+        
+        console.log(settings)
         return (
             <div>
                 <HeaderPanel 
@@ -138,7 +141,7 @@ class SettingsOverview extends React.Component {
                                         <div className="col-md-12">
                                             <div className="form-horizontal">
                                                 <div className="form-group">
-                                                    <label className="col-sm-3 control-label">
+                                                    <label className="col-sm-3 control-label lh-32">
                                                         Response Code <TooltipNotification 
                                                             title={"Response Code"}
                                                             tooltip={
@@ -161,7 +164,7 @@ class SettingsOverview extends React.Component {
                                                             <span className="input-group-addon">
                                                                 <i className="fa fa-barcode"></i>
                                                             </span>
-                                                            <input onBlur={this.validateResponseCode} type="text" onChange={e => this.setStateValue(e.target.value, 'textmessagingkeyword')} value={settings.textmessagingkeyword} className="input-lg form-control" placeholder="" />
+                                                            <input onBlur={this.validateResponseCode} type="text" onChange={e => this.updateSettings(e.target.value, 'textmessagingkeyword')} value={settings.textmessagingkeyword} className="input-lg form-control" placeholder="" />
                                                         </div>
                                                     </div>}
                                                 </div>
@@ -181,7 +184,7 @@ class SettingsOverview extends React.Component {
                                                     </label>
                                                     {settings && 
                                                     <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={() => this.setStateValue(!settings.internetselected, 'internetselected')} selected={settings.internetselected ? "1" : "0"} />
+                                                            <ButtonSwitch onChange={() => this.updateSettings(!settings.internetselected, 'internetselected')} selected={settings.internetselected ? "1" : "0"} />
                                                     </div>}
                                                 </div>
                                                                                 
@@ -221,7 +224,7 @@ class SettingsOverview extends React.Component {
                                                     </label>
                                                     {settings && 
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch onChange={() => this.setStateValue(!settings.textmessagingselected, 'textmessagingselected')} selected={settings.textmessagingselected ? "1" : "0"} />
+                                                        <ButtonSwitch onChange={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')} selected={settings.textmessagingselected ? "1" : "0"} />
                                                     </div>}
                                                 </div>
 
@@ -246,9 +249,10 @@ class SettingsOverview extends React.Component {
                                                                 <span className="input-group-addon" id="basic-addon1">
                                                                     <i className="fa fa-globe"></i>
                                                                 </span>
-                                                                <select onChange={e => this.getPhonenumberList(e.target.value)} className="form-control">
-                                                                    {settings.countriesList.map(country => {
-                                                                        return <option key={country.isoCode} value={country.isoCode}>{country.name}</option>
+                                                                <select onChange={this.changeCountry} className="form-control">
+                                                                    <option value={null}>-</option>
+                                                                    {settings.countriesList.map((country, index) => {
+                                                                        return <option key={index} value={country.isoCode}>{country.name}</option>
                                                                     })}
                                                                 </select>
                                                             </div>}
@@ -267,7 +271,7 @@ class SettingsOverview extends React.Component {
                                                         </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={() => this.setStateValue(!settings.phonenumberForeignerCompatible , 'phonenumberForeignerCompatible')} selected={settings.phonenumberForeignerCompatible ? "1" : "0"} />
+                                                            <ButtonSwitch onChange={this.toggleInternational} selected={settings.phonenumberForeignerCompatible ? "1" : "0"} />
                                                         </div>
                                                     </div>
 
@@ -283,17 +287,14 @@ class SettingsOverview extends React.Component {
                                                                 <i className="fa fa-question-circle"></i>
                                                             </TooltipNotification>
                                                         </label>
-                                                        {selectablePhonenumberList &&
+                                                        {selectablePhonenumbers &&
                                                         <div className="col-sm-6">
                                                             <div className="input-group">
                                                                 <span className="input-group-addon">
                                                                     <i className="fa fa-phone"></i>
                                                                 </span>
                                                                 <select onChange={this.setCountry} className="form-control">
-                                                                    {selectablePhonenumberList.map(phonenumber => {
-                                                                        if(phonenumber.foreignerCompatible == "1" && settings.pho) {
-                                                                            // if 
-                                                                        }
+                                                                    {this.filterInternational(selectablePhonenumbers).map(phonenumber => {
                                                                         return <option key={phonenumber.id} value={phonenumber.id}>{phonenumber.displayText}</option>
                                                                     })}
                                                                 </select>
@@ -320,6 +321,7 @@ export default connect(
     (state) => {
         return {
             settings: state.responseSettingsReducer.settings,
+            selectablePhonenumbers: state.responseSettingsReducer.selectablePhonenumbers,
             currentUser: state.authReducer.currentUser
         }
     }

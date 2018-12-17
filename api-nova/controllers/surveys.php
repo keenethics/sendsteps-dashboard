@@ -2,6 +2,7 @@
 require_once __DIR__.'/../base/nova-api.php';
 
 class Surveys extends NovaAPI {
+
     public function getOverview() {
         $surveyModel = $this->loadModel('surveys');
         $sessionId = $this->getUserSessionId();
@@ -38,5 +39,15 @@ class Surveys extends NovaAPI {
             // return json_encode(['content' => $results]);                
         }
         return false;        
+    }
+
+    public function addSurvey($surveyName) {
+        $surveyModel = $this->loadModel('surveys');
+        return json_encode(['content' => $surveyModel->addSurvey($surveyName, $this->getUserSessionId())]);
+    }
+
+    public function deleteSurvey($surveyId) {
+        $surveyModel = $this->loadModel('surveys');
+        return json_encode($surveyModel->deleteSurvey($surveyId, $this->getUserSessionId()));
     }
 }

@@ -40,11 +40,24 @@ class Responsesite extends NovaAPI {
     }
     
     public function updateSettingsBasic($fields = array()){
-        var_dump($fields);exit();
-        if (count($fields) > 0){
-        
+        if (is_array($fields) && count($fields) > 0){
+            
+            
             // var_dump($fields);exit();
-        
+
+            // Sessions->internetAddressOverwrite
+            // Sessions->textMessagingKeyword
+
+            // Sessions->internetSelected
+            
+            // Sessions->textMessagingSelected
+
+            // Sessions->
+
+            // Sessions->phoneNumberId
+
+
+
             $sessionModel = $this->loadModel('sessions');
             $sessionId = $this->getUserSessionId();
             $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 

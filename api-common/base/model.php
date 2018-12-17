@@ -13,6 +13,20 @@
         protected function database(){
             return new Medoo($this->getMedooOptions());
         }
+
+        // Returns associative array of key id unless specified otherwise
+        // e.g: { 18: {userName: test}, 53: { userName: test2 } } 
+        // instead of incremental array indexes
+        protected function formatAssociative($listToFormat, $key = 'id') {
+            if((count($listToFormat) > 0) && (is_array($listToFormat))) {
+                $assocList = array();
+                foreach($listToFormat as $listItem) {
+                    $assocList[$listItem[$key]] = $listItem;
+                }
+                return $assocList;
+            }
+            return ['error' => 'Expected array but got: '. gettype($listToFormat)];
+        }
         
         protected function findByIdCentral($id = NULL, $table = '', $booleanColumn = '') {
             $database = new Medoo($this->getMedooOptions());

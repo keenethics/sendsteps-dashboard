@@ -4,3 +4,10 @@ export function setResponseSiteSettings(data) {
         data
     }
 }
+
+export function setSelectablePhonenumbers(selectablePhonenumbers) {
+    return {
+        type: 'SET_SELECTABLE_PHONENUMBERS',
+        selectablePhonenumbers
+    }
+}

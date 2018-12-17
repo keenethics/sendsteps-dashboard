@@ -55,4 +55,39 @@ class Surveys_Model extends Model {
         $results = $this->query($query, $params);
         return $results;
     }
+
+    public function addSurvey($surveyName, $sessionId) {
+        $insertedId = $this->insertOn(
+            "survey", 
+            [
+                'survey_name' => $surveyName, 
+                'start_datetime' => '0000-00-00 00:00:00',
+                'end_datetime' => '0000-00-00 00:00:00',
+                'created_datetime' => gmdate('Y-m-d H:i:s \G\M\T'),
+                'session_id' => $sessionId,
+                'survey_utc_timezone_id' => 0,
+                'status' => 0,
+                'server_start_datetime' => '0000-00-00 00:00:00',
+                'server_end_datetime' => '0000-00-00 00:00:00',
+                'isDeleted' => 0
+            ]
+        );
+        return $this->getOverviewData($sessionId);
+    }
+
+    public function deleteSurvey($surveyId, $sessionId) {
+        $result = $this->database()->update(
+            'survey',
+            [ 
+                'isDeleted' => true,
+                'dateDeleted' => gmdate('Y-m-d H:i:s \G\M\T')
+            ],
+            [ 'survey_id' => $surveyId ]
+        );
+
+        if($result->rowCount()) {
+            return ['content' => $this->getOverviewData($sessionId)];
+        }
+        return ['error' => 'Unable to delete survey'];
+    }
 }

@@ -1,18 +1,25 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setSurveyDetails } from './actions'; 
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
+import { get } from "../../../scripts/api";
+import CreateQuestionContainer from "./question/CreateQuestionContainer";
+import SurveyNameContainer from "./create/SurveyNameContainer";
 
 class SurveyDetails extends React.Component {
+
     componentDidMount() {
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult('surveys', 'getDetails', apiParams, setSurveyDetails));
+        get('surveys', 'getDetails',
+            JSON.stringify({id: this.props.match.params.id}),
+            result => {
+                console.log(result)
+                this.props.dispatch(setSurveyDetails(result.content))
+            },
+            err => console.log(err)
+        )
     }
 
     formatTime(time) {
@@ -21,69 +28,28 @@ class SurveyDetails extends React.Component {
 
         const momented = moment(time, stringFormat);
         const stringed = momented.format(dateFormat);
-
         console.log(momented);
         console.log(stringed);
         return moment(time, dateFormat).format(stringFormat);
     }
     
     render() {
-        let { surveyDetails } = this.props;
 
-            // active:"1"
-            // automaticallyClosed:"0"
-            // endTime:"2018-02-06 15:12:04"
-            // id:"183"
-            // isDeleted:"0"
-            // limited:"notLimited"
-            // name:"Presentation1"
-            // sessionId:"591"
-            // sessionRunId:"183"
-            // startTime:"2018-02-06 14:31:27"
-
-        console.log(surveyDetails);
+        const { surveyDetails } = this.props;
 
         return (
             <div>  
-                <HeaderPanel title={"Surveys"} />
+                <HeaderPanel title={"Survey Details"} />
                 <div className="container-fluid">
+                    {surveyDetails &&
                     <Panel>
                         <Panel.Body>
-                            <div className="row">
-                                <input name='id' id='phonenumber-id' type='hidden' />
-                                <div className="row">  
-                                    <div className="col-sm-12">
-                                        <h2>{surveyDetails && surveyDetails.name}</h2>
-                                    </div>
-                                    <div className="col-sm-6">
-                                        <p><strong>Start time:  </strong></p> 
-                                    </div>   
-
-                                    <div className="col-sm-6">
-                                        <p><i className="fa fa-clock-o"></i> {surveyDetails && this.formatTime(surveyDetails.startTime)}</p> 
-                                    </div> 
-
-                                    <div className="col-sm-6">
-                                        <p><strong>End time:</strong> </p>
-                                    </div>  
-
-                                    <div className="col-sm-6">
-                                        <p><i className="fa fa-clock-o"></i> {surveyDetails && this.formatTime(surveyDetails.endTime)}</p>
-                                    </div>  
-                                </div>       
-                                
-                                <div className="row">
-                                    <div className="col-sm-12">
-                                        <div className="form-group keyword-items">
-                                            <ul className="list-group">
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
+                            <h3>Edit Survey</h3>
+                            <hr />
+                            <SurveyNameContainer name={surveyDetails.survey_name} />
+                            <CreateQuestionContainer />
                         </Panel.Body>
-                    </Panel>
+                    </Panel>}
                     <BottomSaveBar />
                 </div>
             </div>

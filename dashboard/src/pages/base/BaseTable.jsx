@@ -3,7 +3,6 @@ import moment from 'moment';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
 import TooltipNotification from '../../components/common/TooltipNotification';
 import './BaseTable.scss';
-
 export const getNameFormatter = cell => {
     return <strong>{cell}</strong>
 }

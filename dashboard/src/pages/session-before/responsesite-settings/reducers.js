@@ -7,6 +7,12 @@ export default function responseSettingsReducer(state = {}, action) {
                 settings: action.data
             }
         }
+        case 'SET_SELECTABLE_PHONENUMBERS': {
+            return {
+                ...state,
+                selectablePhonenumbers: action.selectablePhonenumbers
+            }
+        }
         default: {
             return {
                 ...state

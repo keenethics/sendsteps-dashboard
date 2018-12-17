@@ -11,3 +11,10 @@ export function setSurveyDetails(data) {
         data
     }
 }
+
+export function setDeleteSurveyId(deleteSurveyId) {
+    return {
+        type: 'SET_DELETE_SURVEY_ID',
+        deleteSurveyId
+    }
+}

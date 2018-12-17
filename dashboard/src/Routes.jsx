@@ -51,8 +51,9 @@ class Routes extends React.Component {
 						<Route path="/session-before/responsesite-layout" exact component={ResponsesiteLayout} />
 						<Route path="/session-before/responsesite-settings" exact component={ResponsesiteSettings} />
 						<Route path="/session-before/surveys" exact component={SurveyOverview} />
+							<Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
+
 						<Route path="/session-before/audience-identification" exact component={AudienceDetails} />
-						<Route path="/session-before/surveys/details/:id" exact component={SurveyDetails} />
 						<Route path="/session-before/response" exact component={ResponsesiteDetails} />
 						<Route path="/session-during/message-filter" exact component={MessageFilterLayout} />
 						

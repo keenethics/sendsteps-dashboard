@@ -1,36 +1,43 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setSurveyData } from './actions';
-import { Panel } from 'react-bootstrap';
+import { Panel, Button, ButtonGroup } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
-import ButtonSwitch from '../../../components/common/ButtonSwitch';
-
+import CreateSurveyContainer from './create/CreateSurveyContainer'
+import { get } from '../../../scripts/api';
 class SurveysOverview extends React.Component {
-   
+
     componentDidMount() {
-        this.props.dispatch(fetchResult('surveys', 'getOverview', null, setSurveyData));
+
+        get(
+            'surveys',
+            'getOverview',
+            {},
+            res => this.props.dispatch(setSurveyData(res)),
+            err => console.log(err)
+        )
     }
 
     render() {
         
         const { surveys } = this.props;
 
+        console.log(surveys)
+
         return (
             <div>
-                <HeaderPanel title={"Surveys Overview"} />
+                <HeaderPanel title={"Survey Overview"} />
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
-                            <label>Enable surveys</label>
-                            <ButtonSwitch />
-
-                            <label>Enable surveys</label>
-                            <input className="form-control" value={""} placeholder="Survey name" />
-
+                            <CreateSurveyContainer  />
                             <hr/>
-                            {surveys && <OverviewTable data={surveys} />}
+                            {!surveys &&
+                            <p className="text-center">
+                                There are no surveys to display...
+                            </p>}
+                            {surveys && <OverviewTable data={surveys.content} />}
                         </Panel.Body>
                     </Panel>
                 </div>
