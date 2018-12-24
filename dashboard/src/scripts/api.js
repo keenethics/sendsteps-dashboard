@@ -25,6 +25,9 @@ export function post(controller, functionName, params, onSuccess, onFail) {
 // Gets are weird because we are sending params in the body since the API expexts that
 // How to Get without being able to send body params? (Backend thing)
 export function get(controller, functionName, params, onSuccess, onFail) {
+
+    // Make up URL with params instead of body tag
+
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
     const fetchParams = {
         method: 'POST',

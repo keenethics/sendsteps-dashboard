@@ -106,31 +106,30 @@ class SurveyNameContainer extends Component {
             <FormGroup validationState={this.getNameValidationState()}>
             <div className="row">
                 <div className="col-sm-12">
-                    
-                        <div className="col-sm-3">
-                            <ControlLabel>Survey Name</ControlLabel>
+                    <div className="col-sm-3">
+                        <ControlLabel className="lh-32">Survey Name</ControlLabel>
+                    </div>
+                    <div className="col-sm-6">
+                        <div className="input-group">
+                            <span className="input-group-addon">
+                                <i className="fa fa-list"></i>
+                            </span>
+                            <FormControl
+                                onBlur={this.validateSurveyName}
+                                type="text"
+                                value={name ? name : surveyName}
+                                placeholder="Survey Name"
+                                onChange={this.setSurveyName}
+                            />
                         </div>
-                        <div className="col-sm-6">
-                            <div className="input-group">
-                                <span className="input-group-addon">
-                                    <i className="fa fa-list"></i>
-                                </span>
-                                <FormControl
-                                    onBlur={this.validateSurveyName}
-                                    type="text"
-                                    value={name ? name : surveyName}
-                                    placeholder="Survey Name"
-                                    onChange={this.setSurveyName}
-                                />
-                            </div>
-                            {!!error && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
-                        </div>
-                        {create && 
-                        <div className="col-sm-3">
-                            <Button className="btn-block" disabled={!this.isSurveyNameValid()} bsStyle="success" onClick={this.checkIfValidAndCreateNew}>
-                                <i className="fa fa-plus-square"></i> Create new Survey
-                            </Button>
-                        </div>}
+                        {!!error && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
+                    </div>
+                    {create && 
+                    <div className="col-sm-3">
+                        <Button className="btn-block" disabled={!this.isSurveyNameValid()} bsStyle="success" onClick={this.checkIfValidAndCreateNew}>
+                            <i className="fa fa-plus-square"></i> Create new Survey
+                        </Button>
+                    </div>}
                 </div>
             </div>
             </FormGroup>
@@ -138,4 +137,10 @@ class SurveyNameContainer extends Component {
     }
 }
 
-export default connect()(SurveyNameContainer);
+export default connect(
+    state => {
+        return {
+           surveyDetails: state.surveyReducer.surveyDetails
+        }
+    }
+)(SurveyNameContainer);

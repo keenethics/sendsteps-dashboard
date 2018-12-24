@@ -5,20 +5,25 @@ import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
-import { get } from "../../../scripts/api";
+import { get, post } from "../../../scripts/api";
 import CreateQuestionContainer from "./question/CreateQuestionContainer";
 import SurveyNameContainer from "./create/SurveyNameContainer";
+import { toast } from "react-toastify";
 
 class SurveyDetails extends React.Component {
 
     componentDidMount() {
+        this.getSurveyDetails()
+    }
+
+    getSurveyDetails = () => {
         get('surveys', 'getDetails',
             JSON.stringify({id: this.props.match.params.id}),
             result => {
                 console.log(result)
                 this.props.dispatch(setSurveyDetails(result.content))
             },
-            err => console.log(err)
+            error => console.log(error)
         )
     }
 
@@ -33,9 +38,30 @@ class SurveyDetails extends React.Component {
         return moment(time, dateFormat).format(stringFormat);
     }
     
+    saveSettings = () => {
+        post(
+            'surveys',
+            'updateSurveyName',
+            JSON.stringify({
+                id: this.props.match.params.id,
+                surveyName: this.props.surveyDetails.survey_name
+            }),
+            result => {
+                toast("Survey saved!")
+                this.props.dispatch(setSurveyDetails(result.content))
+            },
+            error => {
+                toast("Unable to update survey name")
+                console.log(error)
+            }
+        )
+    }
+
     render() {
 
         const { surveyDetails } = this.props;
+
+        console.log(surveyDetails)
 
         return (
             <div>  
@@ -47,10 +73,11 @@ class SurveyDetails extends React.Component {
                             <h3>Edit Survey</h3>
                             <hr />
                             <SurveyNameContainer name={surveyDetails.survey_name} />
+                            <hr />
                             <CreateQuestionContainer />
                         </Panel.Body>
                     </Panel>}
-                    <BottomSaveBar />
+                    <BottomSaveBar onSave={this.saveSettings} />
                 </div>
             </div>
         );

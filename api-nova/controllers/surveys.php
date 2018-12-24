@@ -50,4 +50,66 @@ class Surveys extends NovaAPI {
         $surveyModel = $this->loadModel('surveys');
         return json_encode($surveyModel->deleteSurvey($surveyId, $this->getUserSessionId()));
     }
+
+    public function getQuestionTypes() {
+        $surveyModel = $this->loadModel('surveys');
+        $types = $surveyModel->getQuestionTypes();
+
+        if($types) {
+            $assocGroups = array();
+            foreach($types as $type) {
+                $assocGroups[$type['survey_question_type_id']] = ["question_type" => $type['question_type']]; 
+            }
+            return json_encode($assocGroups);
+        }
+        return false;
+    }
+
+    public function createSurveyQuestion(...$params) {
+        $surveyModel = $this->loadModel('surveys');
+        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId ] = $params;
+
+        // If surveyQuestionId wasn't passed
+        if(empty($params[4])) {
+            $surveyQuestionId = $surveyModel->createSurveyQuestion(
+                $surveyQuestionName,
+                $surveyTypeId,
+                $isRequired,
+                $surveyId,
+                $this->getUserSessionId()
+            );
+        } 
+        else 
+        {
+            $surveyQuestionId = $surveyModel->updateSurveyQuestion(
+                $params[4],
+                $surveyQuestionName,
+                $surveyTypeId,
+                $isRequired
+            );
+        }
+
+        if($surveyQuestionId) {
+            $survey = $surveyModel->getQuestionById($surveyQuestionId);
+            return json_encode($survey);
+        }
+        return false;
+    }
+
+    public function deleteSurveyQuestion($surveyQuestionId) {
+        $surveyModel = $this->loadModel('surveys');
+        return json_encode($surveyModel->deleteSurveyQuestion($surveyQuestionId));
+    }
+
+    public function getQuestions($surveyId) {
+        $surveyModel = $this->loadModel('surveys');
+        return json_encode($surveyModel->getQuestionsBySurveyId($surveyId));
+    }
+
+    public function updateSurveyName($surveyId, $surveyName) {
+        $surveyModel = $this->loadModel('surveys');
+        if($surveyModel->updateSurveyNameById($surveyId, $surveyName)) {
+            return $this->getDetails($surveyId);
+        }
+    }
 }

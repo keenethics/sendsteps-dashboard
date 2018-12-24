@@ -13,7 +13,7 @@ class Header extends React.Component {
         return (
             <header>
                 <div className="header-content">
-                    <i onClick={() => this.props.dispatch(toggleMenu(!this.props.menuOpened))} className="fa fa-bars menu-button"></i>
+                    <i onClick={() => this.props.dispatch(toggleMenu(!this.props.menuOpened))} className="fa fa-align-left menu-button"></i>
                     <span className="sst-logo-header">
                         <img alt="Sendsteps" src={Logo} />
                     </span>

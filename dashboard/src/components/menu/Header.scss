@@ -23,10 +23,11 @@ header {
   	}
   	.menu-button:hover {
 		cursor: pointer;
+		color: #fff;
 	}
 	.menu-button {
-		color: #fff;
+		transition: 300ms all;
+		color: rgba(255, 255, 255, 0.5);
 		padding: 6px 12px;
-		transform: scale(1.337);
 	}
 }
