@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Collapse, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { get, post } from '../../../../scripts/api'
 import SurveyQuestion from './SurveyQuestion';
 import { withRouter } from 'react-router-dom'
@@ -40,12 +39,16 @@ class CreateQuestionContainer extends Component {
     }
 
     render() {
+
         const { types, surveyQuestions } = this.state
 
         return (
             <>
                 {surveyQuestions && types && surveyQuestions.map(question => {
-                    return <span key={question.survey_question_id}><SurveyQuestion getSurveyQuestions={this.getSurveyQuestions} savedQuestion={question} types={types} /><hr/></span>
+                    return <span key={question.survey_question_id}>
+                        <SurveyQuestion getSurveyQuestions={this.getSurveyQuestions} savedQuestion={question} types={types} />
+                        <hr/>
+                    </span>
                 })}
                 {types && <SurveyQuestion getSurveyQuestions={this.getSurveyQuestions} types={types} />}
                 <DeleteSurveyQuestionModal getSurveyQuestions={this.getSurveyQuestions} />

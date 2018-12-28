@@ -112,4 +112,9 @@ class Surveys extends NovaAPI {
             return $this->getDetails($surveyId);
         }
     }
+
+    public function getQuestionOptions($surveyQuestionId) {
+        $surveyModel = $this->loadModel('surveys');
+        return json_encode($surveyModel->getQuestionOptionsById($surveyQuestionId));
+    }
 }

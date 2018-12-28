@@ -20,3 +20,13 @@ export function formatLabelsToKeyValuePairs(labels, data) {
     })
     return formatted;
 }
+
+export function generateKey() {
+    const keyLength = 10
+    const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let text = "";
+    while(text.length !== keyLength) {
+        text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
+    }
+    return text;
+}

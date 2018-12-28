@@ -189,4 +189,15 @@ class Surveys_Model extends Model {
         }
         return false;
     }
+
+    public function getQuestionOptionsById($surveyQuestionId) {
+        $result = $this->database()->select(
+            'survey_question_option',
+            [
+                'survey_question_id' => $surveyQuestionId
+            ]
+        );
+
+        return $result;
+    }
 }
