@@ -5,7 +5,7 @@ class MultipleChoiceContainer extends Component {
 
     render() {
 
-        const { options, setOptionText, addOption, deleteOption } = this.props
+        const { options, updateOptions, addOption, deleteOption, optionsLoaded } = this.props
 
         return (
             <div className="row">
@@ -15,9 +15,10 @@ class MultipleChoiceContainer extends Component {
                             return (
                             <span key={key}>
                                 <MultipleChoiceOption 
-                                    setOptionText={setOptionText}
+                                    optionsLoaded={optionsLoaded}
+                                    setOptionText={updateOptions}
                                     addOption={addOption}
-                                    deleteOption={deleteOption}
+                                    deleteOption={() => deleteOption(key)}
                                     optionKey={key}
                                     option={options[key]} 
                                 />

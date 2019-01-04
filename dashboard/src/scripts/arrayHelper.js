@@ -23,7 +23,7 @@ export function formatLabelsToKeyValuePairs(labels, data) {
 
 export function generateKey() {
     const keyLength = 10
-    const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possibleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     let text = "";
     while(text.length !== keyLength) {
         text += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));

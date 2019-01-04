@@ -21,7 +21,6 @@ class MultipleChoiceOption extends Component {
             deleteOption(optionKey)
             addedNext = false
         }
-
         this.setState({ addedNext })
     }
 
@@ -30,10 +29,22 @@ class MultipleChoiceOption extends Component {
         deleteOption(optionKey)
     }
 
+    isGeneratedKey = key => {
+        return !Number.isInteger(parseInt(key, 10))
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.optionKey) {
+            if(!this.isGeneratedKey(nextProps.optionKey)) {
+                this.setState({addedNext: true})
+            }
+        }
+    }
+
     render() {
 
         const { addedNext } = this.state
-        const { option } = this.props;
+        const { option, optionKey } = this.props;
 
         return (
             <FormGroup>
@@ -42,7 +53,7 @@ class MultipleChoiceOption extends Component {
                         <input type="checkbox" disabled="disabled" />
                     </div>
                     <FormControl placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
-                    {addedNext &&
+                    {(addedNext || !this.isGeneratedKey(optionKey)) &&
                     <div onClick={this.deleteOption} className="input-group-addon btn btn-primary">
                         <i className="fa fa-trash"></i> Delete
                     </div>}

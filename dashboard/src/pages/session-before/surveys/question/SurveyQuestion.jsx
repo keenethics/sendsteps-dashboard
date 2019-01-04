@@ -5,18 +5,45 @@ import { withRouter } from 'react-router-dom'
 import { post } from '../../../../scripts/api';
 import { toast } from 'react-toastify';
 import { setDeletingSurveyQuestionId } from '../actions'
-import MultipleChoiceContainer from './types/multiplechoice/MultipleChoiceContainer';
 import OptionTypeContainer from './types/OptionTypeContainer';
+import { generateKey } from '../../../../scripts/arrayHelper';
 
 class SurveyQuestion extends Component {
 
-    state = {
+    initialState = {
         error: null,
         surveyQuestionName: "",
-        currentType: null,
+        currentType: this.getDefaultType(),
         isRequired: 0,
-        surveyQuestionOptions: null,
+        surveyQuestionOptions: { [generateKey()]: ""},
         optionsExpanded: false
+    }
+
+    state = {
+        ...this.initialState
+    }
+
+    updateSingleOption = e => {
+        let { surveyQuestionOptions } = this.state
+        surveyQuestionOptions[Object.keys(surveyQuestionOptions)[0]] = e.target.value
+        this.setState({surveyQuestionOptions})
+    }
+
+    addOption = () => {
+        this.setState({
+            surveyQuestionOptions: {
+                ...this.state.surveyQuestionOptions,
+                [generateKey()]: ""
+            }
+        })
+    }
+
+    deleteOption = key => {
+        let { surveyQuestionOptions } = this.state
+        if(!(Object.keys(surveyQuestionOptions).length === 1)) {
+            delete surveyQuestionOptions[key]
+            this.setState({surveyQuestionOptions})
+        }    
     }
 
     deleteSurveyQuestion = () => {
@@ -31,14 +58,7 @@ class SurveyQuestion extends Component {
     }
 
     resetState = () => {
-        this.setState({
-            currentType: this.getDefaultType(),
-            isRequired: 0,
-            surveyQuestionName: "",
-            surveyQuestionOptions: null,
-            error: null,
-            optionsExpanded: false
-        })
+        this.setState({ ...this.initialState })
     }
 
     getDefaultType() {
@@ -51,7 +71,7 @@ class SurveyQuestion extends Component {
     saveSurveyQuestion = () => {
 
         const { match, savedQuestion } = this.props;
-        const { surveyQuestionName, currentType, isRequired } = this.state
+        const { surveyQuestionName, currentType, isRequired, surveyQuestionOptions } = this.state
 
         post(
             'surveys',
@@ -61,7 +81,8 @@ class SurveyQuestion extends Component {
                 typeId: currentType.survey_question_type_id,
                 required: isRequired,
                 surveyId: match.params.id,
-                surveyQuestionId: savedQuestion ? savedQuestion.survey_question_id : null
+                surveyQuestionId: savedQuestion ? savedQuestion.survey_question_id : null,
+                surveyQuestionOptions
             }),
             () => {
                 this.resetState();
@@ -74,6 +95,7 @@ class SurveyQuestion extends Component {
             }
         )
     }
+
     componentWillMount() {
         this.setState({
             currentType: this.getDefaultType()
@@ -87,7 +109,7 @@ class SurveyQuestion extends Component {
                 currentType: { 
                     survey_question_type_id: typeId, 
                     question_type: this.props.types[typeId].question_type
-                }
+                },
             })
         }
     }
@@ -108,12 +130,12 @@ class SurveyQuestion extends Component {
 
     getQuestionOptions = () => {
         const { savedQuestion, types } = this.props;
-        console.log(savedQuestion)
+
         post('surveys', 'getQuestionOptions',
             JSON.stringify({id: savedQuestion.survey_question_id}),
             surveyQuestionOptions => {
                 this.setState({
-                    surveyQuestionOptions, 
+                    surveyQuestionOptions: { ...surveyQuestionOptions, [generateKey()]: ""},
                     optionsExpanded: true,
                     surveyQuestionName: savedQuestion.question,
                     currentType: {
@@ -125,7 +147,7 @@ class SurveyQuestion extends Component {
             error => this.setState({error})
         )
     }
-    
+
     editQuestion = () => {
         const { savedQuestion, types } = this.props
         if(savedQuestion && types) {
@@ -155,10 +177,18 @@ class SurveyQuestion extends Component {
         return 'fa fa-list'
     }
 
+    updateOptions = (text, optionIndex) => {
+        let { surveyQuestionOptions } = this.state
+        surveyQuestionOptions[optionIndex] = text
+        this.setState({ surveyQuestionOptions })
+    }
+
     render() {
 
         const { types, savedQuestion } = this.props
         const { currentType, isRequired, surveyQuestionName, surveyQuestionOptions, optionsExpanded } = this.state
+
+        console.log(surveyQuestionOptions)
 
         return (
             <>
@@ -182,14 +212,14 @@ class SurveyQuestion extends Component {
                                 <span className="input-group-addon">
                                     <i className={this.getQuestionIconClassName()}></i>
                                 </span>
-                                {(surveyQuestionOptions || !savedQuestion) &&
+                                {(!savedQuestion || optionsExpanded) &&
                                 <FormControl
                                     type="text"
                                     value={surveyQuestionName}
                                     placeholder="Type a new question"
                                     onChange={this.setQuestion}
                                 />}
-                                {(savedQuestion && !surveyQuestionOptions) && <>
+                                {(savedQuestion && !optionsExpanded) && <>
                                 <FormControl 
                                     value={savedQuestion.question}
                                     disabled={true}
@@ -227,7 +257,15 @@ class SurveyQuestion extends Component {
                         </div>
                     </div>
                 </FormGroup>
-                {currentType && <OptionTypeContainer type={currentType} options={surveyQuestionOptions} />}
+                {(currentType && surveyQuestionOptions) && 
+                <OptionTypeContainer 
+                    updateOptions={this.updateOptions} 
+                    type={currentType} 
+                    options={surveyQuestionOptions} 
+                    addOption={this.addOption}
+                    deleteOption={this.deleteOption}
+                    updateSingleOption={this.updateSingleOption}
+                />}
                 {parseInt(currentType.survey_question_type_id, 10) !== 6 &&
                 <FormGroup>
                     <div className="row">

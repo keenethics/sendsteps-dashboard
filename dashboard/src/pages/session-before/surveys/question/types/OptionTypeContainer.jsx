@@ -1,45 +1,21 @@
 import React, { Component } from 'react';
 import { FormControl, FormGroup } from 'react-bootstrap'
 import MultipleChoiceContainer from './multiplechoice/MultipleChoiceContainer'
-import { generateKey } from '../../../../../scripts/arrayHelper'
+import ParagraphContainer from './paragraph/ParagraphContainer';
+import TextContainer from './text/TextContainer';
+import ExplanationContainer from './explanation/ExplanationContainer';
 
 class OptionTypeContainer extends Component {
     
     state = {
-        options: null
+        options: null,
+        optionsLoaded: false
     }
 
-    addOption = () => {
-        this.setState({
-            options: {
-                ...this.state.options,
-                [generateKey()]: ""
-            }
-        })
-    }
-
-    deleteOption = key => {
-        let { options } = this.state
-        if(!(Object.keys(options).length === 1)) {
-            delete options[key]
-            this.setState({options})
-        }        
-    }
-
-    setOptionText = (text, optionIndex) =>  {
-        let { options } = this.state
-        options[optionIndex] = text
-        this.setState({ options })
-    }
-
-    componentDidMount() {
-        let { options } = this.props
-        this.setState({
-            options: { 
-                ...options, 
-                [generateKey()]: ""
-            }
-        })
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.options && !this.state.optionsLoaded) {
+            this.setState({ optionsLoaded: true })
+        } 
     }
 
     isTextQuestion = type => {
@@ -74,39 +50,26 @@ class OptionTypeContainer extends Component {
 
     render() {
 
-        const { type } = this.props
-        const { options } = this.state
+        const { type, options } = this.props
+
+        console.log(options)
 
         return (
             <FormGroup>
                 <div className="row">
                     <div className="col-sm-12">
                         {this.isTextQuestion(type) && <>
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-comment-o"></i>
-                                    </span>
-                                    <FormControl disabled={true} placeholder="Their Answer" />
-                                </div>
-                            </div>
+                            <TextContainer />
                         </>}
                         {this.isParagraphQuestion(type) && <>
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-comment-o"></i>
-                                    </span>
-                                    <FormControl componentClass="textarea" disabled={true} placeholder="Their Longer Answer" />
-                                </div>
-                            </div>
+                            <ParagraphContainer />
                         </>}
                         {this.isMultipleChoiceQuestion(type) && <>
                             <MultipleChoiceContainer 
                                 options={options} 
-                                setOptionText={this.setOptionText}
-                                addOption={this.addOption}
-                                deleteOption={this.deleteOption}
+                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
+                                addOption={() => this.props.addOption()}
+                                deleteOption={key => this.props.deleteOption(key)}
                             />
                         </>}
                         {this.isCheckboxQuestion(type) && <>
@@ -116,14 +79,10 @@ class OptionTypeContainer extends Component {
 
                         </>}
                         {this.isExplanationQuestion(type) && <>
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-list"></i>
-                                    </span>
-                                    <FormControl componentClass="textarea" onChange={this.setOptionText}  placeholder="Type your text which you would like to show to your audience" />
-                                </div>
-                            </div>
+                            <ExplanationContainer 
+                                options={options}
+                                updateOptions={this.props.updateSingleOption}
+                            />
                         </>}
                     </div>
                 </div>
