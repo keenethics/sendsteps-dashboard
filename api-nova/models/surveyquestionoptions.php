@@ -48,7 +48,18 @@ class Surveyquestionoptions_Model extends Model {
     }
 
     public function formatScaleOptions($surveyQuestionId, $surveyQuestionOptions) {
-        
+
+        $prefix = '######';
+
+        $values =  array_values((array) $surveyQuestionOptions);
+
+        $scaleNumbers = '1'.$prefix.$values[2].$prefix;
+        $scaleOptions = $values[0].$prefix.$values[1];
+
+        return  [
+            'option' => $scaleNumbers.$scaleOptions,
+            'survey_question_id' => $surveyQuestionId
+        ];
     }
 
     public function formatExplanationTextOption($surveyQuestionId, $surveyQuestionOptions) {

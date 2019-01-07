@@ -33,8 +33,6 @@ class SurveyDetails extends React.Component {
 
         const momented = moment(time, stringFormat);
         const stringed = momented.format(dateFormat);
-        console.log(momented);
-        console.log(stringed);
         return moment(time, dateFormat).format(stringFormat);
     }
     
@@ -61,8 +59,6 @@ class SurveyDetails extends React.Component {
 
         const { surveyDetails } = this.props;
 
-        console.log(surveyDetails)
-
         return (
             <div>  
                 <HeaderPanel title={"Survey Details"} />
@@ -77,7 +73,7 @@ class SurveyDetails extends React.Component {
                             <CreateQuestionContainer />
                         </Panel.Body>
                     </Panel>}
-                    <BottomSaveBar onSave={this.saveSettings} />
+                    <BottomSaveBar disabled={surveyDetails && surveyDetails.survey_name.length < 3} onSave={this.saveSettings} />
                 </div>
             </div>
         );
@@ -85,7 +81,7 @@ class SurveyDetails extends React.Component {
 } export default connect(
     (state) => {
         return {
-            surveyDetails: state.surveyReducer.surveyDetails,
+            surveyDetails: state.surveyReducer.surveyDetails
         }
     }
 )(SurveyDetails);

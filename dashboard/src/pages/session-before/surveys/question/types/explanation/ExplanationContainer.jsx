@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { FormControl } from 'react-bootstrap'
+import { firstOfObject } from '../../../../../../scripts/arrayHelper';
 
 class ExplanationContainer extends Component {
 
     getFirstOption = options => {
-        console.log(options[Object.keys(options)[0]])
-        return options[Object.keys(options)[0]];
+        return firstOfObject(options)
     }
 
     render() {

@@ -27,7 +27,7 @@ class SurveysOverview extends React.Component {
 
         return (
             <div>
-                <HeaderPanel title={"Survey Overview"} />
+                <HeaderPanel title={"Survey Overview"} content={"By activating the “Survey” tab on the response website, your audience will be enabled to answer survey questions. Survey results will only be visible within your dashboard and won’t be published on the presentation screen. The survey can be send out in advance of your session to pre-collect attendee data. The Survey tab can also be used as an evaluation tool throughout or at the end of your session."} />
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>

@@ -23,6 +23,10 @@ class SurveyQuestion extends Component {
         ...this.initialState
     }
 
+    setAllOptions = surveyQuestionOptions => {
+        this.setState({surveyQuestionOptions})
+    }
+
     updateSingleOption = e => {
         let { surveyQuestionOptions } = this.state
         surveyQuestionOptions[Object.keys(surveyQuestionOptions)[0]] = e.target.value
@@ -106,6 +110,7 @@ class SurveyQuestion extends Component {
         const typeId = e.target.value
         if(this.props.types) {
             this.setState({
+                surveyQuestionOptions: this.initialState.surveyQuestionOptions,
                 currentType: { 
                     survey_question_type_id: typeId, 
                     question_type: this.props.types[typeId].question_type
@@ -115,7 +120,8 @@ class SurveyQuestion extends Component {
     }
 
     setRequired = isRequired => {
-        this.setState({isRequired})
+        console.log(isRequired)
+        this.setState({isRequired: parseInt(isRequired, 10)})
     }
 
     setQuestion = e => {
@@ -129,6 +135,7 @@ class SurveyQuestion extends Component {
     }
 
     getQuestionOptions = () => {
+
         const { savedQuestion, types } = this.props;
 
         post('surveys', 'getQuestionOptions',
@@ -163,7 +170,7 @@ class SurveyQuestion extends Component {
             'fa-file-text-o', 
             'fa-paragraph', 
             'fa-list-ol', 
-            'fa-check', 
+            'fa-check-square-o', 
             'fa-balance-scale', 
             'fa-comment'
         ]
@@ -205,7 +212,6 @@ class SurveyQuestion extends Component {
                             <ControlLabel className="lh-32">
                                 {types[savedQuestion.survey_question_type_id].question_type}
                             </ControlLabel>}
-                            
                         </div>
                         <div className="col-sm-6">
                             <div className="input-group">
@@ -259,6 +265,7 @@ class SurveyQuestion extends Component {
                 </FormGroup>
                 {(currentType && surveyQuestionOptions) && 
                 <OptionTypeContainer 
+                    setAllOptions={this.setAllOptions}
                     updateOptions={this.updateOptions} 
                     type={currentType} 
                     options={surveyQuestionOptions} 
@@ -275,10 +282,14 @@ class SurveyQuestion extends Component {
                             </div>
                             <div className="col-sm-6">
                                 <ButtonToolbar>
-                                    <ToggleButtonGroup onChange={this.setRequired} type="radio" value={isRequired} name="options" defaultValue={0}>
-                                    <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
-                                    <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
-                                    </ToggleButtonGroup>
+                                    {!savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" value={parseInt(isRequired, 10)} name="options" defaultValue={0}>
+                                        <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
+                                        <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
+                                    </ToggleButtonGroup>}
+                                    {savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" value={savedQuestion.isRequired} name="options" defaultValue={0}>
+                                        <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
+                                        <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
+                                    </ToggleButtonGroup>}
                                 </ButtonToolbar>
                             </div>
                         </div>

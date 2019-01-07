@@ -43,12 +43,10 @@ class SurveyNameContainer extends Component {
     }
 
     setSurveyName = e => {
-        if(!this.props.name) {
-            this.setState({surveyName: e.target.value})
-        } else {
+        this.setState({surveyName: e.target.value})
+        if(this.props.name) {
             this.updateDetailsName(e)
         }
-        
         this.clearError()
     }
 
@@ -96,6 +94,12 @@ class SurveyNameContainer extends Component {
             return 'error'
         }
     }
+    
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.name) {
+            this.setState({surveyName: nextProps.name})
+        }
+    }
 
     render() {
 
@@ -107,10 +111,10 @@ class SurveyNameContainer extends Component {
             <div className="row">
                 <div className="col-sm-12">
                     <div className="col-sm-3">
-                        <ControlLabel className="lh-32">Survey Name</ControlLabel>
+                        <ControlLabel className="lh-32 input-lg">Survey Name</ControlLabel>
                     </div>
                     <div className="col-sm-6">
-                        <div className="input-group">
+                        <div className="input-group input-group-lg">
                             <span className="input-group-addon">
                                 <i className="fa fa-list"></i>
                             </span>
@@ -126,7 +130,7 @@ class SurveyNameContainer extends Component {
                     </div>
                     {create && 
                     <div className="col-sm-3">
-                        <Button className="btn-block" disabled={!this.isSurveyNameValid()} bsStyle="success" onClick={this.checkIfValidAndCreateNew}>
+                        <Button className="btn-block" bsSize="large" disabled={!this.isSurveyNameValid()} bsStyle="success" onClick={this.checkIfValidAndCreateNew}>
                             <i className="fa fa-plus-square"></i> Create new Survey
                         </Button>
                     </div>}

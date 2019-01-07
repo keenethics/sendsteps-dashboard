@@ -4,6 +4,8 @@ import MultipleChoiceContainer from './multiplechoice/MultipleChoiceContainer'
 import ParagraphContainer from './paragraph/ParagraphContainer';
 import TextContainer from './text/TextContainer';
 import ExplanationContainer from './explanation/ExplanationContainer';
+import CheckboxContainer from './checkbox/CheckboxContainer';
+import ScaleContainer from './scale/ScaleContainer';
 
 class OptionTypeContainer extends Component {
     
@@ -73,10 +75,20 @@ class OptionTypeContainer extends Component {
                             />
                         </>}
                         {this.isCheckboxQuestion(type) && <>
-
+                            <CheckboxContainer 
+                                options={options} 
+                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
+                                addOption={() => this.props.addOption()}
+                                deleteOption={key => this.props.deleteOption(key)}
+                            />
                         </>}
                         {this.isScaleQuestion(type) && <>
-
+                            <ScaleContainer
+                                options={options}
+                                addOption={() => this.props.addOption()}
+                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
+                                setAllOptions={this.props.setAllOptions}
+                            />
                         </>}
                         {this.isExplanationQuestion(type) && <>
                             <ExplanationContainer 

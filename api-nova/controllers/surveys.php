@@ -109,8 +109,10 @@ class Surveys extends NovaAPI {
 
     public function deleteSurveyQuestion($surveyQuestionId) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
-        return json_encode($surveyQuestionModel->deleteQuestion($surveyQuestionId));
-        // Also delete all question options
+        $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
+
+        $surveyQuestionModel->deleteQuestion($surveyQuestionId);
+        return json_encode($surveyQuestionOptionModel->deleteOptions($surveyQuestionId));
     }
 
     public function getQuestions($surveyId) {

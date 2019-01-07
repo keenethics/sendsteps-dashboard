@@ -30,3 +30,18 @@ export function generateKey() {
     }
     return text;
 }
+
+export function swap(theList, firstIndex, secondIndex) {
+    let placeholder = theList[firstIndex];
+    theList[firstIndex] = theList[secondIndex];
+    theList[secondIndex] = placeholder;
+    return theList
+}
+
+export function firstOfObject(theObject) {
+    return theObject[Object.keys(theObject)[0]];
+}
+
+export function lastOfObject(theObject) {
+    return theObject[Object.keys(theObject)[Object.keys(theObject).length -1]];
+}
