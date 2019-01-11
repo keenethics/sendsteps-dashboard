@@ -1,6 +1,6 @@
 export function setAudienceData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_AUDIENCE_DATA',
         data
     }
 }

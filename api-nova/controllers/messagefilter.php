@@ -39,6 +39,9 @@ class MessageFilter extends NovaAPI {
         // Frontend sends signal to backend when time is over
         // Backend checks if time is actually over
         // Send first queuemessage to screen
+
+        // What if dashboard is closed?
+        // What if multiple dashboards are open?
     }
 
     public function addNewMessage($message) {

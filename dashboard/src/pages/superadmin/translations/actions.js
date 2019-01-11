@@ -1,13 +1,13 @@
 export function setTranslationData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_TRANSLATION_DATA',
         data
     }
 }
 
 export function setTranslationDetails(data) {
     return {
-        type: 'SET_DETAILS',
+        type: 'SET_TRANSLATION_DETAILS',
         data
     }
 }

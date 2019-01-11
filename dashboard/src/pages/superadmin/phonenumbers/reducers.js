@@ -1,7 +1,7 @@
 
 export default function phonenumberReducer(state = {}, action) {
     switch(action.type) {
-        case 'SET_DATA': {
+        case 'SET_PHONENUMBER_DATA': {
             return {
                 ...state,
                 phonenumbers: action.data

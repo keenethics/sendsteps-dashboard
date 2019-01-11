@@ -1,13 +1,13 @@
 
 export default function translationReducer(state = {}, action) {
     switch(action.type) {
-        case 'SET_DATA': {
+        case 'SET_TRANSLATION_DATA': {
             return {
                 ...state,
                 translations: action.data
             }
         }
-        case 'SET_DETAILS': {
+        case 'SET_TRANSLATION_DETAILS': {
             return {
                 ...state,
                 translationDetails: action.data

@@ -1,7 +1,7 @@
 
 export default function surveyReducer(state = {}, action) {
     switch(action.type) {
-        case 'SET_DATA': {
+        case 'SET_SURVEY_DATA': {
             const surveys = {
                 ...action.data
             }

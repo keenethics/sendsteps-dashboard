@@ -94,7 +94,6 @@ class SurveyQuestion extends Component {
                 toast("Survey question saved!")
             },
             err => {
-                console.log(err)
                 toast("Unable to save survey question")
             }
         )
@@ -120,7 +119,6 @@ class SurveyQuestion extends Component {
     }
 
     setRequired = isRequired => {
-        console.log(isRequired)
         this.setState({isRequired: parseInt(isRequired, 10)})
     }
 
@@ -194,8 +192,6 @@ class SurveyQuestion extends Component {
 
         const { types, savedQuestion } = this.props
         const { currentType, isRequired, surveyQuestionName, surveyQuestionOptions, optionsExpanded } = this.state
-
-        console.log(surveyQuestionOptions)
 
         return (
             <>

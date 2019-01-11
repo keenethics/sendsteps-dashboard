@@ -29,6 +29,8 @@ class IncomingPanel extends Component {
 
         const { messages, selectedIncomingIds } = this.props;
 
+        console.log(this.props)
+
         return (
             <span>
                 <Panel bsStyle="primary">

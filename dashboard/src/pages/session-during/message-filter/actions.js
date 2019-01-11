@@ -21,7 +21,7 @@ export function addNewGroup(newGroup) {
 
 export function setMessageFilterData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_MESSAGE_FILTER_DATA',
         data
     }
 }

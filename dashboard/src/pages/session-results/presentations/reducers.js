@@ -8,7 +8,7 @@ export default function sessionResultsReducer(state = {}, action) {
                 selectedResultIds: []
             }
         }
-        case 'SET_DATA': {
+        case 'SET_PRESENTATION_DATA': {
             return {
                 ...state,
                 presentationResults: action.data
@@ -21,8 +21,6 @@ export default function sessionResultsReducer(state = {}, action) {
             }
         }
         case 'SELECT_RESULT': {
-            console.log(action.resultId);
-            console.log(state.selectedResultIds);
             return {
                 ...state,
                 selectedResultIds: addOrRemoveFromList(
@@ -32,7 +30,6 @@ export default function sessionResultsReducer(state = {}, action) {
             }
         }
         case 'FILTER_EMPTY_RESULTS': {
-            console.log(state);
             return {
                 ...state
             }

@@ -1,6 +1,6 @@
 export function setPhonenumberData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_PHONENUMBER_DATA',
         data
     }
 }

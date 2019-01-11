@@ -1,6 +1,6 @@
 export function setSurveyData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_SURVEY_RESULTS_DATA',
         data
     }
 }

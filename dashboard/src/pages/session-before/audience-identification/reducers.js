@@ -1,7 +1,7 @@
 
 export default function audienceReducer(state = {}, action) {
     switch(action.type) {
-        case 'SET_DATA': {
+        case 'SET_AUDIENCE_DATA': {
             return {
                 ...state,
                 phonenumbers: action.data

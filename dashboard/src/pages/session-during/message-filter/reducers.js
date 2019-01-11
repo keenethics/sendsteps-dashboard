@@ -3,7 +3,6 @@ import { updateMessagesStatus, updateMessagesGroup, addOrRemoveFromList} from '.
 export default function messageFilterReducer(state = {}, action) {
     switch(action.type) {
         case 'ADD_NEW_GROUP': {
-            console.log(action.newGroup);
             let updatedGroups = { ...state.messageGroups };
             updatedGroups[action.newGroup.id] = {
                 name: action.newGroup.name,
@@ -14,7 +13,7 @@ export default function messageFilterReducer(state = {}, action) {
                 messageGroups: updatedGroups
             }
         }
-        case 'SET_DATA': {
+        case 'SET_MESSAGE_FILTER_DATA': {
             return {
                 ...state,
                 messages: action.data
@@ -197,7 +196,6 @@ export default function messageFilterReducer(state = {}, action) {
             let messages = [ ...state.messages ];
             messages.push(action.newMessage);
 
-            console.log(messages);
             return {
                 ...state,
                 messages,

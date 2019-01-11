@@ -9,6 +9,7 @@ import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { post, get } from "../../../scripts/api";
 import { toast } from 'react-toastify';
+import './Overview.scss'
 
 class SettingsOverview extends React.Component {
 
@@ -187,8 +188,9 @@ class SettingsOverview extends React.Component {
                                                             <ButtonSwitch onChange={() => this.updateSettings(!settings.internetselected, 'internetselected')} selected={settings.internetselected ? "1" : "0"} />
                                                     </div>}
                                                 </div>
-                                                                                
-                                                {settings && settings.internetselected && <div className="form-group">
+                                                <Panel className="panel-no-border" expanded={!!(settings && settings.internetselected)}>
+                                                <Panel.Collapse>                                
+                                                <div className="form-group">
                                                     <label className="col-sm-3 control-label">URL <TooltipNotification 
                                                             title={"URL"}
                                                             tooltip={
@@ -205,11 +207,12 @@ class SettingsOverview extends React.Component {
                                                             <span className="input-group-addon">
                                                                 <i className="fa fa-link"></i>
                                                             </span>
-                                                            <input type="text" value={settings.internetaddressoverwrite} disabled="disabled" className="form-control" placeholder="" />
+                                                            <input type="text" value={(settings && settings.internetaddressoverwrite) ? settings.internetaddressoverwrite : ""} disabled="disabled" className="form-control" placeholder="" />
                                                         </div>
                                                     </div>
-                                                </div>}
-                                                <hr/>
+                                                </div>
+                                                </Panel.Collapse>
+                                                </Panel>
                                                 <div className="form-group">
                                                     <label className="col-sm-3 control-label">TXT/SMS <TooltipNotification 
                                                             title={"TXT/SMS"}
@@ -222,13 +225,12 @@ class SettingsOverview extends React.Component {
                                                             <i className="fa fa-question-circle"></i>
                                                         </TooltipNotification>
                                                     </label>
-                                                    {settings && 
                                                     <div className="col-sm-6">
-                                                        <ButtonSwitch onChange={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')} selected={settings.textmessagingselected ? "1" : "0"} />
-                                                    </div>}
+                                                        <ButtonSwitch onChange={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')} selected={(settings && settings.textmessagingselected) ? "1" : "0"} />
+                                                    </div>
                                                 </div>
-
-                                                {settings && settings.textmessagingselected && 
+                                                <Panel className="panel-no-border" expanded={!!(settings && settings.textmessagingselected)}>
+                                                <Panel.Collapse>                                
                                                 <span>
                                                     <div className="form-group">
                                                         <label className="col-sm-3 control-label">Country <TooltipNotification 
@@ -244,7 +246,7 @@ class SettingsOverview extends React.Component {
                                                             </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                        {settings.countriesList &&
+                                                        {settings && settings.countriesList &&
                                                             <div className="input-group">
                                                                 <span className="input-group-addon" id="basic-addon1">
                                                                     <i className="fa fa-globe"></i>
@@ -271,10 +273,9 @@ class SettingsOverview extends React.Component {
                                                         </TooltipNotification>
                                                         </label>
                                                         <div className="col-sm-6">
-                                                            <ButtonSwitch onChange={this.toggleInternational} selected={settings.phonenumberForeignerCompatible ? "1" : "0"} />
+                                                            <ButtonSwitch onChange={this.toggleInternational} selected={(settings && settings.phonenumberForeignerCompatible) ? "1" : "0"} />
                                                         </div>
                                                     </div>
-
                                                     <div className="form-group">
                                                         <label className="col-sm-3 control-label">Phone number <TooltipNotification 
                                                             title={"Phone number"}
@@ -301,7 +302,9 @@ class SettingsOverview extends React.Component {
                                                             </div>
                                                         </div>}
                                                     </div>
-                                                </span>}
+                                                </span>
+                                                </Panel.Collapse>
+                                                </Panel>
                                             </div>
                                         </div>
                                     </div>

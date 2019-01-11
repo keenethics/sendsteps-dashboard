@@ -92,8 +92,9 @@ class Surveys extends NovaAPI {
         }
 
         if($updatedSurveyQuestionId) {
+            $surveyQuestionOptionModel->deleteOptions($updatedSurveyQuestionId);
             if(count((array) $surveyQuestionOptions) > 0 && strlen(array_values((array) $surveyQuestionOptions)[0]) > 0) {
-                $this->handleTypeAndOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
+                $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
             }
             $survey = $surveyQuestionModel->getById($updatedSurveyQuestionId);
             return json_encode($survey);
@@ -102,9 +103,6 @@ class Surveys extends NovaAPI {
     }
 
     public function handleTypeAndOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions) {
-        $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
-        $surveyQuestionOptionModel->deleteOptions($updatedSurveyQuestionId);
-        $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
     }
 
     public function deleteSurveyQuestion($surveyQuestionId) {

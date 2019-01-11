@@ -19,7 +19,7 @@ export function clearSelects() {
 
 export function setPresentationData(data) {
     return {
-        type: 'SET_DATA',
+        type: 'SET_PRESENTATION_DATA',
         data
     }
 }

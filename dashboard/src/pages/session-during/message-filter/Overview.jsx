@@ -10,34 +10,38 @@ import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { fetchResult } from '../../../actions/api';
 import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
-import { post } from '../../../scripts/api';
+import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
 
 class MessageFilterOverview extends React.Component {
 
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'messagefilter', 
-                'getMessageFilterData', 
-                JSON.stringify({
-                    // Static messageround ID (Change this)
-                    msgRoundId: 364
-                }), 
-                setMessageFilterData
-            )
-        );
+        post(
+            'messagefilter', 
+            'getMessageFilterData', 
+            JSON.stringify({
+                // Static messageround ID (Change this)
+                msgRoundId: 364
+            }),
+            messages => {
+                console.log(messages)
+                this.props.dispatch(setMessageFilterData(messages.content))
+            },
+            error => console.log(error)
+        )
 
-        this.props.dispatch(
-            fetchResult(
-                'messagefilter', 
-                'getMessageGroups', 
-                JSON.stringify({
-                    userId: this.props.currentUser.userId
-                }), 
-                setMessageGroupData
-            )
-        );
+        post(
+            'messagefilter', 
+            'getMessageGroups', 
+            JSON.stringify({
+                userId: this.props.currentUser.userId
+            }), 
+            groupData => {
+                console.log(groupData)
+                this.props.dispatch(setMessageGroupData(groupData.content))
+            },
+            error => console.log(error)
+        )
     }
 
     toggleAutoAccept = value => {
