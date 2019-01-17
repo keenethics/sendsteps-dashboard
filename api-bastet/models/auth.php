@@ -86,7 +86,10 @@
         }
         
         public function validateToken($token = '') {
-            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
+            if ($token != NULL && $token != '') {
+                // if ($this->isPhp7() && strlen($token) != $this->tokenLength) {
+                //     return false;
+                // }
                 $findTokenSQL = "SELECT count(token) as res FROM `api_nova_tokens` WHERE <token> LIKE :token;";
                 $findTokenParams['token'] = $token;
                 $tokenExists = (int) $this->query($findTokenSQL, $findTokenParams)[0]['res'];
