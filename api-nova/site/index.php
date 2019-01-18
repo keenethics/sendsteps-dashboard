@@ -1,5 +1,6 @@
 <?php
     require_once __DIR__."/../../api-common/errors.php";//Load Errors (just in case);
+    require_once __DIR__."/../../api-common/urls.php";//Load $internalURLs Array  
     
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';
@@ -13,7 +14,7 @@
         // Set some options - we are passing in a useragent too here
         curl_setopt_array($curl, array(
             CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => 'http://local-bastet.sendsteps.com/index.php',
+            CURLOPT_URL => $internalURLs['bastet'],
             CURLOPT_USERAGENT => 'Codular Sample cURL Request',
             CURLOPT_POST => 1,
             CURLOPT_POSTFIELDS => array(

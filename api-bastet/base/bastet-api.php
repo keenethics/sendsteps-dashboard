@@ -17,6 +17,7 @@
         private function loadAuthModel(){
             require_once __DIR__.'/../models/auth.php';
             $auth_model = new Auth_Model();
+            // var_dump('asdasd');exit();
             return $auth_model;
         }
         private function loadRegistrationModel(){
