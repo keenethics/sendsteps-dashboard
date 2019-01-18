@@ -43,7 +43,6 @@ class Responsesite extends NovaAPI {
         if (is_array($fields) && count($fields) > 0){
             
             
-            // var_dump($fields);exit();
 
             // Sessions->internetAddressOverwrite
             // Sessions->textMessagingKeyword

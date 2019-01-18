@@ -1,16 +1,22 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setPresentationData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import './Overview.scss';
+import { get } from '../../../scripts/api';
 
 class PresentationsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(fetchResult('presentations', 'getOverview', {}, setPresentationData));
+        get(
+            'presentations', 
+            'getOverview', 
+            {}, 
+            result => this.props.dispatch(setPresentationData(result.content)),
+            error => console.log(error)
+        )
     }
 
     render() {

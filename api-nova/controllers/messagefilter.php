@@ -26,22 +26,14 @@ class MessageFilter extends NovaAPI {
 
     }
 
-    public function toggleUpvoting() {
-
+    public function toggleUpvoting($isEnabled) {
+        $model = $this->loadModel('sessions');
+        return json_encode($model->toggleUpvoting($isEnabled, $this->getUserSessionId()));
     }
 
     public function toggleAutoAccept($isEnabled) {
         $model = $this->loadModel('sessions');
-        // Toggle auto accept triggers counter
-        // Counter starts with (20, 10, 5, 3)
-        // Counter based on unix timestamp
-        // Calculate time left on frontend, 
-        // Frontend sends signal to backend when time is over
-        // Backend checks if time is actually over
-        // Send first queuemessage to screen
-
-        // What if dashboard is closed?
-        // What if multiple dashboards are open?
+        return json_encode($model->toggleAutoAccept($isEnabled, $this->getUserSessionId()));
     }
 
     public function addNewMessage($message) {

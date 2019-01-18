@@ -1,9 +1,4 @@
-import fetch from 'cross-fetch';
-import { getFromLocalStorage } from './../scripts/localStorage';
-import { getCookieValues } from './../scripts/cookieStorage';
 import { toast } from 'react-toastify';
-
-let apiUrl = process.env.NOVA_API_URL;
 
 export function setNewData(newData) {
     return {
@@ -35,45 +30,6 @@ export function apiFetchError(error) {
     }
 }
 
-
-export function updateAPI(controller = '', functionName = '', apiParam = '') {
-
-    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    return dispatch => {
-        dispatch(simulateLoading(true));
-        fetch(apiUrl,{
-            method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam+'&token='+token
-        }).then(res => {
-            return res.json()
-        }).then(
-            (result) => {
-                try {
-                    if(result.error) {
-                        dispatch(apiUpdateError(result.error));
-                    } else {
-                        // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
-                        // if neither of these are available, don't let the user login and dispatch an error
-                        dispatch(apiUpdateSuccess(result.content));  
-                    }
-                } catch (error) {
-                    dispatch(apiUpdateError(error));
-                }
-            },
-            // Note: It is important to handle errors
-            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
-            (error) => {
-                // Dispatch error as an action. 
-                // error is accessible through mapStateToProps -> apiReducer.error
-                // (Maybe rename to apiError or something)
-                dispatch(apiFetchError(error));
-            }
-        )
-        dispatch(simulateLoading(false));
-    }
-}
-
 export function simulateLoading(isLoading) {
     return {
         type: 'SIMULATE_LOADING',
@@ -92,48 +48,3 @@ export function clearErrors() {
         type: 'CLEAR_ERRORS'
     }
 }
-
-export function fetchResult(controller = '', functionName = '', apiParam = '', callBack = null) {
-    
-    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    
-    return dispatch => {
-        dispatch(simulateLoading(true));
-        fetch(apiUrl,{
-            method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: 'controller='+controller+'&function='+functionName+'&params='+apiParam+'&token='+token
-        }).then(res => {
-            return res.json()
-        }).then(
-            (result) => {
-                try {
-                    if(result.error) {
-                        dispatch(apiFetchError(result.error));
-                    } else {
-                        // AUTH Call successful, result should have a key, add that to either localstorage or cookies,
-                        // if neither of these are available, don't let the user login and dispatch an error
-                        dispatch(apiFetchSuccess());
-                        if(typeof callBack === "function") {
-                            dispatch(callBack(result.content));
-                        }
-                    }
-                } catch (error) {
-                    dispatch(apiFetchError(error));
-                }
-            },
-            // Note: It is important to handle errors
-            // instead of a catch() block so that we don't swallow exceptions from actual bugs in components.
-            (error) => {
-                // Dispatch error as an action. 
-                // error is accessible through mapStateToProps -> apiReducer.error
-                // (Maybe rename to apiError or something)
-                dispatch(apiFetchError(error));
-            }
-        )
-        dispatch(simulateLoading(false));
-    }
-}
-
-
-    

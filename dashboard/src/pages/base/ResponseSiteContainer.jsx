@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Panel } from 'react-bootstrap';
-// import { fetchResult } from '../../actions/api';
 
 class ResponseSiteContainer extends Component {
     
     componentWillMount() {
         // Get currentUser's session
         // const { currentUser } = this.props;
-        // this.props.dispatch(fetchResult('SessionController', 'getSessionByUserId', currentUser.id))
     }
 
     render() {

@@ -1,17 +1,20 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import moment from 'moment';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
+import { post } from "../../../scripts/api";
 
 class SurveyResultsDetails extends React.Component {
     componentDidMount() {
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult('surveys', 'getResultsDetails', apiParams));
+        post('surveys', 'getResultsDetails',
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => console.log(result),
+            error => console.log(error)
+        )
     }
     
     render() {

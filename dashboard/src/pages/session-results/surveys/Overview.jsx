@@ -1,22 +1,21 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setSurveyData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { post } from '../../../scripts/api';
 
 class SurveyResultsOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'surveys', 
-                'getResultsOverview', 
-                {}, 
-                setSurveyData
-            )
-        );
+        post(
+            'surveys', 
+            'getResultsOverview', 
+            {},
+            result => this.props.dispatch(setSurveyData(result.content)),
+            error => console.log(error)
+        )
     }
 
     render() {

@@ -1,22 +1,21 @@
 import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setUsersData } from './actions';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { post } from '../../../scripts/api';
 
 class DeleteUsersOverview extends React.Component {
    
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'users', 
-                'getDeleteUsersOverview', 
-                {}, 
-                setUsersData
-            )
-        );
+        post( 
+            'users', 
+            'getDeleteUsersOverview', 
+            {},
+            result => this.props.dispatch(setUsersData(result.content)),
+            error => console.log(error)
+        )
     }
 
     render() {

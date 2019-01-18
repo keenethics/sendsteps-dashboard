@@ -8,7 +8,6 @@ import QueuePanel from './extra-components/panels/QueuePanel';
 import OnscreenPanel from './extra-components/panels/OnscreenPanel';
 import IncomingPanel from './extra-components/panels/IncomingPanel';
 import AppearedPanel from './extra-components/panels/AppearedPanel';
-import { fetchResult } from '../../../actions/api';
 import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
 import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
@@ -48,9 +47,11 @@ class MessageFilterOverview extends React.Component {
         post(
             'messagefilter', 'toggleAutoAccept',
             JSON.stringify({isEnabled: value}),
-            result => {
-                this.props.dispatch(toggleAutoAccept(result))
-                this.props.dispatch(toggleUpvoting(!result))
+            () => {
+                this.props.dispatch(toggleAutoAccept(value))
+                if(value) {
+                    this.props.dispatch(toggleUpvoting(false))
+                }
             },
             error => {
                 console.log(error)
@@ -60,8 +61,20 @@ class MessageFilterOverview extends React.Component {
     }
     
     toggleUpvoting = value => {
-        console.log(value)
-        this.props.dispatch(toggleUpvoting(value))
+        post(
+            'messagefilter', 'toggleUpvoting',
+            JSON.stringify({isEnabled: value}),
+            () => {
+                this.props.dispatch(toggleUpvoting(value))
+                if(value) {
+                    this.props.dispatch(toggleAutoAccept(false))
+                }
+            },
+            error => {
+                console.log(error)
+                toast(`Unable to toggle Upvoting... [${JSON.stringify(error)}]`);
+            }
+        )
     }
     /*
         Functionality & Requests (Backend)

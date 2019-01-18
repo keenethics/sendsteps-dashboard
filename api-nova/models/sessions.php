@@ -10,14 +10,22 @@ class Sessions_Model extends Model {
         return $results;
     }
 
-    public function toggleUpvoting() {
-     
-        // $update = $this->database()->update(
-        //     "sessions",
-        //     ["hasUpvoting" => $newValue],
-        //     ["id" => $id]
-        // );
-        // return $update->execute();
+    public function toggleAutoAccept($isEnabled, $sessionid) {
+        $update = $this->database()->update(
+            "sessions",
+            ["autoApprove" => $isEnabled],
+            ["id" => $sessionid]
+        );
+        return $update->execute();
+    }
+
+    public function toggleUpvoting($isEnabled, $sessionid) {
+        $update = $this->database()->update(
+            "sessions",
+            ["hasUpvoting" => $isEnabled],
+            ["id" => $sessionid]
+        );
+        return $update->execute();
     }
     
     public function checkUniqueResponseCode($responseCode, $userId) {

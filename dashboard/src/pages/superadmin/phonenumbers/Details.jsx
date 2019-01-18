@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult, updateAPI } from '../../../actions/api';
 import { setField } from '../../../actions/app';
 import { setPhonenumber, setKeywords } from './actions';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
@@ -9,6 +8,7 @@ import InputField from "../../../components/common/InputField";
 import ButtonSwitch from "../../../components/common/ButtonSwitch";
 import { toast } from 'react-toastify';
 import HeaderPanel from "../../../components/common/HeaderPanel";
+import { post } from "../../../scripts/api";
 
 class PhonenumberDetails extends React.Component {
 
@@ -28,45 +28,29 @@ class PhonenumberDetails extends React.Component {
     }
 
     componentDidMount() {
+        post(
+            'phonenumbers', 
+            'getDetails',
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => this.props.dispatch(setPhonenumber(result.content))
+        )
 
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-
-        this.props.dispatch(
-            fetchResult(
-                'phonenumbers', 
-                'getDetails', 
-                apiParams, 
-                setPhonenumber
-            )
-        );
-
-        this.props.dispatch(
-            fetchResult(
-                'phonenumbers', 
-                'getKeywords', 
-                apiParams,
-                setKeywords
-            )
-        );
+        post(
+            'phonenumbers', 
+            'getKeywords',
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => this.props.dispatch(setKeywords(result.content))
+        )
     }
 
     savePhonenumber() {
         const { selectedPhonenumber } = this.props;
 
-        let apiParams = JSON.stringify({
-            id: selectedPhonenumber.id, 
-            fields: selectedPhonenumber
-        });
-        
-        this.props.dispatch(
-            updateAPI(
-                'phonenumbers', 
-                'updateDetails', 
-                apiParams
-            )
-        );
+        toast("This doesn't work yet.")
     }
 
     openToast() {

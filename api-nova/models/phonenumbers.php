@@ -13,7 +13,7 @@ class Phonenumbers_Model extends Model {
     public function findActiveById($id){
         $results = $this->findByIdCentral($id, 'phonenumbers', 'isDeleted')[0];
         //Some bright spark chose to use the foreignerCompatible field as a boolean, but uses 1 as false & 2 as true. They also set it to 3, to indicate an inactive number. OMG. 
-        $results['foreignerCompatible'] = ($results['foreignerCompatible'] == 2)? 1 : 0;
+        // $results['foreignerCompatible'] = ($results['foreignerCompatible'] == 2)? 1 : 0;
         $results['public'] = ($results['public'] == 1)? 1 : 0;
         return $results;
     }
@@ -32,7 +32,7 @@ class Phonenumbers_Model extends Model {
         return $results;
     }
 
-    public function getByIsoCode($isoCode) {
+    public function getByIsoCode($isoCode, $foreignerCompatible) {
 
         // $result = 18;
         // $modelPhonenumber = Phonenumbers::find()->where(['countryIsoCode' => $countryIsoCode, 'foreignerCompatible' => [1, 2]])
@@ -42,7 +42,6 @@ class Phonenumbers_Model extends Model {
         // {
         //     $result = $modelPhonenumber[0]['id'];
         // }
-        // return $result;
         $fields = ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'];
 
         $results = $this->database()->select(
@@ -50,7 +49,7 @@ class Phonenumbers_Model extends Model {
             $fields,
             [
                 'countryIsoCode' => $isoCode,
-                'foreignerCompatible' => [1,2],
+                'foreignerCompatible' => $foreignerCompatible,
                 'keywordAvailability' => 'dedicated'
             ]
         );

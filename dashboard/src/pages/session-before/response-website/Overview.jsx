@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../../actions/app';
-import { fetchResult } from '../../../actions/api';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
@@ -12,12 +11,6 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 class ResponseOverview extends React.Component {
 
     componentDidMount() {
-        let apiController = 'responsesite';
-        let apiFunction = 'getSiteList';
-        let apiParams = JSON.stringify({
-            id: this.props.match.params.id
-        });
-        this.props.dispatch(fetchResult(apiController, apiFunction, apiParams));
     }
 
     handleOpen() {

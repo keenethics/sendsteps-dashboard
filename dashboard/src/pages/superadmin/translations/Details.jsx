@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
-import { get } from '../../../scripts/api';
+import { post } from '../../../scripts/api';
 import { setTranslationDetails } from './actions';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
@@ -9,15 +8,14 @@ import HeaderPanel from "../../../components/common/HeaderPanel";
 
 class TranslationDetails extends React.Component {
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'phonenumbers', 
-                'getDetails', 
-                JSON.stringify({
-                    id: this.props.match.params.id
-                }),
-                setTranslationDetails 
-            )
+        post(
+            'phonenumbers', 
+            'getDetails', 
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => this.props.dispatch(setTranslationDetails(result.content)),
+            error => console.log(error)
         );
     }
     

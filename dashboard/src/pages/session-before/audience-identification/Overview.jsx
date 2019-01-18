@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setAudienceData } from './actions';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
@@ -10,6 +9,7 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import { toggleModal } from '../../../actions/app';
 import DefaultModal from '../../../components/common/DefaultModal';
+import { post } from '../../../scripts/api';
 
 class AudienceOverview extends React.Component {
 
@@ -18,16 +18,15 @@ class AudienceOverview extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'responsesite', 
-                'getSiteList', 
-                JSON.stringify({
-                    id: this.props.match.params.id
-                }),
-                setAudienceData
-            )
-        );
+        post(
+            'responsesite', 
+            'getSiteList',
+            JSON.stringify({
+                id: this.props.match.params.id
+            }),
+            result => this.props.dispatch(setAudienceData(result.content)),
+            error => console.log(error)
+        )
     }
 
     toggleAnonymous(value) {

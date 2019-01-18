@@ -20,9 +20,9 @@ class Phonenumbers extends NovaAPI {
     }
 
     public function getNumberByIsoCode($isoCode = NULL, $foreignerCompatible = NULL) {
-        if($isoCode != NULL) {
+        if($isoCode != NULL && $foreignerCompatible != NULL) {
             $model = $this->loadModel('phonenumbers');
-            return json_encode(['content' => $model->getByIsoCode($isoCode)]);
+            return json_encode(['content' => $model->getByIsoCode($isoCode, $foreignerCompatible)]);
         }
         return false;
     }

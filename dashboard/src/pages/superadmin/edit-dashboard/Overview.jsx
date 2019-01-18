@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResult } from '../../../actions/api';
 import { setDashboardData, setDashboardSettings } from './actions';
 import { isValueInArray } from '../../../scripts/arrayHelper';
 import { Panel } from 'react-bootstrap';
@@ -8,6 +7,7 @@ import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import ColorInfo from '../../../components/common/ColorInfo';
 import EditDashboardDetails from './Details';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { post } from '../../../scripts/api';
 
 class EditDashboardOverview extends React.Component {
 
@@ -21,27 +21,25 @@ class EditDashboardOverview extends React.Component {
     }
    
     componentDidMount() {
-        this.props.dispatch(
-            fetchResult(
-                'dashboards', 
-                'getOverview', 
-                {}, 
-                setDashboardData
-            )
-        );
+        post(  
+            'dashboards', 
+            'getOverview', 
+            {},
+            result => this.props.dispatch(setDashboardData(result.content)),
+            error => console.log(error) 
+        )
     }
 
     fetchDashboardInfo(e) {
         const dashboardId = e.target.value;
         if(this.props.dashboardSites && isValueInArray(dashboardId, this.props.dashboardSites.map((item) => item.id))) {
-            this.props.dispatch(
-                fetchResult(
-                    'dashboards', 
-                    'getDetails', 
-                    JSON.stringify({dashboardId}),
-                    setDashboardSettings
-                )
-            );
+            post(  
+                'dashboards', 
+                'getDetails', 
+                {},
+                result => this.props.dispatch(setDashboardSettings(result.content)),
+                error => console.log(error) 
+            )
         }
     }
 
