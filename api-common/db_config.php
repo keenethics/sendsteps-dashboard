@@ -1,5 +1,5 @@
 <?php 
-$db_baseoptions = array(
+$db_options = array(
     'database_type' => 'mysql',
     'database_name' => 'addins',
     'server' => 'localhost',
@@ -7,6 +7,3 @@ $db_baseoptions = array(
     'password' => '',
     'port' => 3306
 );
-
-
-// var_dump($db_baseoptions);exit();
