@@ -4,7 +4,8 @@
     
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';
-        if ($token == NULL || $token == '' || strlen($token) != 250){
+        if ($token == NULL || $token == '' ||){
+            //  strlen($token) != 250){
             $errors = json_encode(array('General' => 'ValidTokenNotSet'));
             throw new Exception($errors);
         }

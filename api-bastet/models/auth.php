@@ -35,7 +35,8 @@
         }
         
         public function tokenToUserProps($token = ''){
-            if ($token != NULL && $token != '' && strlen($token) == $this->tokenLength){
+            if ($token != NULL && $token != '') {
+                //  && strlen($token) == $this->tokenLength){
                 $userSQL = "SELECT auth.item_name as userType, auth.user_id as userId
                     FROM `api_nova_tokens` api
                     LEFT JOIN auth_assignment auth ON auth.user_id = api.user_id
