@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__.'/../../api-common/base/base.php';
+    require __DIR__.'/../../api-common/base/base.php';
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI extends Base {
         public function checkAuth($token = '') {
@@ -15,13 +15,13 @@
         }
         
         private function loadAuthModel(){
-            require_once __DIR__.'/../models/auth.php';
+            require __DIR__.'/../models/auth.php';
             $auth_model = new Auth_Model();
             // var_dump('asdasd');exit();
             return $auth_model;
         }
         private function loadRegistrationModel(){
-            require_once __DIR__.'/../models/registration.php';
+            require __DIR__.'/../models/registration.php';
             $auth_model = new Registration_Model();
             return $auth_model;
         }
