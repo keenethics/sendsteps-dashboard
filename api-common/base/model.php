@@ -93,7 +93,7 @@
             $db_options['logging'] = true; //Enable logging (Logging is disabled by default for better performance)
             $db_options['socket'] = '/tmp/mysql.sock'; //MySQL socket (shouldn't be used with server and port)
             $db_options['option'] = [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]; //Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
-            $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ] //Medoo will execute those commands after connected to the database for initialization
+            $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ]; //Medoo will execute those commands after connected to the database for initialization
 
             return $db_options;
         }
