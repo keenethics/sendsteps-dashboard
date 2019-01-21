@@ -89,14 +89,23 @@ class SurveyQuestion extends Component {
                 surveyQuestionOptions
             }),
             () => {
-                this.resetState();
+                this.setState({optionsExpanded: false, surveyQuestionName: "",})
                 this.props.getSurveyQuestions();
+                this.waitAndResetState();
                 toast("Survey question saved!")
             },
             err => {
                 toast("Unable to save survey question")
             }
         )
+    }
+
+    // Resets state after collapsing the survey 
+    // questions to prevent graphical issues
+    waitAndResetState() {
+        setTimeout(() => {
+            this.resetState()
+        }, 250)
     }
 
     componentWillMount() {

@@ -32,33 +32,34 @@ class Phonenumbers_Model extends Model {
         return $results;
     }
 
-    public function getByIsoCode($isoCode, $foreignerCompatible) {
-
-        // $result = 18;
-        // $modelPhonenumber = Phonenumbers::find()->where(['countryIsoCode' => $countryIsoCode, 'foreignerCompatible' => [1, 2]])
-        //                 ->andWhere(['keywordAvailability' => 'dedicated'])
-        //                 ->orderBy('foreignerCompatible')->asArray()->all();
-        // if ($modelPhonenumber !== null && count($modelPhonenumber) > 0)
-        // {
-        //     $result = $modelPhonenumber[0]['id'];
-        // }
+    public function getDefault() {
+        $defaultIsoCode = 'NL';
         $fields = ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'];
-
         $results = $this->database()->select(
             'phonenumbers',
             $fields,
             [
-                'countryIsoCode' => $isoCode,
-                'foreignerCompatible' => $foreignerCompatible,
+                'foreignerCompatible' => [2],
+                'countryIsoCode' => $defaultIsoCode,
                 'keywordAvailability' => 'dedicated'
             ]
         );
-
         return $results;
     }
 
-    // public function getPhonenumbersByCountryIsoCode
-
+    public function getByIsoCode($isoCode) {
+        $fields = ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'];
+        $results = $this->database()->select(
+            'phonenumbers',
+            $fields,
+            [
+                'foreignerCompatible' => [1,2],
+                'countryIsoCode' => $isoCode,
+                'keywordAvailability' => 'dedicated'
+            ]
+        );
+        return $results;
+    }
 
     public function getInternationalNumberByIsoCode($countryIsoCode) {
         // SELECT * FROM countries c LEFT JOIN phonenumbers p ON c.isoCode = p.countryIsoCode WHERE p.isDeleted != 1 AND p.foreignerCompatible = 1 ORDER BY name

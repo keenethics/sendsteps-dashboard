@@ -3,36 +3,50 @@ import { connect } from 'react-redux';
 import { setAudienceData } from './actions';
 import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
-import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import { toggleModal } from '../../../actions/app';
 import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 
 class AudienceOverview extends React.Component {
 
     state = {
-        isAnonymous: false
+        isAnonymous: "0"
     }
 
     componentDidMount() {
+        this.getIdentificationType()
+    }
+
+    getIdentificationType() {
         post(
-            'responsesite', 
-            'getSiteList',
-            JSON.stringify({
-                id: this.props.match.params.id
-            }),
-            result => this.props.dispatch(setAudienceData(result.content)),
+            'sessions', 
+            'getIdentificationType',
+            {},
+            result => this.setState({ isAnonymous: result.anonymousSources }),
             error => console.log(error)
         )
     }
 
-    toggleAnonymous(value) {
-        if(value.indexOf("Non") !== -1) {
+    setIdentificationType(isAnonymous) {
+        post(
+            'sessions', 
+            'setIdentificationType',
+            JSON.stringify({ isAnonymous }),
+            () =>  this.getIdentificationType(),
+            error => console.log(error)
+        )
+    }
+
+    toggleAnonymous = isAnonymous => {
+        if(isAnonymous === "0") {
             this.props.dispatch(toggleModal(true));
+            return;
         }
+        this.setIdentificationType(isAnonymous)
     }
 
     setAnonymous(value) {
@@ -41,9 +55,8 @@ class AudienceOverview extends React.Component {
     }
     
     render() {
-        const { modalOpen } = this.props;
         const { isAnonymous } = this.state;
-        
+
         return (
             <div>  
                 <HeaderPanel 
@@ -70,7 +83,13 @@ class AudienceOverview extends React.Component {
                                                 <i className="fa fa-question-circle"></i>
                                             </TooltipNotification>
                                         </label>
-                                        <ButtonSwitch onChange={this.toggleAnonymous.bind(this)} options={["Anonymous", "Non Anonymous"]} />
+                                        <ToggleButtonGroup 
+                                            onChange={value => this.toggleAnonymous(value)} 
+                                            type="radio" name="toggle-anon" 
+                                            value={isAnonymous}>
+                                            <ToggleButton value={"0"}><i className="fa fa-user"></i> Non Anonymous</ToggleButton>
+                                            <ToggleButton value={"1"}><i className="fa fa-user-secret"></i> Anonymous</ToggleButton>
+                                        </ToggleButtonGroup >
                                         <hr/>
                                         {!isAnonymous && <span>
                                             {/* <IdentificationDetails /> */}
@@ -82,12 +101,11 @@ class AudienceOverview extends React.Component {
                         <ResponseSiteContainer colWidth={6} /* Pass selected url, if nothings selected, don't render response site */ />
                     </div>
                     <BottomSaveBar />
-
-                    {modalOpen && <DefaultModal 
+                    <DefaultModal 
                         title={"Are you sure?"}
                         content={<p>Your audience will be tracked individually during the session</p>}
-                        onConfirm={() => this.setAnonymous(true)}    
-                    />}
+                        onConfirm={() => this.setAnonymous("0")}    
+                    />
                 </div>
             </div>
         );

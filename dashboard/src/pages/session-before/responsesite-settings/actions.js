@@ -4,3 +4,10 @@ export function setResponseSiteSettings(data) {
         data
     }
 }
+
+export function setResponsePhonenumbers(numbers) {
+    return  {
+        type: 'SET_RESPONSE_PHONENUMBERS',
+        numbers
+    }
+}

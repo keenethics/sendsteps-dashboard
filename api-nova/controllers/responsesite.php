@@ -39,27 +39,21 @@ class Responsesite extends NovaAPI {
         return json_encode(['content' => $results[0]]);
     }
     
-    public function updateSettingsBasic($fields = array()){
-        if (is_array($fields) && count($fields) > 0){
-            
-            
+    public function updateSettingsBasic($fields){
 
-            // Sessions->internetAddressOverwrite
-            // Sessions->textMessagingKeyword
+        $sessionModel = $this->loadModel('sessions');
 
-            // Sessions->internetSelected
-            
-            // Sessions->textMessagingSelected
+        // Sessions->internetAddressOverwrite   -> Response URL
+        // Sessions->textMessagingKeyword       -> Response Code
+        // Sessions->internetSelected           -> Response Website
+        // Sessions->textMessagingSelected      -> TXT/SMS
+        // Sessions->phoneNumberId              -> Phonenumber
 
-            // Sessions->
-
-            // Sessions->phoneNumberId
-
-
-
-            $sessionModel = $this->loadModel('sessions');
-            $sessionId = $this->getUserSessionId();
-            $sessionResults = $sessionModel->getSessionById($sessionId)[0]; 
+        $sessionId = $this->getUserSessionId();
+        return $sessionModel->updateResponseSettings(
+            $sessionId, 
+            $fields
+        );
         
         
             // $modelFields["countryIsoCode"] = (isset($fields->countryIsoCode)? $fields->countryIsoCode : '');
@@ -70,7 +64,6 @@ class Responsesite extends NovaAPI {
             // $model = $this->loadModel('phonenumbers');
             // $update_id = $model->updateDetails('phonenumbers', $modelFields, $id);           
             // return $update_id;
-        }
     }
 
     public function checkResponseCode($responseCode, $userId) {

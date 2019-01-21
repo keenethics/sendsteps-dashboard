@@ -57,5 +57,43 @@ class Sessions_Model extends Model {
         $results = $this->query($query, $params);
         return $results;
     }
-    
+
+    public function updateResponseSettings( $sessionId, ...$fields ) {
+        $fields = $fields[0];
+        $update = $this->database()->update(
+            "sessions",
+            [
+                // $params->internetaddressoverwrite, -> Super admin stuff?
+                'internetSelected' => $fields->internetselected, 
+                'phonenumberId' => $fields->phonenumberId, 
+                'textmessagingkeyword' => $fields->textmessagingkeyword,
+                'internetKeyword' => $fields->textmessagingkeyword,
+                'textmessagingselected' => $fields->textmessagingselected],
+            ["id" => $sessionId]
+        );
+        return $update->execute();
+    }
+
+    public function getIdentificationType($sessionId) {
+        $result = $this->database()->select(
+            'sessions', 
+            [
+                'anonymousSources'
+            ],
+            [
+                'id' => $sessionId
+            ]);
+        return $result;
+    }
+
+    public function setIdentificationType($isAnonymous, $sessionId) {
+        $update = $this->database()->update(
+            "sessions",
+            [
+                'anonymousSources' => $isAnonymous 
+            ],
+            ["id" => $sessionId]
+        );
+        return $update->execute();
+    }
 }

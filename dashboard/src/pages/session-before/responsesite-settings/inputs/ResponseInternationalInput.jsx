@@ -1,27 +1,33 @@
 import React, { Component } from 'react';
-import ButtonSwitch from '../../../../components/common/ButtonSwitch';
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
 
 class ResponseInternationalInput extends Component {
 
-    updateSettings = (value, field) => {
-        const newSettings = { ...this.props.settings }
-        newSettings[field] = value;
+    changeInternational = value => {
+        const { responsePhonenumbers } = this.props;
+        let newSettings = { ...this.props.settings }
+        newSettings['phonenumberForeignerCompatible'] = value
+        newSettings['phonenumberId'] = responsePhonenumbers[value].id; 
         this.props.dispatch(setResponseSiteSettings(newSettings));
+
     }
 
-    changeInternational = () => {
-        this.updateSettings(!this.props.settings.phonenumberForeignerCompatible , 'phonenumberForeignerCompatible')
-        this.props.getPhonenumberList(this.props.settings.phonenumberCountryisocode, !this.props.settings.phonenumberForeignerCompatible)
+    isInternationalOnly() {
+        const { responsePhonenumbers } = this.props;
+        return typeof responsePhonenumbers[2] === 'undefined'
     }
 
-    
+    isLocalOnly() {
+        const { responsePhonenumbers } = this.props;
+        return typeof responsePhonenumbers[1] === 'undefined'
+    }
 
     render() {
 
-        const { settings } = this.props
+        const { settings, responsePhonenumbers } = this.props
 
         return (
             <div className="form-group">
@@ -36,7 +42,14 @@ class ResponseInternationalInput extends Component {
                 </TooltipNotification>
                 </label>
                 <div className="col-sm-6">
-                    <ButtonSwitch onChange={this.changeInternational} selected={(settings && settings.phonenumberForeignerCompatible) ? "1" : "0"} />
+                    {responsePhonenumbers && 
+                    <ToggleButtonGroup 
+                        onChange={this.changeInternational} 
+                        type="radio" name="options" 
+                        value={(settings && settings.phonenumberForeignerCompatible === "1") ? "1" : "2"}>
+                        <ToggleButton disabled={this.isLocalOnly()} value={"1"}><i className="fa fa-check"></i> Yes</ToggleButton>
+                        <ToggleButton disabled={this.isInternationalOnly()} value={"2"}><i className="fa fa-times"></i> No</ToggleButton>
+                    </ToggleButtonGroup >}
                 </div>
             </div>
         );
@@ -47,6 +60,7 @@ export default connect(
     state => {
         return {
             settings: state.responseSettingsReducer.settings,
+            responsePhonenumbers: state.responseSettingsReducer.responsePhonenumbers
         }
     }
 )(ResponseInternationalInput);

@@ -4,7 +4,7 @@ class ButtonSwitch extends Component {
 
     render() {
 
-        const { onChange, options, selected } = this.props;
+        const { onChange, options, optionText, selected } = this.props;
 
         const isActive = selected === "1" && "success btn-success active";
         const isInactive = selected === "0" && "active";
@@ -29,7 +29,8 @@ class ButtonSwitch extends Component {
                             }
                             return (
                                 <div className={"btn btn-default " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
-                                    {option}
+                                    {(optionText && typeof optionText[index] !== 'undefined') && optionText[index]}
+                                    {!optionText && option}
                                 </div>
                             )
                         })

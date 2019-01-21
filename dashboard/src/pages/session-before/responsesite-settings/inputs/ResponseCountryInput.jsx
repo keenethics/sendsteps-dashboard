@@ -37,11 +37,11 @@ class ResponseCountryInput extends Component {
                 <div className="col-sm-6">
                 {settings && settings.countriesList &&
                     <div className="input-group">
-                        <span className="input-group-addon" id="basic-addon1">
+                        <span className="input-group-addon">
                             <i className="fa fa-globe"></i>
                         </span>
-                        <select onChange={this.changeCountry} className="form-control">
-                            <option value={null}>- Other</option>
+                        <select onChange={this.changeCountry} value={settings.phonenumberCountryisocode} className="form-control">
+                            <option value={"--"}>- Other</option>
                             {settings.countriesList.map((country, index) => {
                                 return <option key={index} value={country.isoCode}>{country.name}</option>
                             })}

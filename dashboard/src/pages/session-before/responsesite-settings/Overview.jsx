@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { setResponseSiteSettings } from './actions';
+import { setResponseSiteSettings, setResponsePhonenumbers } from './actions';
 import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
@@ -18,21 +18,36 @@ import './Overview.scss'
 class SettingsOverview extends React.Component {
 
     state = {
-        currentPhonenumber: null
+        currentPhonenumbers: null
     }
 
-    getPhonenumberList = (isoCode, foreignerCompatible) => {
-        console.log(JSON.stringify({isoCode, foreignerCompatible}))
-
+    getPhonenumberList = (isoCode) => {
         get('phonenumbers', 'getNumberByIsoCode',
-            JSON.stringify({isoCode, foreignerCompatible}),
-            result => {
-                this.setState({currentPhonenumber: result.content})
-            },
-            error => {
-                console.log(error)
-            }
+            JSON.stringify({isoCode}),
+            phonenumbers => this.props.dispatch(
+                setResponsePhonenumbers(
+                    this.formatPhonenumbers(phonenumbers.content)
+                )
+            ),
+            error =>  console.log(error)
         );
+    }
+
+    formatPhonenumbers = numbers => {
+        let formatted = {}
+        numbers.filter(number => {
+            formatted[number.foreignerCompatible] = { ...number };
+        })
+        this.checkIfShouldChangeForeignerCompatible(formatted);
+        return formatted;
+    }
+
+    checkIfShouldChangeForeignerCompatible(numbers) {
+        const { settings } = this.props;
+        if(typeof numbers[settings.phonenumberForeignerCompatible] === 'undefined') {
+            const newSettings = settings.phonenumberForeignerCompatible === "2" ? "1" : "2"
+            this.updateSettings(newSettings, 'phonenumberForeignerCompatible')
+        }
     }
 
     getOverviewSettings = () => {
@@ -40,9 +55,10 @@ class SettingsOverview extends React.Component {
         get('responsesite', 'getSettingsBasic', 
             apiParams,
             result => {
-                const { phonenumberCountryisocode, phonenumberForeignerCompatible } = result.content;
+                console.log(result.content)
+                const { phonenumberCountryisocode } = result.content;
                 this.props.dispatch(setResponseSiteSettings(result.content));
-                this.getPhonenumberList(phonenumberCountryisocode, phonenumberForeignerCompatible);
+                this.getPhonenumberList(phonenumberCountryisocode);
             },
             error => {
                 toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
@@ -56,8 +72,6 @@ class SettingsOverview extends React.Component {
         let newSettings = {
             internetaddressoverwrite: settings.internetaddressoverwrite,
             internetselected: settings.internetselected,
-            phonenumberCountryisocode: settings.phonenumberCountryisocode,
-            phonenumberForeignerCompatible: settings.phonenumberForeignerCompatible,
             phonenumberId: settings.phonenumberId,
             textmessagingkeyword: settings.textmessagingkeyword,
             textmessagingselected: settings.textmessagingselected
@@ -65,12 +79,10 @@ class SettingsOverview extends React.Component {
         post(
             'responsesite', 'updateSettingsBasic',
             JSON.stringify({newSettings}),
-            result => {
-                toast(result)
-            },
+            () =>  toast("Response settings updated!"),
             error => {
                 console.log(error)
-                toast(JSON.stringify(error));
+                toast(`Unable to update response settings... (${JSON.stringify(error)})`)
             }
         )
     }
@@ -88,7 +100,6 @@ class SettingsOverview extends React.Component {
     render() {
 
         const { settings } = this.props;
-        const { currentPhonenumber } = this.state
         
         return (
             <div>
@@ -101,33 +112,31 @@ class SettingsOverview extends React.Component {
                         Click on the question marks to learn more about the different functionalities.
                     </p>}
                 />
-               
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">  
                             <Panel>
                                 <Panel.Body>
-                                    <div className="row">
-                                        <div className="col-md-12">
-                                            <div className="form-horizontal">
-                                                <ResponseCodeInput />
-                                                <hr/>
-                                                <ResponseToggleInput />
-                                                <Panel className="panel-no-border" expanded={!!(settings && settings.internetselected)}>
-                                                    <Panel.Collapse>          
-                                                        <ResponseURLInput />                      
-                                                    </Panel.Collapse>
-                                                </Panel>
-                                                <ResponseToggleSMSInput />
-                                                <Panel className="panel-no-border" expanded={!!(settings && settings.textmessagingselected)}>
-                                                <Panel.Collapse>                                
+                                    <div className="form-horizontal">
+                                        <ResponseCodeInput />
+                                        <ResponseToggleInput />
+                                        <Panel className="panel-no-border" onToggle={() => {}} expanded={!!(settings && settings.internetselected === "1")}>
+                                            <Panel.Collapse>    
+                                                {settings && <>      
+                                                    <ResponseURLInput /> 
+                                                </>}                     
+                                            </Panel.Collapse>
+                                        </Panel>
+                                        <ResponseToggleSMSInput />
+                                        <Panel className="panel-no-border" onToggle={() => {}} expanded={!!(settings && settings.textmessagingselected === "1")}>
+                                            <Panel.Collapse>                                
+                                                {settings && <>
                                                     <ResponseCountryInput getPhonenumberList={this.getPhonenumberList} />
                                                     <ResponseInternationalInput getPhonenumberList={this.getPhonenumberList} />
-                                                    <ResponsePhonenumberInput currentPhonenumber={currentPhonenumber} />
-                                                </Panel.Collapse>
-                                                </Panel>
-                                            </div>
-                                        </div>
+                                                    <ResponsePhonenumberInput />
+                                                </>}
+                                            </Panel.Collapse>
+                                        </Panel>
                                     </div>
                                 </Panel.Body>
                             </Panel>
@@ -143,6 +152,7 @@ export default connect(
     (state) => {
         return {
             settings: state.responseSettingsReducer.settings,
+            responsePhonenumbers: state.responseSettingsReducer.responsePhonenumbers,
             currentUser: state.authReducer.currentUser
         }
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import ButtonSwitch from '../../../../components/common/ButtonSwitch';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
+import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 class ResponseToggleInput extends Component {
@@ -32,7 +32,14 @@ class ResponseToggleInput extends Component {
                 </label>
                 {settings && 
                 <div className="col-sm-6">
-                    <ButtonSwitch onChange={() => this.updateSettings(!settings.internetselected, 'internetselected')} selected={settings.internetselected ? "1" : "0"} />
+                    <ToggleButtonGroup 
+                        onChange={() => this.updateSettings(settings.internetselected === "1" ? "0" : "1", 'internetselected')} 
+                        type="radio" 
+                        name="toggle-response"
+                        value={settings.internetselected === "1" ? "1" : "0"}>
+                        <ToggleButton value={"1"}><i className="fa fa-check"></i> On</ToggleButton>
+                        <ToggleButton value={"0"}><i className="fa fa-times"></i> Off</ToggleButton>
+                    </ToggleButtonGroup>
                 </div>}
             </div>
         );

@@ -19,10 +19,13 @@ class Phonenumbers extends NovaAPI {
         return false;        
     }
 
-    public function getNumberByIsoCode($isoCode = NULL, $foreignerCompatible = NULL) {
-        if($isoCode != NULL && $foreignerCompatible != NULL) {
-            $model = $this->loadModel('phonenumbers');
-            return json_encode(['content' => $model->getByIsoCode($isoCode, $foreignerCompatible)]);
+    public function getNumberByIsoCode($isoCode = NULL) {
+        $model = $this->loadModel('phonenumbers');
+        if($isoCode == "--") {
+            return json_encode(['content' => $model->getDefault()]);
+        }
+        else if($isoCode != NULL) {
+            return json_encode(['content' => $model->getByIsoCode($isoCode)]);
         }
         return false;
     }
