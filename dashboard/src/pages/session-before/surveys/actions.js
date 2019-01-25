@@ -25,3 +25,10 @@ export function setDeletingSurveyQuestionId(deleteSurveyQuestionId) {
         deleteSurveyQuestionId
     }
 }
+
+export function setCurrentSurveyToPlay(surveyId) {
+    return {
+        type: 'SET_SURVEY_TO_PLAY',
+        surveyId
+    }
+}

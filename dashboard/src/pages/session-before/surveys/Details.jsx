@@ -59,6 +59,8 @@ class SurveyDetails extends React.Component {
 
         const { surveyDetails } = this.props;
 
+        console.log(surveyDetails)
+
         return (
             <div>  
                 <HeaderPanel title={"Survey Details"} />

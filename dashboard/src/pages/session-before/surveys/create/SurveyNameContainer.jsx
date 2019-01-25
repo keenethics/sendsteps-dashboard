@@ -44,9 +44,7 @@ class SurveyNameContainer extends Component {
 
     setSurveyName = e => {
         this.setState({surveyName: e.target.value})
-        if(this.props.name) {
-            this.updateDetailsName(e)
-        }
+        this.updateDetailsName(e)
         this.clearError()
     }
 

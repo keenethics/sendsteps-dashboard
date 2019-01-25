@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
 
-import Home from "./pages/Home";
+import Home from "./pages/home/Home";
 import PageNotFound from "./pages/base/PageNotFound";
 import BreadcrumbsProvider from "./pages/base/BreadcrumbsProvider";
 

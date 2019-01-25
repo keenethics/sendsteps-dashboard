@@ -28,6 +28,12 @@ export default function surveyReducer(state = {}, action) {
                 deleteSurveyQuestionId: action.deleteSurveyQuestionId
             }
         }
+        case 'SET_SURVEY_TO_PLAY': {
+            return {
+                ...state,
+                currentSurveyToPlay: action.surveyId
+            }
+        }
         default: {
             return {
                 ...state

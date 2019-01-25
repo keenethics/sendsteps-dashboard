@@ -129,4 +129,31 @@ class Surveys extends NovaAPI {
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
         return json_encode($surveyQuestionOptionModel->getByQuestionId($surveyQuestionId));
     }
+
+    private function getUpdateSurveyStatusFields($currentSurvey, $newStatus) {
+        $isPaused = $currentSurvey["status"] == "3";
+        $fields = [ "status" => $newStatus ];
+        ($newStatus == 1 && !$isPaused) && $fields["start_datetime"] = gmdate('Y-m-d H:i:s \G\M\T');
+        $newStatus == 2 && $fields["end_datetime"] = gmdate('Y-m-d H:i:s \G\M\T');
+        return $fields;
+    }
+
+    private function shouldStopOtherSurveys($surveyId, $newStatus) {
+        $isPlaying = $newStatus == "1";
+        if($isPlaying) {
+            $surveyModel = $this->loadModel('surveys');
+            $surveyModel->stopAllSurveysBySessionId($this->getUserSessionId());
+        }
+    }
+
+    public function updateSurveyStatus($surveyId, $newStatus) {
+        $surveyModel = $this->loadModel('surveys');
+        $currentSurvey = $surveyModel->getActiveById($surveyId)[0];
+        $this->shouldStopOtherSurveys($surveyId, $newStatus);
+        $fields = $this->getUpdateSurveyStatusFields($currentSurvey, $newStatus);
+        if($surveyModel->updateSurveyStatus($surveyId, $fields)) {
+            return $this->getOverview();
+        }
+        return false;
+    }
 }

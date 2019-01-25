@@ -108,7 +108,7 @@ class LoginForm extends Component {
 
                         <Panel.Body className="login">
                             {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-lg fa-spin"></i></div>
                             </div>}
                             <div className={"fa-sm form-group " + emailErrorClass}>
                             <label className="control-label">Email</label>

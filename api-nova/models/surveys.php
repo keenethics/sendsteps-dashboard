@@ -8,7 +8,7 @@ class Surveys_Model extends Model {
             s.survey_name AS `name`,
             s.start_datetime,
             s.status
-        FROM survey s
+        FROM survey s   
         WHERE 
             <s.session_id> = :sessionId AND
             isDeleted = 0
@@ -106,6 +106,34 @@ class Surveys_Model extends Model {
             true;
         }
         return false;
+    }
+
+    public function updateSurveyStatus($surveyId, $fields) {
+        $update = $this->database()->update(
+            "survey",
+            $fields,
+            [
+                "survey_id" => $surveyId
+            ]
+        );
+        if($update->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+    public function stopAllSurveysBySessionId($sessionId) {
+        $update = $this->database()->update(
+            "survey",
+            [
+                // Stopped
+                "status" => 2
+            ],
+            [
+                "session_id" => $sessionId
+            ]
+        );
+        return $update->execute();
     }
 
 }

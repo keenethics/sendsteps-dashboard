@@ -1,0 +1,75 @@
+.year-panel {
+    .panel-heading {
+        background-color: #435d78;
+        border: none !important
+    }
+    .panel-body {
+        background-color: #2b3c4e;
+        border: none !important
+    }
+    .panel-footer {
+        background-color: #2d3f51;
+        border: none !important
+    }
+}
+
+.month-panel {
+    .panel-heading {
+        background-color: #72a7d3;
+        border: none !important
+    }
+    .panel-body {
+        background-color: #5394c9;
+        border: none !important
+    }
+    .panel-footer {
+        background-color: #438ac4;
+        border: none !important
+    }
+}
+
+.week-panel {
+    .panel-heading {
+        background-color: #3ac693;
+        border: none !important
+    }
+    .panel-body {
+        background-color: #37bf8d;
+        border: none !important
+    }
+    .panel-footer {
+        background-color: #32af81;
+        border: none !important
+    }
+}
+
+.last-session-panel {
+    .panel-heading {
+        background-color: #abb8b9;
+        border: none !important
+    }
+    .panel-body {
+        background-color: #95a5a6;
+        border: none !important
+    }
+    .panel-footer {
+        background-color: #8a9c9d;
+        border: none !important
+    }
+}
+
+.year-panel, .month-panel, .week-panel, .last-session-panel {
+    color: #FFFFFF;
+    .panel-title {
+        color: #FFFFFF;
+    }
+}
+
+.year-panel, .month-panel, .week-panel, .last-session-panel {
+    .panel-footer {
+        font-weight: 100;
+    }
+    .panel-body {
+        font-weight: 500;
+    }
+}

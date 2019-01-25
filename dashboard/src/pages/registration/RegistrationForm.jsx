@@ -202,7 +202,7 @@ class RegistrationForm extends Component {
                         </Panel.Heading>
                         <Panel.Body className="register">
                             {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-lg fa-spin"></i></div>
                             </div>}
                             <div className="row">
                                 <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">

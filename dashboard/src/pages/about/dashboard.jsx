@@ -26,7 +26,7 @@ class AboutDashboard extends React.Component {
                     </div>
 
                     <div className="row">
-                        <div className="col-md-8">
+                        <div className="col-md-6">
                             <Panel><Panel.Body>
                                 {/* @TODO Before your session? */}
                                 {/* @TODO Add images on the left (or right) hand of the explanation */}
@@ -37,7 +37,7 @@ class AboutDashboard extends React.Component {
                                 <p><i>Individual Responses</i></p>
                                 <p>See who responded what during your interactive session.</p>
                                 <hr/>
-                                <p><i>Moderator</i></p>
+                                <p><i>Message Filter</i></p>
                                 <p>Follow all incoming messages and assign your selection to the session screen.</p>
                             </Panel.Body></Panel>
                             <Panel><Panel.Body>

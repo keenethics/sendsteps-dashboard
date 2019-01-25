@@ -76,3 +76,8 @@ ul.pagination {
 	max-width: 100%;
 	max-height: 100%;
 }
+
+.fa-spin {
+  -webkit-transform-origin: 50% calc(50% - .5px) !important;
+  transform-origin: 50% calc(50% - .5px) !important;
+}

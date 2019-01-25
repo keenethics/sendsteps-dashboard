@@ -10,7 +10,7 @@ class LoadingView extends Component {
             <div>
                 <div className="loading-container" >
                     <div className="loading-view" style={{marginLeft: marginLeft}}>
-                        <i className="fa fa-circle-o-notch fa-spin" style={{fontSize: '24px'}}></i>
+                        <i className="fa fa-circle-o-notch fa-lg fa-spin" style={{fontSize: '24px'}}></i>
                     </div>
                 </div>
             </div>
