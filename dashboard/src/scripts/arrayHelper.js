@@ -45,3 +45,10 @@ export function firstOfObject(theObject) {
 export function lastOfObject(theObject) {
     return theObject[Object.keys(theObject)[Object.keys(theObject).length -1]];
 }
+
+export function valuesToString(theObject) {
+    Object.keys(theObject).forEach(key => {
+        theObject[key] = theObject[key].toString();
+    })
+    return theObject;
+}

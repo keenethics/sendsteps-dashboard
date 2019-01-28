@@ -147,6 +147,22 @@ class Presentations_Model extends Model {
             ];
         }
         return $returned;
-        
+    }
+
+    public function getMostRecentBySessionId($sessionId) {
+
+        $result = $this->database()->select(
+            'presentations',
+            [
+                '[>]sessionruns' => [
+                    'presentations.sessionRunId' => 'id'
+                ]
+            ],
+            '*',
+            [
+                'sessionruns.sessionId' => $sessionId
+            ]
+        );
+        return $result;
     }
 }

@@ -3,10 +3,10 @@ require_once __DIR__.'/../base/nova-api.php';
 
 class Presentations extends NovaAPI {
     public function getOverview() {
-        $presentaionModel = $this->loadModel('presentations');
+        $presentationModel = $this->loadModel('presentations');
         $sessionId = $this->getUserSessionId();
-        $results = $presentaionModel->getOverviewData($sessionId);
-        $numberOfParticipants = $presentaionModel->getParticipantNumbersBySessionId($sessionId);
+        $results = $presentationModel->getOverviewData($sessionId);
+        $numberOfParticipants = $presentationModel->getParticipantNumbersBySessionId($sessionId);
         foreach ($results as $key => $r){
             $results[$key]['numberOfParticipants'] = $numberOfParticipants[$r['id']];
             $parts = explode('\\', $r['name']);
@@ -19,8 +19,8 @@ class Presentations extends NovaAPI {
         // Fetch data from single presentation
         if ($id != NULL) {
             //Add what we can from a the presentation record
-            $presentaionModel = $this->loadModel('presentations');
-            $record = $presentaionModel->findActiveById($id)[0];
+            $presentationModel = $this->loadModel('presentations');
+            $record = $presentationModel->findActiveById($id)[0];
             $results = array();
             $nrOfResponses = 0;
             $parts = explode('\\', $record['name']);
@@ -28,11 +28,11 @@ class Presentations extends NovaAPI {
             $results['presentationId'] = (int) $record['id'];
             $results['presentationStart'] = $record['startTime'];
             $results['presentationEnd'] = $record['endTime'];
-            $results['nrOfActiveAttendees'] = (int) $presentaionModel->getParticipantNumbersByPresentationId($id);            
+            $results['nrOfActiveAttendees'] = (int) $presentationModel->getParticipantNumbersByPresentationId($id);            
             
             // Check for open ended questions & populate rounds with the results
             $results['rounds'] = $openEndedResult = array();
-            $messagesFromDB = $presentaionModel->getMessagesByPresentationId($id);
+            $messagesFromDB = $presentationModel->getMessagesByPresentationId($id);
             if (count($messagesFromDB) > 0){
                 foreach($messagesFromDB as $key => $m) {
                     if ($key == 0 OR $m['messageRoundId'] != $messagesFromDB[($key-1)]['messageRoundId'] ) {
@@ -60,8 +60,8 @@ class Presentations extends NovaAPI {
             
             // Check for rating questions & populate rounds with the results
             $ratingsResult = array();
-            $slides = $presentaionModel->getSlidesByPresentationId($id);
-            $votesAndPercentages = $presentaionModel->getVotesWithPercentages($id);
+            $slides = $presentationModel->getSlidesByPresentationId($id);
+            $votesAndPercentages = $presentationModel->getVotesWithPercentages($id);
             if (count($slides) > 0) {
                 $results['slides'] = $slides;
                 foreach($slides as $key => $s) {
@@ -98,5 +98,79 @@ class Presentations extends NovaAPI {
             return json_encode(['content' => $results]);                
         }
         return false;
+    }
+
+    public function getVoteCount($sessionId, $presentationId) {
+        $livevotemessagesModel = $this->loadModel('livevotemessages');
+        return $livevotemessagesModel->getVoteCountBySessionAndPresentationId($sessionId, $presentationId);
+    }
+
+    public function getMessageCount($sessionId, $presentationId) {
+        $livemessageroundmessageModel = $this->loadModel('livemessageroundmessages');
+        return $livemessageroundmessageModel->getMessageCountBySessionAndPresentationId($sessionId, $presentationId);
+    }
+
+    public function getMostRecentPresentationBySessionId($sessionId) {
+        $presentationModel = $this->loadModel('presentations');
+        $recentPresentations = $presentationModel->getMostRecentBySessionId($sessionId);
+        foreach($recentPresentations as $presentation) {
+            $responseCount = 0;
+            $responseCount += $this->getVoteCount($sessionId, $presentation['id']);
+            $responseCount += $this->getMessageCount($sessionId, $presentation['id']);
+            if($responseCount > 0) {
+                return $presentation;
+            }
+        }
+        return null;
+    }
+
+    public function getStatistics() {
+        $sessionModel = $this->loadModel('sessions');
+        $presentationsModel = $this->loadModel('presentations');
+        $liveVotesModel = $this->loadModel('livevotemessages');
+        $liveMessagesModel = $this->loadModel('livemessageroundmessages');
+
+        $userSession = $sessionModel->getSessionById($this->getUserSessionId())[0];
+        
+        $currentAccountId = $userSession['accountId'];
+        $currentSessionId = $userSession['id'];
+        
+        // Yearly (Session/User)
+        $lastYearVotes = $liveVotesModel->getLastYearVotesBySessionId($currentSessionId);
+        $lastYearMessages = $liveMessagesModel->getLastYearMessagesBySessionId($currentSessionId);
+        
+        $lastYearUserVotes = $liveVotesModel->getLastYearVotesByAccountId($currentAccountId);
+        $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
+
+        // Monthly (Session/User)
+        $lastMonthVotes = $liveVotesModel->getLastMonthVotesBySessionId($currentSessionId);
+        $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
+
+        $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
+        $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
+
+        // Weekly (Session/User)
+        $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
+        $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
+        
+        $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
+        $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
+
+        // Last Session
+        $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
+        $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
+
+        return json_encode([
+            'lastYearResponses' => $lastYearVotes + $lastYearMessages,
+            'lastYearUserContribution' => $lastYearUserVotes + $lastYearUserMessages,
+
+            'lastMonthResponses' => $lastMonthVotes + $lastMonthMessages,
+            'lastMonthUserContribution' => $lastMonthUserVotes + $lastMonthUserMessages,
+
+            'lastWeekResponses' => $lastWeekVotes + $lastWeekMessages,
+            'lastWeekUserContribution' => $lastWeekUserVotes + $lastWeekUserMessages,
+
+            'lastSession' => $lastSessionResponses
+        ]);
     }
 }

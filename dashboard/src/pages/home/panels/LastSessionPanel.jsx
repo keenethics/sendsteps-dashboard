@@ -1,34 +1,12 @@
 import React, { Component } from 'react';
 import { Panel } from 'react-bootstrap'
-import { post } from '../../../scripts/api';
+import { numWithCommas } from '../../../scripts/intFormatting';
 import './Panels.scss'
 
 class LastSessionPanel extends Component {
-    
-    state = {
-        responses: null,
-        contribution: null
-    }
-
-    componentDidMount() {
-        post(
-            'home',
-            'getLastSessionData',
-            {},
-            res => this.setState({
-                responses: res.responses,
-                contribution: res.contribution
-            }),
-            () => this.setState({
-                responses: "N/A",
-                contribution: "N/A"
-            })
-        )
-    }
-    
+        
     render() {
-
-        const { contribution, responses } = this.state;
+        const { responses, error } = this.props;
 
         return (
             <Panel className="last-session-panel panel-no-border">
@@ -36,15 +14,12 @@ class LastSessionPanel extends Component {
                     <Panel.Title><h5>Your last Session</h5></Panel.Title>
                 </Panel.Heading>
                 <Panel.Body className="text-center">
-                    {!responses && <i className="fa fa-circle-o-notch fa-lg fa-spin"></i>}
-                    {responses && responses}
+                    <h2>
+                        {!responses && <i className="fa fa-circle-o-notch fa-lg fa-spin"></i>}
+                        {responses && numWithCommas(responses)}
+                    </h2>
                 </Panel.Body>
-                <Panel.Footer>
-                    Your Contribution	
-                    <span className="pull-right">
-                        {!contribution && <i className="fa fa-circle-o-notch fa-lg fa-spin"></i>}
-                        {contribution && contribution}
-                    </span>
+                <Panel.Footer style={{height: '40px'}}>
                 </Panel.Footer>
             </Panel>
         );

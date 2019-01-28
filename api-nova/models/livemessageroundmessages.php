@@ -30,17 +30,17 @@ class Livemessageroundmessages_Model extends Model {
                 'messageRoundId' => $message->messageRoundId,
                 'participantId' => $message->participantId,
                 'sessionId' => $message->sessionId,
-                'source' => '', // Binary(40) ?? How to generate
+                'source' => '', // Binary(40) ?? How to generate? doesn't seem too important?
                 'starred' => false, // Not null
                 'status' => 'unread',
                 'text' => $message->text
             ]
         );
-        return $this->database()->select(
+        return $this->database()->get(
             "livemessageroundmessages", 
             "*", 
             ["id" => $insertedMessageId]
-        )[0];
+        );
     }
 
     public function findById($id){
@@ -115,5 +115,117 @@ class Livemessageroundmessages_Model extends Model {
             return $messageIds;
         }
         return false;
+    }
+
+    public function getLastWeekMessagesBySessionId($sessionId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                'sessionId' => $sessionId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*7)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getLastWeekMessagesByAccountId($accountId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                '[>]sessions' => [
+                    'sessions.id' => 'livemessageroundmessages.sessionId'
+                ]
+            ],
+            '*',
+            [
+                'accountId' => $accountId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*7)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getLastMonthMessagesBySessionId($sessionId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                'sessionId' => $sessionId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*30)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getLastMonthMessagesByAccountId($accountId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                '[>]sessions' => [
+                    'sessions.id' => 'livemessageroundmessages.sessionId'
+                ]
+            ],
+            '*',
+            [
+                'accountId' => $accountId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*30)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getLastYearMessagesBySessionId($sessionId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                'sessionId' => $sessionId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*365)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getLastYearMessagesByAccountId($accountId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                '[>]sessions' => [
+                    'livemessageroundmessages.sessionId' => 'id'
+                ]
+            ],
+            '*',
+            [
+                'accountId' => $accountId,
+                'timestamp[<>]' => [
+                    gmdate('Y-m-d H:i:s', time() - (60*60*24*365)),
+                    gmdate('Y-m-d H:i:s')
+                ]
+            ]
+        );
+    }
+
+    public function getMessageCountBySessionAndPresentationId($sessionId, $presentationId) {
+        return $this->database()->count(
+            'livemessageroundmessages',
+            [
+                '[>]messagerounds' => [
+                    'livemessageroundmessages.messageRoundId' => 'messagerounds.id'
+                ]
+            ],
+            '*',
+            [
+                'presentationId' => $presentationId,
+                'sessionId' => $sessionId
+            ]
+        );
     }
 }
