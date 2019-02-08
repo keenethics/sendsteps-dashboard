@@ -17,6 +17,13 @@
             var_dump("Unable to load class: $class");
         } else {
             $db = MySQL::GetConnection();
+            $db->Prepare("SELECT * FROM `users` WHERE `email` LIKE ?");
+    
+            $email = 'john.wheatley@sendsteps.com';
+            $db->BindValue(1, $email);
+            $db->Execute();
+            $results = $db->FetchRow();
+            var_dump($results);
         }
 
         // $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
