@@ -11,11 +11,10 @@
             }
             
         }
-    // var_dump('Test');exit();
-        $class = 'MySQL';
-        if (!class_exists($class, false)) {
-            var_dump("Unable to load class: $class");
-        } else {
+        // $class = 'MySQL';
+        // if (!class_exists($class, false)) {
+        //     var_dump("Unable to load class: $class");
+        // } else {
             $db = MySQL::GetConnection();
             $db->Prepare("SELECT * FROM `users` WHERE `email` LIKE ?");
     
@@ -24,7 +23,7 @@
             $db->Execute();
             $results = $db->FetchRow();
             var_dump($results);
-        }
+        // }
 
         // $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
 
