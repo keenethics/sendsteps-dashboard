@@ -1,19 +1,25 @@
 
     <?php 
-    
-// echo file_exists(__DIR__."/inc/mysql.inc.php");
+        $filepath = __DIR__."/inc/mysql.inc.php";
+        if (!file_exists($filepath)){
+            var_dump("File $filepath does not exist");
+        } else {
+            include $filepath;    
+        }
+        
     // var_dump('Test');exit();
-        include __DIR__."/inc/mysql.inc.php";
         $class = 'MySQL';
         if (!class_exists($class, false)) {
             var_dump("Unable to load class: $class");
+        } else {
+            $db = MySQL::GetConnection();
         }
-        $db = MySQL::GetConnection();
+        
 
-        $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
+        // $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
 
 
-        $db->BindValue(1, $voteId);
-        $db->Execute();
-        $row = $db->FetchRow();
+        // $db->BindValue(1, $voteId);
+        // $db->Execute();
+        // $row = $db->FetchRow();
     
