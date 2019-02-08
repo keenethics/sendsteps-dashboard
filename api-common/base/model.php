@@ -47,16 +47,16 @@
 
         protected function query($query = '', $params = array()) {            
             // $db_options = $this->getMedooOptions();
-            // $database = new Medoo($this->getMedooOptions());
-            $pdo = new PDO('mysql:dbname=test;host=127.0.0.1', 'user', 'password');
+            $database = new Medoo($this->getMedooOptions());
+            // $pdo = new PDO('mysql:dbname=test;host=127.0.0.1', 'user', 'password');
  
-            $database = new Medoo([
-                // Initialized and connected PDO object
-                'pdo' => $pdo,
+            // $database = new Medoo([
+            //     // Initialized and connected PDO object
+            //     'pdo' => $pdo,
             
-                // [optional] Medoo will have different handle method according to different database type
-                'database_type' => 'mysql'
-            ]);
+            //     // [optional] Medoo will have different handle method according to different database type
+            //     'database_type' => 'mysql'
+            // ]);
             
             
             
@@ -100,13 +100,14 @@
         }
         
         private function getMedooOptions() {
-            require __DIR__."/../db-connect/settings.php";
-            require __DIR__."/../db-connect/mysql.inc.php";
+            // var_dump('asdasd');exit();
+            require_once __DIR__."/../db-connect/settings.php";
+            require_once __DIR__."/../db-connect/mysql.inc.php";
             $pdo = MySQL::GetConnection();
-            
-            $db_options = [
-                'pdo' => $pdo
-            ];
+            require __DIR__.'/../db_config.php';
+            // $pdo = new PDO('mysql:dbname=addins;host=localhost', 'root', '');
+            $db_options['pdo'] = $pdo;
+            $db_options['database_type'] = 'mysql';
             
             // require __DIR__.'/../db_config.php';//Load Errors (just in case);
             // // Optional extras for the database
