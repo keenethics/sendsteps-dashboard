@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
     <?php 
     
         require_once "inc/mysql.inc.php";
@@ -10,5 +10,4 @@
         $db->BindValue(1, $voteId);
         $db->Execute();
         $row = $db->FetchRow();
-    ?>
-</html>
+    
