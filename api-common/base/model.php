@@ -100,13 +100,22 @@
         }
         
         private function getMedooOptions() {
-            require __DIR__.'/../db_config.php';//Load Errors (just in case);
-            // Optional extras for the database
-            $db_options['charset'] = 'utf8mb4'; //Make sure emojis render
-            $db_options['logging'] = true; // Enable logging (Logging is disabled by default for better performance)
-            $db_options['socket'] = '/tmp/mysql.sock'; // MySQL socket (shouldn't be used with server and port)
-            $db_options['option'] = [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]; // Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
-            $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ]; // Medoo will execute those commands after connected to the database for initialization
+            
+            require __DIR__."/../db-connect/settings.php";
+            require __DIR__."/../db-connect/mysql.inc.php";
+            $pdo = MySQL::GetConnection();
+            
+            $db_options = [
+                'pdo' => $pdo
+            ];
+            
+            // require __DIR__.'/../db_config.php';//Load Errors (just in case);
+            // // Optional extras for the database
+            // $db_options['charset'] = 'utf8mb4'; //Make sure emojis render
+            // $db_options['logging'] = true; // Enable logging (Logging is disabled by default for better performance)
+            // $db_options['socket'] = '/tmp/mysql.sock'; // MySQL socket (shouldn't be used with server and port)
+            // $db_options['option'] = [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]; // Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+            // $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ]; // Medoo will execute those commands after connected to the database for initialization
 
             return $db_options;
         }

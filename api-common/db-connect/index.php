@@ -16,8 +16,8 @@
         //     var_dump("Unable to load class: $class");
         // } else {
             
-            require __DIR__."/inc/settings.php";
-            require __DIR__."/inc/mysql.inc.php";
+            require __DIR__."/settings.php";
+            require __DIR__."/mysql.inc.php";
             
             $db = MySQL::GetConnection();
             $db->Prepare("SELECT id FROM `users` WHERE `email` LIKE ?");
