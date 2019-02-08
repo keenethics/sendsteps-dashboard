@@ -1,6 +1,7 @@
 
     <?php 
     
+echo file_exists(__DIR__."/inc/mysql.inc.php");
     var_dump('Test');exit();
         require __DIR__."/inc/mysql.inc.php";
         
