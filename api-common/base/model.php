@@ -48,6 +48,18 @@
         protected function query($query = '', $params = array()) {            
             // $db_options = $this->getMedooOptions();
             $database = new Medoo($this->getMedooOptions());
+            // $pdo = new PDO('mysql:dbname=test;host=127.0.0.1', 'user', 'password');
+ 
+            // $database = new Medoo([
+            //     // Initialized and connected PDO object
+            //     'pdo' => $pdo,
+            
+            //     // [optional] Medoo will have different handle method according to different database type
+            //     'database_type' => 'mysql'
+            // ]);
+            
+            
+            
             if (count($params)) {
                 $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
             } else {
@@ -88,13 +100,22 @@
         }
         
         private function getMedooOptions() {
-            require __DIR__.'/../db_config.php';//Load Errors (just in case);
-            // Optional extras for the database
-            $db_options['charset'] = 'utf8mb4'; //Make sure emojis render
-            $db_options['logging'] = true; // Enable logging (Logging is disabled by default for better performance)
-            $db_options['socket'] = '/tmp/mysql.sock'; // MySQL socket (shouldn't be used with server and port)
-            $db_options['option'] = [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]; // Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
-            $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ]; // Medoo will execute those commands after connected to the database for initialization
+            // var_dump('asdasd');exit();
+            require_once __DIR__."/../db-connect/settings.php";
+            require_once __DIR__."/../db-connect/mysql.inc.php";
+            $pdo = MySQL::GetConnection();
+            require __DIR__.'/../db_config.php';
+            // $pdo = new PDO('mysql:dbname=addins;host=localhost', 'root', '');
+            $db_options['pdo'] = $pdo;
+            $db_options['database_type'] = 'mysql';
+            
+            // require __DIR__.'/../db_config.php';//Load Errors (just in case);
+            // // Optional extras for the database
+            // $db_options['charset'] = 'utf8mb4'; //Make sure emojis render
+            // $db_options['logging'] = true; // Enable logging (Logging is disabled by default for better performance)
+            // $db_options['socket'] = '/tmp/mysql.sock'; // MySQL socket (shouldn't be used with server and port)
+            // $db_options['option'] = [ PDO::ATTR_CASE => PDO::CASE_NATURAL ]; // Driver_option for connection, read more from http://www.php.net/manual/en/pdo.setattribute.php
+            // $db_options['command'] = [ 'SET SQL_MODE=ANSI_QUOTES' ]; // Medoo will execute those commands after connected to the database for initialization
 
             return $db_options;
         }
