@@ -1,9 +1,9 @@
 
     <?php 
     
+    var_dump('Test');exit();
         require __DIR__."/inc/mysql.inc.php";
         
-        var_dump('Test');exit();
         $db = MySQL::GetConnection();
 
         $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
