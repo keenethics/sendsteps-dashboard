@@ -14,7 +14,6 @@
         } else {
             $db = MySQL::GetConnection();
         }
-        
 
         // $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
 
@@ -23,3 +22,4 @@
         // $db->Execute();
         // $row = $db->FetchRow();
     
+?>
