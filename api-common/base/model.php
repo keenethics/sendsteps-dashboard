@@ -47,7 +47,19 @@
 
         protected function query($query = '', $params = array()) {            
             // $db_options = $this->getMedooOptions();
-            $database = new Medoo($this->getMedooOptions());
+            // $database = new Medoo($this->getMedooOptions());
+            $pdo = new PDO('mysql:dbname=test;host=127.0.0.1', 'user', 'password');
+ 
+            $database = new Medoo([
+                // Initialized and connected PDO object
+                'pdo' => $pdo,
+            
+                // [optional] Medoo will have different handle method according to different database type
+                'database_type' => 'mysql'
+            ]);
+            
+            
+            
             if (count($params)) {
                 $data = (array) $database->query($query, $params)->fetchAll(PDO::FETCH_ASSOC);//PDO::FETCH_ASSOC Forces db queries to return only named indicies
             } else {
