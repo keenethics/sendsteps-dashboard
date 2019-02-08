@@ -100,7 +100,6 @@
         }
         
         private function getMedooOptions() {
-            
             require __DIR__."/../db-connect/settings.php";
             require __DIR__."/../db-connect/mysql.inc.php";
             $pdo = MySQL::GetConnection();
