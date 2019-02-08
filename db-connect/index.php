@@ -1,7 +1,7 @@
 
     <?php 
     
-        require_once "inc/mysql.inc.php";
+        require __DIR__."/inc/mysql.inc.php";
         $db = MySQL::GetConnection();
 
         $db->Prepare("SELECT `id`, `currentSessionId` FROM `Votes` WHERE `id` = ?");
