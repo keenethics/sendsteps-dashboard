@@ -124,6 +124,28 @@ class Presentations extends NovaAPI {
         return null;
     }
 
+    public function getRecentActivityBySessionId($sessionId) {
+        
+        $liveMessagesModel = $this->loadModel('livemessageroundmessages');
+        $recentMessageActivity = $liveMessagesModel->getRecentActivity($sessionId);
+
+        $liveVotesModel = $this->loadModel('livevotemessages');
+        $recentVoteActivity = $liveVotesModel->getRecentActivity($sessionId);
+
+        $surveyAnswerModel = $this->loadModel('surveyquestionanswers');
+        $recentSurveyActivity = $surveyAnswerModel->getRecentActivity($sessionId);
+
+        $messageUpvotesModel = $this->loadModel('messageupvotes');
+        $recentUpvoteActivity = $messageUpvotesModel->getRecentActivity($sessionId);
+
+        return [
+            'messages' => $recentMessageActivity,
+            'votes' => $recentVoteActivity,
+            'survey' => $recentSurveyActivity,
+            'upvotes' => $recentUpvoteActivity
+        ];
+    }
+
     public function getStatistics() {
         $sessionModel = $this->loadModel('sessions');
         $presentationsModel = $this->loadModel('presentations');
@@ -160,6 +182,9 @@ class Presentations extends NovaAPI {
         $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
         $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
 
+        // Activity
+        $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
+
         return json_encode([
             'lastYearResponses' => $lastYearVotes + $lastYearMessages,
             'lastYearUserContribution' => $lastYearUserVotes + $lastYearUserMessages,
@@ -170,7 +195,9 @@ class Presentations extends NovaAPI {
             'lastWeekResponses' => $lastWeekVotes + $lastWeekMessages,
             'lastWeekUserContribution' => $lastWeekUserVotes + $lastWeekUserMessages,
 
-            'lastSession' => $lastSessionResponses
+            'lastSession' => $lastSessionResponses,
+
+            'activity' => $recentActivity
         ]);
     }
 }

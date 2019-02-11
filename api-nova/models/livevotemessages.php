@@ -115,4 +115,16 @@ class Livevotemessages_model extends Model {
         );
     }
 
+    public function getRecentActivity($sessionId) {
+        return $this->database()->select(
+            'livevotemessages',
+            '*',
+            [
+                'sessionId' => $sessionId,
+                'LIMIT' => 10,
+                'ORDER' => ["timestamp" => "DESC"]
+            ]
+        );
+    }
+
 }

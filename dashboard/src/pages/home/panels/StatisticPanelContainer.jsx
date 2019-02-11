@@ -6,11 +6,13 @@ import LastMonthPanel from "./LastMonthPanel";
 import LastYearPanel from "./LastYearPanel";
 import { post } from '../../../scripts/api';
 import { valuesToString } from '../../../scripts/arrayHelper';
+import LastSessionResponses from './LastSessionResponses';
 
 class StatisticPanelContainer extends Component {
 
     state = {
-        statistics: null
+        statistics: null,
+        activity: null
     }
 
     componentDidMount() {
@@ -21,6 +23,7 @@ class StatisticPanelContainer extends Component {
             statistics => this.setState({
                 // Convert values to string or else 
                 // the && operator will read int(0) results as false
+                activity: statistics.activity,
                 statistics: valuesToString(statistics),
                 error: false
             }),
@@ -36,9 +39,7 @@ class StatisticPanelContainer extends Component {
 
     render() {
 
-        const { statistics, error } = this.state;
-
-        console.log(statistics)
+        const { statistics, activity, error } = this.state;
 
         return (
             <div className="col-md-12">
@@ -70,11 +71,16 @@ class StatisticPanelContainer extends Component {
                             contribution={statistics && statistics.lastYearUserContribution}
                         />
                     </div>
+                    <div className="col-xs-9">
+                        <LastSessionResponses
+                            lastResponses={activity && activity}
+                        />
+                    </div>
                     <div className="col-xs-3">
                         <Panel>
                             <Panel.Heading>
                                 <h5>Top 5 active users</h5>
-                                </Panel.Heading>
+                            </Panel.Heading>
                             <Panel.Body></Panel.Body>
                         </Panel>
                     </div>

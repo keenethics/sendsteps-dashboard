@@ -1,9 +1,5 @@
-const initState = {
-    email: 'bryan.overduin@sendsteps.com',
-    password: '2RHkuczNRmWTXVtQ'
-}
 
-export default function loginReducer(state = initState, action) {
+export default function loginReducer(state, action) {
     switch(action.type) {
         case 'SET_EMAIL': {
             return {
