@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import Toggle from 'react-bootstrap-toggle';
 import { connect } from 'react-redux';
 
 class ResponseToggleSMSInput extends Component {
@@ -31,14 +31,13 @@ class ResponseToggleSMSInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {settings && 
-                    <ToggleButtonGroup 
-                        onChange={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')} 
-                        type="radio" 
-                        name="toggle-response"
-                        value={settings.textmessagingselected === "1" ? "1" : "0"}>
-                        <ToggleButton value={"1"}><i className="fa fa-check"></i> On</ToggleButton>
-                        <ToggleButton value={"0"}><i className="fa fa-times"></i> Off</ToggleButton>
-                    </ToggleButtonGroup>}
+                        <Toggle
+                            onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
+                            on={<span><i className="fa fa-check"></i> On</span>}
+                            off={<span><i className="fa fa-times"></i> Off</span>}
+                            offstyle="default"
+                            active={settings.textmessagingselected === "1"}
+                        />}
                 </div>
             </div>
         );

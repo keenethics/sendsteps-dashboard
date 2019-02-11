@@ -16,12 +16,12 @@ import {
     setAcceptTermsError,
     showPassword,
     resetRegistrationForm,
-    register
 } from '../../actions/registration';
-import { authLoading } from '../../actions/auth';
+import { authLoading, register } from '../../actions/auth';
 import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
 import './Forms.scss';
+import { toast } from 'react-toastify';
 
 class RegistrationForm extends Component {
 
@@ -122,26 +122,15 @@ class RegistrationForm extends Component {
     }
 
     fieldsAreValid() {
-        
-        const { 
-            firstName,
-            lastName,
-            email,
-            password,
-            passwordConfirm,
-            termsAccepted,
-        } = this.props;
-
-        if( isValidName(firstName) &&
-            isValidName(lastName) &&
-            isValidEmail(email) &&
-            isValidPassword(password) &&
-            isValidPassword(passwordConfirm) &&
-            termsAccepted) {
+        if( isValidName(this.props.firstName) &&
+            isValidName(this.props.lastName) &&
+            isValidEmail(this.props.email) &&
+            isValidPassword(this.props.password) &&
+            isValidPassword(this.props.passwordConfirm) &&
+            this.props.termsAccepted) {
             return true;
         }
         return false;
-
     }
 
     register() {
@@ -152,16 +141,25 @@ class RegistrationForm extends Component {
 
         this.props.dispatch(authLoading(true));
 
-        const {            
-            firstName,
-            lastName,
-            email,
-            password,
-            passwordConfirm,
-            termsAccepted
-        } = this.props;
+        register(
+            this.props.firstName,
+            this.props.lastName,
+            this.props.email,
+            this.props.password,
+            this.props.passwordConfirm,
+            this.props.termsAccepted,
+            result => {
+                console.log(result)
+                toast("Register doesn't fully work yet!")
+                this.props.dispatch(authLoading(false));
 
-        this.props.dispatch(register(firstName, lastName, email, password, passwordConfirm, termsAccepted));
+            },
+            error => {
+                console.log(error)
+                toast("Register doesn't fully work yet!")
+                this.props.dispatch(authLoading(false));
+            }
+        )
     }
 
     render() {
@@ -202,7 +200,7 @@ class RegistrationForm extends Component {
                         </Panel.Heading>
                         <Panel.Body className="register">
                             {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-lg fa-spin"></i></div>
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
                             </div>}
                             <div className="row">
                                 <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">

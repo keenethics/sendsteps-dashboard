@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
+import Toggle from 'react-bootstrap-toggle';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
 
 class ResponseInternationalInput extends Component {
 
     changeInternational = value => {
+        value = value ? "1" : "2";
         const { responsePhonenumbers } = this.props;
         let newSettings = { ...this.props.settings }
         newSettings['phonenumberForeignerCompatible'] = value
@@ -42,14 +44,16 @@ class ResponseInternationalInput extends Component {
                 </TooltipNotification>
                 </label>
                 <div className="col-sm-6">
-                    {responsePhonenumbers && 
-                    <ToggleButtonGroup 
-                        onChange={this.changeInternational} 
-                        type="radio" name="options" 
-                        value={(settings && settings.phonenumberForeignerCompatible === "1") ? "1" : "2"}>
-                        <ToggleButton disabled={this.isLocalOnly()} value={"1"}><i className="fa fa-check"></i> Yes</ToggleButton>
-                        <ToggleButton disabled={this.isInternationalOnly()} value={"2"}><i className="fa fa-times"></i> No</ToggleButton>
-                    </ToggleButtonGroup >}
+                    {responsePhonenumbers &&
+                        <Toggle
+                            style={{width:'80px', height: '32px'}}
+                            onClick={this.changeInternational}
+                            on={<span><i className="fa fa-check"></i> Yes</span>}
+                            off={<span><i className="fa fa-times"></i> No</span>}
+                            offstyle="default"
+                            disabled={this.isLocalOnly() || this.isInternationalOnly()}
+                            active={settings && settings.phonenumberForeignerCompatible === "1"}
+                        />}
                 </div>
             </div>
         );

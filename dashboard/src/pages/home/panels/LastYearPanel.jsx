@@ -16,14 +16,14 @@ class LastYearPanel extends Component {
                 </Panel.Heading>
                 <Panel.Body className="text-center">
                     <h2>
-                        {!responses && <i className="fa fa-circle-o-notch fa-lg fa-spin"></i>}
+                        {!responses && <i className="fa fa-circle-o-notch fa-spin"></i>}
                         {responses && numWithCommas(responses)}
                     </h2>
                 </Panel.Body>
                 <Panel.Footer>
                     Your Contribution	
                     <span className="pull-right">
-                        {!contribution && <i className="fa fa-circle-o-notch fa-lg fa-spin"></i>}
+                        {!contribution && <i className="fa fa-circle-o-notch fa-spin"></i>}
                         {contribution && numWithCommas(contribution)}
                     </span>
                 </Panel.Footer>

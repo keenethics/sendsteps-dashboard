@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
-import { authorizeLogin, authLoading } from '../../actions/auth';
+import { authLoading, authenticate, setAuthorized, authRequired } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
 import './Forms.scss';
@@ -14,9 +14,6 @@ class LoginForm extends Component {
     componentWillMount() {
         this.props.dispatch(resetLoginForm());
         this.props.dispatch(authLoading(false));
-
-        // this.props.dispatch(setEmail('bryan.overduin@sendsteps.com'));
-        // this.props.dispatch(setPassword('lol000')); 
     }
 
     showRegistrationForm() {
@@ -71,15 +68,34 @@ class LoginForm extends Component {
         return isAuthorized;
     }
 
-    login() {
+    handleEnterKey = e => {
+        if(e.key === "Enter") {
+            this.login()
+        }
+    }
 
+    login = () => {
         if(this.isAuthorizedToLogin()) {
-            this.props.dispatch(authLoading(true));
             const { email, password } = this.props;
-
-            setTimeout(() => {
-                this.props.dispatch(authorizeLogin(email, password));
-            }, 1500)
+            this.props.dispatch(authLoading(true));
+            authenticate(
+                email, password,
+                result => {
+                    if(result.authorized && result.token) {
+                        this.props.dispatch(authRequired(true))
+                        this.props.dispatch(setAuthorized(true))
+                    } else {
+                        this.props.dispatch(setEmailError("E-mail or password combination not recognized."))
+                        this.props.dispatch(authLoading(false));
+                    }
+                },
+                error => {
+                    this.props.dispatch(setGeneralError(error.message));
+                    this.props.dispatch(authLoading(false));
+                    this.props.dispatch(setAuthorized(false));
+                    this.props.dispatch(authRequired(false));
+                }
+            )
         }
     }
 
@@ -108,13 +124,13 @@ class LoginForm extends Component {
 
                         <Panel.Body className="login">
                             {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-lg fa-spin"></i></div>
+                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
                             </div>}
                             <div className={"fa-sm form-group " + emailErrorClass}>
                             <label className="control-label">Email</label>
                             <div className="input-group">
                                 <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                <input name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
+                                <input onKeyPress={this.handleEnterKey} name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
                             </div>
                             {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
                             </div>
@@ -122,7 +138,7 @@ class LoginForm extends Component {
                             <label className="control-label">Password</label>
                             <div className="input-group">
                                 <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                <input onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
+                                <input onKeyPress={this.handleEnterKey} onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
                                 <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
                             </div>
                             {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}

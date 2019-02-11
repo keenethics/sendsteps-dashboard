@@ -6,6 +6,7 @@ import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import './Overview.scss';
 import { get } from '../../../scripts/api';
+import LoadingPlaceholder from '../../base/LoadingPlaceholder';
 
 class PresentationsOverview extends React.Component {
    
@@ -33,6 +34,7 @@ class PresentationsOverview extends React.Component {
                     <Panel>
                         <Panel.Body>
                             {presentationResults && <OverviewTable data={presentationResults} />}
+                            {!presentationResults && <LoadingPlaceholder />}
                         </Panel.Body>
                     </Panel>
                 </div>

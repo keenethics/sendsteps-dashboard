@@ -14,9 +14,11 @@ class Header extends React.Component {
             <header>
                 <div className="header-content">
                     <i onClick={() => this.props.dispatch(toggleMenu(!this.props.menuOpened))} className="fa fa-align-left menu-button"></i>
-                    <span className="sst-logo-header">
-                        <img alt="Sendsteps" src={Logo} />
-                    </span>
+                    <a href="/">
+                        <span className="sst-logo-header">
+                            <img alt="Sendsteps" src={Logo} />
+                        </span>
+                    </a>
                     <span className="pull-right" >
                         {/* <p >({currentUser.userType})</p> */}
                         <SignOutButton />

@@ -1,5 +1,5 @@
 import fetch from 'cross-fetch';
-import { setEmailError, setPasswordError } from './login';
+import 'whatwg-fetch';
 import { addToLocalStorage, removeFromLocalStorage } from '../scripts/localStorage';
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
 import { toast } from 'react-toastify';
@@ -84,54 +84,63 @@ export function signOut() {
         removeCookieValues('SSTToken');
         dispatch(setAuthorized(false));
         dispatch(authRequired(null));
-        // navigationHistory.push('/');
     }
 }
-export function authorizeLogin(email = '', password = '') {
-    return dispatch => {
-        if (email !== '' && password !== ''){
 
-            let params = JSON.stringify({
-                email: email, 
-                password: password
-            });
-            dispatch(authRequired(true));
-            fetch(authUrl,{
-                method: 'POST',
-                headers: {
-                    "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                },
-                body: 'function=login&params='+params
-            }).then(res => {
-                return res.json()
-            }).then(
-                (result) => {
-                    if(result && typeof result.authorized !== 'undefined') {
-                        // USER IS AUTHORIZED HERE
-                        // Add key to localStorage, or Cookies, if failed to do both,
-                        // redirect to login page with security warning
-                        console.log(result);
-                        toast("Logged in as " + email);
-                        if(!addToLocalStorage('token',result.token)) {
-                            if(!addCookieValues('SSTToken', result.token, 48)) {
-                                dispatch(securityError('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'))
-                                return;
-                            }
-                        }
-                        dispatch(setAuthorized(result.authorized));
-                    }
-                },
-                (error) => {
-                    console.log(error)
-                    dispatch(setGeneralError(error.message));
-                    dispatch(authLoading(false));
-                    dispatch(setAuthorized(false));
-                    dispatch(authRequired(false));
-                }
-            )
-        } else {
-            dispatch(setEmailError('Please enter a valid email'));
-            dispatch(setPasswordError('Please enter a valid password'));
+export function register(firstName, lastName, email, password, passwordConfirm, termsAccepted, onSuccess, onFail) {
+    const registerParams = JSON.stringify({
+        email,
+        password,
+        passwordConfirm,
+        options: {
+            firstName,
+            lastName,
+            termsAccepted,
         }
-    }
+    });
+
+    fetch(authUrl,{
+        method: 'POST',
+        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+        body: 'function=register&params='+registerParams
+    })
+    .then(result => result.json())
+    .then(result => {
+        console.log(result)
+        if(result.error) {
+            console.log(result.error);
+        }
+        },
+        (error) => {
+            console.log(error);
+        }
+    )
+}
+
+
+export function authenticate(email, password, onSuccess, onFail) {
+    const params = JSON.stringify({email: email, password: password});
+    fetch(authUrl, 
+        {
+            method: 'POST',
+            headers: {
+                "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+            },
+            body: 'function=login&params='+params
+        }
+    )
+    .then(result => result.json())
+    .then(result => {
+        if(result && typeof result.authorized !== 'undefined') {
+            toast("Logged in as " + email);
+            if(!addToLocalStorage('token',result.token)) {
+                if(!addCookieValues('SSTToken', result.token, 48)) {
+                    onFail('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.')
+                    return;
+                }
+            }
+            onSuccess(result)
+        }
+    },
+    error => onFail(error))
 }

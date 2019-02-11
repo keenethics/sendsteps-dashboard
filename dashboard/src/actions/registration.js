@@ -1,7 +1,5 @@
-import fetch from 'cross-fetch';
-import { authLoading, authorizeLogin } from './auth';
 
-let authUrl = process.env.AUTH_API_URL;
+import { authLoading } from './auth';
 
 export function setFirstName(firstName) {
     return {
@@ -117,50 +115,5 @@ export function setErrors(errors) {
         if(errors.termsAccepted) { dispatch(setAcceptTermsError(errors.termsAccepted))}
         if(errors.errorGeneral) { dispatch(setGeneralError(errors))};
         dispatch(authLoading(false));
-    }
-}
-
-export function register(firstName, lastName, email, password, passwordConfirm, termsAccepted) {
-
-    const registerParams = JSON.stringify({
-        // Same as firstName: firstName
-        email,
-        password,
-        passwordConfirm,
-        options: {
-            firstName,
-            lastName,
-            termsAccepted,
-        }
-    });
-
-    console.log(registerParams);
-
-    return dispatch => {
-        fetch(authUrl,{
-            method: 'POST',
-            headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            body: 'function=register&params='+registerParams
-        }).then(res => {
-            return res.json()
-        }).then(
-            (result) => {
-                if(result.content) {
-                    // Log user in if authorized, (Still need to write auth above here)
-                    dispatch(authorizeLogin(email, password));
-                } else if(result.error) {
-                    console.log(result.error);
-                    // If errors are returned from the API, 
-                    // dispatch them to the user
-                    dispatch(setErrors(result.error));
-                    dispatch(authLoading(false));
-                }
-            },
-            (error) => {
-                // dispatch errors
-                dispatch(setErrors(error));
-                dispatch(authLoading(false));
-            }
-        )
     }
 }
