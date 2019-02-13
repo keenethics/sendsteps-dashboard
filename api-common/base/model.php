@@ -30,6 +30,7 @@
             if (NULL == $id) {
                 throw new Exception('ModelRequiresId');
             }
+            
             if ('' == $table) {
                 throw new Exception('ModelRequiresTable');
             }
