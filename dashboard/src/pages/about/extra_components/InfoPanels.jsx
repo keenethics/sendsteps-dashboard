@@ -14,9 +14,12 @@ export const AddinInfoPanel = () => {
                         Have all your add-in items branded in the corporate style of your organization: instruction-, 
                         question- and result slides, the response website and even the entire software package.
                     </p>
-                    <button className="btn btn-default">
-                        <i className="fa fa-info"></i> More information 
-                    </button>
+                    
+                    <a href="https://www.sendsteps.com/en/download/branding-design/" target="_blank">
+                        <button className="btn btn-default">
+                            <i className="fa fa-info"></i> More information 
+                        </button>
+                    </a>
                 </Panel.Body>
             </Panel>
         </div>
@@ -52,9 +55,11 @@ export const BlogPanel = () => {
                 <Panel.Body>
                     <h3>Read our blog!</h3>
                     <hr/>
-                    <button className="btn btn-primary">
-                        <i className="fa fa-rss"></i> Sendsteps Blog 
-                    </button>
+                    <a href="https://www.sendsteps.com/en/about/blog/" target="_blank">
+                        <button className="btn btn-primary">
+                            <i className="fa fa-rss"></i> Sendsteps Blog 
+                        </button>
+                    </a>
                 </Panel.Body>
             </Panel>  
         </div>
