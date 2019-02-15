@@ -52,9 +52,11 @@ export const BlogPanel = () => {
                 <Panel.Body>
                     <h3>Read our blog!</h3>
                     <hr/>
-                    <button className="btn btn-primary">
-                        <i className="fa fa-rss"></i> Sendsteps Blog 
-                    </button>
+                    <a href="https://www.sendsteps.com/en/about/blog/" target="_blank">
+                        <button className="btn btn-primary">
+                            <i className="fa fa-rss"></i> Sendsteps Blog 
+                        </button>
+                    </a>
                 </Panel.Body>
             </Panel>  
         </div>
