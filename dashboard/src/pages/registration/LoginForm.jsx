@@ -6,6 +6,7 @@ import { authLoading, authenticate, setAuthorized, authRequired } from '../../ac
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
 import { Panel } from 'react-bootstrap';
 import './Forms.scss';
+import { toast } from 'react-toastify';
 
 class LoginForm extends Component {
 
@@ -80,17 +81,15 @@ class LoginForm extends Component {
             this.props.dispatch(authLoading(true));
             authenticate(
                 email, password,
-                result => {
-                    if(result.authorized && result.token) {
-                        this.props.dispatch(authRequired(true))
-                        this.props.dispatch(setAuthorized(true))
-                    } else {
-                        this.props.dispatch(setEmailError("E-mail or password combination not recognized."))
-                        this.props.dispatch(authLoading(false));
-                    }
+                // Hmm, only returning the token, why not an user also? We can use this token anyways
+                // To request user data.
+                () => {
+                    this.props.dispatch(authRequired(true))
+                    this.props.dispatch(setAuthorized(true))
+                    toast('Logged in as ' + email);
                 },
-                error => {
-                    this.props.dispatch(setGeneralError(error.message));
+                () => {
+                    this.props.dispatch(setEmailError("Email and password combination not recognised."));
                     this.props.dispatch(authLoading(false));
                     this.props.dispatch(setAuthorized(false));
                     this.props.dispatch(authRequired(false));

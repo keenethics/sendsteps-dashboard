@@ -49,8 +49,7 @@ export function checkAuthorized(token = '') {
         }).then(res => {
             return res.json()
         }).then(
-            (result) => {
-                
+            (result) => { 
                 if(result && typeof result.authorized !== 'undefined') {
                     dispatch(setAuthorized(result.authorized));
                     dispatch(setUser(result));
@@ -111,7 +110,7 @@ export function register(firstName, lastName, email, password, passwordConfirm, 
             console.log(result.error);
         }
         },
-        (error) => {
+        error => {
             console.log(error);
         }
     )
@@ -131,15 +130,15 @@ export function authenticate(email, password, onSuccess, onFail) {
     )
     .then(result => result.json())
     .then(result => {
-        if(result && typeof result.authorized !== 'undefined') {
-            toast("Logged in as " + email);
+        if(result && result.authorized) {
             if(!addToLocalStorage('token',result.token)) {
                 if(!addCookieValues('SSTToken', result.token, 48)) {
-                    onFail('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.')
-                    return;
+                    toast('Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.')
                 }
             }
             onSuccess(result)
+        } else {
+            onFail(result)
         }
     },
     error => onFail(error))

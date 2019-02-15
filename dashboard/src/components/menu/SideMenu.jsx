@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {ListGroup} from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import MenuItem from './MenuItem';
 import SectionHeader from './SectionHeader';
 import MenuProfile from './MenuProfile';

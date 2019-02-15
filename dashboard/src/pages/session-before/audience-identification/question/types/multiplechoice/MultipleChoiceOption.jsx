@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, FormControl } from "react-bootstrap";
 
-class CheckboxOption extends Component {
+class MultipleChoiceOption extends Component {
 
     state = {
         addedNext: false
@@ -33,6 +33,14 @@ class CheckboxOption extends Component {
         return !Number.isInteger(parseInt(key, 10))
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.optionKey) {
+            if(!this.isGeneratedKey(nextProps.optionKey)) {
+                this.setState({addedNext: true})
+            }
+        }
+    }
+
     render() {
 
         const { addedNext } = this.state
@@ -42,7 +50,7 @@ class CheckboxOption extends Component {
             <FormGroup>
                 <InputGroup>
                     <div className="input-group-addon disabled">
-                        <input type="radio" disabled="disabled" />
+                        <input type="checkbox" disabled="disabled" />
                     </div>
                     <FormControl placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
                     {(addedNext || !this.isGeneratedKey(optionKey)) &&
@@ -55,4 +63,4 @@ class CheckboxOption extends Component {
     }
 }
 
-export default CheckboxOption;
+export default MultipleChoiceOption;

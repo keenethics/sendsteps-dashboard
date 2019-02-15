@@ -21,6 +21,7 @@ class CheckboxOption extends Component {
             deleteOption(optionKey)
             addedNext = false
         }
+
         this.setState({ addedNext })
     }
 

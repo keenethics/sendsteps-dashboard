@@ -7,6 +7,7 @@ import Logo from '../../assets/images/logo.png';
 
 class Header extends React.Component {
     render() {
+        
         const sstLogo = new Image();
         sstLogo.src = Logo;
 
@@ -20,7 +21,6 @@ class Header extends React.Component {
                         </span>
                     </a>
                     <span className="pull-right" >
-                        {/* <p >({currentUser.userType})</p> */}
                         <SignOutButton />
                     </span>
                 </div>
