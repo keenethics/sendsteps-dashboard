@@ -64,7 +64,6 @@ class Surveyquestions_Model extends Model {
         );
 
         if($result->execute()) {
-
             return $surveyQuestionId;
         }
         return false;

@@ -94,14 +94,13 @@ class Surveyquestionoptions_Model extends Model {
     }
 
     public function addOptions($surveyQuestionId, $surveyTypeId, $surveyQuestionOptions) {
-        $result = $this->database()->insert(
+        $this->database()->insert(
             'survey_question_option',
             $this->formatByType($surveyQuestionId, $surveyTypeId, $surveyQuestionOptions)
         );
     }
 
     public function deleteOptions($surveyQuestionId) {
-        // delete from survey_q_opts where $surveyQuestionId
         $result = $this->database()->delete(
             'survey_question_option',
             [
