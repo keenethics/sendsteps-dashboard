@@ -1,7 +1,7 @@
 // @TODO Make sure these are the roletypes available and if there aren't any more.
 
 const roleTypes = {
-    superAdmin: 'admin',
+    superAdmin: 'superadmin',
     admin: 'admin',
     user: 'user'
 }
