@@ -17,7 +17,6 @@
         private function loadAuthModel(){
             require __DIR__.'/../models/auth.php';
             $auth_model = new Auth_Model();
-            // var_dump('asdasd');exit();
             return $auth_model;
         }
         private function loadRegistrationModel(){
@@ -31,19 +30,18 @@
             $result = $auth_model->login($username, $password);
             //Initalise Variables
             $authorized = false;
-            $token = $firstName = $lastName = $email = '';
+            $token = '';
+            $postLoginInfo = array();
             if ($result === true){ //Generate unique hash token here
                 $authorized = true;
                 $token = $auth_model->createToken($username);
                 $userId = $auth_model->tokenToUserProps($token)['userId'];
                 $postLoginInfo = $auth_model->getPostLoginInfo($userId);
-                // var_dump($getPostLoginInfo);exit();
                 $postLoginInfo['authorized'] = $authorized;
                 $postLoginInfo['token'] = $token;
                 ksort($postLoginInfo);
             } 
             return json_encode($postLoginInfo);
-            // return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){

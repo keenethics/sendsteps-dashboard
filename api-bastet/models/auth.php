@@ -65,6 +65,8 @@
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND <email> = :username;";
             $params['username'] = $username;
             $results = $this->query($sql, $params);
+            // $return = (isset($results[0]))? $results[0]['password'] : null;
+            // return $return;
             return $results[0]['password'];
         }
         

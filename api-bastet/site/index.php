@@ -11,10 +11,7 @@
         $Bastet->setHeaders();
         
         $function = (isset($_POST['function']))?  $_POST['function']: '';
-
         $params = (isset($_POST['params']))? (array) json_decode($_POST['params']): array();
-        
-        //Check method/function exists
         if ($function == '' || !method_exists('BastetAPI', $function)) {
             $errors['General'] = 'MethodDoesNotExist';   
         }
