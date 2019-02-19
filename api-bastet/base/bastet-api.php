@@ -27,18 +27,23 @@
         }
         
         public function login($username = '', $password = '') {
-            
             $auth_model = $this->loadAuthModel();
             $result = $auth_model->login($username, $password);
-            if ($result === true){
-                //Generate unique hash token here
+            //Initalise Variables
+            $authorized = false;
+            $token = $firstName = $lastName = $email = '';
+            if ($result === true){ //Generate unique hash token here
                 $authorized = true;
                 $token = $auth_model->createToken($username);
-            } else {
-                $authorized = false;
-                $token = '';
-            }
-            return json_encode(array('authorized' => $authorized, 'token'=> $token));
+                $userId = $auth_model->tokenToUserProps($token)['userId'];
+                $postLoginInfo = $auth_model->getPostLoginInfo($userId);
+                // var_dump($getPostLoginInfo);exit();
+                $postLoginInfo['authorized'] = $authorized;
+                $postLoginInfo['token'] = $token;
+                ksort($postLoginInfo);
+            } 
+            return json_encode($postLoginInfo);
+            // return json_encode(array('authorized' => $authorized, 'token'=> $token));
         }
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
