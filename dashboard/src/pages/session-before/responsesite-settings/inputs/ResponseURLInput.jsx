@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { connect } from 'react-redux';
+import { setResponseSiteSettings } from '../actions';
 
 class ResponseURLInput extends Component {
+
+    updateSettings = (value, field) => {
+        const newSettings = { ...this.props.settings }
+        newSettings[field] = value;
+        this.props.dispatch(setResponseSiteSettings(newSettings));
+    }
 
     changeResponseURL = e => {
         this.updateSettings(e.target.value, 'internetaddressoverwrite')
@@ -30,13 +37,13 @@ class ResponseURLInput extends Component {
                         settings && settings.responseSitesList &&
                         <div className="input-group">
                             <span className="input-group-addon">
-                                <i className="fa fa-globe"></i>
+                                <i className="fa fa-link"></i>
                             </span>
                             <select onChange={this.changeResponseURL} value={settings.internetaddressoverwrite} className="form-control">
-                                <option value={"--"}>- Other</option>
+                                <option value={"--"}>Select Response Site</option>
                                 {
                                     settings.responseSitesList.map((site, index) => {
-                                        return <option key={index} value={site.id}>{site.domain}</option>
+                                        return <option key={index} value={site.domain}>{site.domain}</option>
                                     })
                                 }
                             </select>
