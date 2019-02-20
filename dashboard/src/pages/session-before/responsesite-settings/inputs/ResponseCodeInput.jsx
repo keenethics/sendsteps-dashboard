@@ -57,7 +57,7 @@ class ResponseCodeInput extends Component {
                 <div className="col-sm-6">
                     <div className="input-group">
                         <span className="input-group-addon">
-                            <i className="fa fa-barcode"></i>
+                            <i className="fa fa-laptop"></i>
                         </span>
                         <input onBlur={this.validateResponseCode} type="text" onChange={e => this.updateSettings(e.target.value, 'textmessagingkeyword')} value={settings.textmessagingkeyword} className="input-lg form-control" placeholder="" />
                     </div>
