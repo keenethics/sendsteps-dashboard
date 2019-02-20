@@ -12,10 +12,9 @@ class BreadCrumbs extends Component {
             
             let crumbs = breadCrumbsUrl.substring(1)
             
-            crumbs = crumbs.replace("session-before/", "before-session/");    
-            crumbs = crumbs.replace("session-during/", "during-the-session/");
-            crumbs = crumbs.replace("session-results/", "after-session/");
-            crumbs = crumbs.replace("user/edit-profile/", "my-profile/edit/");
+            crumbs = crumbs.replace("session-before/", "Before Session/");    
+            crumbs = crumbs.replace("session-during/", "During The Session/");
+            crumbs = crumbs.replace("session-results/", "After Session/");
             
             
             let crumbList = crumbs.split('/').filter(String);
