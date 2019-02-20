@@ -40,10 +40,10 @@ class ResponseURLInput extends Component {
                                 <i className="fa fa-link"></i>
                             </span>
                             <select onChange={this.changeResponseURL} value={settings.internetaddressoverwrite} className="form-control">
-                                <option value={"--"}>Select Response Site</option>
+                                {/* <option value={"--"}>Select Response Site</option> */}
                                 {
                                     settings.responseSitesList.map((site, index) => {
-                                        return <option key={index} value={site.domain}>{site.domain}</option>
+                                        return <option key={index} value={(site.domain == 'sendsteps.me')? "": site.domain}>{site.domain}</option>
                                     })
                                 }
                             </select>
