@@ -30,9 +30,11 @@ export function urlIsImage(url) {
         '.bmp'
     ]
 
-    for(let x = 0; x < supportedFiles.length; x++) {
-        if(url.endsWith(supportedFiles[x])) {
-            return true
+    if(url) {
+        for(let x = 0; x < supportedFiles.length; x++) {
+            if(url.endsWith(supportedFiles[x])) {
+                return true
+            }
         }
     }
     return false
