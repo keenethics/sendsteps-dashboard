@@ -16,7 +16,7 @@ class Participantinfofields_Model extends Model {
 
     public function createQuestion($sessionId, ...$params) {
 
-        [ $questionTitle, $type, $isRequired ] = $params;
+        [ $questionTitle, $type, $isRequired, $order ] = $params;
 
         $result = $this->insertOn(
             'participantinfofields',
@@ -26,8 +26,7 @@ class Participantinfofields_Model extends Model {
                 'isRequired' => $isRequired,
                 'deleted' => 0,
                 'sessionId' => $sessionId,
-                // Fix order somehow
-                'fieldIndex' => 0
+                'fieldIndex' => $order
             ] 
         );
         return $result;
@@ -35,7 +34,7 @@ class Participantinfofields_Model extends Model {
 
     public function updateQuestion(...$params) {
 
-        [ $questionTitle, $type, $isRequired, $participantInfofieldId ] = $params;
+        [ $questionTitle, $type, $isRequired, $participantInfofieldId, $order ] = $params;
 
         $update = $this->database()->update(
             'participantinfofields',
@@ -43,8 +42,7 @@ class Participantinfofields_Model extends Model {
                 'title' => $questionTitle,
                 'isRequired' => $isRequired,
                 'type' => $type,
-                // Fix order somehow
-                'fieldIndex' => 0
+                'fieldIndex' => $order
             ],
             [
                 'id' => $participantInfofieldId
@@ -73,5 +71,19 @@ class Participantinfofields_Model extends Model {
             return $infoFieldId;
         }
         return false;
+    }
+
+    public function updateOrder($orderIds, $sessionId) {
+        for($counter = 0; $counter < count($orderIds); $counter++) {
+            $result = $this->database()->update(
+                'participantinfofields',
+                [ 'fieldIndex' => $counter + 1 ],
+                [ 'id' => $orderIds[$counter] ]
+            );
+            if(!$result->execute()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

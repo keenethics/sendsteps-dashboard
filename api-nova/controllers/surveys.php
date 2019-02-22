@@ -70,7 +70,7 @@ class Surveys extends NovaAPI {
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
         $surveyQuestionTypesModel = $this->loadModel('surveyquestiontypes');
 
-        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $surveyQuestionOptions ] = $params;
+        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $order, $surveyQuestionOptions ] = $params;
 
         if($surveyQuestionId == NULL) {
             $updatedSurveyQuestionId = $surveyQuestionModel->createQuestion(
@@ -78,6 +78,7 @@ class Surveys extends NovaAPI {
                 $surveyTypeId,
                 $isRequired,
                 $surveyId,
+                $order,
                 $this->getUserSessionId()
             );
         } 
@@ -87,7 +88,8 @@ class Surveys extends NovaAPI {
                 $surveyQuestionId,
                 $surveyQuestionName,
                 $surveyTypeId,
-                $isRequired
+                $isRequired,
+                $order
             );
         }
 
@@ -155,5 +157,12 @@ class Surveys extends NovaAPI {
             return $this->getOverview();
         }
         return false;
+    }
+
+    public function updateOrder($orderIds, $surveyId) {
+        $surveyQuestionModel = $this->loadModel('surveyquestions');
+        if($surveyQuestionModel->updateOrder($orderIds)) {
+            return $this->getQuestions($surveyId);
+        }
     }
 }

@@ -13,7 +13,7 @@ class Surveyquestions_Model extends Model {
     }
 
     public function createQuestion(...$params) {
-        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $sessionId ] = $params;
+        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $order, $sessionId ] = $params;
         $result = $this->insertOn(
             'survey_question',
             [
@@ -25,7 +25,7 @@ class Surveyquestions_Model extends Model {
                 'status' => 0,
                 'is_required' => $isRequired,
                 // Fix order somehow
-                'order' => 0
+                'order' => $order
             ] 
         );
         return $result;
@@ -33,7 +33,7 @@ class Surveyquestions_Model extends Model {
 
     public function updateQuestion(...$params) {
 
-        [  $surveyQuestionId, $surveyQuestionName, $surveyTypeId, $isRequired ] = $params;
+        [  $surveyQuestionId, $surveyQuestionName, $surveyTypeId, $isRequired, $order ] = $params;
 
         $update = $this->database()->update(
             'survey_question',
@@ -41,8 +41,7 @@ class Surveyquestions_Model extends Model {
                 'question' => $surveyQuestionName,
                 'is_required' => $isRequired,
                 'survey_question_type_id' => $surveyTypeId,
-                // Fix order somehow
-                'order' => 0
+                'order' => $order
             ],
             [
                 'survey_question_id' => $surveyQuestionId
@@ -77,5 +76,20 @@ class Surveyquestions_Model extends Model {
         );
 
         return $result;
+    }
+
+    public function updateOrder($idsAndOrder) {
+
+        for($counter = 0; $counter < count($idsAndOrder); $counter++) {
+            $result = $this->database()->update(
+                'survey_question',
+                [ 'order' => $counter + 1 ],
+                [ 'survey_question_id' => $idsAndOrder[$counter] ]
+            );
+            if(!$result->execute()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

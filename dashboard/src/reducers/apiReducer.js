@@ -8,13 +8,6 @@ export default function apiReducer(state, action) {
                 updateError: action.updateError
             }
         }
-        case 'API_UPDATE_SUCCESS': {
-            return {
-                ...state,
-                updateError: null,
-                isLoading: false
-            }
-        }
         case 'API_FETCH_ERROR': {
             return {
                 ...state,

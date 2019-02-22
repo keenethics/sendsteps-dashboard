@@ -32,10 +32,8 @@ class Participantinfofieldsoption_Model extends Model {
     }
 
     public function addOptions($infoFieldId, $options) {
-
         $formattedOptions = [];
-
-        foreach($options as $key => $option) {
+        foreach($options as $option) {
             if(strlen($option) > 0) {
                 array_push($formattedOptions, [
                     'participantinfofieldsId' => $infoFieldId,

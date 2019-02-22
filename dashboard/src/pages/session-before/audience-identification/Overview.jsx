@@ -11,7 +11,7 @@ import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
 import Toggle from 'react-bootstrap-toggle';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
-
+import './Overview.scss'
 class AudienceOverview extends React.Component {
 
     state = {

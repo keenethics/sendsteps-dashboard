@@ -3,11 +3,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignOutButton from './SignOutButton';
 import './MenuProfile.scss';
+import { urlIsImage } from '../../scripts/validationChecker';
 
 class MenuProfile extends React.Component {
     render() {
 
         const { menuOpened, currentUser } = this.props;
+
+        console.log(currentUser)
 
         return (
             <div>
@@ -15,12 +18,23 @@ class MenuProfile extends React.Component {
                 <div className="menu-profile">
                     <div className="profile-container">
                         <Link to="/user/edit-profile">
+                            {currentUser && urlIsImage(currentUser.profilePic) && 
+                            <div 
+                                className="profile-image"
+                                style={{
+                                    background: `url(${currentUser.profilePic}) center center`,
+                                    backgroundSize: '90%',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundColor: '#ffffff'
+                                }}>
+                            </div>}
+                            {currentUser && !urlIsImage(currentUser.profilePic) && 
                             <div className="profile-image">
                                 <i className="fa fa-lg fa-camera"></i>
-                            </div>
+                            </div>}
                         </Link>
                         <div className="profile-details">
-                            <p><i>Hi {currentUser && currentUser.userType}!</i></p>
+                            <p><i>Hi {currentUser && currentUser.firstName}!</i></p>
                             <span className="pull-right">
                                 <Link to="/user/edit-profile">
                                     <button className="btn btn-xs btn-primary">

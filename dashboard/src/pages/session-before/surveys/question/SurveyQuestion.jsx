@@ -76,7 +76,7 @@ class SurveyQuestion extends Component {
 
     saveSurveyQuestion = () => {
 
-        const { match, savedQuestion } = this.props;
+        const { match, savedQuestion, order } = this.props;
         const { surveyQuestionName, currentType, isRequired, surveyQuestionOptions } = this.state
 
         post(
@@ -88,6 +88,7 @@ class SurveyQuestion extends Component {
                 required: isRequired,
                 surveyId: match.params.id,
                 surveyQuestionId: savedQuestion ? savedQuestion.survey_question_id : null,
+                order,
                 surveyQuestionOptions
             }),
             () => {
@@ -204,8 +205,6 @@ class SurveyQuestion extends Component {
         const { types, savedQuestion } = this.props
         const { currentType, isRequired, surveyQuestionName, surveyQuestionOptions, optionsExpanded } = this.state
 
-        console.log(savedQuestion)
-
         return (
             <>
             <FormGroup validationState={null}>
@@ -244,6 +243,9 @@ class SurveyQuestion extends Component {
                                 </div>
                                 </>}
                             </div>
+                        </div>
+                        <div className="col-sm-3 drag-indicator">
+                            <i className="fa fa-ellipsis-h fa-lg"></i>
                         </div>
                     </div>
                 </div>

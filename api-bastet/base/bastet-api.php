@@ -5,11 +5,13 @@
         public function checkAuth($token = '') {
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);
-            $return['authorized'] = $authorized;
             if ($authorized == true) {
+                $userId = $auth_model->tokenToUserProps($token)['userId'];
+                $return = $auth_model->getPostLoginInfo($userId);
                 $userProps = $auth_model->tokenToUserProps($token);
+                $return['authorized'] = $authorized;
                 $return['userType'] = $userProps['userType'];
-                $return['userId'] = $userProps['userId'];
+                $return['userId'] = $userId;
             }
             return json_encode($return);
         }
@@ -46,7 +48,7 @@
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
             $errors = array();
-            if ($username == 'bryan.overduin@sendsteps.com'){
+            if ($username == ''){
                 $errors['Username'] = 'UsernameBlank';  
             }
             

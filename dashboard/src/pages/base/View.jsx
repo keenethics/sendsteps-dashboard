@@ -7,6 +7,10 @@ import PageNotFound from './PageNotFound';
 
 class View extends Component {
 
+    componentDidCatch() {
+        // Used to catch errors
+    }
+
     render() {
 
         const { isLoading, error, children } = this.props;

@@ -7,6 +7,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, 'build'),
         filename: 'sst_bundle.js',
+        chunkFilename: 'sst_chunk_[id].js',
         publicPath: '/'
     },
     devServer: {
