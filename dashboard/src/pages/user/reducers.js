@@ -1,10 +1,16 @@
 
 export default function userReducer(state = {}, action) {
     switch(action.type) {
-        case 'SET_PROFILE_DATA': {
+        case 'SET_USER_PROFILE_DATA': {
             return {
                 ...state,
-                profileDetails: action.data
+                userDetails: action.data
+            }
+        }
+        case 'SET_ACCOUNT_PROFILE_DATA': {
+            return {
+                ...state,
+                accountDetails: action.data
             }
         }
         default: {

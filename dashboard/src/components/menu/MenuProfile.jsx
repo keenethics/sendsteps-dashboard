@@ -10,8 +10,6 @@ class MenuProfile extends React.Component {
 
         const { menuOpened, currentUser } = this.props;
 
-        console.log(currentUser)
-
         return (
             <div>
                 {menuOpened ? 

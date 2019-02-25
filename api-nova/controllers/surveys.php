@@ -5,11 +5,17 @@ class Surveys extends NovaAPI {
 
     public function getOverview() {
         $surveyModel = $this->loadModel('surveys');
+        $tabStatusModel = $this->loadModel('tabstatus');
         $sessionId = $this->getUserSessionId();
         $results = $surveyModel->getOverviewData($sessionId);
+        $surveyStatus = $tabStatusModel->getSurveyTabBySessionId($sessionId);
+        $surveyUrl = $this->getSurveyUrl();
 
-        return json_encode(['content' => $results]);
-        
+        return json_encode([
+            'content' => $results,
+            'url' => $surveyUrl,
+            'status' => $surveyStatus['status']
+        ]);
     }
     
     public function getDetails($id = NULL) {
@@ -164,5 +170,17 @@ class Surveys extends NovaAPI {
         if($surveyQuestionModel->updateOrder($orderIds)) {
             return $this->getQuestions($surveyId);
         }
+    }
+
+    public function getSurveyUrl() {
+        $sessionModel = $this->loadModel('sessions');
+        $addinSettingsModel = $this->loadModel('addinsettings');
+
+        $session = $sessionModel->getSessionById($this->getUserSessionId())[0];
+        $url = $session['internetAddressOverwrite'];
+        if($url === NULL || strlen($url) === 0) {
+            $url = $addinSettingsModel->getWebsiteAddressById($session['pluginId']);
+        }
+        return 'https://' . $url . '/' . $session['textMessagingKeyword'] . '/survey';
     }
 }
