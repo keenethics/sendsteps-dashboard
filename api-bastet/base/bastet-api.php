@@ -2,12 +2,12 @@
     require __DIR__.'/../../api-common/base/base.php';
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI extends Base {
-        public function checkAuth($token = '') {
+        public function checkAuth($token = '', $extraData = false) {
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);
             if ($authorized == true) {
                 $userProps = $auth_model->tokenToUserProps($token);
-                $return = $auth_model->getPostLoginInfo($userProps['userId']); 
+                $return = ($extraData !== false)? $auth_model->getPostLoginInfo($userProps['userId']) : []; 
                 $return['userType'] = $userProps['userType'];
                 $return['userId'] = $userProps['userId'];
             }
