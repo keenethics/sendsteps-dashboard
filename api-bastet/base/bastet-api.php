@@ -5,12 +5,13 @@
         public function checkAuth($token = '') {
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);
-            $return['authorized'] = $authorized;
             if ($authorized == true) {
                 $userProps = $auth_model->tokenToUserProps($token);
+                $return = $auth_model->getPostLoginInfo($userProps['userId']); 
                 $return['userType'] = $userProps['userType'];
                 $return['userId'] = $userProps['userId'];
             }
+            $return['authorized'] = $authorized;
             return json_encode($return);
         }
         
