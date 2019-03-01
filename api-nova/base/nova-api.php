@@ -15,8 +15,10 @@
         }
         
         protected function isSuperAdmin(){
-            $isSuperAdmin = ($this->userType === 'superadmin')? true : false;
-            return $isSuperAdmin;
+            if ($this->userType !== 'superadmin') {
+                $errors = json_encode(array('General' => 'Permissions'));
+                throw new Exception($errors);
+            }
         }
         
         protected function getUserSessionId(){

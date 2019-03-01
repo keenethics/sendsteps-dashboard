@@ -26,7 +26,8 @@ class Sessions extends NovaAPI {
     }
     
     public function loginAsUser(){
-        
+        $this->isSuperAdmin());
+        // return 
     }
 
     public function setIdentificationType($isAnonymous) {
