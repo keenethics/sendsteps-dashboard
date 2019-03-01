@@ -52,3 +52,7 @@ export function valuesToString(theObject) {
     })
     return theObject;
 }
+
+export function itemPropsToString(item, property) {
+    return item && item[property] ? item[property] : ""
+}

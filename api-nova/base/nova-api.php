@@ -4,6 +4,7 @@
     class NovaAPI {
         public $userId;
         public $userType;
+        public $userToken;
         
         public function setHeaders(){
             header_remove();// clear the old headers
@@ -12,6 +13,13 @@
             header('Content-type:application/json;charset=utf-8');
             header("Cache-Control: no-transform,public,max-age=300,s-maxage=900");
             return;
+        }
+        
+        protected function isSuperAdmin(){
+            if ($this->userType !== 'superadmin') {
+                $errors = json_encode(array('General' => 'Permissions'));
+                throw new Exception($errors);
+            }
         }
         
         protected function getUserSessionId(){

@@ -9,7 +9,7 @@ import { get, post } from "../../../scripts/api";
 import CreateQuestionContainer from "./question/CreateQuestionContainer";
 import SurveyNameContainer from "./create/SurveyNameContainer";
 import { toast } from "react-toastify";
-
+import './Details.scss'
 class SurveyDetails extends React.Component {
 
     componentDidMount() {
@@ -58,8 +58,6 @@ class SurveyDetails extends React.Component {
     render() {
 
         const { surveyDetails } = this.props;
-
-        console.log(surveyDetails)
 
         return (
             <div>  

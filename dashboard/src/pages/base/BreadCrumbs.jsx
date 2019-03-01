@@ -11,11 +11,17 @@ class BreadCrumbs extends Component {
         if(breadCrumbsUrl) {
             
             let crumbs = breadCrumbsUrl.substring(1)
+            
+            crumbs = crumbs.replace("session-before/", "Before Session/");    
+            crumbs = crumbs.replace("session-during/", "During The Session/");
+            crumbs = crumbs.replace("session-results/", "After Session/");
+            
+            
             let crumbList = crumbs.split('/').filter(String);
             let actualCrumbs = crumbList.map((crumb, index) => (
                 <span key={index}> 
                     <span> / </span>
-                    <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')}>
+                    <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')} style={{fontWeight: '100'}} >
                         {crumb.replace("-", " ").toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
                     </div>
                 </span>

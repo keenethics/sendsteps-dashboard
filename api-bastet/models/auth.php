@@ -50,10 +50,23 @@
             return false;
         }
         
+        public function getPostLoginInfo($userId) {
+            $sql = "SELECT 
+                firstName, lastName, email, `filename` AS 'profilePic',
+                termsAccepted, newsletterAccepted, techEmailAccepted, isFirstLogin
+            FROM users
+            WHERE isDeleted != 1 AND <id> = :id;";
+            $params['id'] = $userId;
+            $results = $this->query($sql, $params);
+            return $results[0];
+        }
+        
         private function getHashedPassword($username){
             $sql = "SELECT `password` FROM users WHERE isDeleted != 1 AND <email> = :username;";
             $params['username'] = $username;
             $results = $this->query($sql, $params);
+            // $return = (isset($results[0]))? $results[0]['password'] : null;
+            // return $return;
             return $results[0]['password'];
         }
         

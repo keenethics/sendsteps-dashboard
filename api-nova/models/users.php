@@ -8,6 +8,39 @@ class Users_Model extends Model {
         $results = $this->query($query, $params)[0];
         return $results;
     }
+
+    public function setUserIdOfToken($userToken = '', $userId) {
+        $query = 'UPDATE `api_nova_tokens` a SET <a.user_id> = :userId WHERE <a.token> = :userToken;';
+        $params['userId'] = (int) $userId; 
+        $params['userToken'] = $userToken;
+        $results = $this->query($query, $params);
+        return true;
+    }
+    
+    
+    // user->address (Invoice)
+    // user->invoice_postal_code,
+    // user->invoice_city,
+    // user->invoice_country,
+    // user->mail_timezone? 
+    // Rackspace CDN upload...
+    public function getProfileDetailsByUserId($userId) {
+        return $this->database()->get(
+            'users',
+            [
+                'firstName',
+                'lastName',
+                'departmentName',
+                'role',
+                'email',
+                'phonenumber',
+                'filename',
+                'language',
+                'accountId'
+            ],
+            [ 'id' => $userId ]
+        );
+    }
     
     public function getProfileFromId($userId){
         // u.email, u.firstName, u.lastName, u.id, u.departmentName, `u.language`, u.phonenumber, a.timezone, a.university 
@@ -62,5 +95,29 @@ class Users_Model extends Model {
             }
         }
         return $resultsClean;
+    }
+
+    public function updateProfileDetails($userId, ...$fields) {
+
+        [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
+
+        $update = $this->database()->update(
+            'users',
+            [
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'departmentName' => $departmentName,
+                'language' => $language,
+                'phonenumber' => $phonenumber,
+                'filename' => $filename
+            ],
+            ['id' => $userId ]
+        );
+
+        if($update->execute()) {
+            return true;
+        }
+        return false;
     }
 }

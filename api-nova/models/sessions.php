@@ -64,7 +64,7 @@ class Sessions_Model extends Model {
         $update = $this->database()->update(
             "sessions",
             [
-                // $params->internetaddressoverwrite, -> Super admin stuff?
+                'internetAddressOverwrite' => $fields->internetaddressoverwrite, 
                 'internetSelected' => $fields->internetselected, 
                 'phonenumberId' => $fields->phonenumberId, 
                 'textmessagingkeyword' => $fields->textmessagingkeyword,

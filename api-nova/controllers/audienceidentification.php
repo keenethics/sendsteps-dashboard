@@ -18,14 +18,15 @@ class AudienceIdentification extends NovaAPI {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
 
-        [ $questionTitle, $type, $isRequired, $participantInfofieldId, $options ] = $params;
+        [ $questionTitle, $type, $isRequired, $participantInfofieldId, $order, $options ] = $params;
 
         if($participantInfofieldId == NULL) {
             $updatedParticipantInfoFieldId = $identificationQuestionModel->createQuestion(
                 $this->getUserSessionId(),
                 $questionTitle,
                 $type,
-                $isRequired
+                $isRequired,
+                $order
             );
         } 
         else 
@@ -34,7 +35,8 @@ class AudienceIdentification extends NovaAPI {
                 $questionTitle,
                 $type,
                 $isRequired,
-                $participantInfofieldId
+                $participantInfofieldId,
+                $order
             );
         }
 
@@ -45,43 +47,12 @@ class AudienceIdentification extends NovaAPI {
         return true;
     }
 
-    // public function createSurveyQuestion(...$params) {
-    //     $surveyModel = $this->loadModel('surveys');
-    //     $surveyQuestionModel = $this->loadModel('surveyquestions');
-    //     $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
-    //     $surveyQuestionTypesModel = $this->loadModel('surveyquestiontypes');
-
-    //     [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $surveyQuestionOptions ] = $params;
-
-    //     if($surveyQuestionId == NULL) {
-    //         $updatedSurveyQuestionId = $surveyQuestionModel->createQuestion(
-    //             $surveyQuestionName,
-    //             $surveyTypeId,
-    //             $isRequired,
-    //             $surveyId,
-    //             $this->getUserSessionId()
-    //         );
-    //     } 
-    //     else 
-    //     {
-    //         $updatedSurveyQuestionId = $surveyQuestionModel->updateQuestion(
-    //             $surveyQuestionId,
-    //             $surveyQuestionName,
-    //             $surveyTypeId,
-    //             $isRequired
-    //         );
-    //     }
-
-    //     if($updatedSurveyQuestionId) {
-            // $surveyQuestionOptionModel->deleteOptions($updatedSurveyQuestionId);
-            // if(count((array) $surveyQuestionOptions) > 0 && strlen(array_values((array) $surveyQuestionOptions)[0]) > 0) {
-            //     $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
-            // }
-            // $survey = $surveyQuestionModel->getById($updatedSurveyQuestionId);
-            // return json_encode($survey);
-    //     }
-    //     return false;
-    // }
+    public function updateOrder($orderIds) {
+        $identificationQuestionModel = $this->loadModel('participantinfofields');
+        if($identificationQuestionModel->updateOrder($orderIds, $this->getUserSessionId())) {
+            return $this->getQuestions();
+        }
+    }
 
     public function deleteIdentificationQuestion($identificationQuestionId) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');

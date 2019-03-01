@@ -47,6 +47,8 @@ class OverviewTable extends Component {
     getOptions = () => {
         return {
             ...getOptions(),
+            sortName: 'startTime',
+            sortOrder: 'desc',
             btnGroup: () => this.getExtraButtonGroup()
         }
     }

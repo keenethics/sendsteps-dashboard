@@ -5,11 +5,17 @@ class Surveys extends NovaAPI {
 
     public function getOverview() {
         $surveyModel = $this->loadModel('surveys');
+        $tabStatusModel = $this->loadModel('tabstatus');
         $sessionId = $this->getUserSessionId();
         $results = $surveyModel->getOverviewData($sessionId);
+        $surveyStatus = $tabStatusModel->getSurveyTabBySessionId($sessionId);
+        $surveyUrl = $this->getSurveyUrl();
 
-        return json_encode(['content' => $results]);
-        
+        return json_encode([
+            'content' => $results,
+            'url' => $surveyUrl,
+            'status' => $surveyStatus['status']
+        ]);
     }
     
     public function getDetails($id = NULL) {
@@ -70,7 +76,7 @@ class Surveys extends NovaAPI {
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
         $surveyQuestionTypesModel = $this->loadModel('surveyquestiontypes');
 
-        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $surveyQuestionOptions ] = $params;
+        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $order, $surveyQuestionOptions ] = $params;
 
         if($surveyQuestionId == NULL) {
             $updatedSurveyQuestionId = $surveyQuestionModel->createQuestion(
@@ -78,6 +84,7 @@ class Surveys extends NovaAPI {
                 $surveyTypeId,
                 $isRequired,
                 $surveyId,
+                $order,
                 $this->getUserSessionId()
             );
         } 
@@ -87,7 +94,8 @@ class Surveys extends NovaAPI {
                 $surveyQuestionId,
                 $surveyQuestionName,
                 $surveyTypeId,
-                $isRequired
+                $isRequired,
+                $order
             );
         }
 
@@ -155,5 +163,24 @@ class Surveys extends NovaAPI {
             return $this->getOverview();
         }
         return false;
+    }
+
+    public function updateOrder($orderIds, $surveyId) {
+        $surveyQuestionModel = $this->loadModel('surveyquestions');
+        if($surveyQuestionModel->updateOrder($orderIds)) {
+            return $this->getQuestions($surveyId);
+        }
+    }
+
+    public function getSurveyUrl() {
+        $sessionModel = $this->loadModel('sessions');
+        $addinSettingsModel = $this->loadModel('addinsettings');
+
+        $session = $sessionModel->getSessionById($this->getUserSessionId())[0];
+        $url = $session['internetAddressOverwrite'];
+        if($url === NULL || strlen($url) === 0) {
+            $url = $addinSettingsModel->getWebsiteAddressById($session['pluginId']);
+        }
+        return 'https://' . $url . '/' . $session['textMessagingKeyword'] . '/survey';
     }
 }

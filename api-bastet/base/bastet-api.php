@@ -2,22 +2,22 @@
     require __DIR__.'/../../api-common/base/base.php';
     //Authentication API - Acts as a guardian for frontend calls & for checks being made by the main Nova-API
     class BastetAPI extends Base {
-        public function checkAuth($token = '') {
+        public function checkAuth($token = '', $extraData = false) {
             $auth_model = $this->loadAuthModel();
             $authorized = (($auth_model->validateToken($token) == true) ? true : false);
-            $return['authorized'] = $authorized;
             if ($authorized == true) {
                 $userProps = $auth_model->tokenToUserProps($token);
+                $return = ($extraData !== false)? $auth_model->getPostLoginInfo($userProps['userId']) : []; 
                 $return['userType'] = $userProps['userType'];
                 $return['userId'] = $userProps['userId'];
             }
+            $return['authorized'] = $authorized;
             return json_encode($return);
         }
         
         private function loadAuthModel(){
             require __DIR__.'/../models/auth.php';
             $auth_model = new Auth_Model();
-            // var_dump('asdasd');exit();
             return $auth_model;
         }
         private function loadRegistrationModel(){
@@ -27,23 +27,27 @@
         }
         
         public function login($username = '', $password = '') {
-            
             $auth_model = $this->loadAuthModel();
             $result = $auth_model->login($username, $password);
-            if ($result === true){
-                //Generate unique hash token here
+            //Initalise Variables
+            $authorized = false;
+            $token = '';
+            $postLoginInfo = array();
+            if ($result === true){ //Generate unique hash token here
                 $authorized = true;
                 $token = $auth_model->createToken($username);
-            } else {
-                $authorized = false;
-                $token = '';
-            }
-            return json_encode(array('authorized' => $authorized, 'token'=> $token));
+                $userId = $auth_model->tokenToUserProps($token)['userId'];
+                $postLoginInfo = $auth_model->getPostLoginInfo($userId);
+                $postLoginInfo['authorized'] = $authorized;
+                $postLoginInfo['token'] = $token;
+                ksort($postLoginInfo);
+            } 
+            return json_encode($postLoginInfo);
         }
         
         public function register($username = '', $password = '',  $passwordConfirm = '', $options = array()){
             $errors = array();
-            if ($username == 'bryan.overduin@sendsteps.com'){
+            if ($username == ''){
                 $errors['Username'] = 'UsernameBlank';  
             }
             

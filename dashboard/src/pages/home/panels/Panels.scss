@@ -86,3 +86,12 @@
     position: relative;
     top: -6px;
 }
+
+.table-hover {
+    td {
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

@@ -8,7 +8,13 @@ import CreateSurveyContainer from './create/CreateSurveyContainer'
 import { get, post } from '../../../scripts/api';
 import PlaySurveyModal from './PlaySurveyModal';
 import { toast } from 'react-toastify';
+import ToggleSurveyModel from './ToggleSurveyModel';
 class SurveysOverview extends React.Component {
+
+    state = {
+        surveyStatus: null,
+        modalOpen: false
+    }
 
     componentDidMount() {
        this.getSurveyData()
@@ -19,8 +25,51 @@ class SurveysOverview extends React.Component {
             'surveys',
             'getOverview',
             {},
-            res => this.props.dispatch(setSurveyData(res)),
+            res => {
+                this.setState({
+                    surveyStatus: res.status,
+                    surveyURL: res.url
+                })
+                this.props.dispatch(setSurveyData(res))
+            },
             err => console.log(err)
+        )
+    }
+
+    showSurveyModal = () => {
+        this.setState({
+            modalOpen: true
+        })
+    }
+    
+    hideSurveyModal = () => {
+        this.setState({
+            modalOpen: false
+        })
+    }
+
+    toggleSurveyActive = isActive => {
+        if(isActive) {
+            this.showSurveyModal()
+        } else {
+            this.toggleSurvey(false)
+        }
+    }
+
+    toggleSurvey = isActive => {
+        post(
+            'tabstatus',
+            'updateSurveyActive',
+            JSON.stringify({status: isActive ? "1" : "0"}),
+            result => {
+                this.setState({ surveyStatus: result.status })
+                const isEnabled = result.status === "1" ? "enabled" : "disabled"
+                toast('Survey Tab ' + isEnabled + '!');
+            },
+            error => {
+                console.log(error)
+                toast('Unable to toggle survey tab status...')
+            }
         )
     }
 
@@ -43,6 +92,7 @@ class SurveysOverview extends React.Component {
     render() {
         
         const { surveys } = this.props;
+        const { surveyStatus, surveyURL, modalOpen } = this.state;
 
         return (
             <div>
@@ -59,7 +109,11 @@ class SurveysOverview extends React.Component {
                 <div className="container-fluid">
                     <Panel>
                         <Panel.Body>
-                            <CreateSurveyContainer  />
+                            <CreateSurveyContainer 
+                                surveyStatus={surveyStatus} 
+                                toggleSurveyActive={this.toggleSurveyActive}
+                                surveyURL={surveyURL} 
+                            />
                             <hr/>
                             {!surveys &&
                             <p className="text-center">
@@ -74,6 +128,11 @@ class SurveysOverview extends React.Component {
                     </Panel>
                 </div>
                 <PlaySurveyModal updateSurveyStatus={this.updateSurveyStatus} />
+                <ToggleSurveyModel 
+                    modalOpen={modalOpen} 
+                    toggleSurvey={() => this.toggleSurvey(true)} 
+                    closeModal={this.hideSurveyModal} 
+                />
             </div>
         )
     }

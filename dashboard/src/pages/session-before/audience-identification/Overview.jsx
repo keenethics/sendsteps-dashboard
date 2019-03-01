@@ -11,7 +11,7 @@ import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
 import Toggle from 'react-bootstrap-toggle';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
-
+import './Overview.scss'
 class AudienceOverview extends React.Component {
 
     state = {
@@ -73,30 +73,35 @@ class AudienceOverview extends React.Component {
                                 <Panel.Body>
                                     <h3>How to identify your participants?</h3>
                                     <hr/>
-                                    <label>How to Participate <TooltipNotification 
-                                            title={"How to Participate"}
-                                            tooltip={
-                                                <span className="text-left">
-                                                    <p>By default all responses received are anonymous. </p> 
-                                                    <p>This allows you to receive the most authentic responses.</p>
-                                                </span>}>
-                                                <i className="fa fa-question-circle"></i>
-                                            </TooltipNotification>
-                                        </label>
-                                    <div className="form-group">
-                                        <Toggle
-                                            style={{width:'155px', height: '32px'}}
-                                            onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
-                                            on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
-                                            off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
-                                            offstyle="default"
-                                            active={isAnonymous === "1"}
-                                        />
+                                    
+                                    <div className="row">
+                                        <div className="col-sm-12">
+                                            <div className="col-md-6">
+                                                <label>How to Participate <TooltipNotification 
+                                                    title={"How to Participate"}
+                                                    tooltip={
+                                                        <span className="text-left">
+                                                            <p>By default all responses received are anonymous. </p> 
+                                                            <p>This allows you to receive the most authentic responses.</p>
+                                                        </span>}>
+                                                        <i className="fa fa-question-circle"></i>
+                                                    </TooltipNotification>
+                                                </label>
+                                            </div>
+                                            <div className="col-md-6 text-right">
+                                                <Toggle
+                                                    style={{width:'155px', height: '32px'}}
+                                                    onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
+                                                    on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
+                                                    off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
+                                                    offstyle="default"
+                                                    active={isAnonymous === "1"}
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                     <hr/>
-                                    {isAnonymous === "0" && <span>
-                                        <CreateQuestionContainer />
-                                    </span>}
+                                    {isAnonymous === "0" && <CreateQuestionContainer />}
                                 </Panel.Body>
                             </Panel>
                         </div>

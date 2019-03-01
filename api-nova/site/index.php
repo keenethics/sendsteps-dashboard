@@ -58,6 +58,7 @@
         //Populate properties & other silent functions
         $controller->userType = $resp->userType;
         $controller->userId = $resp->userId;
+        $controller->userToken = $token;
         $controller->setHeaders();
         
         //Check method/function exists, then run the function

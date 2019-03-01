@@ -12,6 +12,7 @@
         'SpecifyFunction' => 'Function field not set',
         'ValidTokenNotSet' => 'Valid token not found',
         'UpdateFailed' => 'An update failed',
+        'Permissions' => 'You lack sufficient permissions for this action',
     ];
     $bastetErrors = [ 
         'HashUnknown' => 'Unknown error occurred while generating hash',

@@ -2,7 +2,23 @@ import React from 'react';
 import InputField from '../../../components/common/InputField';
 import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
+import { post, get } from "../../../scripts/api";
+import { toast } from 'react-toastify';
 class SessionOverview extends React.Component {
+    
+    loginAsUser() {
+        post(
+            'sessions', 
+            'loginAsUser',
+            JSON.stringify({}),
+            () =>  document.location.href="/",
+            error => {
+                console.log(error)
+                toast(`Oops, something went wrong... (${JSON.stringify(error)})`)
+            }
+        )
+    }
+    
     render() {
         return (
             <div>
@@ -16,6 +32,10 @@ class SessionOverview extends React.Component {
                                 <button type='button' id="clear-form" className="btn btn-danger pull-right">
                                     <i className="fa fa-trash"></i> Clear fields
                                 </button>
+                                <button type='button' onClick={this.loginAsUser} className="btn btn-info pull-right">
+                                    <i className="fa fa-trash"></i> Login As This User
+                                </button>
+                                
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <InputField 

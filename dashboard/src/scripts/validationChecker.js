@@ -8,12 +8,34 @@ export function isValidName(name) {
 }
 
 export function isValidPassword(password) {
+    // Current rules
+
     // At least 8 characters
 
+    // Suggested rules
+    
     // Should probably have some other checks such as:
     // does it have a special character
     // uppercase/lowercase
     // numbers/characters mix
     
     return password.length >= 6 && password.length <= 255;
+}
+
+export function urlIsImage(url) {
+    const supportedFiles = [
+        '.jpeg',
+        '.gif',
+        '.png',
+        '.bmp'
+    ]
+
+    if(url) {
+        for(let x = 0; x < supportedFiles.length; x++) {
+            if(url.endsWith(supportedFiles[x])) {
+                return true
+            }
+        }
+    }
+    return false
 }

@@ -24,6 +24,14 @@ class Sessions extends NovaAPI {
         $model = $this->loadModel('sessions');
         return json_encode($model->getIdentificationType($this->getUserSessionId())[0]);
     }
+    
+    public function loginAsUser(){
+        $this->isSuperAdmin();
+        $usersModel = $this->loadModel('users');
+        $newUserId = 52947;
+        $usersModel->setUserIdOfToken($this->userToken, $newUserId);
+        return true;
+    }
 
     public function setIdentificationType($isAnonymous) {
         $model = $this->loadModel('sessions');

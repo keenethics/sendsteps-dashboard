@@ -74,7 +74,7 @@ class IdentificationQuestion extends Component {
 
     saveIdentificationQuestion = () => {
 
-        const { savedQuestion } = this.props;
+        const { savedQuestion, order } = this.props;
         const { identificationQuestionTitle, currentType, isRequired, identificationQuestionOptions } = this.state
 
         post(
@@ -85,6 +85,7 @@ class IdentificationQuestion extends Component {
                 type: currentType,
                 required: isRequired,
                 questionId: savedQuestion ? savedQuestion.id : null,
+                order,  
                 identificationQuestionOptions
             }),
             () => {

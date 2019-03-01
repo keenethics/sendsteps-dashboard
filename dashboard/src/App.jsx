@@ -23,7 +23,6 @@ export class App extends Component {
     }
 
     checkAuth() {
-        // console.log('Checking if keys are still valid...');
         let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
         
         if(storedKey) 
@@ -35,12 +34,12 @@ export class App extends Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.location !== prevProps.location) {
-            // Show loading screen when navigating to a different 
+            // Show loading screen when navigating to a different route
             this.props.dispatch(simulateLoading(true));
             setTimeout(() => {
                 // Disable loading screen after 500ms
                 // Animate this @TODO
-                this.props.dispatch(simulateLoading(false));
+            this.props.dispatch(simulateLoading(false));
             }, 500);
         }
     }

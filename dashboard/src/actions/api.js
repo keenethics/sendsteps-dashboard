@@ -7,13 +7,6 @@ export function setNewData(newData) {
     }
 }
 
-export function apiUpdateSuccess() {
-    toast("Update success!");
-    return {
-        type: 'API_UPDATE_SUCCESS',
-    }
-}
-
 export function apiUpdateError(updateError) {
     toast("Unable to update.");
     return {

@@ -37,7 +37,7 @@ export function authLoading(authLoading) {
 export function checkAuthorized(token = '') {
     return dispatch => {
         let params = JSON.stringify({
-            token: token
+            token: encodeURIComponent(token)
         });
         dispatch(authRequired(true));
         fetch(authUrl,{
@@ -88,13 +88,13 @@ export function signOut() {
 
 export function register(firstName, lastName, email, password, passwordConfirm, termsAccepted, onSuccess, onFail) {
     const registerParams = JSON.stringify({
-        email,
-        password,
-        passwordConfirm,
+        email: encodeURIComponent(email),
+        password: encodeURIComponent(password),
+        passwordConfirm: encodeURIComponent(passwordConfirm),
         options: {
-            firstName,
-            lastName,
-            termsAccepted,
+            firstName: encodeURIComponent(firstName),
+            lastName: encodeURIComponent(lastName), 
+            termsAccepted: encodeURIComponent(termsAccepted),
         }
     });
 
@@ -118,7 +118,8 @@ export function register(firstName, lastName, email, password, passwordConfirm, 
 
 
 export function authenticate(email, password, onSuccess, onFail) {
-    const params = JSON.stringify({email: email, password: password});
+    const params = JSON.stringify({email: encodeURIComponent(email), password: encodeURIComponent(password)});
+    // console.log(params);
     fetch(authUrl, 
         {
             method: 'POST',
