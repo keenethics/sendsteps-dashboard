@@ -27,12 +27,6 @@ class Users extends NovaAPI {
             'countries' => $countries
         ]);
     }
-    
-    // public function getSelf() {
-    //     $model = $this->loadModel('users');
-    //     $results = $model->getProfileFromId($this->userId);
-    //     return json_encode(['content' => $results]);
-    // }
 
     public function updateSelf(...$fields) {
         $usersModel = $this->loadModel('users');

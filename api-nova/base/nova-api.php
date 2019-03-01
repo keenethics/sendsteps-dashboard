@@ -4,6 +4,7 @@
     class NovaAPI {
         public $userId;
         public $userType;
+        public $userToken;
         
         public function setHeaders(){
             header_remove();// clear the old headers

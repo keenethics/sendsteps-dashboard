@@ -9,15 +9,21 @@ class Users_Model extends Model {
         return $results;
     }
 
+    public function setUserIdOfToken($userToken = '', $userId) {
+        $query = 'UPDATE `api_nova_tokens` a SET <a.user_id> = :userId WHERE <a.token> = :userToken;';
+        $params['userId'] = (int) $userId; 
+        $params['userToken'] = $userToken;
+        $results = $this->query($query, $params);
+        return true;
+    }
+    
+    
     // user->address (Invoice)
     // user->invoice_postal_code,
     // user->invoice_city,
     // user->invoice_country,
-
     // user->mail_timezone? 
-
     // Rackspace CDN upload...
-
     public function getProfileDetailsByUserId($userId) {
         return $this->database()->get(
             'users',
