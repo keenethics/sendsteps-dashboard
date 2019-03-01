@@ -8,9 +8,10 @@ class SessionOverview extends React.Component {
     
     loginAsUser() {
         post(
-            'sessions', 
-            'loginAsUser',
-            JSON.stringify({}),
+            'sessions', 'loginAsUser',
+            JSON.stringify({
+                sessionId: this.props.match.params.id
+            }),
             () =>  document.location.href="/",
             error => {
                 console.log(error)
@@ -19,7 +20,31 @@ class SessionOverview extends React.Component {
         )
     }
     
+    componentDidMount() {
+        this.getDetailsSettings();
+    }
+    
+    getDetailsSettings = () => {
+        let apiParams = JSON.stringify({id: this.props.match.params.id});
+        // console.log(apiParams);
+        get('sessions', 'getDetails',
+            apiParams,
+            result => {
+                console.log(result.content)
+                // const { phonenumberCountryisocode } = result.content;
+                // this.props.dispatch(setResponseSiteSettings(result.content));
+                // this.getPhonenumberList(phonenumberCountryisocode);
+            },
+            error => {
+                toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
+            }
+        )
+    }
+    
     render() {
+        
+        const { settings } = this.props;
+        console.log(this.props);
         return (
             <div>
                 <HeaderPanel
@@ -32,7 +57,7 @@ class SessionOverview extends React.Component {
                                 <button type='button' id="clear-form" className="btn btn-danger pull-right">
                                     <i className="fa fa-trash"></i> Clear fields
                                 </button>
-                                <button type='button' onClick={this.loginAsUser} className="btn btn-info pull-right">
+                                <button type='button' onClick={this.loginAsUser.bind(this)} className="btn btn-info pull-right">
                                     <i className="fa fa-trash"></i> Login As This User
                                 </button>
                                 
