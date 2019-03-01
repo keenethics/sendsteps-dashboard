@@ -14,6 +14,11 @@
             return;
         }
         
+        protected function isSuperAdmin(){
+            $isSuperAdmin = ($this->userType === 'superadmin')? true : false;
+            return $isSuperAdmin;
+        }
+        
         protected function getUserSessionId(){
             $userModel = $this->loadModel('users');
             $sessionId = $userModel->getSessionIdFromUserId($this->userId)['sessionId'];
