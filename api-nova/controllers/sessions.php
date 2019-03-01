@@ -3,6 +3,7 @@ require_once __DIR__.'/../base/nova-api.php';
 
 class Sessions extends NovaAPI {
     public function getOverview(){
+        $this->isSuperAdmin();
         $model = $this->loadModel('sessions');
         $results = $model->getOverview();
         // var_dump($results);exit();
@@ -12,10 +13,11 @@ class Sessions extends NovaAPI {
     public function getDetails($id = NULL) {
         // Fetch data from single phonenumber
         if($id != NULL){
-            $model = $this->loadModel('phonenumbers');
-            $results = $model->findActiveById($id);
-            $keywords = $model->findKeywordsByPhonenumberId($phonenumberId);
-            return json_encode(['content' => $results, 'keywords' => $keywords]);                
+            $this->isSuperAdmin();
+            $sessionId = (int) $id;
+            $model = $this->loadModel('sessions');
+            $results = $model->getDetails($sessionId);
+            return json_encode(['content' => $results]);                
         }
         return false;        
     }
@@ -25,12 +27,16 @@ class Sessions extends NovaAPI {
         return json_encode($model->getIdentificationType($this->getUserSessionId())[0]);
     }
     
-    public function loginAsUser(){
-        $this->isSuperAdmin();
-        $usersModel = $this->loadModel('users');
-        $newUserId = 52947;
-        $usersModel->setUserIdOfToken($this->userToken, $newUserId);
-        return true;
+    public function loginAsUser($sessionId = NULL){
+        if($sessionId != NULL){
+            $this->isSuperAdmin();
+            $usersModel = $this->loadModel('users');
+            $sessionsModel = $this->loadModel('sessions');
+            $newUserId = (int) $sessionsModel->getUserIdFromSessionId($sessionId);
+            $usersModel->setUserIdOfToken($this->userToken, $newUserId);
+            return true;
+        }
+        return false;       
     }
 
     public function setIdentificationType($isAnonymous) {
