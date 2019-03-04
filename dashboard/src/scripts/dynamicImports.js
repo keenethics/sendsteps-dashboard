@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react';
 import DynamicImport from "../pages/base/DynamicImport";
 import LoadingView from '../pages/base/LoadingView';
 
@@ -9,6 +9,7 @@ export const Home = props => (
 		: <Component {...props} />}
 	</DynamicImport>
 )
+
 
 export const PageNotFound = props => (
 	<DynamicImport load={() => require("../pages/base/PageNotFound")}>
