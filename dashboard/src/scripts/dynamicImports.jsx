@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import DynamicImport from "../pages/base/DynamicImport";
 import LoadingView from '../pages/base/LoadingView';
 
