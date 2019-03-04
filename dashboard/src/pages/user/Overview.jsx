@@ -131,7 +131,10 @@ class ProfileOverview extends React.Component {
             () => toast('Unable to update profile details...')
         )
     }
-
+    
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    // Use 'react-image-crop' for Images
+    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     render() {
 
         const { userDetails, accountDetails } = this.props;
