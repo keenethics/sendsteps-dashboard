@@ -5,6 +5,7 @@ const apiUrl = process.env.NOVA_API_URL;
 
 export function post(controller, functionName, params, onSuccess, onFail) {
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+    console.log(params);
     const fetchParams = {
         method: 'POST',
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
