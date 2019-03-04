@@ -104,11 +104,12 @@ export function register(firstName, lastName, email, password, passwordConfirm, 
         body: 'function=register&params='+registerParams
     })
     .then(result => result.json())
-    .then(result => {
-        console.log(result)
-        if(result.error) {
-            console.log(result.error);
-        }
+    .then(
+        result => {
+            // console.log(result)
+            if(result.error) {
+                console.log(result.error);
+            }
         },
         error => {
             console.log(error);
