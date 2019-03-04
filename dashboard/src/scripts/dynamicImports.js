@@ -11,6 +11,7 @@ export const Home = props => (
 	</DynamicImport>
 )
 
+
 export const PageNotFound = props => (
 	<DynamicImport load={() => import("../pages/base/PageNotFound")}>
 		{(Component) => Component === null 
