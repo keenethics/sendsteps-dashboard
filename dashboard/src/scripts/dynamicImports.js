@@ -1,6 +1,7 @@
 import React from 'react'
 import DynamicImport from "../pages/base/DynamicImport";
 import LoadingView from '../pages/base/LoadingView';
+import Component from 'react';
 
 export const Home = props => (
 	<DynamicImport load={() => import('../pages/home/Home')}>
