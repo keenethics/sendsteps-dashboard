@@ -78,7 +78,10 @@ class SurveyNameContainer extends Component {
                 toast("Created new Survey!")
                 this.clearData()
             },
-            err => console.log(err)
+            err => {
+                toast("Unable to create new Survey...")
+                console.log(err)
+            }
         )
     }
 
