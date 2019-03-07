@@ -34,7 +34,7 @@ export function get(controller, functionName, params, onSuccess, onFail) {
     const fetchParams = {
         method: 'POST',
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: 'controller='+controller+'&function='+functionName+'&params='+params+'&token='+token
+        body: 'controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token
     }
     fetch(apiUrl, fetchParams)
     .then(result => result.json())
