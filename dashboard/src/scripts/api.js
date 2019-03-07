@@ -10,13 +10,13 @@ export function post(controller, functionName, params, onSuccess, onFail) {
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
         body: 'controller='+controller+'&function='+functionName+'&params='+params+'&token='+token
     }
+    console.log(fetchParams);
     fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
         if(result.error) {
             onFail(result.error);
         } else {
-            console.log(result);
             onSuccess(result);
         }
     })
