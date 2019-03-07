@@ -147,6 +147,7 @@ class Presentations extends NovaAPI {
     }
 
     public function getStatistics() {
+        return json_encode(['content' => 'test']);     
         $sessionModel = $this->loadModel('sessions');
         $presentationsModel = $this->loadModel('presentations');
         $liveVotesModel = $this->loadModel('livevotemessages');
@@ -184,7 +185,7 @@ class Presentations extends NovaAPI {
 
         // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
-
+ 
         return json_encode([
             'lastYearResponses' => $lastYearVotes + $lastYearMessages,
             'lastYearUserContribution' => $lastYearUserVotes + $lastYearUserMessages,
