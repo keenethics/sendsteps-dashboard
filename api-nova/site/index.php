@@ -1,7 +1,6 @@
 <?php
     require_once __DIR__."/../../api-common/errors.php";//Load Errors (just in case);
     require_once __DIR__."/../../api-common/urls.php";//Load $internalURLs Array  
-    
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';
         if ($token == NULL || $token == ''){

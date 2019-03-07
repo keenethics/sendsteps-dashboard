@@ -184,7 +184,7 @@ class Presentations extends NovaAPI {
 
         // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
-
+ 
         return json_encode([
             'lastYearResponses' => $lastYearVotes + $lastYearMessages,
             'lastYearUserContribution' => $lastYearUserVotes + $lastYearUserMessages,
