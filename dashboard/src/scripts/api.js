@@ -16,6 +16,7 @@ export function post(controller, functionName, params, onSuccess, onFail) {
         if(result.error) {
             onFail(result.error);
         } else {
+            console.log(result);
             onSuccess(result);
         }
     })
