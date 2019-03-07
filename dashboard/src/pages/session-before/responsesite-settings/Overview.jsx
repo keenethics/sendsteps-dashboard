@@ -23,7 +23,7 @@ class SettingsOverview extends React.Component {
 
     getPhonenumberList = (isoCode) => {
         get('phonenumbers', 'getNumberByIsoCode',
-            JSON.stringify({isoCode}),
+           {isoCode},
             phonenumbers => this.props.dispatch(
                 setResponsePhonenumbers(
                     this.formatPhonenumbers(phonenumbers.content)
