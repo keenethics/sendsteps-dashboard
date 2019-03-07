@@ -23,7 +23,7 @@ class SettingsOverview extends React.Component {
 
     getPhonenumberList = (isoCode) => {
         get('phonenumbers', 'getNumberByIsoCode',
-           {isoCode},
+           {isoCode: isoCode},
             phonenumbers => this.props.dispatch(
                 setResponsePhonenumbers(
                     this.formatPhonenumbers(phonenumbers.content)
@@ -51,11 +51,11 @@ class SettingsOverview extends React.Component {
     }
 
     getOverviewSettings = () => {
-        let apiParams = JSON.stringify({id: this.props.match.params.id});
+        // let apiParams = JSON.stringify({id: this.props.match.params.id});
         get('responsesite', 'getSettingsBasic', 
-            apiParams,
+            {id: this.props.match.params.id},
             result => {
-                console.log(result.content)
+                console.log(result.content);
                 const { phonenumberCountryisocode } = result.content;
                 this.props.dispatch(setResponseSiteSettings(result.content));
                 this.getPhonenumberList(phonenumberCountryisocode);
