@@ -17,8 +17,8 @@ class StatisticPanelContainer extends Component {
 
     componentDidMount() {
         post(
-            'presentations',
-            'getStatistics',
+            'statistics',
+            'getHomepage',
             {},
             statistics => this.setState({
                 // Convert values to string or else 
