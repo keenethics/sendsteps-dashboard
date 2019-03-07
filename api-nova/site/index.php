@@ -31,7 +31,7 @@
             $errors = json_encode(array('General' => 'ValidTokenNotSet'));
             throw new Exception($errors);
         }
-        
+        var_dump('Nova 1');exit();
         if (!$_POST OR !isset($_POST['controller']) OR !isset($_POST['function'])) {
             $errors = json_encode(array('General' => 'SpecifyControllerAndFunction'));
             throw new Exception($errors);
