@@ -31,9 +31,9 @@ class PhonenumberDetails extends React.Component {
         post(
             'phonenumbers', 
             'getDetails',
-            JSON.stringify({
+            {
                 id: this.props.match.params.id
-            }),
+            },
             result => this.props.dispatch(setPhonenumber(result.content))
         )
 
