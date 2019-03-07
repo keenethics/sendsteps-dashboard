@@ -19,7 +19,7 @@ class StatisticPanelContainer extends Component {
         post(
             'presentations',
             'getStatistics',
-            JSON.stringify({}),
+            {},
             statistics => this.setState({
                 // Convert values to string or else 
                 // the && operator will read int(0) results as false
