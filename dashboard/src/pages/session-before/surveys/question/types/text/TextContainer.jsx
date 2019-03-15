@@ -5,9 +5,11 @@ class TextContainer extends Component {
         return (
             <div className="col-sm-6 col-sm-offset-3">
                 <div className="input-group">
-                    <span className="input-group-addon">
-                        <i className="fa fa-comment-o"></i>
-                    </span>
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">
+                            <i className="fa fa-comment-o"></i>
+                        </span>
+                    </div>
                     <FormControl disabled={true} placeholder="Their Answer" />
                 </div>
             </div>

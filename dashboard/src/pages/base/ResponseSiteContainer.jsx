@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Panel } from 'react-bootstrap';
-
 class ResponseSiteContainer extends Component {
     
     componentWillMount() {
@@ -13,11 +11,8 @@ class ResponseSiteContainer extends Component {
         const responseAddress = '//Sendsteps.me/';  // addinSettings.websiteAddress
         const internetKeyword = 'Free11390';        // currentSession.internetKeyword
 
-        const colWidth = this.props.colWidth || 4;
-        
         return (
-            <div className={"col-md-" + colWidth}>
-            <Panel><Panel.Body>
+            <div className="card"><div className="card-body">
                 <h3>Live: Your Response Website</h3>
                 <hr/>
                 <p>Have a look! This is how your response website currently looks.</p>
@@ -30,8 +25,7 @@ class ResponseSiteContainer extends Component {
                     scrolling="yes"
                     frameBorder="no">
                 </iframe>
-            </Panel.Body></Panel>
-        </div>
+            </div></div>
         )
     }
 }

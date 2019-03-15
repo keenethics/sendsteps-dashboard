@@ -9,17 +9,17 @@ class ResponseCodeInput extends Component {
 
     validateResponseCode = () => {
         get('responsesite', 'checkResponseCode',
-            JSON.stringify({
+            {
                 keyword: this.props.settings.textmessagingkeyword,
                 userId: this.props.currentUser.userId
-            }),
+            },
             result => {
                if(result) {
                    toast('This response code already exists!');
                }
             },
             error => {
-                toast(`Unable to check response code... [${JSON.stringify(error)}]`)
+                toast('Unable to check response code...' + error.message)
             }
         );
     }
@@ -35,8 +35,8 @@ class ResponseCodeInput extends Component {
         const { settings, currentUser } = this.props;
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label lh-32">
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">
                     Response Code <TooltipNotification 
                         title={"Response Code"}
                         tooltip={
@@ -56,9 +56,11 @@ class ResponseCodeInput extends Component {
                 {settings && 
                 <div className="col-sm-6">
                     <div className="input-group">
-                        <span className="input-group-addon">
-                            <i className="fa fa-laptop"></i>
-                        </span>
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                                <i className="fa fa-laptop"></i>
+                            </span>
+                        </div>
                         <input onBlur={this.validateResponseCode} type="text" onChange={e => this.updateSettings(e.target.value, 'textmessagingkeyword')} value={settings.textmessagingkeyword} className="input-lg form-control" placeholder="" />
                     </div>
                 </div>}

@@ -147,7 +147,7 @@ class EditDashboardDetails extends Component {
                 <hr/>
                 <div className="row">
                     <div className="col-md-3">
-                        <label className="control-label">Select Branding type</label>
+                        <label className="col-form-label">Select Branding type</label>
                         <ButtonSwitch options={["File based", "Default"]}/>
                     </div>
                 </div>
@@ -169,7 +169,7 @@ class EditDashboardDetails extends Component {
                 
                 <div className="row">
                     <div className="col-md-6">
-                        <label className="control-label">Logo resizing</label>
+                        <label className="col-form-label">Logo resizing</label>
                         <ButtonSwitch options={["Use As Is", "Auto"]} />
                     </div>
                 </div>
@@ -190,7 +190,7 @@ class EditDashboardDetails extends Component {
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <label className="control-label">Login Background Blend Type</label>
+                        <label className="col-form-label">Login Background Blend Type</label>
                         <ButtonSwitch selected={data.loginBackgroundBlendType} options={["Normal", "Overlay", "Multiply", "Screen", "Color Burn"]} />
                     </div>
             

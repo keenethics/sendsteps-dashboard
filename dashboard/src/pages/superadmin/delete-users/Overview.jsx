@@ -2,7 +2,6 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setUsersData } from './actions';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { post } from '../../../scripts/api';
 
@@ -24,11 +23,11 @@ class DeleteUsersOverview extends React.Component {
             <div>
                 <HeaderPanel title={"Delete Users Overview"} />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             {userList && <OverviewTable data={userList} />}
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

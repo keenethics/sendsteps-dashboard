@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, ControlLabel, Collapse, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
+import { FormGroup, FormControl, Collapse, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { post, get } from '../../../../scripts/api';
@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { setDeletingIdentificationId } from '../actions'
 import OptionTypeContainer from './types/OptionTypeContainer';
 import { generateKey } from '../../../../scripts/arrayHelper';
+import { Toggle } from 'react-bootstrap-toggle';
 
 class IdentificationQuestion extends Component {
 
@@ -80,14 +81,14 @@ class IdentificationQuestion extends Component {
         post(
             'audienceidentification',
             'createIdentificationQuestion',
-            JSON.stringify({
+            {
                 question: identificationQuestionTitle,
                 type: currentType,
                 required: isRequired,
                 questionId: savedQuestion ? savedQuestion.id : null,
                 order,  
                 identificationQuestionOptions
-            }),
+            },
             () => {
                 this.setState({optionsExpanded: false, identificationQuestionTitle: ""})
                 this.waitAndResetState();
@@ -134,7 +135,7 @@ class IdentificationQuestion extends Component {
         const { savedQuestion } = this.props;
 
         get('audienceidentification', 'getQuestionOptions',
-            JSON.stringify({id: savedQuestion.id}),
+            { id: savedQuestion.id },
             identificationQuestionOptions => {
                 this.setState({
                     identificationQuestionOptions: { ...identificationQuestionOptions, [generateKey()]: ""},
@@ -189,84 +190,78 @@ class IdentificationQuestion extends Component {
 
         return (
             <>
-            <FormGroup validationState={null}>
-                <div className="row">
-                    <div className="col-sm-12">
-                        <div className="col-sm-3">
-                            {!savedQuestion &&
-                            <ControlLabel className="lh-32">
-                                {!currentType && "New Question"}
-                                {currentType && types[currentType]}
-                            </ControlLabel>}
-                            {savedQuestion &&
-                            <ControlLabel className="lh-32">
-                                {types[savedQuestion.type]}
-                            </ControlLabel>}
-                        </div>
-                        <div className="col-sm-9">
-                            <div className="input-group">
-                                <span className="input-group-addon">
+                <div className="form-group row">
+                    <div className="col-sm-3">
+                        {!savedQuestion &&
+                        <label className="col-form-label">
+                            {!currentType && "New Question"}
+                            {currentType && types[currentType]}
+                        </label>}
+                        {savedQuestion &&
+                        <label className="col-form-label">
+                            {types[savedQuestion.type]}
+                        </label>}
+                    </div>
+                    <div className="col-sm-9">
+                        <div className="input-group">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
                                     <i className={this.getQuestionIconClassName()}></i>
                                 </span>
-                                {(!savedQuestion || optionsExpanded) &&
-                                <FormControl
-                                    type="text"
-                                    value={identificationQuestionTitle}
-                                    placeholder="Type a new question"
-                                    onChange={this.setQuestion}
-                                />}
-                                {(savedQuestion && !optionsExpanded) && <>
+                            </div>
+                            {(!savedQuestion || optionsExpanded) &&
+                            <FormControl
+                                type="text"
+                                value={identificationQuestionTitle}
+                                placeholder="Type a new question"
+                                onChange={this.setQuestion}
+                            />}
+                            {(savedQuestion && !optionsExpanded) && <>
                                 <FormControl 
                                     value={savedQuestion.title}
                                     disabled={true}
                                 />
-                                <div onClick={this.editQuestion} className="input-group-addon btn btn-primary">
-                                    <i className="fa fa-pencil"></i> Edit
+                                <div onClick={this.editQuestion} className="input-group-append">
+                                    <button className="btn btn-primary"><i className="fa fa-pencil"></i> Edit </button>
                                 </div>
-                                </>}
-                            </div>
+                            </>}
                         </div>
                     </div>
                 </div>
-            </FormGroup>
-            <Collapse in={optionsExpanded || (!!identificationQuestionTitle)}>
-                <div>
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
+                <Collapse in={optionsExpanded || (!!identificationQuestionTitle)}>
+                    <div>
+                        <div className="form-group row">
                             <div className="col-sm-3">
-                                <ControlLabel>Type</ControlLabel>
+                                <label className="col-form-label">Type</label>
                             </div>
                             <div className="col-sm-9">
                                 <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-list"></i>
-                                    </span>
-                                    <FormControl defaultValue={savedQuestion && savedQuestion.type} onChange={this.setCurrentType} componentClass="select" placeholder="select">
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">
+                                            <i className="fa fa-list"></i>
+                                        </span>
+                                    </div>
+                                    <select className="form-control" placeholder="Select..." defaultValue={savedQuestion && savedQuestion.type} onChange={this.setCurrentType}>
                                         {Object.keys(types).map(type => {
                                             return <option key={type} value={type}>{types[type]}</option>
                                         })}}
-                                    </FormControl>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </FormGroup>
-                {identificationQuestionOptions && 
-                <OptionTypeContainer 
-                    setAllOptions={this.setAllOptions}
-                    updateOptions={this.updateOptions} 
-                    type={currentType} 
-                    options={identificationQuestionOptions} 
-                    addOption={this.addOption}
-                    deleteOption={this.deleteOption}
-                    updateSingleOption={this.updateSingleOption}
-                />}
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
+                        {identificationQuestionOptions && 
+                        <OptionTypeContainer 
+                            setAllOptions={this.setAllOptions}
+                            updateOptions={this.updateOptions} 
+                            type={currentType} 
+                            options={identificationQuestionOptions} 
+                            addOption={this.addOption}
+                            deleteOption={this.deleteOption}
+                            updateSingleOption={this.updateSingleOption}
+                        />}
+                        <div className="form-group row">
                             <div className="col-sm-3">
-                                <ControlLabel>Required</ControlLabel>
+                                <label className="col-form-label">Required</label>
                             </div>
                             <div className="col-sm-9">
                                 <ButtonToolbar>
@@ -283,23 +278,19 @@ class IdentificationQuestion extends Component {
                                 </ButtonToolbar>
                             </div>
                         </div>
-                    </div>
-                </FormGroup>
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-9 col-sm-offset-3">
-                                <Button onClick={this.saveIdentificationQuestion} bsStyle="success">
+                        <div className="form-group row">
+                            <div className="col-sm-3">
+                            </div>
+                            <div className="col-sm-9">
+                                <div className="btn btn-outline-success" onClick={this.saveIdentificationQuestion}>
                                     <i className="fa fa-floppy-o"></i> Save Question
-                                </Button>
-                                <Button className="pull-right" onClick={this.deleteIdentificationQuestion} bsStyle="danger">
-                                    <i className="fa fa-trash"></i> Delete
-                                </Button>
+                                </div>
+                                <button type="button" className="btn btn-outline-danger float-right" onClick={this.deleteIdentificationQuestion} >
+                                    <i className="fa fa-trash"></i> Delete Question
+                                </button>
                             </div>
                         </div>
                     </div>
-                </FormGroup>
-                </div>
                 </Collapse>
             </>
         );

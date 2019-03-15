@@ -5,7 +5,7 @@ import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'raf/polyfill';
 import { polyfill } from 'es6-promise'; 
-
+import 'babel-polyfill';
 polyfill();
 
 import React from "react";

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar, InputGroup, FormGroup } from 'react-bootstrap';
+import { Button, ButtonToolbar, InputGroup, FormGroup, Collapse } from 'react-bootstrap';
 import { 
     sendToScreen, 
     sendToQueue, 
@@ -21,9 +21,7 @@ class IncomingToolbar extends Component {
 
     sendIdsToScreen = () => {
         post('messagefilter','sendToScreen',
-            JSON.stringify({
-                ids: this.props.selectedIncomingIds
-            }),
+            { ids: this.props.selectedIncomingIds },
             result => {
                 this.props.dispatch(sendToScreen(result));
                 this.props.dispatch(clearIncomingSelect());
@@ -37,9 +35,7 @@ class IncomingToolbar extends Component {
 
     sendIdsToQueue = () => {
         post('messagefilter','sendToQueue',
-            JSON.stringify({
-                ids: this.props.selectedIncomingIds
-            }),
+            { ids: this.props.selectedIncomingIds },
             result => {
                 console.log(result);
                 this.props.dispatch(sendToQueue(result));
@@ -61,7 +57,7 @@ class IncomingToolbar extends Component {
     }
 
     expandPanel = () => {
-        this.props.dispatch(expandIncomingPanel(true));
+        this.props.dispatch(expandIncomingPanel(!this.props.incomingPanelExpanded));
     }
 
     undoRemoveMessages = () => {
@@ -73,9 +69,7 @@ class IncomingToolbar extends Component {
         });
 
         post('messagefilter','sendToIncoming',
-            JSON.stringify({
-                ids: deletedIds
-            }),
+            { ids: deletedIds },
             result => {
                 this.props.dispatch(undoRemove());
                 toast('Messages restored!');
@@ -88,9 +82,7 @@ class IncomingToolbar extends Component {
 
     deleteSelected = () => {
         post('messagefilter','deleteMessages',
-            JSON.stringify({
-                ids: this.props.selectedIncomingIds
-            }),
+            {ids: this.props.selectedIncomingIds },
             result => {
                 this.props.dispatch(sendToIncoming(result));
                 this.props.dispatch(clearIncomingSelect());
@@ -109,10 +101,10 @@ class IncomingToolbar extends Component {
 
     addToGroup = () => {
         post('messagefilter','addToGroup',
-            JSON.stringify({
+            {
                 groupId: this.props.selectedGroupId,
                 selectedIds: this.props.selectedIncomingIds
-            }),
+            },
             result => {
                 this.props.dispatch(addSelectedToGroup(result));
                 this.props.dispatch(clearIncomingSelect());
@@ -137,37 +129,42 @@ class IncomingToolbar extends Component {
         const { incomingPanelExpanded, messageGroups, selectedIncomingIds, messages } = this.props;
 
         return (
-            <Panel.Footer>
-                <ButtonToolbar>
-                    <Button onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1} bsStyle="success">Send to Screen</Button>
-                    <Button onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1} bsStyle="primary">Send to Queue</Button>
-                    {selectedIncomingIds.length < 1 && <Button  onClick={() => this.showMessageModal()} bsStyle="default">Add Message</Button>}
-                    {selectedIncomingIds.length >= 1 && <Button disabled={selectedIncomingIds.length > 1} onClick={() => this.showEditMessageModal()} bsStyle="default">Edit Message</Button>}
-                    <Button onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}bsStyle="default"><i className="fa fa-trash"></i></Button>
-                    <Button onClick={() => this.expandPanel()} className="pull-right">More <i className="fa fa-chevron-down"></i></Button>
-                </ButtonToolbar>
-                {incomingPanelExpanded && 
-                <ButtonToolbar className="more-toolbar">
-                    <InputGroup>
-                        <span className="input-group-addon">Add to Group </span>
-                        <FormGroup>
-                            <select onChange={this.setSelectedGroup.bind(this)} className="form-control">
-                                <option value={false}>None</option>
-                                {messageGroups && Object.keys(messageGroups).map(group => {
-                                    return (
-                                        <option key={group} value={group}>
-                                            {messageGroups[group].name} 
-                                        </option>
-                                    )
-                                })}
-                            </select>
-                        </FormGroup>
-                    </InputGroup>
-                    <Button disabled={selectedIncomingIds.length < 1}onClick={() => this.addToGroup()} >Add </Button>
-                    <Button onClick={() => this.showGroupModal(true)}bsStyle="default">My Groups</Button>
-                    <Button bsStyle="default">Send to...</Button>
-                </ButtonToolbar>}
-            </Panel.Footer>
+            <div className="card-footer pt-0">
+                <div>
+                    <button className="btn btn-success mr-2 mt-2" onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1}>Send to Screen</button>
+                    <button className="btn btn-primary mr-2 mt-2" onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1}>Send to Queue</button>
+                    {selectedIncomingIds.length < 1 && <button className="btn btn-outline-secondary mr-2 mt-2"  onClick={() => this.showMessageModal()}>Add Message</button>}
+                    {selectedIncomingIds.length >= 1 && <button className="btn btn-outline-secondary mr-2 mt-2" disabled={selectedIncomingIds.length > 1} onClick={() => this.showEditMessageModal()}>Edit Message</button>}
+                    <button className="btn btn-outline-secondary mr-2 mt-2" onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}><i className="fa fa-trash"></i></button>
+                    <button className="btn btn-primary mr-2 mt-2 float-right" onClick={() => this.expandPanel()} >More {incomingPanelExpanded ? <i className="fa fa-chevron-up"></i> : <i className="fa fa-chevron-down"></i>}</button>
+                </div>
+                <Collapse in={incomingPanelExpanded}>
+                    <div>
+                        <div className="btn-toolbar">
+                            <div className="input-group mr-2 mt-2">
+                                <div className="input-group-prepend">
+                                    <label className="input-group-text">
+                                        Add to Group 
+                                    </label>
+                                </div>
+                                <select onChange={this.setSelectedGroup.bind(this)} className="form-control">
+                                    <option value={false}>None</option>
+                                    {messageGroups && Object.keys(messageGroups).map(group => {
+                                        return (
+                                            <option key={group} value={group}>
+                                                {messageGroups[group].name} 
+                                            </option>
+                                        )
+                                    })}
+                                </select>
+                            </div>
+                            <div className="btn btn-primary mr-2 mt-2" disabled={selectedIncomingIds.length < 1}onClick={() => this.addToGroup()} >Add </div>
+                            <div className="btn btn-outline-secondary mr-2 mt-2" onClick={() => this.showGroupModal(true)}>My Groups</div>
+                            <div className="btn btn-outline-secondary mt-2">Send to...</div>
+                        </div>
+                    </div>
+                </Collapse>
+            </div>
         );
     }
 }

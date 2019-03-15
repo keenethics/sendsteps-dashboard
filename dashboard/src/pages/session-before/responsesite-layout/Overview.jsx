@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
 import ColorPickerField from '../../../components/common/ColorPickerField';
@@ -17,9 +16,7 @@ class LayoutOverview extends React.Component {
 
     componentDidMount() {
         post('responsesite', 'getSiteList', 
-            JSON.stringify({
-                id: this.props.match.params.id
-            }),
+            { id: this.props.match.params.id },
             result => {
                 console.log(result);
                 this.props.dispatch(setResponseSettings(result.content));
@@ -34,7 +31,7 @@ class LayoutOverview extends React.Component {
         const value = e.target.value;
         if(value && this.props.responseSites && isValueInArray(value, this.props.responseSites.map((item) => item.id))) {
             post('responsesite', 'getSiteById', 
-                JSON.stringify({value}), 
+                { id: value }, 
                 result => {
                     console.log(result);
                     this.props.dispatch(setLayoutSettings(result.content))
@@ -63,8 +60,8 @@ class LayoutOverview extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-8">
-                            <Panel>
-                                <Panel.Body>
+                            <div className="card">
+                                <div className="card-body">
                                     <h3>Response Website Layout</h3>
                                     <hr/>
                                     <div className="form-group">
@@ -246,13 +243,13 @@ class LayoutOverview extends React.Component {
                                         <div className="row">
                                             <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Favicon Type</label>
+                                                <label className="col-form-label">Favicon Type</label>
                                                 <ButtonSwitch  options={["Image", "URL"]} />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Logo Alignment</label>
+                                                <label className="col-form-label">Logo Alignment</label>
                                                 <ButtonSwitch  options={["Left", "Center", "Right"]} />
                                             </div>
                                             </div>
@@ -274,19 +271,19 @@ class LayoutOverview extends React.Component {
                                             </div>
                                             <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Logo Url New Tab</label>
+                                                <label className="col-form-label">Logo Url New Tab</label>
                                                 <ButtonSwitch />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Background Type</label>
+                                                <label className="col-form-label">Background Type</label>
                                                 <ButtonSwitch options={["Image", "URL"]} />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
-                                                <label className="control-label">Background Alignment</label>
+                                                <label className="col-form-label">Background Alignment</label>
                                                 <ButtonSwitch options={["Left", "Center", "Right"]} />
                                             </div>
                                             </div>
@@ -312,37 +309,37 @@ class LayoutOverview extends React.Component {
                                                 <div className="row">
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">Overlay Enabled</label>
+                                                        <label className="col-form-label">Overlay Enabled</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">New Relic</label>
+                                                        <label className="col-form-label">New Relic</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">Analytics</label>
+                                                        <label className="col-form-label">Analytics</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">Contact</label>
+                                                        <label className="col-form-label">Contact</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">Only Unique Response Codes</label>
+                                                        <label className="col-form-label">Only Unique Response Codes</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
-                                                        <label className="control-label">Dark Theme</label>
+                                                        <label className="col-form-label">Dark Theme</label>
                                                         <ButtonSwitch  />
                                                     </div>
                                                 </div>
@@ -369,10 +366,12 @@ class LayoutOverview extends React.Component {
                                             </div>
                                         </span>}
                                     </div>}
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
                         </div>
-                        <ResponseSiteContainer url={responseSettings && responseSettings.domain} /* Pass selected url, if nothings selected, don't render response site */ />
+                        <div className="col-md-4">
+                            <ResponseSiteContainer url={responseSettings && responseSettings.domain} /* Pass selected url, if nothings selected, don't render response site */ />
+                        </div>
                     </div>
                     <BottomSaveBar />
                 </div>

@@ -57,8 +57,7 @@ class EditMessageModal extends Component {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    {/* <Button bsStyle={"success"} onClick={() => this.updateMessage()}><i className="fa fa-plus"></i> Save</Button> */}
-                    <Button onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</Button>
+                    <div className="btn btn-primary" onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</div>
                 </Modal.Footer>
             </Modal>
         );

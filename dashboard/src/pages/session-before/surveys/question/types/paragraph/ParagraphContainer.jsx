@@ -5,10 +5,13 @@ class ParagraphContainer extends Component {
         return (
             <div className="col-sm-6 col-sm-offset-3">
                 <div className="input-group">
-                    <span className="input-group-addon">
-                        <i className="fa fa-comment-o"></i>
-                    </span>
-                    <FormControl componentClass="textarea" disabled={true} placeholder="Their Longer Answer" />
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">
+                            <i className="fa fa-comment-o"></i>
+                        </span>
+                    </div>
+                    <textarea disabled={true} placeholder="Their Longer Answer" >
+                    </textarea>
                 </div>
             </div>
         );

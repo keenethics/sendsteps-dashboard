@@ -31,8 +31,8 @@ class ResponsePhonenumberInput extends Component {
         const { responsePhonenumbers, settings } = this.props;
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">Phone number <TooltipNotification
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">Phone number <TooltipNotification
                     title={"Phone number"}
                     tooltip={
                         <span className="text-left">
@@ -46,9 +46,11 @@ class ResponsePhonenumberInput extends Component {
                 <div className="col-sm-6">
                     {responsePhonenumbers && responsePhonenumbers[settings.phonenumberForeignerCompatible] &&
                         <div className="input-group">
-                            <span className="input-group-addon">
-                                <i className="fa fa-phone"></i>
-                            </span>
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <i className="fa fa-phone"></i>
+                                </span>
+                            </div>
                             <input disabled={"disabled"} type="text" value={responsePhonenumbers[settings.phonenumberForeignerCompatible].displayText || ""} className="form-control" />
                         </div>}
                 </div>

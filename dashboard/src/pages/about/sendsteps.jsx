@@ -1,6 +1,5 @@
 import React from "react";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../components/common/HeaderPanel";
 import TeamImage from '../../assets/images/sst_dashboard_team.jpg';
 
@@ -13,11 +12,10 @@ class AboutSendsteps extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-                            <Panel>
-                                <Panel.Body>
-                                    <div className="col-md-6 text-center img-container">
-                                        <img alt="Sendsteps Team" src={TeamImage} />
-                                    </div>
+                            <div className="card">
+                                <div className="card-body">
+                                    <div className="row">
+                                  
                                     <div className="col-md-6">
                                         <h2 className="text-center">What we believe</h2>
                                         <p>
@@ -35,8 +33,12 @@ class AboutSendsteps extends React.Component {
                                             We wish you a lot of interactive and inspiring sessions.
                                         </p>
                                     </div>
-                                </Panel.Body>
-                            </Panel>
+                                    <div className="col-md-6 mt-4 text-center img-container">
+                                        <img alt="Sendsteps Team" src={TeamImage} />
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

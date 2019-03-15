@@ -52,9 +52,9 @@ class ColorPickerModal extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle={"success"} className="pull-left" onClick={this.saveColor}><i className="fa fa-save"></i> Save</Button>
-                    <Button bsStyle={"primary"} active={advancedSettings} onClick={this.toggleAdvanced}><i className="fa fa-cog"></i> Advanced Colors</Button>
-                    <Button onClick={toggle}><i className="fa fa-times"></i> Close</Button>
+                    <button className="btn btn-success float-left" onClick={this.saveColor}><i className="fa fa-save"></i> Save</button>
+                    {/* <button className="btn btn-primary" active={advancedSettings} onClick={this.toggleAdvanced}><i className="fa fa-cog"></i> Advanced Colors</button> */}
+                    <button className="btn btn-primary" onClick={toggle}><i className="fa fa-times"></i> Close</button>
                 </Modal.Footer>
             </Modal>
         );

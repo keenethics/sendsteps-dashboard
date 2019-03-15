@@ -24,16 +24,16 @@ class OverviewTable extends Component {
         return (
             <span className="survey-btn-padding">
                 <Link to={'/session-before/surveys/details/' + row.id}>
-                    <Button bsStyle="primary">
+                    <div className="btn btn-outline-secondary">
                         <i className="fa fa-pencil"></i> Edit
-                    </Button>
+                    </div>
                 </Link> 
-                <Button bsStyle="primary" onClick={() => this.duplicate(row.id)}>
+                <div className="btn btn-outline-secondary" onClick={() => this.duplicate(row.id)}>
                     <i className="fa fa-clone"></i> Duplicate
-                </Button>
-                <Button bsStyle="danger" onClick={() => this.toggleDelete(row.id)}>
+                </div>
+                <div className="btn btn-outline-danger" onClick={() => this.toggleDelete(row.id)}>
                     <i className="fa fa-trash"></i> Delete
-                </Button>
+                </div>
             </span>
         )
     }
@@ -79,77 +79,55 @@ class OverviewTable extends Component {
         currentStatus = isStopped ? "Stopped" : currentStatus
 
         return <>
-            <div className="survey-btn-padding" style={{textAlign: 'center'}}>
+            <div className="survey-btn-padding d-inline-flex text-center" style={{textAlign: 'center'}}>
                 {!isPlaying &&
                 <TooltipNotification 
                     title="play"
-                    placement={"top"} 
+                    placement={"bottom"} 
                     tooltip={"Play Survey " + "(Currently " + currentStatus + ")"}>
-                    <span>
-                        <Button 
-                            onClick={() => this.togglePlayDialog(row.id)} 
-                            bsStyle={"default"}>
-                                <i className="fa fa-play"></i>
-                        </Button>
-                    </span>
+                        <button className="btn btn-outline-secondary" onClick={() => this.togglePlayDialog(row.id)}>
+                            <i className="fa fa-play"></i>
+                        </button>
                 </TooltipNotification>}
 
                 {isPlaying &&
-                <Button 
-                    disabled={true} 
-                    bsStyle={"success"}>
-                        <i className="fa fa-play"></i>
-                </Button>}
+                <button className="btn btn-outline-success"  disabled={true}>
+                    <i className="fa fa-play"></i>
+                </button>}
 
                 {!(isPaused || isStopped) && 
                 <TooltipNotification 
                     title="pause"
-                    placement={"top"} 
+                    placement={"bottom"} 
                     tooltip={"Pause Survey " + "(Currently " + currentStatus + ")"}>
-                    <span>
-                        <Button 
-                            onClick={() => this.props.updateSurveyStatus(3, row.id)} 
-                            bsStyle={"default"}>
+                        <button className="btn btn-outline-secondary" onClick={() => this.props.updateSurveyStatus(3, row.id)}>
                             <i className="fa fa-pause"></i>
-                        </Button>
-                    </span>
+                        </button>
                 </TooltipNotification>}
 
                 {(isPaused || isStopped) &&
-                <Button 
-                    bsStyle={"default"}
-                    disabled={true}>
+                <button className="btn btn-outline-secondary" disabled={true}>
                     <i className="fa fa-pause"></i>
-                </Button>}
+                </button>}
 
                 {!isStopped &&
                 <TooltipNotification 
                     title="stop"
-                    placement={"top"} 
+                    placement={"bottom"} 
                     tooltip={"Stop Survey " + "(Currently " + currentStatus + ")"}>
-                    <span>
-                        <Button 
+                        <button className="btn btn-outline-primary" 
                             onClick={() => this.props.updateSurveyStatus(2, row.id)} 
-                            disabled={isStopped} 
-                            bsStyle={"default"}>
+                            disabled={isStopped}>
                             <i className="fa fa-stop"></i>
-                        </Button>
-                    </span>
+                        </button>
                 </TooltipNotification>}
 
                 {isStopped &&
-                <Button 
-                    disabled={true} 
-                    bsStyle={"default"}>
+                <button className="btn btn-outline-secondary" disabled={true}>
                     <i className="fa fa-stop"></i>
-                </Button>}
+                </button>}
             </div>
         </>
-    }
-
-
-    deleteSurvey = () => {
-
     }
 
     render() {
@@ -157,9 +135,9 @@ class OverviewTable extends Component {
             <div>
                 <BootstrapTable pagination data={this.props.data} options={getOptions()} search>
                     <TableHeaderColumn headerAlign='center' dataSort caretRender={getSort} dataField='name' dataFormat={getNameFormatter} >Survey Name</TableHeaderColumn>
-                    <TableHeaderColumn headerAlign='center' dataSort caretRender={getSort} dataField='start_datetime' dataFormat={this.getSurveyStartDate} >Start Date/Time</TableHeaderColumn>
-                    <TableHeaderColumn headerAlign='center' dataSort caretRender={getSort} dataField='status' dataFormat={this.getSurveyStatus} >Status</TableHeaderColumn>
-                    <TableHeaderColumn width="300px" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.getSurveyActions} >Actions</TableHeaderColumn>
+                    <TableHeaderColumn width="250px" headerAlign='center' dataSort caretRender={getSort} dataField='start_datetime' dataFormat={this.getSurveyStartDate} >Start Date/Time</TableHeaderColumn>
+                    <TableHeaderColumn width="200px" headerAlign='center' dataSort caretRender={getSort} dataAlign='center' dataField='status' dataFormat={this.getSurveyStatus} >Status</TableHeaderColumn>
+                    <TableHeaderColumn width="350px" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.getSurveyActions} >Actions</TableHeaderColumn>
                 </BootstrapTable>
                 <DeleteSurveyModal />
             </div>

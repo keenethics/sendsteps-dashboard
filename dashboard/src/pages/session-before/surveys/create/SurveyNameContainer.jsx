@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormGroup, FormControl, ControlLabel, Button } from 'react-bootstrap'
+import { FormGroup, FormControl } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify'
 import { get } from '../../../../scripts/api';
@@ -72,7 +72,7 @@ class SurveyNameContainer extends Component {
         get(
             'surveys',
             'addSurvey',
-            JSON.stringify({surveyName}),
+            { name: surveyName },
             newData => {
                 this.props.dispatch(setSurveyData(newData))
                 toast("Created new Survey!")
@@ -85,17 +85,6 @@ class SurveyNameContainer extends Component {
         )
     }
 
-    getNameValidationState = () => {
-        if(!this.state.surveyName) {
-            return null;
-        }
-        if(this.isSurveyNameValid()) {
-            return 'success'
-        } else {
-            return 'error'
-        }
-    }
-    
     componentWillReceiveProps(nextProps) {
         if(nextProps.name) {
             this.setState({surveyName: nextProps.name})
@@ -108,36 +97,35 @@ class SurveyNameContainer extends Component {
         const { create, name } = this.props
 
         return (
-            <FormGroup validationState={this.getNameValidationState()}>
-            <div className="row">
-                <div className="col-sm-12">
+            <div className="form-group row">
                     <div className="col-sm-3">
-                        <ControlLabel className="lh-32 input-lg">Survey Name</ControlLabel>
+                        <label className="col-form-label">Survey Name</label>
                     </div>
                     <div className="col-sm-6">
                         <div className="input-group input-group-lg">
-                            <span className="input-group-addon">
-                                <i className="fa fa-list"></i>
-                            </span>
-                            <FormControl
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <i className="fa fa-list"></i>
+                                </span>
+                            </div>
+                            <input
                                 onBlur={this.validateSurveyName}
                                 type="text"
                                 value={name ? name : surveyName}
                                 placeholder="Survey Name"
                                 onChange={this.setSurveyName}
+                                className={'form-control ' + (this.isSurveyNameValid() ? 'is-valid' : '')}
                             />
                         </div>
-                        {!!error && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
+                        {!!error && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
                     </div>
                     {create && 
-                    <div className="col-sm-3">
-                        <Button className="btn-block" bsSize="large" disabled={!this.isSurveyNameValid()} bsStyle="success" onClick={this.checkIfValidAndCreateNew}>
+                    <div className="col-sm-3 text-right">
+                        <button type="button" className="btn btn-lg btn-success" disabled={!this.isSurveyNameValid()} onClick={this.checkIfValidAndCreateNew}>
                             <i className="fa fa-plus-square"></i> Create new Survey
-                        </Button>
+                        </button>
                     </div>}
-                </div>
             </div>
-            </FormGroup>
         );
     }
 }

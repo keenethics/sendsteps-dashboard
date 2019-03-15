@@ -7,7 +7,7 @@ import { getOptions, getSort, getPhonenumberFormatter, getLabelFormatter } from 
 class OverviewTable extends Component {
     
     viewFormatter = (cell, row) => {
-        return <Link to={'/superadmin/phonenumbers/details/' + row.id}><button className="btn btn-sm btn-danger"><i className="fa fa-times"></i> Delete</button></Link>;
+        return <Link to={'/superadmin/phonenumbers/details/' + row.id}><button className="btn btn-danger"><i className="fa fa-times"></i> Delete</button></Link>;
     }
     
     render() {

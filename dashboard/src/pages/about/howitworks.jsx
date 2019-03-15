@@ -1,7 +1,5 @@
 import React from "react";
-import { AddinDownloadPanel, AddinInfoPanel, TutorialInfoPanel } from './extra_components/InfoPanels';
-import ResponseSiteContainer from '../base/ResponseSiteContainer';
-import { Panel } from 'react-bootstrap';
+import { AddinInfoPanel, TutorialInfoPanel } from './extra_components/InfoPanels';
 import HeaderPanel from "../../components/common/HeaderPanel";
 class AboutAddin extends React.Component {
 
@@ -16,10 +14,12 @@ class AboutAddin extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">
-                            <Panel><Panel.Body>
-                                <h2>Video Tutorial</h2>
-                                <p>Watch the video tutorial to get you started with the PowerPoint Add-in!</p>
-                            </Panel.Body></Panel>
+                            <div className="card">
+                                <div className="card-body">
+                                    <h2>Video Tutorial</h2>
+                                    <p>Watch the video tutorial to get you started with the PowerPoint Add-in!</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -28,8 +28,6 @@ class AboutAddin extends React.Component {
                     <div className="row">
                         <TutorialInfoPanel />
                         <AddinInfoPanel />
-                        <AddinDownloadPanel />
-                        <ResponseSiteContainer />
                     </div>
                 </div>
             </div>

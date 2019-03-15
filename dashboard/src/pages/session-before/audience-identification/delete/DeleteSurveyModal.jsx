@@ -15,7 +15,7 @@ class DeleteSurveyModal extends Component {
         get(
             'surveys',
             'deleteSurvey',
-            JSON.stringify({id: deleteSurveyId}),
+            { id: deleteSurveyId },
             result => {
                 this.props.dispatch(setSurveyData(result))
                 this.props.dispatch(setDeleteSurveyId(null))
@@ -44,12 +44,12 @@ class DeleteSurveyModal extends Component {
                     Are you sure you want to delete this survey?
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="danger" onClick={this.deleteSurvey}>
+                    <div className="btn btn-danger" onClick={this.deleteSurvey}>
                         <i className="fa fa-trash"></i> Delete
-                    </Button>
-                    <Button onClick={this.hideModal}>
+                    </div>
+                    <div className="btn btn-primary" onClick={this.hideModal}>
                         <i className="fa fa-times"></i> Cancel
-                    </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         );

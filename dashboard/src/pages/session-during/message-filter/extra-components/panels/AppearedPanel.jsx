@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
@@ -18,17 +17,17 @@ class AppearedPanel extends Component {
         const { messages, selectedAppearedIds } = this.props;
 
         return (
-            <Panel>
-                <Panel.Heading>
-                    <h4>
+            <div className="card mt-3 appeared">
+                <div className="card-header">
+                    <span className="card-title">
                         <i className="filter-help fa fa-info-circle"></i> Appeared on screen ({getAppearedMessages(messages).length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>
-                    </h4>
-                </Panel.Heading>
+                    </span>
+                </div>
                 <AppearedToolbar />
-                <Panel.Body className="messages-body">
+                <div className="card-body messages-body">
                     {messages && getAppearedMessages(messages).map((message, index) => {
                         return (
                             <PanelMessage 
@@ -39,8 +38,8 @@ class AppearedPanel extends Component {
                                 onSelect={() => this.toggleSelect(message)} 
                             />)
                     })}
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         );
     }
 }

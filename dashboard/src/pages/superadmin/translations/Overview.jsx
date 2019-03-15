@@ -2,7 +2,6 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setTranslationData } from './actions';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
@@ -26,11 +25,11 @@ class TranslationsOverview extends React.Component {
             <div>
                 <HeaderPanel title={"Translations Overview"} />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             {translations && <OverviewTable data={translations} />}
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

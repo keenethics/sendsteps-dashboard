@@ -18,18 +18,15 @@ class DeleteSurveyQuestionModal extends Component {
         post(
             'surveys',
             'deleteSurveyQuestion',
-            JSON.stringify({
-                id: deleteSurveyQuestionId
-            }),
+            { id: deleteSurveyQuestionId },
             () => {
                 this.props.getSurveyQuestions()
                 this.props.dispatch(setDeletingSurveyQuestionId(null))
                 toast("Survey question removed!")
             },
-            err => {
-                console.log(err)
+            error => {
                 this.props.dispatch(setDeletingSurveyQuestionId(null))
-                toast("Unable to remove survey question." + JSON.stringify({err}))
+                toast("Unable to remove survey question." + error.message)
             }
         )
     }
@@ -53,8 +50,8 @@ class DeleteSurveyQuestionModal extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle={"danger"} className="pull-left" onClick={this.deleteSurveyQuestion}><i className="fa fa-trash"></i> Delete</Button>
-                    <Button onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</Button>
+                    <div className="btn btn-danger" className="pull-left" onClick={this.deleteSurveyQuestion}><i className="fa fa-trash"></i> Delete</div>
+                    <div className="btn btn-primary" onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</div>
                 </Modal.Footer>
             </Modal>
         );

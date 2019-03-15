@@ -18,9 +18,12 @@ export default class ImageUploadField extends React.Component {
                     
                     </div>
                     <div className="form-group">
-                        <label className="control-label">{labelText || "No labelText selected"}</label>
+                        <label className="col-form-label">{labelText || "No labelText selected"}</label>
                         <div className="input-group">
-                            <span className="input-group-addon"><i className="fa fa-images"></i> Browse... </span>
+                            <div className="input-group-prepend">
+                                <button className="btn btn-outline-secondary" type="button"><i className="fa fa-images"></i> Browse...</button>
+                            </div>
+                            
                             <input value="" placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
                         </div>
                     </div>

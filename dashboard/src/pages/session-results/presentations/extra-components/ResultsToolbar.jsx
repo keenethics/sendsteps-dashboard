@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DropdownButton, MenuItem, Button } from 'react-bootstrap';
+import { DropdownButton, Dropdown, Button } from 'react-bootstrap';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { connect } from 'react-redux';
 import { formatLabelsToKeyValuePairs } from '../../../../scripts/arrayHelper';
@@ -96,50 +96,50 @@ class ResultsToolbar extends Component {
             percentageResults } = this.state;
 
         return (
-            <div className="btn-toolbar pull-right result-options">
+            <div className="btn-toolbar pull-right result-options ">
                 <TooltipNotification title="pie-chart" tooltip={selectedResultIds.length < 1 ? "Select some results to export" : "Export"} placement={"top"}>
-                    <DropdownButton title={"Export (" + selectedResultIds.length + ")"} disabled={selectedResultIds.length < 1} id="bg-vertical-dropdown-3">
-                        <MenuItem onClick={() => this.exportPDF()}>Export PDF (.pdf)</MenuItem>
-                        <MenuItem onClick={() => this.exportExcel()} >Export to Excel (.xlsx)</MenuItem>
+                    <DropdownButton className="mr-2 mt-2" title={"Export (" + selectedResultIds.length + ")"} disabled={selectedResultIds.length < 1} id="bg-vertical-dropdown-3">
+                        <Dropdown.Item onClick={() => this.exportPDF()}>Export PDF (.pdf)</Dropdown.Item>
+                        <Dropdown.Item onClick={() => this.exportExcel()} >Export to Excel (.xlsx)</Dropdown.Item>
                     </DropdownButton>
                 </TooltipNotification>
 
-                <div className="btn-group">
-                    <Button onClick={this.changeResultGroupType} active={resultsGrouped}>
+                <div className="btn-group mr-2 mt-2">
+                    <button className={"btn btn-outline-secondary " + (resultsGrouped && "active")} onClick={this.changeResultGroupType}>
                         Group Results
-                    </Button>
-                    <Button onClick={this.changeResultGroupType} active={resultsPerPerson}>
+                    </button>
+                    <button className={"btn btn-outline-secondary " + (resultsPerPerson && "active")} onClick={this.changeResultGroupType}>
                         Results per Person
-                    </Button>
+                    </button>
                 </div>
                 <TooltipNotification title="pie-chart" tooltip={"Pie Chart"} placement={"top"}>
-                    <Button onClick={this.changeChartType} active={pieChartResults}>
+                    <button className={"btn btn-outline-secondary mr-2 mt-2 " + (pieChartResults && "active")} onClick={this.changeChartType} >
                         <i className="fa fa-pie-chart"></i>
-                    </Button>
+                    </button>
                 </TooltipNotification>
 
                 <TooltipNotification title="bar-chart" tooltip={"Bar Chart"} placement={"top"}>
-                    <Button onClick={this.changeChartType} active={barChartResults} className="btn btn-default">
+                    <button className={"btn btn-outline-secondary mr-2 mt-2 " + (barChartResults && "active")} onClick={this.changeChartType}>
                         <i className="fa fa-bar-chart"></i>
-                    </Button>
+                    </button>
                 </TooltipNotification>
 
                 <TooltipNotification title="side-bar-chart" tooltip={"Side Bar Chart"} placement={"top"}>
-                    <Button onClick={this.changeSideChart} active={sideBarChart} className="btn btn-default">
+                    <button className={"btn btn-outline-secondary mr-2 mt-2 " + (sideBarChart && "active")} onClick={this.changeSideChart}>
                         <i className="fa fa-bar-chart side-chart"></i>
-                    </Button>
+                    </button>
                 </TooltipNotification>
 
                 <TooltipNotification title="percentage-result" tooltip={"Results as Percentage"} placement={"top"}>
-                    <Button onClick={this.changeResultsNumericType} active={percentageResults} className="btn btn-default">
+                    <button className={"btn btn-outline-secondary mr-2 mt-2 " + (percentageResults && "active")} onClick={this.changeResultsNumericType}>
                         <i className="fa fa-percent"></i>
-                    </Button>
+                    </button>
                 </TooltipNotification>
 
                 <TooltipNotification title="numeric-result" tooltip={"Numeric Results"} placement={"top"}>
-                    <Button onClick={this.changeResultsNumericType} active={numericResults} className="btn btn-default">
-                        <strong><small>...123</small></strong>
-                    </Button>
+                    <button className={"btn btn-outline-secondary mr-2 mt-2 " + (numericResults && "active")} onClick={this.changeResultsNumericType}>
+                        <small>...123</small>
+                    </button>
                 </TooltipNotification>
             </div>
         );

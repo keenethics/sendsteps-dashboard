@@ -7,7 +7,7 @@ import { getOptions, getSort, getNameFormatter } from '../../base/BaseTable';
 class OverviewTable extends Component {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/superadmin/sessions/details/' + cell}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/superadmin/sessions/details/' + cell}><button className="btn btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     getExtraButtonGroup(data) {

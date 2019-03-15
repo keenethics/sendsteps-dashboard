@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
-import { Panel } from 'react-bootstrap';
 import './Forms.scss';
 
 class PasswordResetForm extends Component {
@@ -43,27 +42,29 @@ class PasswordResetForm extends Component {
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 password-reset-form">
-                    <Panel>
-                        <Panel.Heading>
-                            <Panel.Title>
+                    <div className="card">
+                        <div className="card-header">
+                            <div className="card-title">
                                 Request password reset
-                            </Panel.Title>
-                        </Panel.Heading>
-                        <Panel.Body>
+                            </div>
+                        </div>
+                        <div className="card-body">
                             <div className={"fa-sm form-group " + emailErrorClass}>
-                                <label className="control-label">Enter your email to reset your password</label>
+                                <label className="col-form-label">Enter your email to reset your password</label>
                                 <div className="input-group">
-                                    <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                    <input onBlur={this.checkRecoveringEmail.bind(this)} onChange={this.setRecoveringEmail.bind(this)} value={recoveringEmail} data-lpignore='true' type="email" className="form-control input-sm" placeholder="Enter email" />
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text" ><i className="fa fa-user"></i></span>
+                                    </div>
+                                    <input onBlur={this.checkRecoveringEmail.bind(this)} onChange={this.setRecoveringEmail.bind(this)} value={recoveringEmail} data-lpignore='true' type="email" className="form-control" placeholder="Enter email" />
                                 </div>
                                 {recoveringEmailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {recoveringEmailError}</span>}
                             </div>
-                        </Panel.Body>
-                        <Panel.Footer>
-                            <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-chevron-left"></i> Back to login</button>
-                            <button type="button" onClick={this.resetEmail.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Reset</button>
-                        </Panel.Footer>
-                    </Panel>
+                        </div>
+                        <div className="card-footer">
+                            <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-outline-secondary"><i className="fa fa-chevron-left"></i> Back to login</button>
+                            <button type="button" onClick={this.resetEmail.bind(this)} className="pull-right btn btn-primary"><i className="fa fa-sign-in-alt"></i> Reset</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

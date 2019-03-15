@@ -16,8 +16,8 @@ class ResponseToggleInput extends Component {
         const { settings } = this.props
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">
                     Response Website <TooltipNotification 
                         title={"Response Website"}
                         tooltip={
@@ -35,7 +35,7 @@ class ResponseToggleInput extends Component {
                         onClick={() => this.updateSettings(settings.internetselected === "1" ? "0" : "1", 'internetselected')}
                         on={<span><i className="fa fa-check"></i> On</span>}
                         off={<span><i className="fa fa-times"></i> Off</span>}
-                        offstyle="default"
+                        offstyle="secondary"
                         active={settings.internetselected === "1"}
                     />
                 </div>}

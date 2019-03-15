@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { setResponseSiteSettings, setResponsePhonenumbers } from './actions';
-import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { post, get } from "../../../scripts/api";
@@ -13,6 +12,7 @@ import ResponseToggleInput from "./inputs/ResponseToggleInput";
 import ResponseToggleSMSInput from "./inputs/ResponseToggleSMSInput";
 import ResponseInternationalInput from "./inputs/ResponseInternationalInput";
 import ResponsePhonenumberInput from "./inputs/ResponsePhonenumberInput";
+import { Collapse } from 'react-bootstrap';
 import './Overview.scss'
 
 class SettingsOverview extends React.Component {
@@ -51,9 +51,8 @@ class SettingsOverview extends React.Component {
     }
 
     getOverviewSettings = () => {
-        // let apiParams = JSON.stringify({id: this.props.match.params.id});
         get('responsesite', 'getSettingsBasic', 
-            {id: this.props.match.params.id},
+            { id: this.props.match.params.id },
             result => {
                 console.log(result.content);
                 const { phonenumberCountryisocode } = result.content;
@@ -61,7 +60,7 @@ class SettingsOverview extends React.Component {
                 this.getPhonenumberList(phonenumberCountryisocode);
             },
             error => {
-                toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
+                toast('Unable to fetch settings...' + error.message)
             }
         )
     }
@@ -78,11 +77,10 @@ class SettingsOverview extends React.Component {
         };
         post(
             'responsesite', 'updateSettingsBasic',
-            JSON.stringify({newSettings}),
+            { settings: newSettings },
             () =>  toast("Response settings updated!"),
             error => {
-                console.log(error)
-                toast(`Unable to update response settings... (${JSON.stringify(error)})`)
+                toast('Unable to update response settings...' + error.message)
             }
         )
     }
@@ -115,31 +113,31 @@ class SettingsOverview extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-12">  
-                            <Panel>
-                                <Panel.Body>
+                            <div className="card">
+                                <div className="card-body">
                                     <div className="form-horizontal">
                                         <ResponseCodeInput />
                                         <ResponseToggleInput />
-                                        <Panel className="panel-no-border" onToggle={() => {}} expanded={!!(settings && settings.internetselected === "1")}>
-                                            <Panel.Collapse>    
-                                                {settings && <>      
+                                        <div className="card border-0">
+                                            {settings && <Collapse in={!!(settings && settings.internetselected === "1")}>    
+                                                <span>
                                                     <ResponseURLInput /> 
-                                                </>}                     
-                                            </Panel.Collapse>
-                                        </Panel>
+                                                </span>
+                                            </Collapse>} 
+                                        </div>
                                         <ResponseToggleSMSInput />
-                                        <Panel className="panel-no-border" onToggle={() => {}} expanded={!!(settings && settings.textmessagingselected === "1")}>
-                                            <Panel.Collapse>                                
-                                                {settings && <>
+                                        <div className="card border-0">
+                                            {settings && <Collapse in={!!(settings && settings.textmessagingselected === "1")}> 
+                                                <span>                      
                                                     <ResponseCountryInput getPhonenumberList={this.getPhonenumberList} />
                                                     <ResponseInternationalInput getPhonenumberList={this.getPhonenumberList} />
                                                     <ResponsePhonenumberInput />
-                                                </>}
-                                            </Panel.Collapse>
-                                        </Panel>
+                                                </span>
+                                            </Collapse>}
+                                        </div>
                                     </div>
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
                             <BottomSaveBar onSave={this.saveResponseSiteSettings.bind(this)}/>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 class BottomSaveBar extends Component  {
@@ -12,28 +12,28 @@ class BottomSaveBar extends Component  {
         const { onSave, noSave, disabled } = this.props;
 
         return (
-            <Panel>
-                <Panel.Body>
+            <div className="card mt-3">
+                <div className="card-body">
                     <div className="row">
                         <div className="col-sm-12">
                             {!noSave &&
-                            <Button 
+                            <div className="btn btn-success" 
                                 disabled={disabled}
                                 onClick={onSave || function(){ console.log("onSave")}}
-                                bsStyle='success'>
+                            >
                                 <i className="fa fa-save"></i> Save
-                            </Button>}
+                            </div>}
                             <button 
                                 onClick={() => this.goBack()}
                                 type='button' 
                                 id='back-btn' 
-                                className='btn btn-default pull-right'>
+                                className='btn btn-outline-secondary float-right'>
                                 <i className="fa fa-chevron-left"></i> Back
                             </button>
                         </div>
                     </div>
-                </Panel.Body>
-            </Panel>            
+                </div>
+            </div>            
         )
     }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
@@ -18,17 +17,17 @@ class OnscreenPanel extends Component {
         const { messages, selectedOnscreenIds } = this.props;
 
         return (
-            <Panel bsStyle="success">
-                <Panel.Heading>
-                    <h4>
+            <div className="card mt-3">
+                <div className="card-header bg-success">
+                    <span className="card-title">
                         <i className="filter-help fa fa-info-circle"></i> Messages live on screen ({getMessageByProperty(messages, 'status', 'showing').length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>
-                    </h4>
-                </Panel.Heading>
+                    </span>
+                </div>
                 <OnscreenToolbar />
-                <Panel.Body className="messages-body">
+                <div className="card-body messages-body">
                     {messages && getOnscreenMessages(messages).map((message, index) => {
                         return (
                             <PanelMessage 
@@ -39,8 +38,8 @@ class OnscreenPanel extends Component {
                                 onSelect={(value) => this.toggleSelect(message)} 
                             />)
                     })}
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         );
     }
 }

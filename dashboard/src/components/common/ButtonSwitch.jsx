@@ -14,12 +14,12 @@ class ButtonSwitch extends Component {
                 <div className="btn-group">
                     {!options && 
                     <span>
-                        <div onClick={() => onChange ? onChange(true) : console.log(true)} className={"btn btn-default " + isActive}>
+                        <button onClick={() => onChange ? onChange(true) : console.log(true)} className={"btn btn-outline-secondary " + isActive}>
                             <i className="fa fa-check"></i> On
-                        </div>
-                        <div onClick={() => onChange ? onChange(false) : console.log(false)} className={"btn btn-default " + isInactive}>
+                        </button>
+                        <button onClick={() => onChange ? onChange(false) : console.log(false)} className={"btn btn-outline-secondary " + isInactive}>
                             <i className="fa fa-times"></i> Off
-                        </div>
+                        </button>
                     </span>}
                     {options &&
                         options.map((option, index) => {
@@ -28,10 +28,10 @@ class ButtonSwitch extends Component {
                                 selectedIndex = 1;
                             }
                             return (
-                                <div className={"btn btn-default " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
+                                <button className={"btn btn-outline-secondary " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
                                     {(optionText && typeof optionText[index] !== 'undefined') && optionText[index]}
                                     {!optionText && option}
-                                </div>
+                                </button>
                             )
                         })
                     }

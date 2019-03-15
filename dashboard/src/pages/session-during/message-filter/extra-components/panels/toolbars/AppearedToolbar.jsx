@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { post } from '../../../../../../scripts/api';
 import { sendToIncoming, clearAppearedSelect } from '../../../actions';
 import { toast } from 'react-toastify';
@@ -8,7 +8,7 @@ class AppearedToolbar extends Component {
 
     sendIdsToIncoming = () => {
         post('messagefilter', 'sendToIncoming',
-            JSON.stringify({ids: this.props.selectedAppearedIds}),
+            { ids: this.props.selectedAppearedIds },
             response => {
                 this.props.dispatch(sendToIncoming(response));
                 this.props.dispatch(clearAppearedSelect());
@@ -24,15 +24,15 @@ class AppearedToolbar extends Component {
         const { selectedAppearedIds } = this.props;
 
         return (
-            <Panel.Footer>
+            <div className="card-footer">
                 <ButtonToolbar>
-                    <Button 
+                    <div className="btn btn-primary" 
                         disabled={selectedAppearedIds.length < 1} 
                         onClick={() => this.sendIdsToIncoming()}>
                         <i className="fa fa-recycle"></i> Back to Incoming
-                    </Button>
+                    </div>
                 </ButtonToolbar>
-            </Panel.Footer>
+            </div>
         );
     }
 }

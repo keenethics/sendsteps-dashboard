@@ -9,24 +9,20 @@ class CheckboxContainer extends Component {
         console.log(options)
 
         return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="col-sm-9 col-sm-offset-3">
-                        {options && Object.keys(options).map(key => {
-                            return (
-                            <span key={key}>
-                                <CheckboxOption 
-                                    optionsLoaded={optionsLoaded}
-                                    setOptionText={updateOptions}
-                                    addOption={addOption}
-                                    deleteOption={() => deleteOption(key)}
-                                    optionKey={key}
-                                    option={options[key]} 
-                                />
-                            </span>)
-                        })}
-                    </div>
-                </div>
+            <div className="col-sm-9">
+                {options && Object.keys(options).map(key => {
+                    return (
+                    <span key={key}>
+                        <CheckboxOption 
+                            optionsLoaded={optionsLoaded}
+                            setOptionText={updateOptions}
+                            addOption={addOption}
+                            deleteOption={() => deleteOption(key)}
+                            optionKey={key}
+                            option={options[key]} 
+                        />
+                    </span>)
+                })}
             </div>
         );
     }

@@ -2,7 +2,6 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setSessionData } from './actions';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { get } from '../../../scripts/api';
 class SessionsOverview extends React.Component {
@@ -25,11 +24,11 @@ class SessionsOverview extends React.Component {
                 <div>
                     <HeaderPanel title={"Sessions Overview"} />
                     <div className="container-fluid">
-                        <Panel>
-                            <Panel.Body>
+                        <div className="card">
+                            <div className="card-body">
                                     {sessionData && <OverviewTable data={sessionData} />}
-                            </Panel.Body>
-                        </Panel>
+                            </div>
+                        </div>
                     </div>
                 </div>
         )

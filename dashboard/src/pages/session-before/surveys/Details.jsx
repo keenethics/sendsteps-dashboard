@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import { setSurveyDetails } from './actions'; 
 import moment from 'moment';
-import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { get, post } from "../../../scripts/api";
@@ -18,7 +17,7 @@ class SurveyDetails extends React.Component {
 
     getSurveyDetails = () => {
         get('surveys', 'getDetails',
-            JSON.stringify({id: this.props.match.params.id}),
+            { id: this.props.match.params.id },
             result => {
                 console.log(result)
                 this.props.dispatch(setSurveyDetails(result.content))
@@ -40,10 +39,10 @@ class SurveyDetails extends React.Component {
         post(
             'surveys',
             'updateSurveyName',
-            JSON.stringify({
+            {
                 id: this.props.match.params.id,
                 surveyName: this.props.surveyDetails.survey_name
-            }),
+            },
             result => {
                 toast("Survey saved!")
                 this.props.dispatch(setSurveyDetails(result.content))
@@ -64,15 +63,15 @@ class SurveyDetails extends React.Component {
                 <HeaderPanel title={"Survey Details"} />
                 <div className="container-fluid">
                     {surveyDetails &&
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             <h3>Edit Survey</h3>
                             <hr />
                             <SurveyNameContainer name={surveyDetails.survey_name} />
                             <hr />
                             <CreateQuestionContainer />
-                        </Panel.Body>
-                    </Panel>}
+                        </div>
+                    </div>}
                     <BottomSaveBar disabled={surveyDetails && surveyDetails.survey_name.length < 3} onSave={this.saveSettings} />
                 </div>
             </div>

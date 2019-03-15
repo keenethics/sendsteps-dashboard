@@ -19,8 +19,8 @@ class ResponseURLInput extends Component {
         const { settings } = this.props
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">URL <TooltipNotification 
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">URL <TooltipNotification 
                     title={"URL"}
                     tooltip={
                         <span className="text-left">
@@ -36,9 +36,11 @@ class ResponseURLInput extends Component {
                     {
                         settings && settings.responseSitesList &&
                         <div className="input-group">
-                            <span className="input-group-addon">
-                                <i className="fa fa-link"></i>
-                            </span>
+                            <div className="input-group-prepend">
+                                <span className="input-group-text">
+                                    <i className="fa fa-link"></i>
+                                </span>
+                            </div>
                             <select onChange={this.changeResponseURL} value={settings.internetaddressoverwrite} className="form-control">
                                 {/* <option value={"--"}>Select Response Site</option> */}
                                 {
@@ -55,14 +57,7 @@ class ResponseURLInput extends Component {
         );
     }
 }
-{/* <div className="col-sm-6">
-                    <div className="input-group">
-                        <span className="input-group-addon">
-                            <i className="fa fa-link"></i>
-                        </span>
-                        <input type="text" value={(settings && settings.internetaddressoverwrite) ? settings.internetaddressoverwrite : ""} disabled="disabled" className="form-control" placeholder="" />
-                    </div>
-                </div> */}
+
 export default connect(
     state => {
         return {

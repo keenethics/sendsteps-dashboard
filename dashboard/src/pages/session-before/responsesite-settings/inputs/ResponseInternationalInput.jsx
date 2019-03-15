@@ -4,7 +4,6 @@ import TooltipNotification from '../../../../components/common/TooltipNotificati
 import Toggle from 'react-bootstrap-toggle';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
-
 class ResponseInternationalInput extends Component {
 
     changeInternational = value => {
@@ -32,8 +31,8 @@ class ResponseInternationalInput extends Component {
         const { settings, responsePhonenumbers } = this.props
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">International Audience <TooltipNotification 
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">International Audience <TooltipNotification 
                     title={"International Audience"}
                     tooltip={
                         <span className="text-left">
@@ -50,7 +49,7 @@ class ResponseInternationalInput extends Component {
                             onClick={this.changeInternational}
                             on={<span><i className="fa fa-check"></i> Yes</span>}
                             off={<span><i className="fa fa-times"></i> No</span>}
-                            offstyle="default"
+                            offstyle="secondary"
                             disabled={this.isLocalOnly() || this.isInternationalOnly()}
                             active={settings && settings.phonenumberForeignerCompatible === "1"}
                         />}

@@ -36,30 +36,37 @@ export default class InputField extends React.Component {
         return (
             <div className="form-group">    
                 {labelText && 
-                <label className="control-label">
+                <label className="col-form-label">
                     {labelText}
                 </label>}
                 {extraLabelText || ""}
                 <div className="input-group">
-                    {leftFaIcon && <span className="input-group-addon">
-                        <i className={"fa fa-" + leftFaIcon}></i>
-                    </span>}
+                    {leftFaIcon && <div className="input-group-prepend">
+                        <span className="input-group-text">
+                            <i className={"fa fa-" + leftFaIcon}></i>
+                        </span>
+                    </div>}
                     <input 
                         onChange={onChange || function() { console.log('No Onchange attribute supplied') }}
                         placeholder={placeholder || ""} 
                         id={inputId || ""} 
                         className="form-control" 
                         value={this.state.value}
-                        readOnly={readonly && "readonly"}/>
+                        readOnly={readonly && "readonly"}
+                    />
                     {rightFaIcon && !clearButton && 
-                    <span className="input-group-addon">
-                        <i className={"fa fa-" + rightFaIcon}></i>
-                    </span>}    
+                    <div className="input-group-append">
+                        <span className="input-group-text">
+                            <i className={"fa fa-" + rightFaIcon}></i>
+                        </span>
+                    </div>}    
                     {clearButton && !rightFaIcon &&
                     <TooltipNotification title={inputId || ""} tooltip="Clear field" placement="top">
-                        <span onClick={this.clearField.bind(this)} className="input-group-addon">
-                            <i className={"fa fa-times"}></i>
-                        </span>
+                        <div onClick={this.clearField.bind(this)} className="input-group-append">
+                            <span className="input-group-text">
+                                <i className={"fa fa-times"}></i>
+                            </span>
+                        </div>
                     </TooltipNotification>}                               
                 </div>
             </div>

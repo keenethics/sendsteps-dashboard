@@ -83,15 +83,15 @@ class LastSessionResponses extends Component {
         const { lastResponses } = this.props;
 
         return (
-            <Panel>
-                <Panel.Heading>
+            <div className="card">
+                <div className="card-header">
                     <h5>
                         Last Session Activity
-                        <button className="view-result btn-sm pull-right btn btn-primary">View Results</button>
+                        <button className="view-result pull-right btn btn-primary">View Results</button>
                     </h5>
                     
-                </Panel.Heading>
-                <Panel.Body>
+                </div>
+                <div className="card-body">
                     <ListGroup >
                         {!lastResponses && <LoadingPlaceholder />}
                         {lastResponses && 
@@ -130,8 +130,8 @@ class LastSessionResponses extends Component {
                         </table>
                         </>}
                     </ListGroup>
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         );
     }
 }

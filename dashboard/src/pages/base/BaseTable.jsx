@@ -3,6 +3,7 @@ import moment from 'moment';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
 import TooltipNotification from '../../components/common/TooltipNotification';
 import './BaseTable.scss';
+
 export const getNameFormatter = cell => {
     return <strong>{cell}</strong>
 }
@@ -21,9 +22,9 @@ export const getLabelFormatter = (cell, row) => {
 
 export const getTrueFalseFormatter = cell => {
     if(cell === "1") {
-        return <button disabled={true} className="tf-button btn btn-sm btn-danger"><i className="fa fa-times"></i> No </button>;
+        return <button disabled={true} className="tf-button btn btn-danger"><i className="fa fa-times"></i> No </button>;
     }
-    return <button disabled={true} className="tf-button btn btn-sm btn-success"><i className="fa fa-check"></i> Yes</button>;
+    return <button disabled={true} className="tf-button btn btn-success"><i className="fa fa-check"></i> Yes</button>;
 }
 
 export const getSort = direction => {
@@ -67,7 +68,7 @@ export const getOptions = () => {
 }
 
 function getClearButton(clearSearch) {
-    return <button onClick={clearSearch} className="btn btn-danger"><i className="fa fa-times"></i></button>
+    return <span className="input-group-append"><button onClick={clearSearch} className="btn btn-danger"><i className="fa fa-times"></i></button></span>
 }
 
 export const getMessageColumn = message => {

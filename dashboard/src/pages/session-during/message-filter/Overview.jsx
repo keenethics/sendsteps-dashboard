@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Panel, FormControl, ControlLabel, FormGroup } from 'react-bootstrap';
+import { FormGroup } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
-import ButtonSwitch from '../../../components/common/ButtonSwitch';
 import './Overview.scss';
 import QueuePanel from './extra-components/panels/QueuePanel';
 import OnscreenPanel from './extra-components/panels/OnscreenPanel';
@@ -11,30 +10,33 @@ import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
 import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
-
+import Toggle from 'react-bootstrap-toggle';
 class MessageFilterOverview extends React.Component {
 
-    componentDidMount() {
+    getMessageData = () => {
         post(
             'messagefilter', 
             'getMessageFilterData', 
-            JSON.stringify({
-                // Static messageround ID (Change this)
+            {
+                // @TODO Static messageround ID (Change this)
                 msgRoundId: 364
-            }),
+            },
             messages => {
                 console.log(messages)
                 this.props.dispatch(setMessageFilterData(messages.content))
+                this.props.dispatch(toggleAutoAccept(messages.autoAccept === "1"))
+                this.props.dispatch(toggleUpvoting(messages.upvoting === "1"))
+
             },
             error => console.log(error)
         )
+    }
 
+    getColorGroupsData = () => {
         post(
             'messagefilter', 
             'getMessageGroups', 
-            JSON.stringify({
-                userId: this.props.currentUser.userId
-            }), 
+            { userId: this.props.currentUser.userId }, 
             groupData => {
                 console.log(groupData)
                 this.props.dispatch(setMessageGroupData(groupData.content))
@@ -43,10 +45,16 @@ class MessageFilterOverview extends React.Component {
         )
     }
 
+    componentDidMount() {
+        this.getMessageData();
+        this.getColorGroupsData();
+        
+    }
+
     toggleAutoAccept = value => {
         post(
             'messagefilter', 'toggleAutoAccept',
-            JSON.stringify({isEnabled: value}),
+            { isEnabled: value },
             () => {
                 this.props.dispatch(toggleAutoAccept(value))
                 if(value) {
@@ -55,7 +63,7 @@ class MessageFilterOverview extends React.Component {
             },
             error => {
                 console.log(error)
-                toast(`Unable to toggle Auto accept... [${JSON.stringify(error)}]`);
+                toast('Unable to toggle Auto accept... ' + error.message);
             }
         )
     }
@@ -63,7 +71,7 @@ class MessageFilterOverview extends React.Component {
     toggleUpvoting = value => {
         post(
             'messagefilter', 'toggleUpvoting',
-            JSON.stringify({isEnabled: value}),
+            { isEnabled: value },
             () => {
                 this.props.dispatch(toggleUpvoting(value))
                 if(value) {
@@ -72,7 +80,7 @@ class MessageFilterOverview extends React.Component {
             },
             error => {
                 console.log(error)
-                toast(`Unable to toggle Upvoting... [${JSON.stringify(error)}]`);
+                toast('Unable to toggle Upvoting... ' + error.message);
             }
         )
     }
@@ -182,36 +190,50 @@ class MessageFilterOverview extends React.Component {
                             <p> It can also be used to manage incoming messages and to decide which messages will be displayed on the screen.</p>
                         </span>}/>
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             <div className="row">
                                 <div className="col-md-12">
                                     <FormGroup controlId="formControlsSelect">
                                         {/* Only Questions that have a type of OPEN ENDED */}
-                                        <ControlLabel>Current Slide/Question</ControlLabel>
-                                        <FormControl componentClass="select" placeholder="select">
+                                        <label>Current Slide/Question</label>
+                                        <select placeholder="select">
                                             <option value="select">Select</option>
                                             <option value="other">...</option>
-                                        </FormControl>
+                                        </select>
                                     </FormGroup>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="control-label">Upvoting</label>
-                                        <ButtonSwitch onChange={this.toggleUpvoting} selected={upvotingEnabled ? "1" : "0"} />    
+                                        <label className="col-form-label">Upvoting</label>
+                                        <br/>
+                                        <Toggle
+                                            onClick={() => this.toggleUpvoting(!upvotingEnabled)}
+                                            on={<span><i className="fa fa-check"></i> On</span>}
+                                            off={<span><i className="fa fa-times"></i> Off</span>}
+                                            offstyle="secondary"
+                                            active={upvotingEnabled}
+                                        />  
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="control-label">Auto Accept messages</label>
-                                        <ButtonSwitch onChange={this.toggleAutoAccept} selected={autoAcceptEnabled ? "1" : "0"} />
+                                        <label className="col-form-label">Auto Accept messages</label>
+                                        <br/>
+                                        <Toggle
+                                            onClick={() => this.toggleAutoAccept(!autoAcceptEnabled)}
+                                            on={<span><i className="fa fa-check"></i> On</span>}
+                                            off={<span><i className="fa fa-times"></i> Off</span>}
+                                            offstyle="secondary"
+                                            active={autoAcceptEnabled}
+                                        />
                                     </div>
                                 </div>      
                             </div>
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                     
                     <div className="row">
                         <div className="col-md-8">

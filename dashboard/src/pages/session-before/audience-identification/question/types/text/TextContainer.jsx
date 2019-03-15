@@ -3,11 +3,13 @@ import { FormControl } from 'react-bootstrap'
 class TextContainer extends Component {
     render() {
         return (
-            <div className="col-sm-9 col-sm-offset-3">
+            <div className="col-sm-9">
                 <div className="input-group">
-                    <span className="input-group-addon">
+                    <div className="input-group-prepend">
+                    <span className="input-group-text">
                         <i className="fa fa-comment-o"></i>
                     </span>
+                    </div>
                     <FormControl disabled={true} placeholder="Their Answer" />
                 </div>
             </div>

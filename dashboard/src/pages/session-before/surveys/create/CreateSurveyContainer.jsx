@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import SurveyNameContainer from './SurveyNameContainer'
 import './CreateSurveyContainer.scss'
-import { ControlLabel } from 'react-bootstrap'
 import { connect } from 'react-redux';
 import Toggle from 'react-bootstrap-toggle';
+import TooltipNotification from '../../../../components/common/TooltipNotification';
 class CreateSurveyContainer extends Component {
 
     isSurveyEnabled = status => {
@@ -18,10 +18,9 @@ class CreateSurveyContainer extends Component {
             <div>
                 <h3>Conduct a survey among your audience</h3>
                 <hr />
-                <div className="row">
-                    <div className="col-sm-12">
+                <div className="form-group row">
                     <div className="col-sm-3">
-                        <ControlLabel className="input-sm" >Show Survey</ControlLabel>
+                        <label className="col-form-label" >Show Survey</label>
                     </div>
                     <div className="col-sm-6">
                     {!surveyStatus && <i className="fa fa-circle-o-notch fa-spin"></i>}
@@ -29,16 +28,19 @@ class CreateSurveyContainer extends Component {
                         onClick={this.props.toggleSurveyActive}
                         on={<span><i className="fa fa-check"></i> Yes</span>}
                         off={<span><i className="fa fa-times"></i> No</span>}
-                        offstyle="default"
+                        offstyle="secondary"
                         active={surveyStatus === "1"}
                     />}
                     </div>
-                    <div className="col-sm-3 text-center">
+                    <div className="col-sm-3 text-right">
                         {this.isSurveyEnabled(surveyStatus) && surveyURL && <>
-                            <a target='_blank' href={surveyURL}><i><i className="lh-32 fa fa-external-link"></i> Survey Link</i></a>
+                            <TooltipNotification placement="left" tooltip={"(Click to open in new tab)"}>
+                                <button className="btn btn-outline-secondary">
+                                    <a target='_blank' href={surveyURL}><i><i className="fa fa-external-link"></i> Survey Link</i></a>
+                                </button>
+                            </TooltipNotification>
                         </>}
                     </div>
-                </div>
             </div>  
             <hr/>
             <SurveyNameContainer create={true} />
