@@ -183,4 +183,5 @@ class Sessions_Model extends Model {
         );
         return $update->execute();
     }
+
 }

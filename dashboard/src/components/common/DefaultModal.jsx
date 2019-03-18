@@ -11,7 +11,7 @@ class DefaultModal extends React.Component {
 
     render() {
 
-        const { modalOpen, title, content, onConfirm } = this.props;
+        const { modalOpen, title, content, onConfirm, confirmText, cancelText } = this.props;
 
         return (
             <Modal show={modalOpen} onHide={this.handleClose.bind(this)}>
@@ -22,8 +22,8 @@ class DefaultModal extends React.Component {
                     {content}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle="success" onClick={onConfirm}><i className="fa fa-save"></i> Save</Button>
-                    <Button onClick={this.handleClose.bind(this)}><i className="fa fa-times"></i> Close</Button>
+                    <div className="btn btn-outline-primary" onClick={onConfirm}>{confirmText ? confirmText : "Save"}</div>
+                    <div className="btn btn-outline-secondary" onClick={this.handleClose.bind(this)}>{cancelText ? cancelText : "Close"}</div>
                 </Modal.Footer>
             </Modal>
         )

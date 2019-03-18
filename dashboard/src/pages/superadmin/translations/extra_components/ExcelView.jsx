@@ -9,7 +9,7 @@ export default class ExcelView extends React.Component {
     render() {
 
         const { data } = this.props;
-        const excelButton = <button className="btn btn-sm btn-success"><i className="fa fa-file-excel"></i> Download Excel (.xlsx)</button>
+        const excelButton = <button className="btn btn-success"><i className="fa fa-file-excel"></i> Download Excel (.xlsx)</button>
         
         return (
             <ExcelFile element={excelButton} className="btn btn-primary" filename="phonenumbers">

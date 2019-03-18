@@ -21,8 +21,8 @@ class ResponseCountryInput extends Component {
         const { settings } = this.props;
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">Country <TooltipNotification 
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">Country <TooltipNotification 
                         title={"Country"}
                         tooltip={
                             <span className="text-left">
@@ -37,9 +37,11 @@ class ResponseCountryInput extends Component {
                 <div className="col-sm-6">
                 {settings && settings.countriesList &&
                     <div className="input-group">
-                        <span className="input-group-addon">
-                            <i className="fa fa-globe"></i>
-                        </span>
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                                <i className="fa fa-globe"></i>
+                            </span>
+                        </div>
                         <select onChange={this.changeCountry} value={settings.phonenumberCountryisocode} className="form-control">
                             <option value={"--"}>- Other</option>
                             {settings.countriesList.map((country, index) => {

@@ -35,11 +35,10 @@ class MenuProfile extends React.Component {
                             <p><i>Hi {currentUser && currentUser.firstName}!</i></p>
                             <span className="pull-right">
                                 <Link to="/user/edit-profile">
-                                    <button className="btn btn-xs btn-primary">
-                                        <i className="fa fa-user"></i> My Profile
+                                    <button className="btn btn-primary">
+                                        <i className="fa fa-user"></i> Profile
                                     </button>
                                 </Link>
-                                <SignOutButton />
                             </span>
                         </div>
                     </div>

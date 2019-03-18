@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { toggleModal } from '../../../actions/app';
-import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import InputField from '../../../components/common/InputField';
 import ButtonSwitch from '../../../components/common/ButtonSwitch';
@@ -35,8 +34,8 @@ class ResponseOverview extends React.Component {
                 <div className="container-fluid">
                     <div className="row">
                         <div className="col-md-6">
-                            <Panel>
-                                <Panel.Body>
+                            <div className="card">
+                                <div className="card-body">
                                     <h3>Allow your audience to respond</h3>
                                     <hr/>
                                     <p>By activating the <strong>Respond</strong> tab on the response website, your audience will be enabled to respond to both open- and multiple choice questions. </p>
@@ -45,40 +44,40 @@ class ResponseOverview extends React.Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Respond</label>
+                                                <label className="col-form-label">Respond</label>
                                                 <ButtonSwitch />
                                             </div>
                                         </div>
 
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Edit answers</label>
+                                                <label className="col-form-label">Edit answers</label>
                                                 <ButtonSwitch />
                                             </div>
                                         </div>
                                     </div>
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
 
-                            <Panel>
-                                <Panel.Body>
+                            <div className="card mt-3">
+                                <div className="card-body">
                                     <h3>Allow your audience to share results</h3>
                                     <hr/>
                                     <p>By enabling the <strong>Results</strong> tab on the response website, your audience will be enabled to share vote results. </p>
                                     <p>Create a social buzz outside your event venue. Select your preferred channels of social media and formulate an accompanying text to be published with each share.</p>
                                     <hr/>
                                     <div className="form-group">
-                                        <label className="control-label">Share Results</label>
+                                        <label className="col-form-label">Share Results</label>
                                         <ButtonSwitch />
                                     </div>
 
                                     <div className="form-group">
-                                        <label className="control-label">E-mail</label>
+                                        <label className="col-form-label">E-mail</label>
                                         <ButtonSwitch />
                                     </div>
                     
                                     <div className="form-group">
-                                        <label className="control-label">E-mail Text</label>
+                                        <label className="col-form-label">E-mail Text</label>
                                         <textarea 
                                             className="form-control" 
                                             defaultValue="Hi ! I would like to share the results of today's interactive presentation, they might be interesting for you! During the presentation we made use of Sendsteps; An exciting way of audience interaction via your own mobile device. You can find the results attached to this email. Best regards,"
@@ -86,11 +85,11 @@ class ResponseOverview extends React.Component {
                                             cols={50}>
                                         </textarea>
                                     </div>
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
 
-                            <Panel>
-                                <Panel.Body>
+                            <div className="card mt-3">
+                                <div className="card-body">
                                     <h3>Provide your audience with a tweet feed </h3>
                                     <hr/>
                                     <p>By activating the <strong>Tweets</strong> tab on the response website, your audience will be enabled to follow tweets that carry session-related hashtags. </p>
@@ -99,7 +98,7 @@ class ResponseOverview extends React.Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="control-label">Show Tweets</label>
+                                                <label className="col-form-label">Show Tweets</label>
                                                 <ButtonSwitch />
                                             </div>
                                         </div>
@@ -112,10 +111,12 @@ class ResponseOverview extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
                         </div>
-                        <ResponseSiteContainer colWidth={6} />
+                        <div className="col-md-6">
+                            <ResponseSiteContainer />
+                        </div>
                     </div>
                     <BottomSaveBar />
                 </div>

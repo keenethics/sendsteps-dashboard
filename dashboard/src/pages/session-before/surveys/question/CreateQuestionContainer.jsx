@@ -32,9 +32,7 @@ class CreateQuestionContainer extends Component {
         get(
             'surveys',
             'getQuestions',
-            JSON.stringify({
-                id: this.props.match.params.id,
-            }),
+            { id: this.props.match.params.id },
             surveyQuestions => this.setState({
                 surveyQuestions: this.sortByOrder(surveyQuestions), 
                 error: null
@@ -55,7 +53,7 @@ class CreateQuestionContainer extends Component {
         post(
             'surveys',
             'updateOrder',
-            JSON.stringify({idPositions, surveyId: this.props.match.params.id}),
+            { idPositions, surveyId: this.props.match.params.id },
             // () => console.log('Order updated'),
             // () => console.log('Can`t update order')
             orderedQuestions => this.setState({

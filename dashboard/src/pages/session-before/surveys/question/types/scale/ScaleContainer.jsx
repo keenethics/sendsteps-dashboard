@@ -87,9 +87,11 @@ class ScaleContainer extends Component {
                         <div className="col-sm-12">
                             <div className="col-sm-6 col-sm-offset-3">
                                 <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-tachometer"></i> 1
-                                    </span>
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">
+                                            <i className="fa fa-tachometer"></i> 1
+                                        </span>
+                                    </div>
                                     <FormControl value={firstOfObject(options)} onChange={this.setFirstScaleText} placeholder="Example: Poor" />
                                 </div>
                             </div>
@@ -101,9 +103,11 @@ class ScaleContainer extends Component {
                         <div className="col-sm-12">
                             <div className="col-sm-6 col-sm-offset-3">
                                 <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-tachometer"></i> {currentInput}
-                                    </span>
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">
+                                            <i className="fa fa-tachometer"></i> {currentInput}
+                                        </span>
+                                    </div>
                                     <FormControl value={options[Object.keys(options)[1]]} onChange={this.setLastScaleText} placeholder="Example: Great" />
                                 </div>
                             </div>

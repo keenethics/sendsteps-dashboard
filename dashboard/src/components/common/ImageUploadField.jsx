@@ -77,7 +77,7 @@ export default class ImageUploadField extends React.Component {
                     </div>}
                     
                     <div className="form-group">
-                        <label className="control-label">{labelText || "No labelText selected"}</label>
+                        <label className="col-form-label">{labelText || "No labelText selected"}</label>
                         <div className="input-group">
                             <span className="input-group-addon btn btn-default btn-file">
                                 Browse... <input type="file" onChange={this.upload} />

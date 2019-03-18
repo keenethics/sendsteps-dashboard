@@ -88,3 +88,15 @@
     cursor: pointer;
     background-color: #f5f5f5;
 }
+
+.message-filter {
+    .card-title {
+        color: #ffffff;
+    }
+
+    .appeared {
+        .card-title {
+            color: #5c5c5c;
+        }
+    }
+}

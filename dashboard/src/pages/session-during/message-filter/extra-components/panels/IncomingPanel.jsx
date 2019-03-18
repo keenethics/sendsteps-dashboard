@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
@@ -29,21 +28,19 @@ class IncomingPanel extends Component {
 
         const { messages, selectedIncomingIds } = this.props;
 
-        console.log(this.props)
-
         return (
             <span>
-                <Panel bsStyle="primary">
-                    <Panel.Heading>
-                        <h4>
+                <div className="card mt-3">
+                    <div className="card-header bg-primary">
+                        <span className="card-title">
                             <i className="filter-help fa fa-info-circle"></i> Incoming Messages ({getIncomingMessages(messages).length})
                             <span className="pull-right">
                                 <FullScreenButton />
                             </span>
-                        </h4>
-                    </Panel.Heading>
+                        </span>
+                    </div>
                     <IncomingToolbar />
-                    <Panel.Body className="messages-body">
+                    <div className="card-body messages-body">
                         {messages && getIncomingMessages(messages).map((message, index) => {
                             return (
                                 <PanelMessage 
@@ -53,8 +50,8 @@ class IncomingPanel extends Component {
                                     message={message} 
                                 />)
                         })}
-                    </Panel.Body>
-                </Panel>
+                    </div>
+                </div>
                 <MessageModal />    
                 <EditMessageModal />
                 <GroupModal />

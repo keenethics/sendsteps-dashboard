@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import { get, post } from '../../scripts/api';
 import { setUserProfileData, setAccountProfileData } from './actions';
-import { Panel } from 'react-bootstrap';
 import ImageUploadField from "../../components/common/ImageUploadField";
 import BottomSaveBar from "../../components/common/BottomSaveBar";
 import HeaderPanel from "../../components/common/HeaderPanel";
@@ -116,7 +115,7 @@ class ProfileOverview extends React.Component {
         const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
 
         post('users', 'updateSelf',
-            JSON.stringify({
+            {
                 firstName,
                 lastName,
                 email,
@@ -132,7 +131,7 @@ class ProfileOverview extends React.Component {
                 university,
                 timezone,
                 vatId
-            }),
+            },
             () => toast('Profile details updated!'),
             () => toast('Unable to update profile details...')
         )
@@ -155,8 +154,8 @@ class ProfileOverview extends React.Component {
                     content={<p>On this page you can edit your personal profile.</p>}
                 />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             <div className="row">
                                 <div className="col-md-6">
                                     <h2>
@@ -182,9 +181,13 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.firstName && "has-error")}>
-                                        <label className="control-label">First Name</label>
+                                        <label className="col-form-label">First Name</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                <i className="fa fa-user"></i>
+                                            </span>
+                                            </div>
                                             <input 
                                                 onBlur={this.validateFirstName}
                                                 onChange={value => this.updateUserData('firstName', value)}
@@ -199,9 +202,13 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.lastName && "has-error")}>
-                                        <label className="control-label">Last Name</label>
+                                        <label className="col-form-label">Last Name</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-user"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onBlur={this.validateLastName}
                                                 onChange={value => this.updateUserData('lastName', value)}
@@ -218,9 +225,13 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Organisation</label>
+                                        <label className="col-form-label">Organisation</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-building"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-building"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateAccountData('university', value)}
                                                 value={itemPropsToString(accountDetails, 'university')} 
@@ -232,9 +243,13 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Department</label>
+                                        <label className="col-form-label">Department</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user-md"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-user-md"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateUserData('departmentName', value)}
                                                 value={itemPropsToString(userDetails, 'departmentName')} 
@@ -249,9 +264,13 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Role</label>
+                                        <label className="col-form-label">Role</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user-times"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-user-times"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 value={itemPropsToString(userDetails, 'role')} 
                                                 className="form-control" 
@@ -263,9 +282,13 @@ class ProfileOverview extends React.Component {
         
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.email && "has-error")}>
-                                        <label className="control-label">Email</label>
+                                        <label className="col-form-label">Email</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-envelope"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-envelope"></i>
+                                                </span>
+                                            </div>
                                             <input
                                                 onBlur={this.validateEmail}
                                                 onChange={value => this.updateUserData('email', value)}
@@ -282,9 +305,13 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Phonenumber</label>
+                                        <label className="col-form-label">Phonenumber</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-phone"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-phone"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateUserData('phonenumber', value)}
                                                 value={itemPropsToString(userDetails, 'phonenumber')} 
@@ -297,9 +324,13 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Email Language</label>
+                                        <label className="col-form-label">Email Language</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-globe"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-globe"></i>
+                                                </span>
+                                            </div>
                                             <select 
                                                 onChange={value => this.updateUserData('language', value)}
                                                 value={itemPropsToString(userDetails, 'language')} 
@@ -318,9 +349,13 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Address</label>
+                                        <label className="col-form-label">Address</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-map-marker"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-map-marker"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateAccountData('address', value)}
                                                 value={itemPropsToString(accountDetails, 'address')} 
@@ -333,9 +368,13 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Postal Code</label>
+                                        <label className="col-form-label">Postal Code</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-address-card"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-address-card"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateAccountData('postalCode', value)}
                                                 value={itemPropsToString(accountDetails, 'postalCode')} 
@@ -350,9 +389,13 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">City</label>
+                                        <label className="col-form-label">City</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-home"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-home"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateAccountData('city', value)}
                                                 value={itemPropsToString(accountDetails, 'city')} 
@@ -365,9 +408,13 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Country</label>
+                                        <label className="col-form-label">Country</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-flag"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-flag"></i>
+                                                </span>
+                                            </div>
                                             <select 
                                                 onChange={value => this.updateAccountData('country', value)}
                                                 value={itemPropsToString(accountDetails, 'country')} 
@@ -385,9 +432,13 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">Timezone</label>
+                                        <label className="col-form-label">Timezone</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-globe"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-globe"></i>
+                                                </span>
+                                            </div>
                                             <select 
                                                 onChange={value => this.updateAccountData('timezone', value)}
                                                 value={itemPropsToString(accountDetails, 'timezone')} 
@@ -405,9 +456,13 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="control-label">VAT ID</label>
+                                        <label className="col-form-label">VAT ID</label>
                                         <div className="input-group">
-                                            <span className="input-group-addon"><i className="fa fa-user"></i></span>
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text">
+                                                    <i className="fa fa-user"></i>
+                                                </span>
+                                            </div>
                                             <input 
                                                 onChange={value => this.updateAccountData('vatId', value)}
                                                 value={itemPropsToString(accountDetails, 'vatId')} 
@@ -418,8 +473,8 @@ class ProfileOverview extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                     <BottomSaveBar onSave={this.saveChanges} />  
                 </div>
             </div>

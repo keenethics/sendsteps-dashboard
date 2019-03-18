@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
 import FullScreenButton from '../FullScreenButton';
 import PanelMessage from '../PanelMessage';
 import { connect } from 'react-redux';
@@ -17,17 +16,17 @@ class QueuePanel extends Component {
         const { messages, selectedQueueIds } = this.props;
 
         return (
-            <Panel bsStyle="info">
-                <Panel.Heading>
-                    <h4>
+            <div className="card mt-3">
+                <div className="card-header bg-info">
+                    <span className="card-title">
                         <i className="filter-help fa fa-info-circle"></i> In Queue ({getQueueMessages(messages).length})
                         <span className="pull-right">
                             <FullScreenButton />
                         </span>
-                    </h4>
-                </Panel.Heading>
+                    </span>
+                </div>
                 <QueueToolbar />
-                <Panel.Body className="messages-body">
+                <div className="card-body messages-body">
                     {messages && getQueueMessages(messages).map((message, index) => {
                         return (
                             <PanelMessage 
@@ -38,8 +37,8 @@ class QueuePanel extends Component {
                                 onSelect={() => this.toggleSelect(message)} 
                             />)
                     })}
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         );
     }
 }

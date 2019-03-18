@@ -2,7 +2,6 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setPhonenumberData } from './actions';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import './Overview.scss';
 import { post } from '../../../scripts/api';
@@ -24,11 +23,11 @@ class PhonenumbersOverview extends React.Component {
             <div>
                 <HeaderPanel title={"Phonenumber Overview"} />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             {phonenumbers && <OverviewTable data={phonenumbers} />}
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

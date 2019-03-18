@@ -5,7 +5,10 @@ export default class PageNotFound extends React.Component {
         return (
             <div className="container fill">
                 <h1><strong><i className="fa fa-exclamation-triangle"></i> Oops!</strong></h1>
-                <div id="map" className="fa-lg well">This page doesn't exist! <strong>(Error 404)</strong></div> 
+                <div id="map" className="fa-lg card card-body">
+                    <p>This page doesn't exist!</p> 
+                    <strong>(Error 404)</strong>
+                </div> 
             </div>
         )
     }

@@ -30,14 +30,14 @@ class MessageModal extends Component {
         }
 
         post('messagefilter', 'addNewMessage',
-            JSON.stringify({message}),
+            { message },
             messageResult => {
                 this.props.dispatch(addNewMessage(messageResult));
                 this.setState({newMessageText: ''})
                 toast("Message added!");
             },
             error => {
-                toast(`Unable to add new message... ${JSON.stringify(error)}`);
+                toast('Unable to add new message...' + error.message);
             }
         )
     }
@@ -64,8 +64,8 @@ class MessageModal extends Component {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle={"success"} onClick={() => this.addMessage()}><i className="fa fa-plus"></i> Add</Button>
-                    <Button onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</Button>
+                    <div className="btn btn-success" onClick={() => this.addMessage()}><i className="fa fa-plus"></i> Add</div>
+                    <div className="btn btn-primary" onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</div>
                 </Modal.Footer>
             </Modal>
         );

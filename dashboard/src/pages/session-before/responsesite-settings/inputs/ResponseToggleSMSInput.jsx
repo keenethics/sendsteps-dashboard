@@ -17,8 +17,8 @@ class ResponseToggleSMSInput extends Component {
         const { settings } = this.props
 
         return (
-            <div className="form-group">
-                <label className="col-sm-3 control-label">TXT/SMS <TooltipNotification 
+            <div className="form-group row">
+                <label className="col-sm-3 col-form-label text-right">TXT/SMS <TooltipNotification 
                         title={"TXT/SMS"}
                         tooltip={
                             <span className="text-left">
@@ -35,7 +35,7 @@ class ResponseToggleSMSInput extends Component {
                             onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}
                             off={<span><i className="fa fa-times"></i> Off</span>}
-                            offstyle="default"
+                            offstyle="secondary"
                             active={settings.textmessagingselected === "1"}
                         />}
                 </div>

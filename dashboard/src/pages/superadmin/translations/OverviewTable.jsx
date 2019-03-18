@@ -8,7 +8,7 @@ import ExcelView from './extra_components/ExcelView';
 export default class OverviewTable extends Component {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/superadmin/translations/details/' + row.keyId}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/superadmin/translations/details/' + row.keyId}><button className="btn btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     getExtraButtonGroup(data) {

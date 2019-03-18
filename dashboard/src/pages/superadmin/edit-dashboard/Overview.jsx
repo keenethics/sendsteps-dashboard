@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { setDashboardData, setDashboardSettings } from './actions';
 import { isValueInArray } from '../../../scripts/arrayHelper';
-import { Panel } from 'react-bootstrap';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import ColorInfo from '../../../components/common/ColorInfo';
 import EditDashboardDetails from './Details';
@@ -59,8 +58,8 @@ class EditDashboardOverview extends React.Component {
                     </span>}
                 />
                 <div className="container-fluid">
-                <Panel>
-                    <Panel.Body>
+                <div className="card">
+                    <div className="card-body">
                         <h3>Branded Dashboard Settings</h3>
                         <hr/>
                         <p>These settings are needed for branded dashboards to exists. But not only the branded branded dashboards use these. </p>
@@ -68,7 +67,7 @@ class EditDashboardOverview extends React.Component {
                         <p><strong>Dashboard Url</strong> needs to be unique because it is used to load the correct branded dashboard settings.</p>
                         <hr/>
                         <div className="form-group">
-                            <label className="control-label">Select a Dashboard</label>
+                            <label className="col-form-label">Select a Dashboard</label>
                             <select className="form-control" onChange={this.fetchDashboardInfo.bind(this)} value={selectedDashboard || null} >
                                 <option value={null} >Select...</option>
                                 {dashboardSites && dashboardSites.map(item => {
@@ -80,8 +79,8 @@ class EditDashboardOverview extends React.Component {
                         <hr/>
                         {dashboardSettings &&
                         <EditDashboardDetails data={dashboardSettings} />}
-                    </Panel.Body>
-                </Panel>
+                    </div>
+                </div>
                 {dashboardSettings &&
                 <BottomSaveBar />}
                 </div>

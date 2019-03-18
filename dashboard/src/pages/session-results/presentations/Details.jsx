@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from 'react-redux';
 import { setPresentationDetails } from './actions';
 import moment from 'moment';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import PresentationResults from "./extra-components/PresentationResults";
@@ -12,9 +11,7 @@ class PresentationDetails extends React.Component {
         post(
             'presentations', 
             'getDetails', 
-            JSON.stringify({
-                id: this.props.match.params.id
-            }),
+            { id: this.props.match.params.id },
             result => this.props.dispatch(setPresentationDetails(result.content)),
             error => console.log(error)
         )
@@ -40,8 +37,8 @@ class PresentationDetails extends React.Component {
                     title={"Presentation results"}
                 />
                 <div className="container-fluid">
-                <Panel>
-                    <Panel.Body>
+                <div className="card">
+                    <div className="card-body">
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 <div className="row">  
                                     <div className="col-sm-12">
@@ -87,8 +84,8 @@ class PresentationDetails extends React.Component {
                                         {presentationDetails && <PresentationResults data={presentationDetails} />}
                                     </div>                                
                                 </div>
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                 <BottomSaveBar noSave={true} />
                 </div>
             </div>

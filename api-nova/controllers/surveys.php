@@ -181,6 +181,6 @@ class Surveys extends NovaAPI {
         if($url === NULL || strlen($url) === 0) {
             $url = $addinSettingsModel->getWebsiteAddressById($session['pluginId']);
         }
-        return 'https://' . $url . '/' . $session['textMessagingKeyword'] . '/survey';
+        return 'https://' . $url['websiteAddress'] . '/' . $session['textMessagingKeyword'] . '/survey';
     }
 }

@@ -28,12 +28,20 @@ class MessageFilter extends NovaAPI {
 
     public function toggleUpvoting($isEnabled) {
         $model = $this->loadModel('sessions');
-        return json_encode($model->toggleUpvoting($isEnabled, $this->getUserSessionId()));
+        $sessionId = $this->getUserSessionId();
+        if($isEnabled) {
+            $model->toggleAutoAccept(false, $sessionId);
+        }
+        return json_encode($model->toggleUpvoting($isEnabled, $sessionId));
     }
 
     public function toggleAutoAccept($isEnabled) {
         $model = $this->loadModel('sessions');
-        return json_encode($model->toggleAutoAccept($isEnabled, $this->getUserSessionId()));
+        $sessionId = $this->getUserSessionId();
+        if($isEnabled) {
+            $model->toggleUpvoting(false, $sessionId);
+        }
+        return json_encode($model->toggleAutoAccept($isEnabled, $sessionId));
     }
 
     public function addNewMessage($message) {
@@ -104,8 +112,15 @@ class MessageFilter extends NovaAPI {
     }
 
     public function getMessageFilterData($messageRoundId) {
-        $model = $this->loadModel('livemessageroundmessages');
-        $results = $model->findByMessageRoundId($messageRoundId);
-        return json_encode(['content' => $results]);
+        $messageModel = $this->loadModel('livemessageroundmessages');
+        $sessionModel = $this->loadModel('sessions');
+
+        $extraDetails = $sessionModel->getSessionById($this->getUserSessionId())[0];
+        $messages = $messageModel->findByMessageRoundId($messageRoundId);
+        return json_encode([
+            'content' => $messages,
+            'autoAccept' => $extraDetails['autoApprove'],
+            'upvoting' => $extraDetails['hasUpvoting']
+        ]);
     }
 }

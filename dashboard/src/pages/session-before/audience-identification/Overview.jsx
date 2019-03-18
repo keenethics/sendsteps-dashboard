@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { setAudienceData } from './actions';
-import { Panel } from 'react-bootstrap';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
@@ -15,7 +14,7 @@ import './Overview.scss'
 class AudienceOverview extends React.Component {
 
     state = {
-        isAnonymous: "0"
+        isAnonymous: "1"
     }
 
     componentDidMount() {
@@ -36,7 +35,7 @@ class AudienceOverview extends React.Component {
         post(
             'sessions', 
             'setIdentificationType',
-            JSON.stringify({ isAnonymous }),
+            { isAnonymous },
             () =>  this.getIdentificationType(),
             error => console.log(error)
         )
@@ -68,50 +67,50 @@ class AudienceOverview extends React.Component {
                     </span>}/>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-md-8">
-                            <Panel>
-                                <Panel.Body>
+                        <div className="col-md-6">
+                            <div className="card">
+                                <div className="card-body">
                                     <h3>How to identify your participants?</h3>
                                     <hr/>
-                                    
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <div className="col-md-6">
-                                                <label>How to Participate <TooltipNotification 
-                                                    title={"How to Participate"}
-                                                    tooltip={
-                                                        <span className="text-left">
-                                                            <p>By default all responses received are anonymous. </p> 
-                                                            <p>This allows you to receive the most authentic responses.</p>
-                                                        </span>}>
-                                                        <i className="fa fa-question-circle"></i>
-                                                    </TooltipNotification>
-                                                </label>
-                                            </div>
-                                            <div className="col-md-6 text-right">
-                                                <Toggle
-                                                    style={{width:'155px', height: '32px'}}
-                                                    onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
-                                                    on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
-                                                    off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
-                                                    offstyle="default"
-                                                    active={isAnonymous === "1"}
-                                                />
-                                            </div>
+                                            <label className="col-form-label">How to Participate <TooltipNotification 
+                                                title={"How to Participate"}
+                                                tooltip={
+                                                    <span className="text-left">
+                                                        <p>By default all responses received are anonymous. </p> 
+                                                        <p>This allows you to receive the most authentic responses.</p>
+                                                    </span>}>
+                                                    <i className="fa fa-question-circle"></i>
+                                                </TooltipNotification>
+                                            </label>
+                                            <Toggle
+                                                className="float-right"
+                                                style={{width:'170px', height: '32px'}}
+                                                onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
+                                                on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
+                                                off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
+                                                offstyle="secondary"
+                                                active={isAnonymous === "1"}
+                                            />
                                         </div>
                                     </div>
                                     <hr/>
                                     {isAnonymous === "0" && <CreateQuestionContainer />}
-                                </Panel.Body>
-                            </Panel>
+                                </div>
+                            </div>
                         </div>
-                        <ResponseSiteContainer colWidth={4} /* Pass selected url, if nothings selected, don't render response site */ />
+                        <div className="col-md-6">
+                        <ResponseSiteContainer  /* Pass selected url, if nothings selected, don't render response site */ />
+                        </div>
                     </div>
                     <BottomSaveBar />
                     <DefaultModal 
                         title={"Are you sure?"}
                         content={<p>Your audience will be tracked individually during the session</p>}
                         onConfirm={this.setNonAnonymousFromDialog}    
+                        confirmText={<><i className="fa fa-check"></i> Got it!</>}
+                        cancelText={<><i className="fa fa-times"></i> Cancel</>}
                     />
                 </div>
             </div>

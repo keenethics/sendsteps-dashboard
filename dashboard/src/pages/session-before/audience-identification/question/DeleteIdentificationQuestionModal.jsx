@@ -18,9 +18,7 @@ class DeleteIdentificationQuestionModal extends Component {
         post(
             'audienceidentification',
             'deleteIdentificationQuestion',
-            JSON.stringify({
-                id: deleteIdentificationQuestionId
-            }),
+            { id: deleteIdentificationQuestionId },
             () => {
                 this.props.getIdentificationQuestions()
                 this.props.dispatch(setDeletingIdentificationId(null))
@@ -29,7 +27,7 @@ class DeleteIdentificationQuestionModal extends Component {
             err => {
                 console.log(err)
                 this.props.dispatch(setDeletingIdentificationId(null))
-                toast("Unable to remove identification question." + JSON.stringify({err}))
+                toast("Unable to remove identification question." + err.message)
             }
         )
     }
@@ -51,8 +49,8 @@ class DeleteIdentificationQuestionModal extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button bsStyle={"danger"} className="pull-left" onClick={this.deleteIdentificationQuestion}><i className="fa fa-trash"></i> Delete</Button>
-                    <Button onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</Button>
+                    <div className="btn btn-danger" className="pull-left" onClick={this.deleteIdentificationQuestion}><i className="fa fa-trash"></i> Delete</div>
+                    <div className="btn btn-primary" onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</div>
                 </Modal.Footer>
             </Modal>
         );

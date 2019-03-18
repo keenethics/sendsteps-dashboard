@@ -15,10 +15,16 @@ class ExplanationContainer extends Component {
         return (
             <div className="col-sm-6 col-sm-offset-3">
                 <div className="input-group">
-                    <span className="input-group-addon">
-                        <i className="fa fa-list"></i>
-                    </span>
-                    <FormControl componentClass="textarea" onChange={this.props.updateOptions} value={this.getFirstOption(options)} placeholder="Type your text which you would like to show to your audience" />
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">
+                            <i className="fa fa-list"></i>
+                        </span>
+                    </div>
+                    <textarea 
+                        onChange={this.props.updateOptions} 
+                        value={this.getFirstOption(options)} 
+                        placeholder="Type your text which you would like to show to your audience" 
+                    ></textarea>
                 </div>
             </div>
         );

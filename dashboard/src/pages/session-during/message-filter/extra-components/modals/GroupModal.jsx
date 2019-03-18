@@ -27,14 +27,14 @@ class GroupModal extends Component {
 
         if(group) {
             post('messagefilter', 'removeGroup',
-                // Params
-                JSON.stringify({userId, groupId: index}),
-                // OnSuccess
+                { 
+                    userId, 
+                    groupId: index
+                },
                 groupId => {
                     this.props.dispatch(removeGroup(groupId))
                     toast('Group removed!');
                 },
-                // OnFail
                 error => toast(`Unable to remove group: [${error}]`)
             )
         }
@@ -58,8 +58,7 @@ class GroupModal extends Component {
             groupColor: this.state.newGroupColor
         } 
         post('messagefilter', 'addMessageGroup',
-            // Params
-            JSON.stringify(newGroup),
+            { ...newGroup },
             // OnSuccess
             group => {
                 this.props.dispatch(addNewGroup(group))
@@ -79,7 +78,7 @@ class GroupModal extends Component {
         return (
             <Modal show={groupModalOpen} onHide={() => this.hideGroupModal()}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Manage Groups</Modal.Title>
+                    <Modal.Title>Manage Color Groups</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="row">
@@ -102,14 +101,14 @@ class GroupModal extends Component {
                             />
                         </div>
                         <div className="col-md-6">
-                            <Button disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} className="btn-success"><i className="fa fa-plus"></i> Add group</Button>
+                            <button className="btn btn-success" disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} ><i className="fa fa-plus"></i> Add group</button>
                         </div>
                     </div>
                     {messageGroups && Object.keys(messageGroups).length > 0 &&
                     <span>
                         <hr/>
                         <div className="form-group">
-                            <label className="control-label">Groups</label>
+                            <label className="col-form-label">Groups</label>
                             <ul className="list-group">
                                 {Object.keys(messageGroups).map(group => {
                                     return (
@@ -121,7 +120,7 @@ class GroupModal extends Component {
                                                 <span className="group-name">
                                                     <p>{messageGroups[group].name}</p>
                                                 </span>
-                                                <button onClick={() => this.deleteGroup(group)} className="btn btn-xs btn-default delete-icon"><i className="fa fa-trash"></i></button>
+                                                <button onClick={() => this.deleteGroup(group)} className="btn btn-xs btn-outline-secondary delete-icon"><i className="fa fa-trash"></i></button>
                                             </li>
                                         </span>
                                     )
@@ -131,7 +130,7 @@ class GroupModal extends Component {
                     </span>}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={() => this.hideGroupModal(false)}><i className="fa fa-times"></i> Close</Button>
+                    <div className="btn btn-primary" onClick={() => this.hideGroupModal(false)}><i className="fa fa-times"></i> Close</div>
                 </Modal.Footer>
             </Modal>
         );

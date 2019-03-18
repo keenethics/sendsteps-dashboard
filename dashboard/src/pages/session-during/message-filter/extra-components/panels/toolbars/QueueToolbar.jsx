@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { sendToScreen, sendToIncoming, clearQueueSelect } from '../../../actions';
 import { post } from '../../../../../../scripts/api';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 class QueueToolbar extends Component {
 
     sendIdsToScreen = () => {
         post('messagefilter', 'sendToScreen',
-            JSON.stringify({ids: this.props.selectedQueueIds}),
+            { ids: this.props.selectedQueueIds },
             result => {
                 this.props.dispatch(sendToScreen(result));
                 this.props.dispatch(clearQueueSelect());
@@ -22,7 +22,7 @@ class QueueToolbar extends Component {
 
     sendIdsToIncoming = () => {
         post('messagefilter', 'sendToIncoming',
-            JSON.stringify({ids: this.props.selectedQueueIds}),
+            { ids: this.props.selectedQueueIds },
             result => {
                 this.props.dispatch(sendToIncoming(result));
                 this.props.dispatch(clearQueueSelect());
@@ -38,12 +38,12 @@ class QueueToolbar extends Component {
         const { selectedQueueIds } = this.props;
 
         return (
-            <Panel.Footer>
+            <div className="card-footer pt-0">
                 <ButtonToolbar>
-                    <Button disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToScreen()} bsStyle="success">Send to Screen</Button>
-                    <Button disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToIncoming()}bsStyle="primary">Send to Incoming</Button>
+                    <div className="btn btn-success mt-2 mr-2" disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToScreen()}>Send to Screen</div>
+                    <div className="btn btn-primary mt-2 mr-2" disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToIncoming()}>Send to Incoming</div>
                 </ButtonToolbar>
-            </Panel.Footer>
+            </div>
         );
     }
 }

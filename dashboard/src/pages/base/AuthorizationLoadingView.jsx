@@ -2,12 +2,24 @@ import React, { Component } from 'react';
 import './View.scss';
 class AuthorizationLoadingView extends Component {
 
+    state = {
+        authMessage: 'Checking authentication...'
+    }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                authMessage: "It's taking a bit longer than expected..."
+            })
+        }, 5000)
+    }
+
     render() {
         return (
             <div className="container fill">
                 <div id="map" className="fa-lg">
                     <p>
-                        Checking authentication... <i className="fa fa-circle-o-notch fa-spin"></i>
+                        {this.state.authMessage} <i className="fa fa-circle-o-notch fa-spin"></i>
                     </p>
                 </div> 
             </div>

@@ -2,7 +2,6 @@ import React from 'react';
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setSurveyData } from './actions';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import CreateSurveyContainer from './create/CreateSurveyContainer'
 import { get, post } from '../../../scripts/api';
@@ -60,7 +59,7 @@ class SurveysOverview extends React.Component {
         post(
             'tabstatus',
             'updateSurveyActive',
-            JSON.stringify({status: isActive ? "1" : "0"}),
+            { status: isActive ? "1" : "0" },
             result => {
                 this.setState({ surveyStatus: result.status })
                 const isEnabled = result.status === "1" ? "enabled" : "disabled"
@@ -77,10 +76,10 @@ class SurveysOverview extends React.Component {
         post(
             'surveys',
             'updateSurveyStatus',
-            JSON.stringify({
+            {
                 surveyId: rowId,
-                newStatus
-            }),
+                status: newStatus
+            },
             res => {
                 this.props.dispatch(setSurveyData(res))
                 toast("Survey Status updated!")
@@ -107,8 +106,8 @@ class SurveysOverview extends React.Component {
                     } 
                 />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             <CreateSurveyContainer 
                                 surveyStatus={surveyStatus} 
                                 toggleSurveyActive={this.toggleSurveyActive}
@@ -124,8 +123,8 @@ class SurveysOverview extends React.Component {
                                 data={surveys.content} 
                                 updateSurveyStatus={this.updateSurveyStatus} 
                             />}
-                        </Panel.Body>
-                    </Panel>
+                        </div>
+                    </div>
                 </div>
                 <PlaySurveyModal updateSurveyStatus={this.updateSurveyStatus} />
                 <ToggleSurveyModel 

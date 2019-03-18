@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { Panel } from 'react-bootstrap';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { post } from "../../../scripts/api";
@@ -9,9 +8,7 @@ import { post } from "../../../scripts/api";
 class SurveyResultsDetails extends React.Component {
     componentDidMount() {
         post('surveys', 'getResultsDetails',
-            JSON.stringify({
-                id: this.props.match.params.id
-            }),
+            { id: this.props.match.params.id },
             result => console.log(result),
             error => console.log(error)
         )
@@ -41,8 +38,8 @@ class SurveyResultsDetails extends React.Component {
             <div>  
                 <HeaderPanel title={"Presentation results"} />
                 <div className="container-fluid">
-                    <Panel>
-                        <Panel.Body>
+                    <div className="card">
+                        <div className="card-body">
                             <div className="row">
                                 <input name='id' id='phonenumber-id' type='hidden' />
                                 
@@ -76,8 +73,8 @@ class SurveyResultsDetails extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </Panel.Body>
-                    </Panel>  
+                        </div>
+                    </div>  
                 </div>
                 <BottomSaveBar />
             </div>

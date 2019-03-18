@@ -1,6 +1,5 @@
 import React from 'react';
 import InputField from '../../../components/common/InputField';
-import { Panel } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { post, get } from "../../../scripts/api";
 import { toast } from 'react-toastify';
@@ -9,13 +8,11 @@ class SessionOverview extends React.Component {
     loginAsUser() {
         post(
             'sessions', 'loginAsUser',
-            JSON.stringify({
-                sessionId: this.props.match.params.id
-            }),
+            { sessionId: this.props.match.params.id },
             () =>  document.location.href="/",
             error => {
                 console.log(error)
-                toast(`Oops, something went wrong... (${JSON.stringify(error)})`)
+                toast('Oops, something went wrong... ' + error.message)
             }
         )
     }
@@ -25,10 +22,8 @@ class SessionOverview extends React.Component {
     }
     
     getDetailsSettings = () => {
-        let apiParams = JSON.stringify({id: this.props.match.params.id});
-        // console.log(apiParams);
         get('sessions', 'getDetails',
-            apiParams,
+            { id: this.props.match.params.id },
             result => {
                 console.log(result.content)
                 // const { phonenumberCountryisocode } = result.content;
@@ -36,7 +31,7 @@ class SessionOverview extends React.Component {
                 // this.getPhonenumberList(phonenumberCountryisocode);
             },
             error => {
-                toast(`Unable to fetch settings... [${JSON.stringify(error)}]`)
+                toast('Unable to fetch settings... ' + error.message)
             }
         )
     }
@@ -50,8 +45,8 @@ class SessionOverview extends React.Component {
                 <HeaderPanel
                     title={"Session Overview Settings"}
                 />
-                <Panel>
-                    <Panel.Body>        
+                <div className="card">
+                    <div className="card-body">        
                         <div className="container-fluid">
                             <div className="row">
                                 <button type='button' id="clear-form" className="btn btn-danger pull-right">
@@ -78,10 +73,10 @@ class SessionOverview extends React.Component {
                                 <div className="row">
                                     <div className="col-sm-6">
                                         <div className="form-group">    
-                                            <label className="control-label">Password reset url</label>
+                                            <label className="col-form-label">Password reset url</label>
                                             <div className="input-group">
                                                 <div className="btn-group">
-                                                    <button id='generatePasswordReset' type='button' className='btn btn-default'>
+                                                    <button id='generatePasswordReset' type='button' className='btn btn-outline-secondary'>
                                                         <i className="fa fa-lock"></i> Generate
                                                     </button>
                                                 </div>
@@ -126,9 +121,13 @@ class SessionOverview extends React.Component {
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <div className="form-group">    
-                                            <label className="control-label">Timezone</label>
+                                            <label className="col-form-label">Timezone</label>
                                             <div className="input-group" >
-                                                <span className="input-group-addon"><i className="fa fa-clock-o"></i></span>
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">
+                                                        <i className="fa fa-clock-o"></i>
+                                                    </span>
+                                                </div>
                                                 <select className="form-control" name='timezone' id='timezone'>
                                                     <option value=''>Select a timezone</option>
                                                     <option value='' > </option>
@@ -171,16 +170,16 @@ class SessionOverview extends React.Component {
 
                                     <div className="col-sm-6">
                                         <div className="form-group">    
-                                            <label className="control-label">License Type</label>
+                                            <label className="col-form-label">License Type</label>
                                             <div className="input-group">
                                                 <div className="btn-group" data-toggle="buttons">
-                                                    <label className="btn btn-default">
+                                                    <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-calendar"></i> Yearly</span>
                                                             <input type="radio" id="licenseYearly" name="licenseType" value="yearly" />
                                                         </div>
                                                     </label>
-                                                    <label className="btn btn-default">
+                                                    <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-calendar"></i> Monthly</span>
                                                             <input type="radio" id="licenseMonthly" name="licenseType" value="monthly" />
@@ -307,9 +306,13 @@ class SessionOverview extends React.Component {
 
                                     <div className="col-sm-6">
                                         <div className="form-group">    
-                                            <label className="control-label"> Country </label>
+                                            <label className="col-form-label"> Country </label>
                                             <div className="input-group">
-                                                <span className="input-group-addon"><i className="fa fa-globe"></i></span>
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">
+                                                        <i className="fa fa-globe"></i>
+                                                    </span>
+                                                </div>
                                                 <select className="form-control" name='accountCountry' id='accountCountry'>
                                                         <option value='' > </option>
                                                 </select>
@@ -335,17 +338,17 @@ class SessionOverview extends React.Component {
 
                                     <div className="col-sm-6">
                                         <div className="form-group">
-                                            <label className="control-label">Respond via</label>
+                                            <label className="col-form-label">Respond via</label>
                                             <div className="input-group">
                                                 <div className="btn-group" data-toggle="buttons">
-                                                    <label className="btn btn-default">
+                                                    <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-globe"></i> Website</span>
                                                             <input name='internetSelected' type='checkbox'  className='repond-via' />
                                                                 
                                                         </div>
                                                     </label>
-                                                    <label className="btn btn-default">
+                                                    <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-phone"></i>  SMS</span>
                                                             <input name='textMessagingSelected' type='checkbox'  className='repond-via' />
@@ -370,9 +373,13 @@ class SessionOverview extends React.Component {
 
                                     <div className="col-sm-6">
                                         <div className="form-group">
-                                            <label className="control-label">Response website country</label>
+                                            <label className="col-form-label">Response website country</label>
                                             <div className="input-group">
-                                                <span className="input-group-addon"><i className="fa fa-globe"></i></span>
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">
+                                                        <i className="fa fa-globe"></i>
+                                                    </span>
+                                                </div>
                                                 <select className="form-control" id='phonenumberCountry' name='phonenumberCountry'>
                                                     <option value=''></option>
                                             </select>
@@ -384,9 +391,13 @@ class SessionOverview extends React.Component {
                                 <div className="row">
                                     <div className="col-sm-6">
                                         <div className="form-group">
-                                            <label className="control-label">Response phone number</label>
+                                            <label className="col-form-label">Response phone number</label>
                                             <div className="input-group">
-                                                <span className="input-group-addon"><i className="fa fa-phone"></i></span>
+                                                <div className="input-group-prepend">
+                                                    <span className="input-group-text">
+                                                        <i className="fa fa-phone"></i>
+                                                    </span>
+                                                </div>
                                                 <select className="form-control" id='phonenumbers' name='phonenumbers'>
                                                     <option value="Loading...">Loading...</option>
                                                 </select>
@@ -396,16 +407,16 @@ class SessionOverview extends React.Component {
 
                                     <div className="col-sm-6">
                                         <div className="form-group">
-                                            <label className="control-label">International audience</label>
+                                            <label className="col-form-label">International audience</label>
                                             <div className="input-group">
                                                 <div className="btn-group" data-toggle="buttons">
-                                                    <label className="btn btn-default ">
+                                                    <label className="btn btn-outline-secondary ">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-check"></i> Yes</span>
                                                             <input type="radio" id="internationalAudienceOn" className='internationalAudience' name="internationalAudience" value="1" />
                                                         </div>
                                                     </label>
-                                                    <label className="btn btn-default">
+                                                    <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                                 <span className="btn-group-addon"><i className="fa fa-times"></i> No</span>
                                                             <input type="radio" id="internationalAudienceOff" className='internationalAudience' name="internationalAudience" value="0" />
@@ -418,22 +429,22 @@ class SessionOverview extends React.Component {
                                 </div>
                             </div>
                         </div>
-                    </Panel.Body>
-                    <Panel.Footer>
+                    </div>
+                    <div className="card-footer">
                         <div className="row">            
                             <div className="col-sm-12">
                                 <button type='button' id='save-btn' className='btn btn-success'>
                                     <i className="fa fa-floppy-o"></i>
                                     Save
                                 </button>
-                                <button type='button' id='back-btn' className='btn btn-default pull-right'> 
+                                <button type='button' id='back-btn' className='btn btn-outline-secondary pull-right'> 
                                     <i className="fa fa-chevron-left"></i>
                                     Back
                                 </button>
                             </div>
                         </div>   
-                    </Panel.Footer>
-                </Panel>
+                    </div>
+                </div>
             </div>
         )
     }

@@ -1,12 +1,12 @@
 import React from 'react';
-import { Panel } from 'react-bootstrap';
 import './InfoPanels.scss';
+import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 
 export const AddinInfoPanel = () => {
     return (
-        <div className="col-md-4">
-            <Panel>
-                <Panel.Body>
+        <div className="col-md-6 mt-3">
+            <div className="card">
+                <div className="card-body">
                     <h3>Branded Add-in</h3>
                     <hr/>
                     <strong>Your own look and feel!</strong>
@@ -16,43 +16,39 @@ export const AddinInfoPanel = () => {
                     </p>
                     
                     <a href="https://www.sendsteps.com/en/download/branding-design/" target="_blank">
-                        <button className="btn btn-default">
+                        <button className="btn btn-outline-secondary">
                             <i className="fa fa-info"></i> More information 
                         </button>
                     </a>
-                </Panel.Body>
-            </Panel>
-        </div>
-    )
-}
-
-export const AddinDownloadPanel = () => {
-    return (
-        <div className="col-md-4">
-            <Panel><Panel.Body>
-                <h3>Download Add-in</h3>
-                <hr/>
-                <p>Requirements to use the Sendsteps Add-In:</p>
-                <ul>
-                    <li>Windows 7 and above</li>
-                    <li>Service pack 1 installed</li>
-                    <li>Internet explorer 11</li>
-                    <li>PowerPoint 2010 and above</li>
-                    <li>A stable Internet connection</li>
-                </ul>
-                <button className="btn btn-default">
-                    <i className="fa fa-download"></i> Download 
-                </button>
-            </Panel.Body></Panel>
+                </div>
+            </div>
+            <div className="card mt-3">
+                <div className="card-body">
+                    <h3>Download Add-in</h3>
+                    <hr/>
+                    <p>Requirements to use the Sendsteps Add-In:</p>
+                    <ul>
+                        <li>Windows 7 and above</li>
+                        <li>Service pack 1 installed</li>
+                        <li>Internet explorer 11</li>
+                        <li>PowerPoint 2010 and above</li>
+                        <li>A stable Internet connection</li>
+                    </ul>
+                    <button className="btn btn-outline-secondary">
+                        <i className="fa fa-download"></i> Download 
+                    </button>
+                </div>
+            </div>
+            <ResponseSiteContainer colWidth={6} />
         </div>
     )
 }
 
 export const BlogPanel = () => {
     return (
-        <div className="col-md-6">
-            <Panel>
-                <Panel.Body>
+        <div className="col-md-6 mt-3">
+            <div className="card">
+                <div className="card-body">
                     <h3>Read our blog!</h3>
                     <hr/>
                     <a href="https://www.sendsteps.com/en/about/blog/" target="_blank">
@@ -60,24 +56,24 @@ export const BlogPanel = () => {
                             <i className="fa fa-rss"></i> Sendsteps Blog 
                         </button>
                     </a>
-                </Panel.Body>
-            </Panel>  
+                </div>
+            </div>  
         </div>
     )
 }
 
 export const QAPanel = () => {
     return (
-        <div className="col-md-6">
-            <Panel>
-                <Panel.Body>
+        <div className="col-md-6 mt-3">
+            <div className="card">
+                <div className="card-body">
                     <h3>Got a question?</h3>
                     <hr/>
                     <p>Please contact your administrator below for any questions.</p>
                     <p><i className="fa fa-phone"></i> +31 (0)20 716 36 56</p>
                     <p><i className="fa fa-envelope"></i> Support@Sendsteps.com</p>
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         </div>
     )
 }
@@ -127,12 +123,12 @@ export const TutorialInfoPanel = () => {
         )
     })
     return (
-        <div className="col-md-8 youtube-container">
-            <Panel>
-                <Panel.Body>
+        <div className="col-md-6 youtube-container mt-3">
+            <div className="card">
+                <div className="card-body">
                     {content}
-                </Panel.Body>
-            </Panel>
+                </div>
+            </div>
         </div>
     )
 }

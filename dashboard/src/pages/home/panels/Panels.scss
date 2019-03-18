@@ -1,75 +1,75 @@
-.year-panel {
-    .panel-heading {
-        background-color: #435d78;
+.year-card {
+    .card-header {
+        background-color: #435d78 !important;
         border: none !important
     }
-    .panel-body {
-        background-color: #2b3c4e;
+    .card-body {
+        background-color: #2b3c4e !important;
         border: none !important
     }
-    .panel-footer {
-        background-color: #2d3f51;
-        border: none !important
-    }
-}
-
-.month-panel {
-    .panel-heading {
-        background-color: #72a7d3;
-        border: none !important
-    }
-    .panel-body {
-        background-color: #5394c9;
-        border: none !important
-    }
-    .panel-footer {
-        background-color: #438ac4;
+    .card-footer {
+        background-color: #2d3f51 !important;
         border: none !important
     }
 }
 
-.week-panel {
-    .panel-heading {
-        background-color: #3ac693;
+.month-card {
+    .card-header {
+        background-color: #72a7d3 !important;
         border: none !important
     }
-    .panel-body {
-        background-color: #37bf8d;
+    .card-body {
+        background-color: #5394c9 !important;
         border: none !important
     }
-    .panel-footer {
-        background-color: #32af81;
-        border: none !important
-    }
-}
-
-.last-session-panel {
-    .panel-heading {
-        background-color: #abb8b9;
-        border: none !important
-    }
-    .panel-body {
-        background-color: #95a5a6;
-        border: none !important
-    }
-    .panel-footer {
-        background-color: #8a9c9d;
+    .card-footer {
+        background-color: #438ac4 !important;
         border: none !important
     }
 }
 
-.year-panel, .month-panel, .week-panel, .last-session-panel {
+.week-card {
+    .card-header {
+        background-color: #3ac693 !important;
+        border: none !important
+    }
+    .card-body {
+        background-color: #37bf8d !important;
+        border: none !important
+    }
+    .card-footer {
+        background-color: #32af81 !important;
+        border: none !important
+    }
+}
+
+.last-session-card {
+    .card-header {
+        background-color: #abb8b9 !important;
+        border: none !important
+    }
+    .card-body {
+        background-color: #95a5a6 !important;
+        border: none !important
+    }
+    .card-footer {
+        background-color: #8a9c9d !important;
+        border: none !important
+    }
+}
+
+.year-card, .month-card, .week-card, .last-session-card {
     color: #FFFFFF;
-    .panel-title {
+    .card-title {
         color: #FFFFFF;
     }
 }
 
-.year-panel, .month-panel, .week-panel, .last-session-panel {
-    .panel-footer {
+.year-card, .month-card, .week-card, .last-session-card {
+    .card-footer {
         font-weight: 100;
     }
-    .panel-body {
+    .card-body {
         font-weight: 500;
     }
 }

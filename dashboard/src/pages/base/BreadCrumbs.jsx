@@ -21,12 +21,12 @@ class BreadCrumbs extends Component {
             let actualCrumbs = crumbList.map((crumb, index) => (
                 <span key={index}> 
                     <span> / </span>
-                    <div className={"label label-" + (index === crumbList.length-1? 'success' : 'default')} style={{fontWeight: '100'}} >
+                    <div className={"badge badge-pill badge-" + (index === crumbList.length-1? 'success' : 'secondary')} style={{fontWeight: '100'}} >
                         {crumb.replace("-", " ").toLowerCase().split(' ').map((s) => s.charAt(0).toUpperCase() + s.substring(1)).join(' ')}
                     </div>
                 </span>
             ));
-            actualCrumbs.unshift(<div key={crumbList.length + 1} className="label label-default">
+            actualCrumbs.unshift(<div key={crumbList.length + 1} className="badge badge-pill badge-secondary">
                 <span className="home-icon">
                     <i className="fa fa-home fa-xs"></i>
                 </span>

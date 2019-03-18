@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel, Button, ButtonToolbar } from 'react-bootstrap';
+import { Button, ButtonToolbar } from 'react-bootstrap';
 import { sendToAppeared, clearOnscreenSelect } from '../../../actions';
 import { post } from '../../../../../../scripts/api';
 import { connect } from 'react-redux';
@@ -8,7 +8,7 @@ class OnscreenToolbar extends Component {
 
     sendIdsToAppeared = () => {
         post('messagefilter', 'sendToAppeared',
-            JSON.stringify({ids: this.props.selectedOnscreenIds}),
+            { ids: this.props.selectedOnscreenIds },
             result => {
                 this.props.dispatch(sendToAppeared(result));
                 this.props.dispatch(clearOnscreenSelect());
@@ -24,13 +24,11 @@ class OnscreenToolbar extends Component {
         const { selectedOnscreenIds } = this.props;
 
         return (
-            <Panel.Footer>
-                <ButtonToolbar>
-                    <Button onClick={() => this.sendIdsToAppeared()} disabled={selectedOnscreenIds.length < 1} className="pull-right">
-                        <i className="fa fa-trash"></i>
-                    </Button>
-                </ButtonToolbar>
-            </Panel.Footer>
+            <div className="card-footer">
+                <button className="btn btn-outline-danger pull-right" onClick={() => this.sendIdsToAppeared()} disabled={selectedOnscreenIds.length < 1} >
+                    <i className="fa fa-trash"></i>
+                </button>
+            </div>
         );
     }
 }

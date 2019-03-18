@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setEmail, setPassword, setEmailError, setPasswordError, showPassword, resetLoginForm } from '../../actions/login';
-import { authLoading, authenticate, setAuthorized, authRequired } from '../../actions/auth';
+import { authLoading, authenticate, setAuthorized, authRequired, setGeneralError } from '../../actions/auth';
 import { isValidEmail, isValidPassword } from '../../scripts/validationChecker';
-import { Panel } from 'react-bootstrap';
 import './Forms.scss';
 import { toast } from 'react-toastify';
 
@@ -32,7 +31,7 @@ class LoginForm extends Component {
     checkEmail(e){
         let emailError = '';
         if(!isValidEmail(e.target.value)) {
-            emailError = 'Please enter a valid email';
+            emailError = 'Please enter a valid email.';
         }
         this.props.dispatch(setEmailError(emailError));
     } 
@@ -44,7 +43,7 @@ class LoginForm extends Component {
     checkPassword(e){
         let passwordError = '';
         if(!isValidPassword(e.target.value)) {
-            passwordError = 'Please enter a valid password';
+            passwordError = 'Please enter a valid password.';
         }
         this.props.dispatch(setPasswordError(passwordError));
     } 
@@ -59,11 +58,11 @@ class LoginForm extends Component {
         let isAuthorized = true;
 
         if(!isValidEmail(email)) {
-            this.props.dispatch(setEmailError('Please enter a valid email'));
+            this.props.dispatch(setEmailError('Please enter a valid email.'));
             isAuthorized = false;
         }
         if(!isValidPassword(password)) {
-            this.props.dispatch(setPasswordError('Please enter a valid password'));
+            this.props.dispatch(setPasswordError('Please enter a valid password.'));
             isAuthorized = false;
         }
         return isAuthorized;
@@ -75,6 +74,21 @@ class LoginForm extends Component {
         }
     }
 
+    handleLoginErrors = error => {
+        if(error && error.message === 'Network request failed') {
+            this.props.dispatch(setGeneralError("Unable to connect. Please try again later."));
+        } else {
+            this.props.dispatch(setEmailError("Email and password combination not recognised."));
+        }
+        this.props.dispatch(authLoading(false));
+        this.props.dispatch(setAuthorized(false));
+        this.props.dispatch(authRequired(false));
+    }
+    
+    handleLoginSuccess = userData => {
+
+    }
+
     login = () => {
         if(this.isAuthorizedToLogin()) {
             const { email, password } = this.props;
@@ -83,17 +97,12 @@ class LoginForm extends Component {
                 email, password,
                 // Hmm, only returning the token, why not an user also? We can use this token anyways
                 // To request user data.
-                () => {
+                userData => {
                     this.props.dispatch(authRequired(true))
                     this.props.dispatch(setAuthorized(true))
                     toast('Logged in as ' + email);
                 },
-                () => {
-                    this.props.dispatch(setEmailError("Email and password combination not recognised."));
-                    this.props.dispatch(authLoading(false));
-                    this.props.dispatch(setAuthorized(false));
-                    this.props.dispatch(authRequired(false));
-                }
+                error => this.handleLoginErrors(error),                    
             )
         }
     }
@@ -102,55 +111,81 @@ class LoginForm extends Component {
 
         const { email, password, emailError, passwordError, showPassword, authLoading, generalError } = this.props;
 
-        let passwordErrorClass = passwordError ? 'has-error' : null;
-        passwordErrorClass = !passwordError && isValidPassword(password) ? 'has-success' : passwordErrorClass;
+        let passwordErrorClass = passwordError ? 'is-invalid' : null;
+        passwordErrorClass = !passwordError && isValidPassword(password) ? 'is-valid' : passwordErrorClass;
 
-        let emailErrorClass =  emailError ? 'has-error' : null;
-        emailErrorClass = !emailError && isValidEmail(email) ? 'has-success' : emailErrorClass;
+        let emailErrorClass =  emailError ? 'is-invalid' : null;
+        emailErrorClass = !emailError && isValidEmail(email) ? 'is-valid' : emailErrorClass;
 
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 login-form">
-                    <Panel>
-                        <Panel.Heading>
-                            <Panel.Title>
-                                Sign in
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">
+                                <strong>Sign in</strong>
                                 {generalError && <span className="pull-right text-danger">
                                     <i className="fa fa-exclamation-triangle"></i> {generalError}
                                 </span>}
-                            </Panel.Title>
-                        </Panel.Heading>
-
-                        <Panel.Body className="login">
-                            {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
-                            </div>}
-                            <div className={"fa-sm form-group " + emailErrorClass}>
-                            <label className="control-label">Email</label>
-                            <div className="input-group">
-                                <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                <input onKeyPress={this.handleEnterKey} name="email" onBlur={this.checkEmail.bind(this)} onChange={this.setEmail.bind(this)} value={email} type="email" className="form-control input-sm" placeholder="Enter email" />
+                            </h5>
+                            <hr/>
+                            <div className="login">
+                                {authLoading && <div className="auth-loading-overlay">
+                                    <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
+                                </div>}
+                                <form>
+                                    <div className="fa-sm form-group">
+                                    <label className="col-form-label">Email</label>
+                                    <div className="input-group">
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text" ><i className="fa fa-user"></i></span>
+                                        </div>
+                                        <input 
+                                            required
+                                            onKeyPress={this.handleEnterKey} 
+                                            name="email" 
+                                            onBlur={this.checkEmail.bind(this)} 
+                                            onChange={this.setEmail.bind(this)} 
+                                            value={email} 
+                                            type="email" 
+                                            className={"form-control input-sm " + emailErrorClass}
+                                            placeholder="Enter email" 
+                                        />
+                                    </div>
+                                    {emailError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
+                                    </div>
+                                    <div className={"fa-sm form-group " + passwordErrorClass}>
+                                    <label className="col-form-label">Password</label>
+                                        <div className="input-group">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" ><i className="fa fa-unlock"></i></span>
+                                            </div>
+                                            <input 
+                                                required
+                                                onKeyPress={this.handleEnterKey} 
+                                                onBlur={this.checkPassword.bind(this)} 
+                                                onChange={this.setPassword.bind(this)} 
+                                                value={password} 
+                                                type={showPassword ? "text" : "password"}
+                                                name="password" 
+                                                className={"form-control input-sm" + emailErrorClass}
+                                                placeholder="Password" 
+                                            />
+                                            <div className="input-group-append">
+                                                <span onClick={this.showPassword.bind(this)} className="input-group-text show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                                            </div>
+                                        </div>
+                                        {passwordError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
+                                    </div>
+                                    <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm forgot-password">Forgot password?</span>
+                                </form>
                             </div>
-                            {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
-                            </div>
-                            <div className={"fa-sm form-group " + passwordErrorClass}>
-                            <label className="control-label">Password</label>
-                            <div className="input-group">
-                                <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                <input onKeyPress={this.handleEnterKey} onBlur={this.checkPassword.bind(this)} onChange={this.setPassword.bind(this)} value={password} type={showPassword ? "text" : "password"} name="password" className="form-control input-sm" placeholder="Password" />
-                                <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
-                            </div>
-                            {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
-                            </div>
-                            <div className="">
-                            <span onClick={this.showPasswordResetForm.bind(this)} className="fa-sm forgot-password">Forgot password?</span>
-                            </div>
-                        </Panel.Body>
-                        <Panel.Footer>
-                            <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-user-plus"></i> No account yet?</button>
-                            <button type="button" onClick={this.login.bind(this)} className="pull-right btn btn-sm btn-primary "><i className="fa fa-sign-in-alt"></i> Login</button>
-                        </Panel.Footer>
-                    </Panel>
+                        </div>
+                        <div className="card-footer">
+                            <button type="button" onClick={this.showRegistrationForm.bind(this)} className="btn btn-outline-primary"><i className="fa fa-user-plus"></i> No account yet?</button>
+                            <button type="button" onClick={this.login.bind(this)} className="float-right btn btn-primary"><i className="fa fa-sign-in-alt"></i> Login</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

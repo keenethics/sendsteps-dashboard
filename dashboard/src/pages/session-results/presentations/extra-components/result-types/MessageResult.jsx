@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { getSort, getOptions, getDateFormatter, getStatusColumn, getMessageColumn, getUpvoteColumn} from '../../../../base/BaseTable';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Button } from 'react-bootstrap';
 import { formatLabelsToKeyValuePairs } from '../../../../../scripts/arrayHelper';
 import { toast } from 'react-toastify'; 
 
@@ -18,7 +17,7 @@ class MessageResult extends Component {
             break;
             default: dataFormat = getMessageColumn
         }
-        return <TableHeaderColumn key={index} width={index < 2 ? "250px" : "50px"} headerAlign='center' dataSort dataFormat={dataFormat} caretRender={getSort} dataField={label} >{label}</TableHeaderColumn>
+        return <TableHeaderColumn key={index} width={index < 2 ? "250px" : "50px"} headerAlign='center' dataAlign={index !== 0 ? 'center' : ''} dataSort dataFormat={dataFormat} caretRender={getSort} dataField={label} >{label}</TableHeaderColumn>
     }
 
     toggleWordCloud = () => {
@@ -26,7 +25,7 @@ class MessageResult extends Component {
     }
 
     getExtraButtonGroup() {
-        return <Button onClick={this.toggleWordCloud}><i className="fa fa-cloud"></i> Show as WordCloud</Button>;
+        return <button className="btn btn-primary" onClick={this.toggleWordCloud}><i className="fa fa-cloud"></i> Show as WordCloud</button>;
     }
 
     getOptions = () => {

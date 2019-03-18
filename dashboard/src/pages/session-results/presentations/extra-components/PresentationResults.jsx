@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Panel } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 import MessageResult from './result-types/MessageResult';
 import VotesResult from './result-types/VotesResult';
 import ResultsToolbar from './ResultsToolbar';
@@ -32,7 +32,7 @@ class PresentationResults extends Component {
             <div>
                 <div className="row">
                     <div className="col-md-3">
-                        <h3 className="question-title">Questions </h3>
+                        <h3 className="question-title mt-2">Questions </h3>
                     </div>
                     <div className="col-md-9">
                         {data && <ResultsToolbar data={data} />}
@@ -40,32 +40,28 @@ class PresentationResults extends Component {
                 </div>
                 {data.rounds && data.rounds.map((round, roundIndex) => {
                     return (
-                        <Panel key={roundIndex} defaultExpanded={roundIndex === 0}>
-                            <Panel.Heading>
-                                <span>
-                                    <TooltipNotification title={1} tooltip={"Select Result"} placement="top">
-                                        <input 
-                                            className="select-result"
-                                            checked={isValueInArray(round.id, selectedResultIds)} 
-                                            type="checkbox"
-                                            onChange={() => this.onToggleSelect(round.id)} 
-                                        /> 
-                                    </TooltipNotification>
+                        <div className="card mt-3" key={roundIndex} >
+                            <div className="card-header">
+                                <TooltipNotification title={1} tooltip={"Select Result"} placement="top">
+                                    <input 
+                                        className="select-result"
+                                        checked={isValueInArray(round.id, selectedResultIds)} 
+                                        type="checkbox"
+                                        onChange={() => this.onToggleSelect(round.id)} 
+                                    /> 
+                                </TooltipNotification>
+                                <strong className="ml-2 mr-2">{round.title}</strong>
+                                <span className="pull-right">
+                                    <i className="fa fa-chevron-down"></i>
                                 </span>
-                                <Panel.Title toggle>
-                                    <strong>{round.title}</strong>
-                                    <span className="pull-right">
-                                        <i className="fa fa-chevron-down"></i>
-                                    </span>
-                                </Panel.Title>
-                            </Panel.Heading>
-                            <Panel.Collapse>
-                                <Panel.Body>
+                            </div>
+                            <Collapse in={roundIndex === 0}>
+                                <div className="card-body">
                                     {round.type === "messages" && <MessageResult messageRound={round} />}
                                     {round.type === "votes" && <VotesResult messageRound={round} />}
-                                </Panel.Body>
-                            </Panel.Collapse>
-                        </Panel>
+                                </div>
+                            </Collapse>
+                        </div>
                     )
                 })}
             </div>

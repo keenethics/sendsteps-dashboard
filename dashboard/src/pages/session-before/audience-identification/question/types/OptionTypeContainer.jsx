@@ -34,31 +34,29 @@ class OptionTypeContainer extends Component {
         const { type, options } = this.props
 
         return (
-            <FormGroup>
-                <div className="row">
-                    <div className="col-sm-12">
-                        {this.isTextQuestion(type) && <>
-                            <TextContainer />
-                        </>}
-                        {this.isMultipleChoiceQuestion(type) && <>
-                            <MultipleChoiceContainer 
-                                options={options} 
-                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
-                                addOption={() => this.props.addOption()}
-                                deleteOption={key => this.props.deleteOption(key)}
-                            />
-                        </>}
-                        {this.isCheckboxQuestion(type) && <>
-                            <CheckboxContainer 
-                                options={options} 
-                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
-                                addOption={() => this.props.addOption()}
-                                deleteOption={key => this.props.deleteOption(key)}
-                            />
-                        </>}
-                    </div>
+            <div className="form-group row">
+                <div className="col-sm-3">
                 </div>
-            </FormGroup>
+                {this.isTextQuestion(type) && <>
+                    <TextContainer />
+                </>}
+                {this.isMultipleChoiceQuestion(type) && <>
+                    <MultipleChoiceContainer 
+                        options={options} 
+                        updateOptions={(text, key) => this.props.updateOptions(text, key)}
+                        addOption={() => this.props.addOption()}
+                        deleteOption={key => this.props.deleteOption(key)}
+                    />
+                </>}
+                {this.isCheckboxQuestion(type) && <>
+                    <CheckboxContainer 
+                        options={options} 
+                        updateOptions={(text, key) => this.props.updateOptions(text, key)}
+                        addOption={() => this.props.addOption()}
+                        deleteOption={key => this.props.deleteOption(key)}
+                    />
+                </>}
+            </div>
         );
     }
 }

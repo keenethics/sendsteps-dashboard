@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, FormControl, ControlLabel, Collapse, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
+import { Button, FormGroup, FormControl, Collapse, ButtonToolbar, ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { post } from '../../../../scripts/api';
@@ -92,7 +92,7 @@ class SurveyQuestion extends Component {
         post(
             'surveys',
             'createSurveyQuestion',
-            JSON.stringify({
+            {
                 question: surveyQuestionName,
                 typeId: currentType.survey_question_type_id,
                 required: isRequired,
@@ -100,7 +100,7 @@ class SurveyQuestion extends Component {
                 surveyQuestionId: savedQuestion ? savedQuestion.survey_question_id : null,
                 order,
                 surveyQuestionOptions
-            }),
+            },
             () => {
                 this.setState({optionsExpanded: false, surveyQuestionName: "",})
                 this.props.getSurveyQuestions();
@@ -159,7 +159,7 @@ class SurveyQuestion extends Component {
         const { savedQuestion, types } = this.props;
 
         post('surveys', 'getQuestionOptions',
-            JSON.stringify({id: savedQuestion.survey_question_id}),
+            { id: savedQuestion.survey_question_id },
             surveyQuestionOptions => {
                 this.setState({
                     surveyQuestionOptions: { ...surveyQuestionOptions, [generateKey()]: ""},
@@ -217,25 +217,27 @@ class SurveyQuestion extends Component {
 
         return (
             <>
-            <FormGroup validationState={null}>
+            <FormGroup validationstate={null}>
                 <div className="row">
                     <div className="col-sm-12">
                         <div className="col-sm-3">
                             {!savedQuestion &&
-                            <ControlLabel className="lh-32">
+                            <label className="lh-32">
                                 {!currentType && "New Question"}
                                 {currentType && currentType.question_type}
-                            </ControlLabel>}
+                            </label>}
                             {savedQuestion &&
-                            <ControlLabel className="lh-32">
+                            <label className="lh-32">
                                 {types[savedQuestion.survey_question_type_id].question_type}
-                            </ControlLabel>}
+                            </label>}
                         </div>
                         <div className="col-sm-6">
                             <div className="input-group">
-                                <span className="input-group-addon">
-                                    <i className={this.getQuestionIconClassName()}></i>
-                                </span>
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                        <i className={this.getQuestionIconClassName()}></i>
+                                    </span>
+                                </div>
                                 {(!savedQuestion || optionsExpanded) &&
                                 <FormControl
                                     type="text"
@@ -266,19 +268,21 @@ class SurveyQuestion extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="col-sm-3">
-                                <ControlLabel>Type</ControlLabel>
+                                <label>Type</label>
                             </div>
                             <div className="col-sm-6">
                                 <div className="input-group">
-                                    <span className="input-group-addon">
-                                        <i className="fa fa-list"></i>
-                                    </span>
+                                    <div className="input-group-prepend">
+                                        <span className="input-group-text">
+                                            <i className="fa fa-list"></i>
+                                        </span>
+                                    </div>
                                     {types &&
-                                    <FormControl defaultValue={savedQuestion && savedQuestion.survey_question_type_id} onChange={this.setCurrentType} componentClass="select" placeholder="select">
+                                    <select defaultValue={savedQuestion && savedQuestion.survey_question_type_id} onChange={this.setCurrentType}  placeholder="Select...">
                                         {Object.keys(types).map(typeId => {
                                             return <option key={typeId} value={typeId}>{types[typeId].question_type}</option>
                                         })}}
-                                    </FormControl>}
+                                    </select>}
                                 </div>
                             </div>
                         </div>
@@ -299,7 +303,7 @@ class SurveyQuestion extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="col-sm-3">
-                                <ControlLabel>Required</ControlLabel>
+                                <label>Required</label>
                             </div>
                             <div className="col-sm-6">
                                 <ButtonToolbar>
@@ -320,12 +324,12 @@ class SurveyQuestion extends Component {
                     <div className="row">
                         <div className="col-sm-12">
                             <div className="col-sm-6 col-sm-offset-3">
-                                <Button onClick={this.saveSurveyQuestion} bsStyle="success">
+                                <div className="btn btn-success" onClick={this.saveSurveyQuestion}>
                                     <i className="fa fa-floppy-o"></i> Save Question
-                                </Button>
-                                <Button className="pull-right" onClick={this.deleteSurveyQuestion} bsStyle="danger">
-                                    <i className="fa fa-trash"></i> Delete
-                                </Button>
+                                </div>
+                                <button type="button" className="btn-danger pull-right" onClick={this.deleteSurveyQuestion}>
+                                    <i className="fa fa-trash"></i> Delete Question
+                                </button>
                             </div>
                         </div>
                     </div>

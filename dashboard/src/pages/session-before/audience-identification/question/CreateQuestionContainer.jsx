@@ -34,7 +34,7 @@ class CreateQuestionContainer extends Component {
         post(
             'audienceidentification',
             'updateOrder',
-            JSON.stringify({idPositions}),
+            { idPositions },
             orderedQuestions => this.setState({
                 identificationQuestions: this.sortByOrder(orderedQuestions), 
                 error: null
@@ -80,7 +80,7 @@ class CreateQuestionContainer extends Component {
     }
 
     sortByOrder = questions => {
-        return questions.sort((a, b) => {
+        return questions.sort((a, b) =>     {
             return a.fieldIndex - b.fieldIndex
         })
     }

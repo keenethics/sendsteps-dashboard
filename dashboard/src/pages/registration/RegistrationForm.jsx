@@ -19,7 +19,6 @@ import {
 } from '../../actions/registration';
 import { authLoading, register } from '../../actions/auth';
 import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
-import { Panel } from 'react-bootstrap';
 import './Forms.scss';
 import { toast } from 'react-toastify';
 
@@ -66,7 +65,7 @@ class RegistrationForm extends Component {
     checkFirstName() {
         let firstNameError = '';
         if(!this.props.firstName) {
-            firstNameError = 'Please enter your first name';
+            firstNameError = 'Please enter your first name.';
         }
         this.props.dispatch(setFirstNameError(firstNameError));
     }
@@ -74,7 +73,7 @@ class RegistrationForm extends Component {
     checkLastName() {
         let lastNameError = '';
         if(!this.props.lastName) {
-            lastNameError = 'Please enter your last name';
+            lastNameError = 'Please enter your last name.';
         }
         this.props.dispatch(setLastNameError(lastNameError));
     }
@@ -82,7 +81,7 @@ class RegistrationForm extends Component {
     checkEmail() {
         let emailError = '';
         if(!isValidEmail(this.props.email)) {
-            emailError = 'Please enter a valid email';
+            emailError = 'Please enter a valid email.';
         }
         this.props.dispatch(setEmailError(emailError));
     } 
@@ -90,7 +89,7 @@ class RegistrationForm extends Component {
     checkPassword() {
         let passwordError = '';
         if(!isValidPassword(this.props.password)) {
-            passwordError = 'Please enter at least 8 characters';
+            passwordError = 'Please enter at least 8 characters.';
         }
         this.props.dispatch(setPasswordError(passwordError));
     } 
@@ -99,7 +98,7 @@ class RegistrationForm extends Component {
         let passwordConfirmError = '';
 
         if(!isValidPassword(this.props.password) || (this.props.passwordConfirm !== this.props.password)) {
-            passwordConfirmError = 'The selected passwords do not match';
+            passwordConfirmError = 'The selected passwords do not match.';
         }
         this.props.dispatch(setPasswordConfirmError(passwordConfirmError));
     }
@@ -107,7 +106,7 @@ class RegistrationForm extends Component {
     checkTerms(checked = this.props.termsAccepted) {
         let termsError = '';
         if(!checked) {
-            termsError = 'Please accept the terms before signing up';
+            termsError = 'Please accept the terms before signing up.';
         }
         this.props.dispatch(setAcceptTermsError(termsError));
     }
@@ -168,101 +167,174 @@ class RegistrationForm extends Component {
                 firstNameError, lastNameError, emailError, passwordError, passwordConfirmError, termsAcceptedError, 
                 showPassword, authLoading, generalError } = this.props;
 
-        let firstNameErrorClass = firstNameError ? 'has-error' : null;
-        firstNameErrorClass = !firstNameError && firstName ? 'has-success' : firstNameErrorClass;
+        let firstNameErrorClass = firstNameError ? 'is-invalid' : null;
+        firstNameErrorClass = !firstNameError && firstName ? 'is-valid' : firstNameErrorClass;
 
-        let lastNameErrorClass = lastNameError ? 'has-error' : null;
-        lastNameErrorClass = !lastNameError && lastName ? 'has-success' : lastNameErrorClass;
+        let lastNameErrorClass = lastNameError ? 'is-invalid' : null;
+        lastNameErrorClass = !lastNameError && lastName ? 'is-valid' : lastNameErrorClass;
 
-        let emailErrorClass = emailError ? 'has-error' : null;
-        emailErrorClass = !emailError && email ? 'has-success' : emailErrorClass;
+        let emailErrorClass = emailError ? 'is-invalid' : null;
+        emailErrorClass = !emailError && email ? 'is-valid' : emailErrorClass;
 
-        let passwordErrorClass = passwordError ? 'has-error' : null;
-        passwordErrorClass = !passwordError && password ? 'has-success' : passwordErrorClass;
+        let passwordErrorClass = passwordError ? 'is-invalid' : null;
+        passwordErrorClass = !passwordError && password ? 'is-valid' : passwordErrorClass;
 
-        let passwordConfirmErrorClass = passwordConfirmError ? 'has-error' : null;
-        passwordConfirmErrorClass = !passwordConfirmError && passwordConfirm ? 'has-success' : passwordConfirmErrorClass;
+        let passwordConfirmErrorClass = passwordConfirmError ? 'is-invalid' : null;
+        passwordConfirmErrorClass = !passwordConfirmError && passwordConfirm ? 'is-valid' : passwordConfirmErrorClass;
 
-        let termsErrorClass = termsAcceptedError ? 'has-error' : null;
-        termsErrorClass = !termsAcceptedError && termsAccepted ? 'has-success' : termsErrorClass;
+        let termsErrorClass = termsAcceptedError ? 'is-invalid' : null;
+        termsErrorClass = !termsAcceptedError && termsAccepted ? 'is-valid' : termsErrorClass;
 
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 registration-form">
-                    <Panel>
-                        <Panel.Heading>
-                            <h2 className="panel-title">
-                                Register 
+                    <div className="card">
+                        <div className="card-body">
+                            <h5 className="card-title">
+                                <strong>Register </strong>
                                 {generalError && <span className="pull-right text-danger">
                                     <i className="fa fa-exclamation-triangle"></i> {generalError}
                                 </span>}
-                            </h2>
-                        </Panel.Heading>
-                        <Panel.Body className="register">
-                            {authLoading && <div className="auth-loading-overlay">
-                            <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
-                            </div>}
-                            <div className="row">
-                                <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
-                                    <div className={"fa-sm form-group " + firstNameErrorClass}>
-                                        <label className="control-label">First name</label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                            <input data-lpignore='true' value={firstName} onChange={this.setFirstName.bind(this)} onBlur={this.checkFirstName.bind(this)} type="text" className="form-control input-sm" placeholder="First name" />
+                            </h5>
+                            <hr/>
+                            <div className="register">
+                                {authLoading && <div className="auth-loading-overlay">
+                                <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
+                                </div>}
+                                <form autoComplete="off">
+                                    <div className="row">
+                                        <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
+                                            <div className="fa-sm form-group">
+                                                <label className="col-form-label">First name</label>
+                                                <div className="input-group mb-3">
+                                                    <div className="input-group-prepend">
+                                                        <span className="input-group-text" ><i className="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input 
+                                                        required
+                                                        name="first-name" 
+                                                        data-lpignore='true' 
+                                                        value={firstName} 
+                                                        onChange={this.setFirstName.bind(this)} 
+                                                        onBlur={this.checkFirstName.bind(this)} 
+                                                        type="text" 
+                                                        className={"form-control input-sm " + firstNameErrorClass}
+                                                        placeholder="First name" 
+                                                    />
+                                                </div>
+                                                {firstNameError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {firstNameError}</span>}
+                                            </div>
                                         </div>
-                                        {firstNameError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {firstNameError}</span>}
+                                        <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
+                                            <div className="fa-sm form-group">
+                                                <label className="col-form-label">Last name</label>
+                                                <div className="input-group mb-3">
+                                                    <div className="input-group-prepend">
+                                                        <span className="input-group-text" ><i className="fa fa-user"></i></span>
+                                                    </div>
+                                                    <input 
+                                                        required
+                                                        name="last-name" 
+                                                        data-lpignore='true' 
+                                                        value={lastName} 
+                                                        onChange={this.setLastName.bind(this)} 
+                                                        onBlur={this.checkLastName.bind(this)} 
+                                                        type="text" 
+                                                        className={"form-control input-sm " + lastNameErrorClass}
+                                                        placeholder="Last name" 
+                                                    />
+                                                </div>
+                                                {lastNameError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {lastNameError}</span>}
+                                            </div>
+                                        </div>      
                                     </div>
-                                </div>
-                                <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
-                                    <div className={"fa-sm form-group " + lastNameErrorClass}>
-                                        <label className="control-label">Last name</label>
-                                        <div className="input-group">
-                                            <span className="input-group-addon" ><i className="fa fa-user"></i></span>
-                                            <input data-lpignore='true' value={lastName} onChange={this.setLastName.bind(this)} onBlur={this.checkLastName.bind(this)}  type="text" className="form-control input-sm" placeholder="Last name" />
+                                    <div className="fa-sm form-group">
+                                        <label className="col-form-label">Email</label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" ><i className="fa fa-envelope"></i></span>
+                                            </div>
+                                            <input 
+                                                required
+                                                name="register-em" 
+                                                value={email} onChange={this.setEmail.bind(this)} 
+                                                onBlur={this.checkEmail.bind(this)} 
+                                                data-lpignore='true' 
+                                                type="email" 
+                                                className={"form-control input-sm " + emailErrorClass} 
+                                                placeholder="Enter email" 
+                                            />
                                         </div>
-                                        {lastNameError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {lastNameError}</span>}
+                                        {emailError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
                                     </div>
-                                </div>      
+                                    <div className="fa-sm form-group">
+                                        <label className="col-form-label">Password</label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" ><i className="fa fa-unlock"></i></span>
+                                            </div>
+                                            <input 
+                                                required
+                                                name="register-pas" 
+                                                value={password} 
+                                                onChange={this.setPassword.bind(this)} 
+                                                onBlur={this.checkPassword.bind(this)} 
+                                                data-lpignore='true' 
+                                                type={showPassword ? "text" : "password"} 
+                                                className={"form-control input-sm " + passwordErrorClass}
+                                                placeholder="Password" 
+                                            />
+                                            <div className="input-group-append">
+                                                <span onClick={this.showPassword.bind(this)} className="input-group-text show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                                            </div>
+                                        </div>
+                                        {passwordError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
+                                    </div>
+                                    <div className="fa-sm form-group">
+                                        <label className="col-form-label">Confirm password</label>
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" ><i className="fa fa-unlock"></i></span>
+                                            </div>
+                                            <input 
+                                                required 
+                                                name="register-pas-confirm" 
+                                                value={passwordConfirm} 
+                                                onChange={this.setPasswordConfirm.bind(this)} 
+                                                onBlur={this.checkPasswordConfirm.bind(this)} 
+                                                data-lpignore='true' 
+                                                type="password" 
+                                                className={"form-control input-sm " + passwordConfirmErrorClass}
+                                                placeholder="Password" 
+                                            />
+                                        </div>
+                                        {passwordConfirmError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordConfirmError}</span>}
+                                    </div>
+                                    <div className="fa-sm form-group">
+                                        <div className="custom-control custom-checkbox">
+                                            <input 
+                                                className={"form-check-input " + termsErrorClass}
+                                                required
+                                                name="agreement" 
+                                                onChange={this.setAcceptTerms.bind(this)} 
+                                                checked={termsAccepted} 
+                                                type="checkbox" 
+                                                id="agreementCheck"
+                                            />  
+                                            <label className="custom-col-form-label" htmlFor="agreementCheck"> 
+                                                I accept the license agreement & general conditions
+                                            </label>
+                                    </div>
+                                    {termsAcceptedError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {termsAcceptedError}</span>}
+                                    </div>
+                                </form>
                             </div>
-                            <div className={"fa-sm form-group " + emailErrorClass}>
-                                <label className="control-label">Email</label>
-                                <div className="input-group">
-                                    <span className="input-group-addon" ><i className="fa fa-envelope"></i></span>
-                                    <input value={email} onChange={this.setEmail.bind(this)} onBlur={this.checkEmail.bind(this)} data-lpignore='true' type="email" className="form-control input-sm" placeholder="Enter email" />
-                                </div>
-                                {emailError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
-                            </div>
-                            <div className={"fa-sm form-group " + passwordErrorClass}>
-                                <label className="control-label">Password</label>
-                                <div className="input-group">
-                                    <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                    <input value={password} onChange={this.setPassword.bind(this)} onBlur={this.checkPassword.bind(this)} data-lpignore='true' type={showPassword ? "text" : "password"} className="form-control input-sm" placeholder="Password" />
-                                    <span onClick={this.showPassword.bind(this)} className="input-group-addon show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
-                                </div>
-                                {passwordError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
-                            </div>
-                            <div className={"fa-sm form-group " + passwordConfirmErrorClass}>
-                                <label className="control-label">Confirm password</label>
-                                <div className="input-group">
-                                    <span className="input-group-addon" ><i className="fa fa-unlock"></i></span>
-                                    <input value={passwordConfirm} onChange={this.setPasswordConfirm.bind(this)} onBlur={this.checkPasswordConfirm.bind(this)} data-lpignore='true' type="password"  className="form-control input-sm" placeholder="Password" />
-                                </div>
-                                {passwordConfirmError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordConfirmError}</span>}
-                            </div>
-                            <div className={"fa-sm form-group " + termsErrorClass}>
-                                <div className="checkbox">
-                                <label>
-                                    <input onChange={this.setAcceptTerms.bind(this)} checked={termsAccepted} type="checkbox" /> <strong>I accept the license agreement & general conditions</strong>
-                                </label>
-                            </div>
-                            {termsAcceptedError && <span className="help-block"><i className="fa fa-exclamation-triangle fa-xs"></i> {termsAcceptedError}</span>}
-                            </div>
-                        </Panel.Body>
-                        <Panel.Footer>
-                            <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-sm btn-default"><i className="fa fa-chevron-left"></i> Back to login</button>
-                            <button type="button" onClick={this.register.bind(this)} className="pull-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
-                        </Panel.Footer>
-                    </Panel>
+                        </div>  
+                        <div className="card-footer">
+                            <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-outline-primary"><i className="fa fa-chevron-left"></i> Back to login</button>
+                            <button type="button" onClick={this.register.bind(this)} className="float-right btn btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

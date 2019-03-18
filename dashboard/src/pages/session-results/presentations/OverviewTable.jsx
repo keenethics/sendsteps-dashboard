@@ -14,7 +14,7 @@ class OverviewTable extends Component {
     }
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/session-results/presentations/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/session-results/presentations/details/' + row.id}><button className="btn btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     toggleShowEmpty = () => {
@@ -38,9 +38,9 @@ class OverviewTable extends Component {
         const disabledIcon = <i className="fa fa-eye-slash"></i> 
 
         return <span>
-            <Button active={showEmptyResults} onClick={this.toggleShowEmpty} className="btn btn-default">
+            <div className="btn btn-primary" active={showEmptyResults} onClick={this.toggleShowEmpty} className="btn btn-outline-secondary">
                 {showEmptyResults ? disabledIcon : enabledIcon } Hide empty
-            </Button> 
+            </div> 
         </span>
     }
 
@@ -75,8 +75,8 @@ class OverviewTable extends Component {
                 <BootstrapTable pagination data={this.handleFilter(data)} keyField='id' options={this.getOptions()} search>
                     <TableHeaderColumn headerAlign='center' dataSort caretRender={getSort} dataField='name' dataFormat={getNameFormatter} >Name</TableHeaderColumn>
                     <TableHeaderColumn width="150" headerAlign='center' dataAlign='center' dataSort caretRender={getSort} dataField='numberOfParticipants' dataFormat={getParticipantFormatter} >Participants</TableHeaderColumn>
-                    <TableHeaderColumn width="250" headerAlign='center' dataSort caretRender={getSort} dataField='startTime' dataFormat={getDateFormatter} >Start time</TableHeaderColumn>
-                    <TableHeaderColumn width="100" headerAlign='center' dataAlign='center' dataField='presentationId' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
+                    <TableHeaderColumn width="300" headerAlign='center' dataSort caretRender={getSort} dataField='startTime' dataFormat={getDateFormatter} >Start time</TableHeaderColumn>
+                    <TableHeaderColumn width="125" headerAlign='center' dataAlign='center' dataField='presentationId' dataFormat={this.viewFormatter} >View</TableHeaderColumn>
                 </BootstrapTable>
             </div>
         )

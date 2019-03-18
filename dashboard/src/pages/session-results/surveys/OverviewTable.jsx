@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 class OverviewTable extends Component {
 
     viewFormatter = (cell, row) => {
-        return <Link to={'/session-results/surveys/details/' + row.id}><button className="btn btn-sm btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
+        return <Link to={'/session-results/surveys/details/' + row.id}><button className="btn btn-primary"><i className="fa fa-eye"></i> View</button></Link>;
     }
 
     render() {
