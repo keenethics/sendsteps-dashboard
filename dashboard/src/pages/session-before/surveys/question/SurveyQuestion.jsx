@@ -79,6 +79,16 @@ class SurveyQuestion extends Component {
         const { match, savedQuestion, order } = this.props;
         const { surveyQuestionName, currentType, isRequired, surveyQuestionOptions } = this.state
 
+
+        console.log(JSON.stringify({
+            question: surveyQuestionName,
+            typeId: currentType.survey_question_type_id,
+            required: isRequired,
+            surveyId: match.params.id,
+            surveyQuestionId: savedQuestion ? savedQuestion.survey_question_id : null,
+            order,
+            surveyQuestionOptions
+        }));
         post(
             'surveys',
             'createSurveyQuestion',

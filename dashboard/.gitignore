@@ -2,10 +2,9 @@
 
 # dependencies
 node_modules/
-
+api-nova/vendor/
 # testing
 /coverage
-
 # production
 /build
 

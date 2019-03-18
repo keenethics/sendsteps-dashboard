@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class DynamicImport extends Component {
     
-    state = {
+	state = {
 		component: null
 	}
 

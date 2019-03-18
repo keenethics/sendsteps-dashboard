@@ -88,6 +88,12 @@ class ProfileOverview extends React.Component {
         this.setState({errors: { ...this.state.errors, lastName: lastNameError}})
     }
 
+    setImage = src => {
+        let updatedDetails = { ...this.props.userDetails } 
+        updatedDetails['filename'] = src;
+        this.props.dispatch(setUserProfileData(updatedDetails));
+    }
+
     saveChanges = () => {
         let hasErrors = false
         Object.keys(this.state.errors).forEach(error => {
@@ -140,6 +146,8 @@ class ProfileOverview extends React.Component {
         const { userDetails, accountDetails } = this.props;
         const { timezones, countries, errors } = this.state;
 
+        console.log(userDetails)
+
         return (
             <div>
                 <HeaderPanel 
@@ -161,6 +169,8 @@ class ProfileOverview extends React.Component {
                                     </p>
                                 </div>
                                 <ImageUploadField 
+                                    setImage={this.setImage}
+                                    userImage={itemPropsToString(userDetails, 'filename')} 
                                     colWidth={6}
                                     labelText={"Profile Picture"}
                                 />

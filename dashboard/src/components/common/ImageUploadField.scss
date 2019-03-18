@@ -5,6 +5,10 @@
 	background-color: $lightestGray;
 }
 
+.picture-preview {
+	text-align: center;
+}
+ 
 .current-picture {
 	margin: 0 auto;
 	text-align: center;
@@ -15,4 +19,32 @@
 	border-radius: 100%;
 	padding: 10px;
 	cursor: pointer;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.clear-icon {
+    padding: 10px;
+
+    :hover {
+        cursor: pointer;
+    }
 }
