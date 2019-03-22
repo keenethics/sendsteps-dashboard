@@ -1,0 +1,24 @@
+{
+  "name": "sendsteps-yii-emitter",
+  "private": true,
+  "version": "1.1.0",
+  "description": "takes events from a file and emits them to node via socket-io",
+  "author": {
+    "name": "Rene Verheij",
+    "email": "rpwverheij@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Marc Hage",
+      "email": "marc.hage@sendsteps.com"
+    }
+  ],
+  "main": "emitter.js",
+  "scripts": {},
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "moment": "^2.19.2",
+    "socket.io-client": "^2.0.4"
+  },
+  "devDependencies": {}
+}

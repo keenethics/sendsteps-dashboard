@@ -9,8 +9,18 @@ import MessageModal from '../modals/MessageModal';
 import IncomingToolbar from './toolbars/IncomingToolbar';
 import './Panels.scss';
 import EditMessageModal from '../modals/EditMessageModal';
+import { sortMessages, sortTypes } from '../../../../../scripts/messageSorter';
+import SortButton from './SortButton';
 
 class IncomingPanel extends Component {
+
+    state = {
+        sortBy: sortTypes.NEWEST,
+    }
+
+    setSortType = type => {
+        this.setState({sortBy: type})
+    }
 
     toggleSelect = id => {
     this.props.dispatch(toggleSelectIncoming(id));
@@ -27,6 +37,7 @@ class IncomingPanel extends Component {
     render() {
 
         const { messages, selectedIncomingIds } = this.props;
+        const { sortBy } = this.state;
 
         return (
             <span>
@@ -35,13 +46,14 @@ class IncomingPanel extends Component {
                         <span className="card-title">
                             <i className="filter-help fa fa-info-circle"></i> Incoming Messages ({getIncomingMessages(messages).length})
                             <span className="pull-right">
+                                <SortButton sortBy={sortBy} setSortType={this.setSortType} />
                                 <FullScreenButton />
                             </span>
                         </span>
                     </div>
                     <IncomingToolbar />
                     <div className="card-body messages-body">
-                        {messages && getIncomingMessages(messages).map((message, index) => {
+                        {messages && sortMessages(sortBy, getIncomingMessages(messages)).map((message, index) => {
                             return (
                                 <PanelMessage 
                                     selected={isMessageSelected(selectedIncomingIds, message.id)} 
@@ -50,6 +62,11 @@ class IncomingPanel extends Component {
                                     message={message} 
                                 />)
                         })}
+                        {!getIncomingMessages(messages).length && <>
+                            <div className="card-body text-center">
+                                <small> <i className="fa fa-exclamation-triangle "></i> No Messages Available</small>
+                            </div>
+                        </>}
                     </div>
                 </div>
                 <MessageModal />    

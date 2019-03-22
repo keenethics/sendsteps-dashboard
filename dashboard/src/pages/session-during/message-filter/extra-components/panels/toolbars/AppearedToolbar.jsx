@@ -26,11 +26,10 @@ class AppearedToolbar extends Component {
         return (
             <div className="card-footer">
                 <ButtonToolbar>
-                    <div className="btn btn-primary" 
-                        disabled={selectedAppearedIds.length < 1} 
+                    <button className={"btn btn-primary " + (selectedAppearedIds.length < 1 ? "disabled" : "")}
                         onClick={() => this.sendIdsToIncoming()}>
                         <i className="fa fa-recycle"></i> Back to Incoming
-                    </div>
+                    </button>
                 </ButtonToolbar>
             </div>
         );

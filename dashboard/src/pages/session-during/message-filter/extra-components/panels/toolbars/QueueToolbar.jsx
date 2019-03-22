@@ -36,12 +36,11 @@ class QueueToolbar extends Component {
     render() {
 
         const { selectedQueueIds } = this.props;
-
         return (
             <div className="card-footer pt-0">
                 <ButtonToolbar>
-                    <div className="btn btn-success mt-2 mr-2" disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToScreen()}>Send to Screen</div>
-                    <div className="btn btn-primary mt-2 mr-2" disabled={selectedQueueIds.length < 1} onClick={() => this.sendIdsToIncoming()}>Send to Incoming</div>
+                    <div className={"btn btn-success mt-2 mr-2 " + (selectedQueueIds.length < 1 ? "disabled" : "")} onClick={() => this.sendIdsToScreen()}>Send to Screen</div>
+                    <div className={"btn btn-primary mt-2 mr-2 " + (selectedQueueIds.length < 1 ? "disabled" : "")}  onClick={() => this.sendIdsToIncoming()}>Send to Incoming</div>
                 </ButtonToolbar>
             </div>
         );

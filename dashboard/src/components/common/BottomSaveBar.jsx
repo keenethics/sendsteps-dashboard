@@ -12,7 +12,7 @@ class BottomSaveBar extends Component  {
         const { onSave, noSave, disabled } = this.props;
 
         return (
-            <div className="card mt-3">
+            <div className="card mt-3 mb-3">
                 <div className="card-body">
                     <div className="row">
                         <div className="col-sm-12">

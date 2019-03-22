@@ -31,3 +31,15 @@
     width: 0px;
     border-left: 14px solid transparent;
 }
+
+.dropdown-menu-left {
+    left: -60px !important;
+}
+
+.sort-dropdown {
+    display: inline;
+}
+
+.msgfilter-sort:hover {
+    cursor: pointer;
+}

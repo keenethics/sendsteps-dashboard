@@ -18,45 +18,32 @@ class MessageFilterOverview extends React.Component {
         socket: null
     }
 
-    getMessageData = socketId => {
+    getMessageData = () => {
         post(
             'messagefilter', 
             'getMessageFilterData', 
             {
                 // @TODO Static messageround ID (Change this)
-                msgRoundId: 364,
-                socketId
+                msgRoundId: 364
             },
-            messages => {
-                console.log(messages)
-                this.props.dispatch(setMessageFilterData(messages.content))
-                this.props.dispatch(toggleAutoAccept(messages.autoAccept === "1"))
-                this.props.dispatch(toggleUpvoting(messages.upvoting === "1"))
+            data => {
+                console.log(data)
+                this.props.dispatch(setMessageFilterData(data.messages))
+                this.props.dispatch(setMessageGroupData(data.groups))
 
-            },
-            error => console.log(error)
-        )
-    }
+                this.props.dispatch(toggleAutoAccept(data.autoAccept === "1"))
+                this.props.dispatch(toggleUpvoting(data.upvoting === "1"))
 
-    getColorGroupsData = () => {
-        post(
-            'messagefilter', 
-            'getMessageGroups', 
-            { userId: this.props.currentUser.userId }, 
-            groupData => {
-                console.log(groupData)
-                this.props.dispatch(setMessageGroupData(groupData.content))
             },
             error => console.log(error)
         )
     }
 
     componentDidMount() {
-        const socket = getSocket();
-        socket.on('connect', () => {
-            this.getMessageData(socket.id);
-            this.getColorGroupsData();
-        })
+        // const socket = getSocket();
+        // socket.on('connect', () => {
+            this.getMessageData();
+        // })
     }
 
     toggleAutoAccept = value => {
