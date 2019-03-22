@@ -1,0 +1,7 @@
+{
+    "require": {
+        "rackspace/php-opencloud": "dev-master",
+        "wisembly/elephant.io": "^3.3",
+        "vlucas/phpdotenv": "^3.3"
+    }
+}

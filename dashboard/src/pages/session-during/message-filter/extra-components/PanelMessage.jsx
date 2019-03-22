@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { post } from '../../../../scripts/api';
 import { isValueInArray } from '../../../../scripts/arrayHelper';
 import { toast } from 'react-toastify';
+import io from '../../../../scripts/socket.io';
 
 class PanelMessage extends Component {
 
@@ -13,6 +14,18 @@ class PanelMessage extends Component {
 
     onToggleStar() {
         const messageId = this.props.message.id;
+
+
+        const socket = io.connect('http://localhost:8001',
+        {
+            'reconnection': true,
+            'reconnectionDelay': 2000,
+            'reconnectionDelayMax': 5000,
+            'reconnectionAttempts': (24 * 60 * 60 ), /* <- 2 dagen (elke reconnection 2 sec) */
+            'timeout': 10000,
+            'transports':['websocket']
+        })
+
         post('messagefilter', 'starMessage',
             { id: messageId },
             response => {

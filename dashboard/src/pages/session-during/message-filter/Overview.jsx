@@ -11,15 +11,21 @@ import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvo
 import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
 import Toggle from 'react-bootstrap-toggle';
+import { getSocket } from '../../../scripts/websockets';
 class MessageFilterOverview extends React.Component {
 
-    getMessageData = () => {
+    state = {
+        socket: null
+    }
+
+    getMessageData = socketId => {
         post(
             'messagefilter', 
             'getMessageFilterData', 
             {
                 // @TODO Static messageround ID (Change this)
-                msgRoundId: 364
+                msgRoundId: 364,
+                socketId
             },
             messages => {
                 console.log(messages)
@@ -46,9 +52,11 @@ class MessageFilterOverview extends React.Component {
     }
 
     componentDidMount() {
-        this.getMessageData();
-        this.getColorGroupsData();
-        
+        const socket = getSocket();
+        socket.on('connect', () => {
+            this.getMessageData(socket.id);
+            this.getColorGroupsData();
+        })
     }
 
     toggleAutoAccept = value => {
@@ -84,6 +92,7 @@ class MessageFilterOverview extends React.Component {
             }
         )
     }
+
     /*
         Functionality & Requests (Backend)
 
@@ -188,7 +197,9 @@ class MessageFilterOverview extends React.Component {
                         <span>
                             <p>The Message filter can be used to filter out unwanted messages during your presentation.</p>
                             <p> It can also be used to manage incoming messages and to decide which messages will be displayed on the screen.</p>
-                        </span>}/>
+                        </span>
+                    }
+                />
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-body">

@@ -173,14 +173,16 @@ class Surveys extends NovaAPI {
     }
 
     public function getSurveyUrl() {
+        
         $sessionModel = $this->loadModel('sessions');
         $addinSettingsModel = $this->loadModel('addinsettings');
 
         $session = $sessionModel->getSessionById($this->getUserSessionId())[0];
         $url = $session['internetAddressOverwrite'];
         if($url === NULL || strlen($url) === 0) {
-            $url = $addinSettingsModel->getWebsiteAddressById($session['pluginId']);
+            $addinSettings = $addinSettingsModel->getWebsiteAddressById($session['pluginId']);
+            $url = $addinSettings['websiteAddress'];
         }
-        return 'https://' . $url['websiteAddress'] . '/' . $session['textMessagingKeyword'] . '/survey';
+        return 'https://' . $url . '/' . $session['textMessagingKeyword'] . '/survey';
     }
 }

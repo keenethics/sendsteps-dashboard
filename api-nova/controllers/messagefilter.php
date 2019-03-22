@@ -1,8 +1,19 @@
 
 <?php
-require_once __DIR__.'/../base/nova-api.php';
 
-class MessageFilter extends NovaAPI {
+require_once __DIR__.'/../base/nova-api.php';
+require_once __DIR__.'/../emitter/emitter.php';
+
+use ElephantIO\Client;
+use ElephantIO\Engine\SocketIO\Version2X;
+
+class MessageFilter extends NovaApi {
+
+    private $emitter;
+
+    public function __construct() {
+        $this->emitter = new Emitter();
+    }
 
     public function getOverview(){
         $model = $this->loadModel('dashboards');
@@ -45,6 +56,7 @@ class MessageFilter extends NovaAPI {
     }
 
     public function addNewMessage($message) {
+        $this->emitter->emit('message:updated', ['sessionId' => $this->getUserSessionId()]);
         $model = $this->loadModel('livemessageroundmessages');
         return json_encode($model->addNewMessage($message));
     }
@@ -62,6 +74,7 @@ class MessageFilter extends NovaAPI {
     }
 
     public function deleteMessages($messageIds) {
+        $this->emitter->emit('message:updated', ['sessionId' => $this->getUserSessionId()]);
         $model = $this->loadModel('livemessageroundmessages');
         return json_encode($model->delete($messageIds));
     }
@@ -92,7 +105,9 @@ class MessageFilter extends NovaAPI {
     }
 
     public function starMessage($messageId) {
+        $this->emitter->emit('message:updated', ['sessionId' => $this->getUserSessionId()]);
         $model = $this->loadModel('livemessageroundmessages');
+        $this->emitter->emit('message:updated', ['sessionId' => $this->getUserSessionId()]);
         return json_encode($model->setStar($messageId));
     }
 
@@ -102,21 +117,29 @@ class MessageFilter extends NovaAPI {
     }
 
     public function removeGroup($userId, $groupId) {
+        $this->emitter->emit('groups:updated', ['sessionId' => $this->getUserSessionId()]);
         $model = $this->loadModel('livemessageroundmessagegroups');
         return json_encode($model->removeGroup($userId, $groupId));
     }
 
     public function addMessageGroup($userId, $groupName, $color) {
+        $this->emitter->emit('groups:updated', ['sessionId' => $this->getUserSessionId()]);
+
         $model = $this->loadModel('livemessageroundmessagegroups');
         return json_encode($model->addGroup($userId, $groupName, $color));
     }
 
-    public function getMessageFilterData($messageRoundId) {
+    public function getMessageFilterData($messageRoundId, $socketId) {
+        
+        $client = $this->emitter->getClient();
+        $this->emitter->emit("session:subscribe", ['sessionId' => $this->getUserSessionId(), 'socketId' => $socketId]);
+
         $messageModel = $this->loadModel('livemessageroundmessages');
         $sessionModel = $this->loadModel('sessions');
 
         $extraDetails = $sessionModel->getSessionById($this->getUserSessionId())[0];
         $messages = $messageModel->findByMessageRoundId($messageRoundId);
+
         return json_encode([
             'content' => $messages,
             'autoAccept' => $extraDetails['autoApprove'],
