@@ -123,7 +123,6 @@ class ProfileOverview extends React.Component {
                 language,
                 phonenumber,
                 filename,
-
                 country,
                 postalCode,
                 city,
@@ -144,8 +143,6 @@ class ProfileOverview extends React.Component {
 
         const { userDetails, accountDetails } = this.props;
         const { timezones, countries, errors } = this.state;
-
-        console.log(userDetails)
 
         return (
             <div>

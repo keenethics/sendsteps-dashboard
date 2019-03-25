@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/../base/nova-api.php';
+require_once __DIR__.'/../controllers/upload.php';
 
 class Users extends NovaAPI {
     public function getDeleteUsersOverview() {
@@ -32,13 +33,16 @@ class Users extends NovaAPI {
         $usersModel = $this->loadModel('users');
         $accountsModel = $this->loadModel('accounts');
 
+
         [ 
             $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename, // User Details
             $country, $postalCode, $city, $address, $university,$timezone, $vatId               // Account Details
         ] = $fields;
 
-        // CDNModel->uploadImage(filename)
-        
+        // $upload = new Upload();
+        // $result = $upload->saveFile($filename, 'test2');
+        // return $result;
+
         $currentUserData = $usersModel->getProfileDetailsByUserId($this->userId);
 
         $userUpdated = $usersModel->updateProfileDetails(

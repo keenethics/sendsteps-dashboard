@@ -12,13 +12,16 @@ export default class ImageUploadField extends React.Component {
 
     state = { ...this.initialState }
 
+    unBlobify = src => {
+        return src.replace('blob:', '');
+    }
+
     getBase64DataFromFilePath = filePath => {
 
         let image = new Image();
         image.onload = img => {
             const imageName = filePath.name
             const image = img.path[0];
-            console.log(image)
             
             this.setState({
                 imagePreview: image.src,

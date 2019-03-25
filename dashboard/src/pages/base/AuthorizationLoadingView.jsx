@@ -7,13 +7,13 @@ class AuthorizationLoadingView extends Component {
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                authMessage: "It's taking a bit longer than expected..."
-            }, () => {
-                window.location = window.location;
-            })
-        }, 5000)
+        // setTimeout(() => {
+        //     this.setState({
+        //         authMessage: "It's taking a bit longer than expected..."
+        //     }, () => {
+        //         window.location = window.location;
+        //     })
+        // }, 5000)
     }
 
     render() {
