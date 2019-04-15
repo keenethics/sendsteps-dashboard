@@ -25,6 +25,7 @@ class Users_Model extends Model {
     // user->mail_timezone? 
     // Rackspace CDN upload...
     public function getProfileDetailsByUserId($userId) {
+        // return false;
         return $this->database()->get(
             'users',
             [
