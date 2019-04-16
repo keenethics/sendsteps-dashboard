@@ -44,7 +44,7 @@ class Statistics extends NovaAPI {
         $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
         $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
 
-        Activity
+        // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
  
         return json_encode([
