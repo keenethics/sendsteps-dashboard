@@ -21,8 +21,9 @@ class Statistics extends NovaAPI {
         
         // // Yearly (Session/User) 
         // $lastYearVotes = $liveVotesModel->getLastYearVotesBySessionId($currentSessionId);
-        // $lastYearMessages = $liveMessagesModel->getLastYearMessagesBySessionId($currentSessionId);
-        $lastYearVotes = $lastYearMessages = array();
+        $lastYearMessages = $liveMessagesModel->getLastYearMessagesBySessionId($currentSessionId);
+        $lastYearVotes = 0; 
+        // $lastYearMessages = array();
         
         // $lastYearUserVotes = $liveVotesModel->getLastYearVotesByAccountId($currentAccountId);
         $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
@@ -33,8 +34,9 @@ class Statistics extends NovaAPI {
         $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
 
         // $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
-        // $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
-        $lastMonthUserVotes = $lastMonthUserMessages = 0;
+        $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
+        $lastMonthUserVotes = 0;
+        // $lastMonthUserMessages = array();
 
         // // Weekly (Session/User)
         $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
@@ -44,10 +46,10 @@ class Statistics extends NovaAPI {
         $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
 
         // // Last Session
-        $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
-        // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;// The getTotalResponses function appears not to exist
-        // $mostRecentPresentation = array(); 
-
+        $latestPresentation = $presentationsModel->getMostRecentBySessionId($currentSessionId);
+        $latestPresentationResponseCount = $this->getVoteCount($currentSessionId, $latestPresentation['id']);
+        $latestPresentationResponseCount += $this->getMessageCount($currentSessionId, $latestPresentation['id']);
+        
         // // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
         // $recentActivity = array();
@@ -63,7 +65,7 @@ class Statistics extends NovaAPI {
             'lastWeekResponses' => $lastWeekVotes + $lastWeekMessages,// 162ms
             'lastWeekUserContribution' => $lastWeekUserVotes + $lastWeekUserMessages,//6.92s
 
-            // 'lastSession' => $lastSessionResponses,//3.44//You already know the last session ID
+            'lastSession' => $latestPresentationResponseCount,//3.44//You already know the last session ID
 
             'activity' => $recentActivity//171ms
         ]);
@@ -80,11 +82,11 @@ class Statistics extends NovaAPI {
     }
 
     public function getMostRecentPresentationBySessionId($sessionId) {
-        $presentationModel = $this->loadModel('presentations');
-        $recentPresentations = $presentationModel->getMostRecentBySessionId($sessionId);
+        // $presentationModel = $this->loadModel('presentations');
+    //     $recentPresentations = $presentationModel->getMostRecentBySessionId($sessionId);
         
-        return $recentPresentations;
-        // The below generates an unacceptable number of database calls, we are not doing it this way
+    //     return $recentPresentations;
+    //     // The below generates an unacceptable number of database calls, we are not doing it this way
         // foreach($recentPresentations as $presentation) {
         //     $responseCount = 0;
         //     $responseCount += $this->getVoteCount($sessionId, $presentation['id']);
@@ -93,7 +95,7 @@ class Statistics extends NovaAPI {
         //         return $presentation;
         //     }
         // }
-        return null;
+        // return null;
     }
 
     private function getRecentActivityBySessionId($sessionId) {

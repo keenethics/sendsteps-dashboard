@@ -158,19 +158,19 @@ class Presentations_Model extends Model {
             LIMIT 1;';
         $params['sessionId'] = (int) $sessionId;
         $results = $this->query($query, $params);
-        return $results;
-        $result = $this->database()->select(
-            'presentations',
-            [
-                '[>]sessionruns' => [
-                    'presentations.sessionRunId' => 'id'
-                ]
-            ],
-            '*',
-            [
-                'sessionruns.sessionId' => $sessionId
-            ]
-        );
-        return $result;
+        return $results[0];
+        // $result = $this->database()->select(
+        //     'presentations',
+        //     [
+        //         '[>]sessionruns' => [
+        //             'presentations.sessionRunId' => 'id'
+        //         ]
+        //     ],
+        //     '*',
+        //     [
+        //         'sessionruns.sessionId' => $sessionId
+        //     ]
+        // );
+        // return $result;
     }
 }
