@@ -153,7 +153,9 @@ class Presentations_Model extends Model {
 
         $query = 'SELECT p.* FROM `presentations` p
             LEFT JOIN sessionruns sr ON p.sessionRunId = sr.id
-            WHERE <sr.sessionId> = :sessionId AND p.isDeleted != 1;';
+            WHERE <sr.sessionId> = :sessionId AND p.isDeleted != 1 
+            ORDER BY p.id DESC
+            LIMIT 1;';
         $params['sessionId'] = (int) $sessionId;
         $results = $this->query($query, $params);
         return $results;

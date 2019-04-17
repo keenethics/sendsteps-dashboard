@@ -25,32 +25,31 @@ class Statistics extends NovaAPI {
         $lastYearVotes = $lastYearMessages = array();
         
         // $lastYearUserVotes = $liveVotesModel->getLastYearVotesByAccountId($currentAccountId);
-        // $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
-        $lastYearUserVotes = $lastYearUserMessages = array();
+        $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
+        $lastYearUserVotes = 0; 
 
         // // Monthly (Session/User)
-        // $lastMonthVotes = $liveVotesModel->getLastMonthVotesBySessionId($currentSessionId);
-        // $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
-        $lastMonthVotes = $lastMonthMessages = array();
+        $lastMonthVotes = $liveVotesModel->getLastMonthVotesBySessionId($currentSessionId);
+        $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
 
         // $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
         // $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
         $lastMonthUserVotes = $lastMonthUserMessages = array();
 
         // // Weekly (Session/User)
-        // $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
-        // $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
-        $lastWeekVotes = $lastWeekMessages = array();
+        $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
+        $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
+        // $lastWeekVotes = $lastWeekMessages = array();
         
-        // $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
-        // $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
-        $lastWeekUserVotes = $lastWeekUserMessages = array();
+        $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
+        $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
+        // $lastWeekUserVotes = $lastWeekUserMessages = array();
 
         // // Last Session
         $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
-        // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
+        // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;// The getTotalResponses function appears not to exist
         // $mostRecentPresentation = array(); 
-        $lastSessionResponses = array();
+        // $lastSessionResponses = array();
 
         // // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
@@ -67,7 +66,7 @@ class Statistics extends NovaAPI {
             'lastWeekResponses' => $lastWeekVotes + $lastWeekMessages,// 162ms
             'lastWeekUserContribution' => $lastWeekUserVotes + $lastWeekUserMessages,//6.92s
 
-            'lastSession' => $lastSessionResponses,//3.44
+            // 'lastSession' => $lastSessionResponses,//3.44//You already know the last session ID
 
             'activity' => $recentActivity//171ms
         ]);
@@ -86,6 +85,8 @@ class Statistics extends NovaAPI {
     public function getMostRecentPresentationBySessionId($sessionId) {
         $presentationModel = $this->loadModel('presentations');
         $recentPresentations = $presentationModel->getMostRecentBySessionId($sessionId);
+        
+        return $recentPresentations;
         // The below generates an unacceptable number of database calls, we are not doing it this way
         // foreach($recentPresentations as $presentation) {
         //     $responseCount = 0;
