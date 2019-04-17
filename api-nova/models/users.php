@@ -99,7 +99,8 @@ class Users_Model extends Model {
     }
 
     public function updateProfileDetails($userId, ...$fields) {
-
+        var_dump($fields);exit();
+        // [ $questionTitle, $type, $isRequired, $participantInfofieldId, $order, $options ] = $params;
         [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
 
         $update = $this->database()->update(
