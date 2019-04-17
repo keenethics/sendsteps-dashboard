@@ -56,16 +56,16 @@ class Users extends NovaAPI {
             $filename
         );
 
-        $accountUpdated = $accountsModel->updateProfileDetails(
-            $currentUserData['accountId'],
-            $country,
-            $postalCode,
-            $city,
-            $address,
-            $university,
-            $timezone,
-            $vatId
-        );
+        // $accountUpdated = $accountsModel->updateProfileDetails(
+        //     $currentUserData['accountId'],
+        //     $country,
+        //     $postalCode,
+        //     $city,
+        //     $address,
+        //     $university,
+        //     $timezone,
+        //     $vatId
+        // );
         if($userUpdated && $accountUpdated) {
             return true;
         }
