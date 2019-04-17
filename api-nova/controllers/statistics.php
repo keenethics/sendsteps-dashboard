@@ -96,7 +96,7 @@ class Statistics extends NovaAPI {
         return null;
     }
 
-    public function getRecentActivityBySessionId($sessionId) {
+    private function getRecentActivityBySessionId($sessionId) {
         
         $liveMessagesModel = $this->loadModel('livemessageroundmessages');
         $recentMessageActivity = $liveMessagesModel->getRecentActivity($sessionId);
@@ -107,14 +107,14 @@ class Statistics extends NovaAPI {
         $surveyAnswerModel = $this->loadModel('surveyquestionanswers');
         $recentSurveyActivity = $surveyAnswerModel->getRecentActivity($sessionId);
 
-        $messageUpvotesModel = $this->loadModel('messageupvotes');
-        $recentUpvoteActivity = $messageUpvotesModel->getRecentActivity($sessionId);
+        // $messageUpvotesModel = $this->loadModel('messageupvotes');
+        // $recentUpvoteActivity = $messageUpvotesModel->getRecentActivity($sessionId);
 
         return [
-            'messages' => $recentMessageActivity,
-            'votes' => $recentVoteActivity,
-            'survey' => $recentSurveyActivity,
-            'upvotes' => $recentUpvoteActivity
+            'messages' => (int) $recentMessageActivity,
+            'votes' => (int) $recentVoteActivity,
+            'survey' => (int) $recentSurveyActivity,
+            // 'upvotes' => $recentUpvoteActivity
         ];
     }
     

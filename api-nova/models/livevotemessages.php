@@ -116,9 +116,9 @@ class Livevotemessages_model extends Model {
     }
 
     public function getRecentActivity($sessionId) {
-        return $this->database()->select(
+        return $this->database()->count(
             'livevotemessages',
-            'count(id)',
+            'id',
             [
                 'sessionId' => $sessionId,
                 'LIMIT' => 10,
