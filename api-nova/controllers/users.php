@@ -45,27 +45,27 @@ class Users extends NovaAPI {
 
         $currentUserData = $usersModel->getProfileDetailsByUserId($this->userId);
 
-        $userUpdated = $usersModel->updateProfileDetails(
-            $this->userId,
-            $firstName,
-            $lastName,
-            $email,
-            $departmentName,
-            $language,
-            $phonenumber,
-            $filename
-        );
-
-        // $accountUpdated = $accountsModel->updateProfileDetails(
-        //     $currentUserData['accountId'],
-        //     $country,
-        //     $postalCode,
-        //     $city,
-        //     $address,
-        //     $university,
-        //     $timezone,
-        //     $vatId
+        // $userUpdated = $usersModel->updateProfileDetails(
+        //     $this->userId,
+        //     $firstName,
+        //     $lastName,
+        //     $email,
+        //     $departmentName,
+        //     $language,
+        //     $phonenumber,
+        //     $filename
         // );
+
+        $accountUpdated = $accountsModel->updateProfileDetails(
+            $currentUserData['accountId'],
+            $country,
+            $postalCode,
+            $city,
+            $address,
+            $university,
+            $timezone,
+            $vatId
+        );
         if($userUpdated && $accountUpdated) {
             return true;
         }
