@@ -34,22 +34,19 @@ class Statistics extends NovaAPI {
 
         // $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
         // $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
-        $lastMonthUserVotes = $lastMonthUserMessages = array();
+        $lastMonthUserVotes = $lastMonthUserMessages = 0;
 
         // // Weekly (Session/User)
         $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
         $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
-        // $lastWeekVotes = $lastWeekMessages = array();
         
         $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
         $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
-        // $lastWeekUserVotes = $lastWeekUserMessages = array();
 
         // // Last Session
         $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
         // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;// The getTotalResponses function appears not to exist
         // $mostRecentPresentation = array(); 
-        // $lastSessionResponses = array();
 
         // // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);

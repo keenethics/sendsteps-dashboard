@@ -13,11 +13,11 @@ class Livevotemessages_model extends Model {
             ],
             '*',
             [
+                'accountId' => $accountId,
                 'timestamp[<>]' => [
                     gmdate('Y-m-d H:i:s', time() - (60*60*24*365)),
                     gmdate('Y-m-d H:i:s')
-                ],
-                'accountId' => $accountId
+                ]
             ]
         );
     }
