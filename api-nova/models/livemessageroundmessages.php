@@ -197,7 +197,7 @@ class Livemessageroundmessages_Model extends Model {
     public function getLastYearMessagesByAccountId($accountId) {
         return $this->database()->count(
             'livemessageroundmessages',
-            [getRecentActivityBySessionId
+            [
                 '[>]sessions' => [
                     'livemessageroundmessages.sessionId' => 'id'
                 ]
