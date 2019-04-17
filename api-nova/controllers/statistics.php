@@ -47,9 +47,10 @@ class Statistics extends NovaAPI {
         $lastWeekUserVotes = $lastWeekUserMessages = array();
 
         // // Last Session
-        // $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
+        $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
         // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
-        $mostRecentPresentation = $lastSessionResponses = array();
+        // $mostRecentPresentation = array(); 
+        $lastSessionResponses = array();
 
         // // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
@@ -85,14 +86,15 @@ class Statistics extends NovaAPI {
     public function getMostRecentPresentationBySessionId($sessionId) {
         $presentationModel = $this->loadModel('presentations');
         $recentPresentations = $presentationModel->getMostRecentBySessionId($sessionId);
-        foreach($recentPresentations as $presentation) {
-            $responseCount = 0;
-            $responseCount += $this->getVoteCount($sessionId, $presentation['id']);
-            $responseCount += $this->getMessageCount($sessionId, $presentation['id']);
-            if($responseCount > 0) {
-                return $presentation;
-            }
-        }
+        // The below generates an unacceptable number of database calls, we are not doing it this way
+        // foreach($recentPresentations as $presentation) {
+        //     $responseCount = 0;
+        //     $responseCount += $this->getVoteCount($sessionId, $presentation['id']);
+        //     $responseCount += $this->getMessageCount($sessionId, $presentation['id']);
+        //     if($responseCount > 0) {
+        //         return $presentation;
+        //     }
+        // }
         return null;
     }
 

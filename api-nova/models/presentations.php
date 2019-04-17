@@ -151,6 +151,12 @@ class Presentations_Model extends Model {
 
     public function getMostRecentBySessionId($sessionId) {
 
+        $query = 'SELECT p.* FROM `presentations` p
+            LEFT JOIN sessionruns sr ON p.sessionRunId = sr.id
+            WHERE <sr.sessionId> = :sessionId AND p.isDeleted != 1;';
+        $params['sessionId'] = (int) $sessionId;
+        $results = $this->query($query, $params);
+        return $results;
         $result = $this->database()->select(
             'presentations',
             [
