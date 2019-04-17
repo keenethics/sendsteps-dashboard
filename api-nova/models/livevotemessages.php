@@ -75,7 +75,7 @@ class Livevotemessages_model extends Model {
                     'livevotemessages.sessionId' => 'id'
                 ]
             ],
-            '*',
+            'count(id)',
             [
                 'accountId' => $accountId,
                 'timestamp[<>]' => [
@@ -107,7 +107,7 @@ class Livevotemessages_model extends Model {
                     'livevotemessages.id' => 'votes.id'
                 ]
             ],
-            '*',
+            'count(id)',
             [
                 'presentationId' => $presentationId,
                 'sessionId' => $sessionId
@@ -118,7 +118,7 @@ class Livevotemessages_model extends Model {
     public function getRecentActivity($sessionId) {
         return $this->database()->select(
             'livevotemessages',
-            '*',
+            'count(id)',
             [
                 'sessionId' => $sessionId,
                 'LIMIT' => 10,
