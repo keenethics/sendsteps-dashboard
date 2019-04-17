@@ -19,33 +19,42 @@ class Statistics extends NovaAPI {
         $currentAccountId = $userSession['accountId'];
         $currentSessionId = $userSession['id'];
         
-        // Yearly (Session/User) 
-        $lastYearVotes = $liveVotesModel->getLastYearVotesBySessionId($currentSessionId);
-        $lastYearMessages = $liveMessagesModel->getLastYearMessagesBySessionId($currentSessionId);
+        // // Yearly (Session/User) 
+        // $lastYearVotes = $liveVotesModel->getLastYearVotesBySessionId($currentSessionId);
+        // $lastYearMessages = $liveMessagesModel->getLastYearMessagesBySessionId($currentSessionId);
+        $lastYearVotes = $lastYearMessages = array();
         
-        $lastYearUserVotes = $liveVotesModel->getLastYearVotesByAccountId($currentAccountId);
-        $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
+        // $lastYearUserVotes = $liveVotesModel->getLastYearVotesByAccountId($currentAccountId);
+        // $lastYearUserMessages = $liveMessagesModel->getLastYearMessagesByAccountId($currentAccountId);
+        $lastYearUserVotes = $lastYearUserMessages = array();
 
-        // Monthly (Session/User)
-        $lastMonthVotes = $liveVotesModel->getLastMonthVotesBySessionId($currentSessionId);
-        $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
+        // // Monthly (Session/User)
+        // $lastMonthVotes = $liveVotesModel->getLastMonthVotesBySessionId($currentSessionId);
+        // $lastMonthMessages = $liveMessagesModel->getLastMonthMessagesBySessionId($currentSessionId);
+        $lastMonthVotes = $lastMonthMessages = array();
 
-        $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
-        $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
+        // $lastMonthUserVotes = $liveVotesModel->getLastMonthVotesByAccountId($currentAccountId);
+        // $lastMonthUserMessages = $liveMessagesModel->getLastMonthMessagesByAccountId($currentAccountId);
+        $lastMonthUserVotes = $lastMonthUserMessages = array();
 
-        // Weekly (Session/User)
-        $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
-        $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
+        // // Weekly (Session/User)
+        // $lastWeekVotes = $liveVotesModel->getLastWeekVotesBySessionId($currentSessionId);
+        // $lastWeekMessages = $liveMessagesModel->getLastWeekMessagesBySessionId($currentSessionId);
+        $lastWeekVotes = $lastWeekMessages = array();
         
-        $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
-        $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
+        // $lastWeekUserVotes = $liveVotesModel->getLastWeekVotesByAccountId($currentAccountId);
+        // $lastWeekUserMessages = $liveMessagesModel->getLastWeekMessagesByAccountId($currentAccountId);
+        $lastWeekUserVotes = $lastWeekUserMessages = array();
 
-        // Last Session
-        $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
-        $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
+        // // Last Session
+        // $mostRecentPresentation = $this->getMostRecentPresentationBySessionId($currentSessionId);
+        // $lastSessionResponses = $mostRecentPresentation ? $presentationsModel->getTotalResponses($mostRecentPresentation) : 0;
+        $mostRecentPresentation = $lastSessionResponses = array();
 
-        // Activity
+        // // Activity
         $recentActivity = $this->getRecentActivityBySessionId($currentSessionId);
+        // $recentActivity = array();
+        
  
         return json_encode([
             'lastYearResponses' => $lastYearVotes + $lastYearMessages,// 172ms
