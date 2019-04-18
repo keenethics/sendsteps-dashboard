@@ -3,7 +3,7 @@ require_once __DIR__.'/../../api-common/base/model.php';
 
 class Statistics_Model extends Model {
     
-    private function findDataForEmailsLike($email = array()){
+    public function findDataForEmailsLike($email = array()){
         $query_parts = array();
         foreach ($email as $val) {
             $query_parts[] = "'%".mysql_real_escape_string($val)."%'";
@@ -22,4 +22,11 @@ class Statistics_Model extends Model {
         $results = $this->query($query);
         return $results;
     }
+    
+    public function listReports(){
+        $query = "SELECT * FROM license_reports;";
+        $results = $this->query($query);
+        return $results;
+    }
+    
 }
