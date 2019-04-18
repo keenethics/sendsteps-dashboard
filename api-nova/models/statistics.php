@@ -28,5 +28,4 @@ class Statistics_Model extends Model {
         $results = $this->query($query);
         return $results;
     }
-    
 }
