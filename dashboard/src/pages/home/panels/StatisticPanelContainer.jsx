@@ -17,7 +17,7 @@ class StatisticPanelContainer extends Component {
 
     componentDidMount() {
         post(
-            'statistics',
+            'homepage',
             'getHomepage',
             {},
             statistics => this.setState({
