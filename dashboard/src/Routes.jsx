@@ -42,6 +42,7 @@ class Routes extends React.Component {
 							<Route path="/superadmin/delete-users" exact component={pages.DeleteUsersOverview} />
 							<Route path="/superadmin/sessions" exact component={pages.SessionOverview} />
 							<Route path="/superadmin/sessions/details/:id" exact component={pages.SessionDetails} />
+							<Route path="/superadmin/statistics" exact component={pages.StatisticsOverview} />
 						</>}				
 						<Route component={pages.PageNotFound} />
 					</Switch>

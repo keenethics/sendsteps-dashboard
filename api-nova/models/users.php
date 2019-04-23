@@ -25,6 +25,7 @@ class Users_Model extends Model {
     // user->mail_timezone? 
     // Rackspace CDN upload...
     public function getProfileDetailsByUserId($userId) {
+        // return false;
         return $this->database()->get(
             'users',
             [
@@ -98,26 +99,26 @@ class Users_Model extends Model {
     }
 
     public function updateProfileDetails($userId, ...$fields) {
+        // var_dump($fields);exit();
+        // [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
+        
+        // $update = $this->database()->update(
+        //     'users',
+        //     [
+        //         'firstName' => $firstName,
+        //         'lastName' => $lastName,
+        //         'email' => $email,
+        //         'departmentName' => $departmentName,
+        //         'language' => $language,
+        //         'phonenumber' => $phonenumber,
+        //         'filename' => $filename
+        //     ],
+        //     ['id' => $userId ]
+        // );
 
-        [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
-
-        $update = $this->database()->update(
-            'users',
-            [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'email' => $email,
-                'departmentName' => $departmentName,
-                'language' => $language,
-                'phonenumber' => $phonenumber,
-                'filename' => $filename
-            ],
-            ['id' => $userId ]
-        );
-
-        if($update->execute()) {
-            return true;
-        }
+        // if($update->execute()) {
+        //     return true;
+        // }
         return false;
     }
 }

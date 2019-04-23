@@ -196,6 +196,14 @@ export const SessionDetails = props => (
 	</DynamicImport>
 )
 
+export const StatisticsOverview = props => (
+	<DynamicImport load={() => import("../pages/superadmin/statistics/Overview")}>
+		{(Component) => Component === null 
+		? <LoadingView />
+		: <Component {...props} />}
+	</DynamicImport>
+)
+
 export const UserOverview = props => (
 	<DynamicImport load={() => import("../pages/user/Overview")}>
 		{(Component) => Component === null 
