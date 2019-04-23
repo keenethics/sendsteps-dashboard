@@ -90,6 +90,7 @@ class ProfileOverview extends React.Component {
     setImage = src => {
         let updatedDetails = { ...this.props.userDetails } 
         updatedDetails['filename'] = src;
+        console.log(src)
         this.props.dispatch(setUserProfileData(updatedDetails));
     }
 

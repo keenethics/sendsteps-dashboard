@@ -36,12 +36,12 @@ class Users extends NovaAPI {
 
         [ 
             $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename, // User Details
-            $country, $postalCode, $city, $address, $university,$timezone, $vatId               // Account Details
+            $country, $postalCode, $city, $address, $university, $timezone, $vatId               // Account Details
         ] = $fields;
 
-        // $upload = new Upload();
-        // $result = $upload->saveFile($filename, 'test2');
-        // return $result;
+        $upload = new Upload();
+        $result = $upload->saveFile($filename, 'test_file');
+        return $result;
 
         $currentUserData = $usersModel->getProfileDetailsByUserId($this->userId);
 

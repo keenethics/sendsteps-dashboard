@@ -47,6 +47,7 @@ class Upload
 
         $handle = fopen($localFile, 'r');
         $object = $this->getCdnContainer()->uploadObject($remoteFile, $handle);
+        return $object;
     }
 
     private function getCdnContainer()
