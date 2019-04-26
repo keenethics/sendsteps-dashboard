@@ -90,7 +90,12 @@ class ProfileOverview extends React.Component {
     setImage = src => {
         let updatedDetails = { ...this.props.userDetails } 
         updatedDetails['filename'] = src;
-        console.log(src)
+        this.props.dispatch(setUserProfileData(updatedDetails));
+    }
+
+    setBase64File = base64String => {
+        let updatedDetails = { ...this.props.userDetails } 
+        updatedDetails['base64String'] = base64String;
         this.props.dispatch(setUserProfileData(updatedDetails));
     }
 
@@ -112,8 +117,10 @@ class ProfileOverview extends React.Component {
     updateUserInfo = () => {
 
         const { userDetails, accountDetails } = this.props;
-        const { departmentName, email, firstName, lastName, language, phonenumber, filename } = userDetails
+        const { departmentName, email, firstName, lastName, language, phonenumber, base64String } = userDetails
         const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
+
+        console.log(userDetails)
 
         post('users', 'updateSelf',
             {
@@ -123,7 +130,7 @@ class ProfileOverview extends React.Component {
                 departmentName,
                 language,
                 phonenumber,
-                filename,
+                base64String,
                 country,
                 postalCode,
                 city,
@@ -166,6 +173,7 @@ class ProfileOverview extends React.Component {
                                     </p>
                                 </div>
                                 <ImageUploadField 
+                                    setBase64File={this.setBase64File}
                                     setImage={this.setImage}
                                     userImage={itemPropsToString(userDetails, 'filename')} 
                                     colWidth={6}

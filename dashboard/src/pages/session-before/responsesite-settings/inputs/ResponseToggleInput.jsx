@@ -8,8 +8,13 @@ class ResponseToggleInput extends Component {
     updateSettings = (value, field) => {
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
+        if(value === "0") {
+            newSettings['textmessagingselected'] = "1"
+        }
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
+
+
 
     render() {
 

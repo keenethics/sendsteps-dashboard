@@ -9,6 +9,9 @@ class ResponseToggleSMSInput extends Component {
     updateSettings = (value, field) => {
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
+        if(value === "0") {
+            newSettings['internetselected'] = "1"
+        }
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
 

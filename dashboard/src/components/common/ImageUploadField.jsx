@@ -48,7 +48,7 @@ export default class ImageUploadField extends React.Component {
 
     upload = e => {
         this.getBase64DataFromFilePath(e.target.files[0]).then(
-            data => console.log(data),
+            data => this.props.setBase64File && this.props.setBase64File(data),
             error => console.log(error)
         );
     }

@@ -4,6 +4,7 @@ import { toggleMenu } from '../../actions/app';
 import SignOutButton from './SignOutButton';
 import './Header.scss'
 import Logo from '../../assets/images/logo.png';
+import UserMenuOptions from './UserMenuOptions';
 
 class Header extends React.Component {
     render() {
@@ -21,7 +22,8 @@ class Header extends React.Component {
                         </span>
                     </a>
                     <span className="pull-right" >
-                        <SignOutButton />
+                        {/* <SignOutButton /> */}
+                        <UserMenuOptions />
                     </span>
                 </div>
             </header>
