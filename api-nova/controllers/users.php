@@ -1,6 +1,8 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 require_once __DIR__.'/../controllers/upload.php';
+require_once __DIR__."/../../api-common/request.php";
 
 class Users extends NovaAPI {
     public function getDeleteUsersOverview() {
@@ -29,46 +31,41 @@ class Users extends NovaAPI {
         ]);
     }
 
-    public function updateSelf(...$fields) {
+    public function updateSelf(Request $request) {
+
         $usersModel = $this->loadModel('users');
         $accountsModel = $this->loadModel('accounts');
 
-
-        [ 
-            $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename, // User Details
-            $country, $postalCode, $city, $address, $university, $timezone, $vatId               // Account Details
-        ] = $fields;
-
-        $upload = new Upload();
-        $result = $upload->saveFile($filename, 'test_file');
-        return $result;
-
         $currentUserData = $usersModel->getProfileDetailsByUserId($this->userId);
+        $fileUrl = $currentUserData['filename'];
+        if(isset($request->base64String)) {
+            $upload = new Upload();
+            $fileUrl = $upload->saveFile($request->base64String);
+        }
 
         $userUpdated = $usersModel->updateProfileDetails(
             $this->userId,
-            $firstName,
-            $lastName,
-            $email,
-            $departmentName,
-            $language,
-            $phonenumber,
-            $filename
+            $request->firstName,
+            $request->lastName,
+            $request->email,
+            $request->departmentName,
+            $request->language,
+            $request->phonenumber,
+            $fileUrl
         );
 
         $accountUpdated = $accountsModel->updateProfileDetails(
             $currentUserData['accountId'],
-            $country,
-            $postalCode,
-            $city,
-            $address,
-            $university,
-            $timezone,
-            $vatId
+            $request->country,
+            $request->postalCode,
+            $request->city,
+            $request->address,
+            $request->university,
+            $request->timezone,
+            $request->vatId
         );
         if($userUpdated && $accountUpdated) {
             return true;
         }
-        throw new Exception();
     }
 }

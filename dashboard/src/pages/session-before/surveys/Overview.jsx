@@ -93,6 +93,8 @@ class SurveysOverview extends React.Component {
         const { surveys } = this.props;
         const { surveyStatus, surveyURL, modalOpen } = this.state;
 
+        console.log(surveys)
+
         return (
             <div>
                 <HeaderPanel 

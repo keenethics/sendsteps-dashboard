@@ -99,26 +99,25 @@ class Users_Model extends Model {
     }
 
     public function updateProfileDetails($userId, ...$fields) {
-        // var_dump($fields);exit();
-        // [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
+        [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
         
-        // $update = $this->database()->update(
-        //     'users',
-        //     [
-        //         'firstName' => $firstName,
-        //         'lastName' => $lastName,
-        //         'email' => $email,
-        //         'departmentName' => $departmentName,
-        //         'language' => $language,
-        //         'phonenumber' => $phonenumber,
-        //         'filename' => $filename
-        //     ],
-        //     ['id' => $userId ]
-        // );
+        $update = $this->database()->update(
+            'users',
+            [
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $email,
+                'departmentName' => $departmentName,
+                'language' => $language,
+                'phonenumber' => $phonenumber,
+                'filename' => $filename
+            ],
+            ['id' => $userId ]
+        );
 
-        // if($update->execute()) {
-        //     return true;
-        // }
+        if($update->execute()) {
+            return true;
+        }
         return false;
     }
 }

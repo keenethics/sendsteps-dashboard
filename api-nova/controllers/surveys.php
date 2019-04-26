@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Surveys extends NovaAPI {
@@ -18,11 +19,11 @@ class Surveys extends NovaAPI {
         ]);
     }
     
-    public function getDetails($id = NULL) {
+    public function getDetails(Request $request) {
         // Fetch data from single presentation
-        if($id != NULL){
+        if(isset($request->id)){
             $surveyModel = $this->loadModel('surveys');
-            $results = $surveyModel->getActiveById($id);
+            $results = $surveyModel->getActiveById($request->id);
     
             return json_encode(['content' => $results[0]]);           
         }
@@ -37,9 +38,9 @@ class Surveys extends NovaAPI {
         return json_encode(['content' => $results]);
     }
     
-    public function getResultsDetails($id = NULL) {
+    public function getResultsDetails(Request $request) {
         // Fetch data from single presentation
-        if($id != NULL){
+        if(isset($request->id)){
             // $model = $this->loadModel('presentations');
             // $results = $model->findActiveById($id);
             // return json_encode(['content' => $results]);                
@@ -47,14 +48,14 @@ class Surveys extends NovaAPI {
         return false;        
     }
 
-    public function addSurvey($surveyName) {
+    public function addSurvey(Request $request) {
         $surveyModel = $this->loadModel('surveys');
-        return json_encode(['content' => $surveyModel->addSurvey($surveyName, $this->getUserSessionId())]);
+        return json_encode(['content' => $surveyModel->addSurvey($request->name, $this->getUserSessionId())]);
     }
 
-    public function deleteSurvey($surveyId) {
+    public function deleteSurvey(Request $request) {
         $surveyModel = $this->loadModel('surveys');
-        return json_encode($surveyModel->deleteSurvey($surveyId, $this->getUserSessionId()));
+        return json_encode($surveyModel->deleteSurvey($request->id, $this->getUserSessionId()));
     }
 
     public function getQuestionTypes() {
@@ -70,39 +71,37 @@ class Surveys extends NovaAPI {
         return false;
     }
 
-    public function createSurveyQuestion(...$params) {
+    public function createSurveyQuestion(Request $request) {
         $surveyModel = $this->loadModel('surveys');
         $surveyQuestionModel = $this->loadModel('surveyquestions');
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
         $surveyQuestionTypesModel = $this->loadModel('surveyquestiontypes');
 
-        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $surveyQuestionId, $order, $surveyQuestionOptions ] = $params;
-
-        if($surveyQuestionId == NULL) {
+        if(!isset($request->surveyQuestionId)) {
             $updatedSurveyQuestionId = $surveyQuestionModel->createQuestion(
-                $surveyQuestionName,
-                $surveyTypeId,
-                $isRequired,
-                $surveyId,
-                $order,
+                $request->question,
+                $request->typeId,
+                $request->required,
+                $request->surveyId,
+                $request->order,
                 $this->getUserSessionId()
             );
         } 
         else 
         {
             $updatedSurveyQuestionId = $surveyQuestionModel->updateQuestion(
-                $surveyQuestionId,
-                $surveyQuestionName,
-                $surveyTypeId,
-                $isRequired,
-                $order
+                $request->surveyQuestionId,
+                $request->question,
+                $request->typeId,
+                $request->required,
+                $request->order
             );
         }
 
         if($updatedSurveyQuestionId) {
             $surveyQuestionOptionModel->deleteOptions($updatedSurveyQuestionId);
-            if(count((array) $surveyQuestionOptions) > 0 && strlen(array_values((array) $surveyQuestionOptions)[0]) > 0) {
-                $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
+            if(count((array) $request->surveyQuestionOptions) > 0 && strlen(array_values((array) $request->surveyQuestionOptions)[0]) > 0) {
+                $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $request->typeId, $request->surveyQuestionOptions);
             }
             $survey = $surveyQuestionModel->getById($updatedSurveyQuestionId);
             return json_encode($survey);
@@ -113,29 +112,28 @@ class Surveys extends NovaAPI {
     public function handleTypeAndOptions($updatedSurveyQuestionId, $surveyTypeId, $surveyQuestionOptions) {
     }
 
-    public function deleteSurveyQuestion($surveyQuestionId) {
+    public function deleteSurveyQuestion(Request $request) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
-
-        $surveyQuestionModel->deleteQuestion($surveyQuestionId);
-        return json_encode(!!$surveyQuestionOptionModel->deleteOptions($surveyQuestionId));
+        $surveyQuestionModel->deleteQuestion($request->id);
+        return json_encode(!!$surveyQuestionOptionModel->deleteOptions($request->id));
     }
 
-    public function getQuestions($surveyId) {
+    public function getQuestions(Request $request) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
-        return json_encode($surveyQuestionModel->getBySurveyId($surveyId));
+        return json_encode($surveyQuestionModel->getBySurveyId($request->id));
     }
 
-    public function updateSurveyName($surveyId, $surveyName) {
+    public function updateSurveyName(Request $request) {
         $surveyModel = $this->loadModel('surveys');
-        if($surveyModel->updateSurveyNameById($surveyId, $surveyName)) {
-            return $this->getDetails($surveyId);
+        if($surveyModel->updateSurveyNameById($request->id, $request->surveyName)) {
+            return $this->getDetails($request->id);
         }
     }
 
-    public function getQuestionOptions($surveyQuestionId) {
+    public function getQuestionOptions(Request $request) {
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
-        return json_encode($surveyQuestionOptionModel->getByQuestionId($surveyQuestionId));
+        return json_encode($surveyQuestionOptionModel->getByQuestionId($request->id));
     }
 
     private function getUpdateSurveyStatusFields($currentSurvey, $newStatus) {
@@ -154,21 +152,21 @@ class Surveys extends NovaAPI {
         }
     }
 
-    public function updateSurveyStatus($surveyId, $newStatus) {
+    public function updateSurveyStatus(Request $request) {
         $surveyModel = $this->loadModel('surveys');
-        $currentSurvey = $surveyModel->getActiveById($surveyId)[0];
-        $this->shouldStopOtherSurveys($surveyId, $newStatus);
-        $fields = $this->getUpdateSurveyStatusFields($currentSurvey, $newStatus);
-        if($surveyModel->updateSurveyStatus($surveyId, $fields)) {
+        $currentSurvey = $surveyModel->getActiveById($request->surveyId)[0];
+        $this->shouldStopOtherSurveys($request->surveyId, $request->status);
+        $fields = $this->getUpdateSurveyStatusFields($currentSurvey, $request->status);
+        if($surveyModel->updateSurveyStatus($request->surveyId, $fields)) {
             return $this->getOverview();
         }
         return false;
     }
 
-    public function updateOrder($orderIds, $surveyId) {
+    public function updateOrder(Request $request) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
-        if($surveyQuestionModel->updateOrder($orderIds)) {
-            return $this->getQuestions($surveyId);
+        if($surveyQuestionModel->updateOrder($request->idPositions)) {
+            return $this->getQuestions($request->surveyId);
         }
     }
 

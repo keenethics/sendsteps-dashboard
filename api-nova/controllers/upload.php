@@ -33,7 +33,8 @@ class Upload
                 // Guzzle ships with outdated certs
                 Rackspace::SSL_CERT_AUTHORITY => 'system',
                 Rackspace::CURL_OPTIONS => [
-                    CURLOPT_SSL_VERIFYPEER => true,
+                    // Setting this to true conflicts with cUrl versions. Perhaps a certificate thing?
+                    CURLOPT_SSL_VERIFYPEER => false, 
                     CURLOPT_SSL_VERIFYHOST => 2,
                 ],
             ]
@@ -51,42 +52,36 @@ class Upload
         return $tempFile;
     }
 
-    public function saveFile($base64String) {
+    private function createTempFileStream($data) {
+        $tmpStream = fopen(__DIR__.'./tempFile.png', 'r+');
+        fwrite($tmpStream, $data);
+        rewind($tmpStream);
+        // fpassthru($tmpStream); we don't need this apparently? 
+        return $tmpStream;
+    }
 
-        $base64Data = str_replace('data:image/png;base64,', '', $base64String);
+    private function getFileExtensionFromBase64String($base64String) {
+        $fileData = explode(',', $base64String);
+        $fileInfo = explode('/', $fileData[0]);
+        $extension = explode(';', $fileInfo[1])[0];
+        return $extension;
+    }
+
+    public function saveFile($base64String) {
+        $fileExtension = $this->getFileExtensionFromBase64String($base64String);
+        $base64Data = explode(',', $base64String)[1];
         $base64Data = str_replace(' ', '+', $base64Data);
 
         $cdnObj = $this->getCdnContainer();
-        // $uniqueId = HashHelper::generateUniqueId();
-        $tmpStream = fopen('php://temp/tempFile.png', 'r+');
         $data = base64_decode($base64Data);
-        fwrite($tmpStream, $data);
-        rewind($tmpStream);
-        fpassthru($tmpStream);
-        $remoteFileName = 'testTestTestfile.png';
 
-        $object = $this->getCdnContainer()->uploadObject($remoteFileName, $tmpStream)->getPublicUrl(UrlType::SSL)->getHost();   
-        return 'https://'.$object.'/'.$remoteFileName;
-        return json_encode($foo); 
+        $tmpStream = $this->createTempFileStream($data);
+        $uniqueId = HashHelper::generateUniqueId();
+
+        $remoteFileName = $uniqueId.'.png';
+        $url = $this->getCdnContainer()->uploadObject($remoteFileName, $tmpStream)->getPublicUrl(UrlType::SSL)->getHost();  
+        return 'https://'.$url.'/'.$remoteFileName;
     }
-
-    // public function saveFile($base64String, $remoteFile) {
-
-    //     $cdnObject = $this->getCdnContainer()->getObject();
-    //     $service = $this->client->objectStoreService(null, Rackspace::US_IDENTITY_ENDPOINT);
-    //     $account = $service->getAccount();
-    //     $account->setTempUrlSecret();
-
-    //     return $object->getTemporaryUrl(100, 'PUT');
-
-    //     $cdnObject->setName('testFile.png');
-
-    //     $file = $this->getFileFromBase64String($base64String);
-    //     return sys_get_temp_dir();
-    //     
-    //     return $object;
-    // }
-    
 
     private function getCdnContainer()
     {

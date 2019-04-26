@@ -17,6 +17,7 @@ class DeleteSurveyModal extends Component {
             'deleteSurvey',
             { id: deleteSurveyId },
             result => {
+                console.log(result)
                 this.props.dispatch(setSurveyData(result))
                 this.props.dispatch(setDeleteSurveyId(null))
                 toast("Survey deleted!")

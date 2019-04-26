@@ -1,4 +1,3 @@
-
 <?php
 
 require_once __DIR__.'/../base/nova-api.php';
@@ -28,27 +27,27 @@ class MessageFilter extends NovaApi {
 
     }
 
-    public function toggleUpvoting($isEnabled) {
+    public function toggleUpvoting(Request $request) {
         $model = $this->loadModel('sessions');
         $sessionId = $this->getUserSessionId();
-        if($isEnabled) {
+        if($request->isEnabled) {
             $model->toggleAutoAccept(false, $sessionId);
         }
-        return json_encode($model->toggleUpvoting($isEnabled, $sessionId));
+        return json_encode($model->toggleUpvoting($request->isEnabled, $sessionId));
     }
 
-    public function toggleAutoAccept($isEnabled) {
+    public function toggleAutoAccept(Request $request) {
         $model = $this->loadModel('sessions');
         $sessionId = $this->getUserSessionId();
-        if($isEnabled) {
+        if($request->isEnabled) {
             $model->toggleUpvoting(false, $sessionId);
         }
-        return json_encode($model->toggleAutoAccept($isEnabled, $sessionId));
+        return json_encode($model->toggleAutoAccept($request->isEnabled, $sessionId));
     }
 
-    public function addNewMessage($message) {
+    public function addNewMessage(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->addNewMessage($message));
+        return json_encode($model->addNewMessage($request->message));
     }
 
     public function editMessage($messageId) {
@@ -68,52 +67,51 @@ class MessageFilter extends NovaApi {
         return json_encode($model->delete($messageIds));
     }
 
-    public function addToGroup($groupId, $messageIds) {
+    public function addToGroup(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->updateGroupId($groupId, $messageIds));
+        return json_encode($model->updateGroupId($request->groupId, $request->selectedIds));
     }
 
-    public function sendToQueue($messageIds) {
+    public function sendToQueue(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->sendToQueue($messageIds));
+        return json_encode($model->sendToQueue($request->ids));
     }
 
-    public function sendToScreen($messageIds) {
+    public function sendToScreen(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->sendToScreen($messageIds));
+        return json_encode($model->sendToScreen($request->ids));
     }
 
-    public function sendToIncoming($messageIds) {
+    public function sendToIncoming(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->sendToIncoming($messageIds));
+        return json_encode($model->sendToIncoming($request->ids));
     }
 
-    public function sendToAppeared($messageIds) {
+    public function sendToAppeared(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->sendToAppeared($messageIds));
+        return json_encode($model->sendToAppeared($request->ids));
     }
 
-    public function starMessage($messageId) {
-        
+    public function starMessage(Request $request) {
         $model = $this->loadModel('livemessageroundmessages');
-        return json_encode($model->setStar($messageId));
+        return json_encode($model->setStar($request->id));
     }
 
     public function getMessageGroups($userId) {
        
     }
 
-    public function removeGroup($userId, $groupId) {
+    public function removeGroup(Request $request) {
         $model = $this->loadModel('livemessageroundmessagegroups');
-        return json_encode($model->removeGroup($userId, $groupId));
+        return json_encode($model->removeGroup($request->userId, $request->groupId));
     }
 
-    public function addMessageGroup($userId, $groupName, $color) {
+    public function addMessageGroup(Request $request) {
         $model = $this->loadModel('livemessageroundmessagegroups');
-        return json_encode($model->addGroup($userId, $groupName, $color));
+        return json_encode($model->addGroup($request->userId, $request->groupName, $request->groupColor));
     }
 
-    public function getMessageFilterData($messageRoundId) {
+    public function getMessageFilterData(Request $request) {
 
         $messageModel = $this->loadModel('livemessageroundmessages');
         $groupModel = $this->loadModel('livemessageroundmessagegroups');
@@ -123,7 +121,7 @@ class MessageFilter extends NovaApi {
         
         $groupData = $groupModel->getGroupsByUserId($extraDetails['userId']);
 
-        $messages = $messageModel->findByMessageRoundId($messageRoundId);
+        $messages = $messageModel->findByMessageRoundId($request->msgRoundId);
 
         return json_encode([
             'messages' => $messages,

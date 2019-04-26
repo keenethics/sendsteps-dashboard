@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Presentations extends NovaAPI {
@@ -15,12 +16,12 @@ class Presentations extends NovaAPI {
         return json_encode(['content' => $results]);
     }
     
-    public function getDetails($id = NULL) {
+    public function getDetails(Request $request) {
         // Fetch data from single presentation
-        if ($id != NULL) {
+        if (isset($request->id)) {
             //Add what we can from a the presentation record
             $presentationModel = $this->loadModel('presentations');
-            $record = $presentationModel->findActiveById($id)[0];
+            $record = $presentationModel->findActiveById($request->id)[0];
             $results = array();
             $nrOfResponses = 0;
             $parts = explode('\\', $record['name']);
