@@ -133,8 +133,7 @@ class CreateQuestionContainer extends Component {
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                            <SurveyQuestion order={question.order} getSurveyQuestions={this.getSurveyQuestions} savedQuestion={question} types={types} />
-                                            <hr/>
+                                            <SurveyQuestion isDroppable={!!snapshot.draggingOver} isDragging={snapshot.isDragging} order={question.order} getSurveyQuestions={this.getSurveyQuestions} savedQuestion={question} types={types} />
                                         </div>
                                     </>}
                                 </Draggable>)

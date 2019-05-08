@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { setDeletingIdentificationId } from '../actions'
 import OptionTypeContainer from './types/OptionTypeContainer';
 import { generateKey } from '../../../../scripts/arrayHelper';
+import './IdentificationQuestion.scss';
 
 class IdentificationQuestion extends Component {
 
@@ -184,13 +185,14 @@ class IdentificationQuestion extends Component {
 
     render() {
 
-        const { savedQuestion } = this.props
+        const { savedQuestion, isDragging, isDroppable } = this.props
         const { types, currentType, isRequired, identificationQuestionTitle, identificationQuestionOptions, optionsExpanded } = this.state
 
         return (
             <>
+            <div className="drag-item-container px-3 pt-3" style={isDragging ? (isDroppable ? {backgroundColor: '#c7ffdb', opacity: 0.5} : {backgroundColor: '#ffe083', opacity: 0.5}) : {}}>
                 <div className="form-group row">
-                    <div className="col-sm-3">
+                    <div className="col-sm-3    ">
                         {!savedQuestion &&
                         <label className="col-form-label">
                             {!currentType && "New Question"}
@@ -291,6 +293,8 @@ class IdentificationQuestion extends Component {
                         </div>
                     </div>
                 </Collapse>
+                <hr className="mb-0"/>
+                </div>
             </>
         );
     }

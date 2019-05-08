@@ -97,7 +97,7 @@ class SurveyNameContainer extends Component {
         const { create, name } = this.props
 
         return (
-            <div className="form-group row">
+            <div className="form-group row px-3">
                     <div className="col-sm-3">
                         <label className="col-form-label">Survey Name</label>
                     </div>

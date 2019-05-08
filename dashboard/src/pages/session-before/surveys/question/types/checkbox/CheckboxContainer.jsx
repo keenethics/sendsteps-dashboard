@@ -7,9 +7,7 @@ class CheckboxContainer extends Component {
         const { options, updateOptions, addOption, deleteOption, optionsLoaded } = this.props
 
         return (
-            <div className="row">
-                <div className="col-sm-12">
-                    <div className="col-sm-6 col-sm-offset-3">
+                <div className="col-sm-6">
                         {options && Object.keys(options).map(key => {
                             return (
                             <span key={key}>
@@ -23,8 +21,6 @@ class CheckboxContainer extends Component {
                                 />
                             </span>)
                         })}
-                    </div>
-                </div>
             </div>
         );
     }

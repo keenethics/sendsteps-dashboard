@@ -21,6 +21,7 @@ class ExplanationContainer extends Component {
                         </span>
                     </div>
                     <textarea 
+                        className="form-control"
                         onChange={this.props.updateOptions} 
                         value={this.getFirstOption(options)} 
                         placeholder="Type your text which you would like to show to your audience" 

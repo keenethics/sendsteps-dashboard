@@ -28,6 +28,12 @@ export function post(controller, functionName, params, onSuccess, onFail) {
         if(result.error) {
             onFail(result.error);
         } else {
+
+
+            // Maybe parse result 0/1 to true/false and cast numbers to ints
+            // Prevents having to parseInt 
+            // Though database has 0/1/2/3 values for some rows (yay)
+            // Maybe just cast to int and for checking use !!value
             onSuccess(result);
         }
     })

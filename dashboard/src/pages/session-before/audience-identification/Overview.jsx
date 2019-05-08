@@ -10,7 +10,7 @@ import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
 import './Overview.scss'
-import ToggleButton from '../../../components/common/inputs/toggle/ToggleButton';
+import Toggle from 'react-bootstrap-toggle';
 class AudienceOverview extends React.Component {
 
     state = {
@@ -73,7 +73,7 @@ class AudienceOverview extends React.Component {
                                     <h3>How to identify your participants?</h3>
                                     <hr/>
                                     <div className="row">
-                                        <div className="col-sm-12">
+                                        <div className="col-sm-12 px-3">
                                             <label className="col-form-label">How to Participate <TooltipNotification 
                                                 title={"How to Participate"}
                                                 tooltip={
@@ -84,7 +84,9 @@ class AudienceOverview extends React.Component {
                                                     <i className="fa fa-question-circle"></i>
                                                 </TooltipNotification>
                                             </label>
-                                            <ToggleButton
+                                            <br/>
+                                            <Toggle
+                                                offstyle="secondary"
                                                 onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
                                                 off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
@@ -92,7 +94,7 @@ class AudienceOverview extends React.Component {
                                             />
                                         </div>
                                     </div>
-                                    <hr/>
+                                    <hr className="mb-0"/>
                                     {isAnonymous === "0" && <CreateQuestionContainer />}
                                 </div>
                             </div>

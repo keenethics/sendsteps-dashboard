@@ -68,7 +68,7 @@ class SurveyDetails extends React.Component {
                             <h3>Edit Survey</h3>
                             <hr />
                             <SurveyNameContainer name={surveyDetails.survey_name} />
-                            <hr />
+                            <hr className="mb-0"/>
                             <CreateQuestionContainer />
                         </div>
                     </div>}

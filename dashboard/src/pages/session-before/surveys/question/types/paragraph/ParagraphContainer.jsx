@@ -10,7 +10,7 @@ class ParagraphContainer extends Component {
                             <i className="fa fa-comment-o"></i>
                         </span>
                     </div>
-                    <textarea disabled={true} placeholder="Their Longer Answer" >
+                    <textarea className="form-control" disabled={true} placeholder="Their Longer Answer" >
                     </textarea>
                 </div>
             </div>

@@ -105,13 +105,19 @@ class CreateQuestionContainer extends Component {
                                 return (
                                 <Draggable draggableId={question.id} index={index + 1} key={question.id}>
                                     {(provided, snapshot) => <> 
+                                        {console.log(snapshot)}
                                         <div 
                                         className="drag-item"
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                            <IdentificationQuestion order={question.fieldIndex} getIdentificationQuestions={this.getIdentificationQuestions} savedQuestion={question} />
-                                            <hr/>
+                                            <IdentificationQuestion 
+                                                isDragging={snapshot.isDragging} 
+                                                isDroppable={!!snapshot.draggingOver} 
+                                                order={question.fieldIndex} 
+                                                getIdentificationQuestions={this.getIdentificationQuestions} 
+                                                savedQuestion={question} 
+                                            />
                                         </div>
                                     </>}
                                 </Draggable>)

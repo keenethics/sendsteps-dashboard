@@ -117,7 +117,7 @@ class SurveysOverview extends React.Component {
                             />
                             <hr/>
                             {!surveys &&
-                            <p className="text-center">
+                            <p className="text-center py-3">
                                 There are no surveys to display...
                             </p>}
                             {surveys && 

@@ -68,7 +68,7 @@ export const getOptions = () => {
 }
 
 function getClearButton(clearSearch) {
-    return <span className="input-group-append"><button onClick={clearSearch} className="btn btn-danger"><i className="fa fa-times"></i></button></span>
+    return <span className="input-group-append"><button onClick={clearSearch} className="btn btn-danger btn-sm"><i className="fa fa-times"></i></button></span>
 }
 
 export const getMessageColumn = message => {

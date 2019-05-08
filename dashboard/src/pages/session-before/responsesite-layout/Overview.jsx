@@ -11,7 +11,8 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 import { setResponseSettings, setLayoutSettings } from './actions';
 import { post } from '../../../scripts/api';
 import { toast } from 'react-toastify';
-import ToggleButton from '../../../components/common/inputs/toggle/ToggleButton';
+import Toggle from 'react-bootstrap-toggle';
+import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
 
 class LayoutOverview extends React.Component {
 
@@ -252,7 +253,9 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Favicon Type</label>
                                                 <br/>
-                                                <ToggleButton
+                                                <Toggle
+                                                    style={{width: '120px'}}
+                                                    offstyle="secondary"
                                                     onClick={() => this.updateSettings(responseSettings.favicon_type === "image" ? "url" : "image", 'favicon_type')}
                                                     on={<><i className="fa fa-check"></i> Image</>}
                                                     off={<><i className="fa fa-times"></i> Url</>}
@@ -297,7 +300,9 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Logo Url New Tab</label>
                                                 <br/>
-                                                <ToggleButton
+                                                <Toggle
+                                                    style={{width: '80px'}}
+                                                    offstyle="secondary"
                                                     onClick={() => this.updateSettings(responseSettings.logo_url_new_tab === "1" ? "0" : "1", 'logo_url_new_tab')}
                                                     on={<><i className="fa fa-check"></i> Yes</>}
                                                     off={<><i className="fa fa-times"></i> No</>}
@@ -309,10 +314,10 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Background Type</label>
                                                 <br/>
-                                                <ToggleButton
+                                                <DefaultToggle 
                                                     onClick={() => this.updateSettings(responseSettings.main_background_type === "image" ? "url" : "image", 'main_background_type')}
-                                                    on={<><i className="fa fa-check"></i> Image</>}
-                                                    off={<><i className="fa fa-times"></i> Url</>}
+                                                    on={<><i className="fa fa-image"></i> Image</>}
+                                                    off={<><i className="fa fa-link"></i> Url</>}
                                                     active={responseSettings.main_background_type === "image"}
                                                 />
                                             </div>
@@ -347,7 +352,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Overlay Enabled</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.enable_overlay === "0" ? "1" : "0", 'enable_overlay')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
@@ -359,7 +366,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">New Relic</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.switch_off_new_relic === "0" ? "1" : "0", 'switch_off_new_relic')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
@@ -371,7 +380,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Analytics</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.switch_off_analytics === "0" ? "1" : "0", 'switch_off_analytics')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
@@ -383,7 +394,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Contact</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.switch_off_contact === "0" ? "1" : "0", 'switch_off_contact')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
@@ -395,7 +408,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Only Unique Response Codes</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.unique_response_codes_only === "1" ? "0" : "1", 'unique_response_codes_only')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
@@ -407,7 +422,9 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Dark Theme</label>
                                                         <br/>
-                                                        <ToggleButton
+                                                        <Toggle
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
                                                             onClick={() => this.updateSettings(responseSettings.dark_sst_logo === "1" ? "0" : "1", 'dark_sst_logo')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}

@@ -41,13 +41,15 @@ class CheckboxOption extends Component {
         return (
             <FormGroup>
                 <InputGroup>
-                    <div className="input-group-addon disabled">
-                        <input type="radio" disabled="disabled" />
+                    <div className="input-group-prepend disabled">
+                        <div className="input-group-text">
+                            <input type="radio" disabled="disabled" />
+                        </div>
                     </div>
                     <FormControl placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
                     {(addedNext || !this.isGeneratedKey(optionKey)) &&
-                    <div onClick={this.deleteOption} className="input-group-addon btn btn-primary">
-                        <i className="fa fa-trash"></i> Delete
+                    <div onClick={this.deleteOption} className="input-group-append">
+                        <button className="btn btn-outline-danger"><i className="fa fa-trash"></i> Delete</button>
                     </div>}
                 </InputGroup>
             </FormGroup>

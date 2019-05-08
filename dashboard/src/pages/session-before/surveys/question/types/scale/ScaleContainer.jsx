@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FormControl, FormGroup } from 'react-bootstrap'
+import { FormControl, FormGroup, Form } from 'react-bootstrap'
 import { generateKey, swap, firstOfObject } from '../../../../../../scripts/arrayHelper';
 class ScaleContainer extends Component {
 
@@ -11,6 +11,7 @@ class ScaleContainer extends Component {
     }
 
     setActive = e => {
+        console.log(e.target.value)
         const { options, updateOptions } = this.props;
         this.setState({currentInput: parseInt(e.target.value, 10)})
         updateOptions(parseInt(e.target.value, 10), Object.keys(options)[2]);
@@ -69,51 +70,51 @@ class ScaleContainer extends Component {
 
         return (
             <>
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <label className="radio-inline"><input type="radio" name="scale_1" checked={true} disabled />1</label>
-                                <label className="radio-inline"><input checked={currentInput === 2} onChange={this.setActive} type="radio" value={2} name="scale_2" />2</label>
-                                <label className="radio-inline"><input checked={currentInput === 3} onChange={this.setActive} type="radio" value={3} name="scale_3" />3</label>
-                                <label className="radio-inline"><input checked={currentInput === 4} onChange={this.setActive} type="radio" value={4} name="scale_4" />4</label>
-                                <label className="radio-inline"><input checked={currentInput === 5} onChange={this.setActive} type="radio" value={5} name="scale_5" />5</label>
-                            </div>
-                        </div>
+                <div className="col-sm-6 pb-3">
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input readOnly className="form-check-input" type="radio" name="scale_1" checked={true} disabled />
+                        <label className="form-check-label">1</label>
                     </div>
-                </FormGroup>
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className="fa fa-tachometer"></i> 1
-                                        </span>
-                                    </div>
-                                    <FormControl value={firstOfObject(options)} onChange={this.setFirstScaleText} placeholder="Example: Poor" />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input className="form-check-input" onChange={this.setActive} type="radio" value={2} name="scale_2" checked={currentInput === 2} />
+                        <label className="form-check-label" htmlFor="scale_2">2</label>
                     </div>
-                </FormGroup>
-                <FormGroup>
-                    <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className="fa fa-tachometer"></i> {currentInput}
-                                        </span>
-                                    </div>
-                                    <FormControl value={options[Object.keys(options)[1]]} onChange={this.setLastScaleText} placeholder="Example: Great" />
-                                </div>
-                            </div>
-                        </div>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input className="form-check-input" onChange={this.setActive} type="radio" value={3} name="scale_3" checked={currentInput === 3} />
+                        <label className="form-check-label" htmlFor="scale_3">3</label>
                     </div>
-                </FormGroup>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input className="form-check-input" onChange={this.setActive} type="radio" value={4} name="scale_4" checked={currentInput === 4} />
+                        <label className="form-check-label">4</label>
+                    </div>
+                    <div className="custom-control custom-radio custom-control-inline">
+                        <input className="form-check-input" onChange={this.setActive} type="radio" value={5} name="scale_5" checked={currentInput === 5} />
+                        <label className="form-check-label">5</label>
+                    </div>
+                </div>
+                <div className="col-sm-6 offset-md-3">
+                    <FormGroup>
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                                <i className="fa fa-tachometer mr-2"></i> 1
+                            </span>
+                        </div>
+                        <FormControl value={firstOfObject(options)} onChange={this.setFirstScaleText} placeholder="Example: Poor" />
+                    </div>
+                    </FormGroup>
+
+                </div>
+                <div className="col-sm-6 offset-md-3">
+                    <div className="input-group">
+                        <div className="input-group-prepend">
+                            <span className="input-group-text">
+                                <i className="fa fa-tachometer mr-2"></i> {currentInput}
+                            </span>
+                        </div>
+                        <FormControl value={options[Object.keys(options)[1]]} onChange={this.setLastScaleText} placeholder="Example: Great" />
+                    </div>
+                </div>
             </>
         );
     }
