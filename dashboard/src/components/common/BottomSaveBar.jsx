@@ -9,7 +9,7 @@ class BottomSaveBar extends Component  {
     }
     render() {
 
-        const { onSave, noSave, disabled } = this.props;
+        const { onSave, noSave, disabled, loading } = this.props;
 
         return (
             <div className="card mt-3 mb-3">
@@ -17,11 +17,11 @@ class BottomSaveBar extends Component  {
                     <div className="row">
                         <div className="col-sm-12">
                             {!noSave &&
-                            <div className="btn btn-success" 
-                                disabled={disabled}
+                            <div className={"btn btn-success " + ((disabled || loading) ? "disabled": "")} 
                                 onClick={onSave || function(){ console.log("onSave")}}
                             >
-                                <i className="fa fa-save"></i> Save
+                                {!loading && <i className="mx-1 fa fa-save"></i>}
+                                {loading && <span class="mx-1 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
                             </div>}
                             <button 
                                 onClick={() => this.goBack()}

@@ -52,8 +52,8 @@ class Upload
         return $tempFile;
     }
 
-    private function createTempFileStream($data) {
-        $tmpStream = fopen(__DIR__.'./tempFile.png', 'r+');
+    private function createTempFileStream($data, $extension) {
+        $tmpStream = fopen('php://temp/tempFile.'. $extension, 'r+');
         fwrite($tmpStream, $data);
         rewind($tmpStream);
         // fpassthru($tmpStream); we don't need this apparently? 
@@ -67,19 +67,24 @@ class Upload
         return $extension;
     }
 
-    public function saveFile($base64String) {
-        $fileExtension = $this->getFileExtensionFromBase64String($base64String);
+    public function removeFileDataFromBase64String($base64String) {
         $base64Data = explode(',', $base64String)[1];
         $base64Data = str_replace(' ', '+', $base64Data);
+        return base64_decode($base64Data);
+    }
 
-        $cdnObj = $this->getCdnContainer();
-        $data = base64_decode($base64Data);
-
-        $tmpStream = $this->createTempFileStream($data);
+    public function saveFile($base64String) {
+        $fileExtension = $this->getFileExtensionFromBase64String($base64String);
         $uniqueId = HashHelper::generateUniqueId();
+        $cdnObj = $this->getCdnContainer();
 
-        $remoteFileName = $uniqueId.'.png';
+        $base64Data = $this->removeFileDataFromBase64String($base64String);
+        $tmpStream = $this->createTempFileStream($base64Data, $fileExtension);
+
+        $remoteFileName = $uniqueId . '.' . $fileExtension;
+
         $url = $this->getCdnContainer()->uploadObject($remoteFileName, $tmpStream)->getPublicUrl(UrlType::SSL)->getHost();  
+
         return 'https://'.$url.'/'.$remoteFileName;
     }
 

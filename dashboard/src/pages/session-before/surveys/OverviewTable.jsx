@@ -83,7 +83,7 @@ class OverviewTable extends Component {
                 {!isPlaying &&
                 <TooltipNotification 
                     title="play"
-                    placement={"bottom"} 
+                    placement={"top"} 
                     tooltip={"Play Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-outline-secondary" onClick={() => this.togglePlayDialog(row.id)}>
                             <i className="fa fa-play"></i>
@@ -98,7 +98,7 @@ class OverviewTable extends Component {
                 {!(isPaused || isStopped) && 
                 <TooltipNotification 
                     title="pause"
-                    placement={"bottom"} 
+                    placement={"top"} 
                     tooltip={"Pause Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-outline-secondary" onClick={() => this.props.updateSurveyStatus(3, row.id)}>
                             <i className="fa fa-pause"></i>
@@ -113,7 +113,7 @@ class OverviewTable extends Component {
                 {!isStopped &&
                 <TooltipNotification 
                     title="stop"
-                    placement={"bottom"} 
+                    placement={"top"} 
                     tooltip={"Stop Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-outline-primary" 
                             onClick={() => this.props.updateSurveyStatus(2, row.id)} 

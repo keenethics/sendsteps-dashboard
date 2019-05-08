@@ -41,7 +41,7 @@ class Users extends NovaAPI {
         if(isset($request->base64String)) {
             $upload = new Upload();
             $fileUrl = $upload->saveFile($request->base64String);
-        }
+        } 
 
         $userUpdated = $usersModel->updateProfileDetails(
             $this->userId,
@@ -65,7 +65,7 @@ class Users extends NovaAPI {
             $request->vatId
         );
         if($userUpdated && $accountUpdated) {
-            return true;
+            return json_encode($fileUrl);
         }
     }
 }

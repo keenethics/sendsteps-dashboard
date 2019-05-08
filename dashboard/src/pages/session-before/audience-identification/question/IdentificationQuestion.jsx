@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import { setDeletingIdentificationId } from '../actions'
 import OptionTypeContainer from './types/OptionTypeContainer';
 import { generateKey } from '../../../../scripts/arrayHelper';
-import { Toggle } from 'react-bootstrap-toggle';
 
 class IdentificationQuestion extends Component {
 

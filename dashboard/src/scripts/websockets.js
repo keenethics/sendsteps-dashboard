@@ -5,7 +5,7 @@ let socket = null;
 export function getSocket() {
     if(!socket) {
         socket = io(
-            'http://localhost:8001/', // Move to .env with proper url 
+            'https://node.sendsteps.com:8001/', // Move to .env with proper url 
             {
                 'reconnection': true,
                 'reconnectionDelay': 2000,
@@ -15,6 +15,10 @@ export function getSocket() {
                 'transports': ['websocket']
             }
         );
+
+        socket.emit('session:subscribe', {sessionId: 399370});
+
+       
     }
     return socket;
 }

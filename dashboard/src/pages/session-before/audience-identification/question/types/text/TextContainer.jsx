@@ -3,7 +3,7 @@ import { FormControl } from 'react-bootstrap'
 class TextContainer extends Component {
     render() {
         return (
-            <div className="col-sm-9">
+            <div className="col-sm-6">
                 <div className="input-group">
                     <div className="input-group-prepend">
                     <span className="input-group-text">

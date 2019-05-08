@@ -219,7 +219,6 @@ class SurveyQuestion extends Component {
             <>
             <FormGroup validationstate={null}>
                 <div className="row">
-                    <div className="col-sm-12">
                         <div className="col-sm-3">
                             {!savedQuestion &&
                             <label className="lh-32">
@@ -231,7 +230,7 @@ class SurveyQuestion extends Component {
                                 {types[savedQuestion.survey_question_type_id].question_type}
                             </label>}
                         </div>
-                        <div className="col-sm-6">
+                        <div className="col-sm-9">
                             <div className="input-group">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text">
@@ -254,11 +253,10 @@ class SurveyQuestion extends Component {
                                     <i className="fa fa-pencil"></i> Edit
                                 </div>
                                 </>}
-                            </div>
                         </div>
-                        <div className="col-sm-3 drag-indicator">
+                        {/* <div className="col-sm-3 drag-indicator">
                             <i className="fa fa-ellipsis-h fa-lg"></i>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </FormGroup>
@@ -266,24 +264,22 @@ class SurveyQuestion extends Component {
                 <div>
                 <FormGroup>
                     <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-3">
-                                <label>Type</label>
-                            </div>
-                            <div className="col-sm-6">
-                                <div className="input-group">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text">
-                                            <i className="fa fa-list"></i>
-                                        </span>
-                                    </div>
-                                    {types &&
-                                    <select defaultValue={savedQuestion && savedQuestion.survey_question_type_id} onChange={this.setCurrentType}  placeholder="Select...">
-                                        {Object.keys(types).map(typeId => {
-                                            return <option key={typeId} value={typeId}>{types[typeId].question_type}</option>
-                                        })}}
-                                    </select>}
+                        <div className="col-sm-3">
+                            <label>Type</label>
+                        </div>
+                        <div className="col-sm-6">
+                            <div className="input-group">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text">
+                                        <i className="fa fa-list"></i>
+                                    </span>
                                 </div>
+                                {types &&
+                                <select defaultValue={savedQuestion && savedQuestion.survey_question_type_id} onChange={this.setCurrentType}  placeholder="Select...">
+                                    {Object.keys(types).map(typeId => {
+                                        return <option key={typeId} value={typeId}>{types[typeId].question_type}</option>
+                                    })}}
+                                </select>}
                             </div>
                         </div>
                     </div>
@@ -301,36 +297,33 @@ class SurveyQuestion extends Component {
                 {parseInt(currentType.survey_question_type_id, 10) !== 6 &&
                 <FormGroup>
                     <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-3">
-                                <label>Required</label>
-                            </div>
-                            <div className="col-sm-6">
-                                <ButtonToolbar>
-                                    {!savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" value={parseInt(isRequired, 10)} name="options" defaultValue={0}>
-                                        <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
-                                        <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
-                                    </ToggleButtonGroup>}
-                                    {savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" name="options" defaultValue={0}>
-                                        <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
-                                        <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
-                                    </ToggleButtonGroup>}
-                                </ButtonToolbar>
-                            </div>
+                        <div className="col-sm-3">
+                            <label>Required</label>
+                        </div>
+                        <div className="col-sm-6">
+                            <ButtonToolbar>
+                                {!savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" value={parseInt(isRequired, 10)} name="options" defaultValue={0}>
+                                    <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
+                                    <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
+                                </ToggleButtonGroup>}
+                                {savedQuestion && <ToggleButtonGroup onChange={this.setRequired} type="radio" name="options" defaultValue={0}>
+                                    <ToggleButton value={0}><i className="fa fa-times"></i> No</ToggleButton>
+                                    <ToggleButton value={1}><i className="fa fa-check"></i> Yes</ToggleButton>
+                                </ToggleButtonGroup>}
+                            </ButtonToolbar>
                         </div>
                     </div>
                 </FormGroup>}
                 <FormGroup>
                     <div className="row">
-                        <div className="col-sm-12">
-                            <div className="col-sm-6 col-sm-offset-3">
-                                <div className="btn btn-success" onClick={this.saveSurveyQuestion}>
-                                    <i className="fa fa-floppy-o"></i> Save Question
-                                </div>
-                                <button type="button" className="btn-danger pull-right" onClick={this.deleteSurveyQuestion}>
-                                    <i className="fa fa-trash"></i> Delete Question
-                                </button>
+                        <div className="col-sm-3"></div>
+                        <div className="col-sm-6 col-sm-offset-sm-3">
+                            <div className="btn btn-outline-success" onClick={this.saveSurveyQuestion}>
+                                <i className="fa fa-floppy-o"></i> Save Question
                             </div>
+                            <button type="button" className="btn btn-outline-danger pull-right" onClick={this.deleteSurveyQuestion}>
+                                <i className="fa fa-trash"></i> Delete Question
+                            </button>
                         </div>
                     </div>
                 </FormGroup>

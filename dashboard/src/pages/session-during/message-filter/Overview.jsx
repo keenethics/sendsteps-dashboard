@@ -40,9 +40,78 @@ class MessageFilterOverview extends React.Component {
     }
 
     componentDidMount() {
-        // const socket = getSocket();
-        // socket.on('connect', () => {
-            this.getMessageData();
+        
+            const socket = getSocket(399370);
+
+
+            // All (Current) socket events.
+            // When joining a room, this client subscribes to events
+            // which are sent from that specific room (sessionId)
+    
+            // All Events
+    
+            // (Basic Events)
+    
+            // 'message:created',
+            // 'message:updated',
+            // 'message:removed',
+            // 'voteMessage:created',
+            // 'voteMessage:updated',
+            // 'participant:created',
+            // 'participant:logged_in',
+            // 'participantsInfo:created',
+            // 'groups:updated',
+    
+            // (Client AND User Events)
+    
+            // 'presentation:updated',
+            // 'vote:created',
+            // 'vote:updated',
+            // 'vote:resultsgraph',
+            // 'voteAnswer:created',
+            // 'voteAnswer:updated',
+            // 'voteAnswer:deleted',
+            // 'presentation:clear_results',
+            // 'session:tabs_updated',
+            // 'session:language_updated',
+            // 'session:anonymous_sources_updated',
+            // 'survey:updated',
+    
+            socket.on('session:start', data => {
+                console.log(data);
+            });
+    
+            socket.on("reconnect", () => {
+               
+            });
+    
+            socket.on("reconnect_attempt",() => {
+               
+            });
+    
+            socket.on("reconnecting", attemptCount => {
+               
+            });
+    
+            socket.on("error", error => {
+              
+            });
+    
+            socket.on("reconnect_error", () => {
+              
+            });
+    
+            socket.on("reconnect_failed", () => {
+            
+            });
+            //custom SST welcome event
+            socket.on("welcome", e => {
+    
+            });
+        }
+    
+
+        this.getMessageData();
         // })
     }
 

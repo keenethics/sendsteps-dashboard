@@ -3,6 +3,7 @@ import { get, post } from '../../../../scripts/api'
 import IdentificationQuestion from './IdentificationQuestion';
 import DeleteIdentificationQuestionModal from './DeleteIdentificationQuestionModal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import LoadingPlaceholder from '../../../base/LoadingPlaceholder';
 
 class CreateQuestionContainer extends Component {
 
@@ -28,9 +29,8 @@ class CreateQuestionContainer extends Component {
     updateIdentificationQuestionOrder = () => {
         const { identificationQuestions } = this.state
 
-        const idPositions = identificationQuestions.map(question => {
-            return question.id;
-        })
+        const idPositions = identificationQuestions.map(question => question.id);
+
         post(
             'audienceidentification',
             'updateOrder',
@@ -96,7 +96,9 @@ class CreateQuestionContainer extends Component {
 
         return (
             <>
-                <DragDropContext onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate} onDragEnd={res => this.onDragEnd(res)} >
+                {identificationQuestions && 
+                <>
+                    <DragDropContext onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate} onDragEnd={res => this.onDragEnd(res)} >
                     <Droppable ignoreContainerClipping={true} droppableId="droppable">                
                         {(provided, snapshot) => <div ref={provided.innerRef}>
                             {identificationQuestions && identificationQuestions.map((question, index) => {
@@ -116,9 +118,11 @@ class CreateQuestionContainer extends Component {
                             })}
                         </div>}
                     </Droppable>
-                </DragDropContext>
-                <IdentificationQuestion order={identificationQuestions ? this.getLastCount() : 1}  getIdentificationQuestions={this.getIdentificationQuestions} />
-                <DeleteIdentificationQuestionModal getIdentificationQuestions={this.getIdentificationQuestions} />
+                    </DragDropContext>
+                    <IdentificationQuestion order={identificationQuestions ? this.getLastCount() : 1}  getIdentificationQuestions={this.getIdentificationQuestions} />
+                    <DeleteIdentificationQuestionModal getIdentificationQuestions={this.getIdentificationQuestions} />
+                </>}
+                {!identificationQuestions && <LoadingPlaceholder />}
             </>
         );
     }

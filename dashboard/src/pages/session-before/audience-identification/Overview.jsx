@@ -8,9 +8,9 @@ import TooltipNotification from '../../../components/common/TooltipNotification'
 import { toggleModal } from '../../../actions/app';
 import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
-import Toggle from 'react-bootstrap-toggle';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
 import './Overview.scss'
+import ToggleButton from '../../../components/common/inputs/toggle/ToggleButton';
 class AudienceOverview extends React.Component {
 
     state = {
@@ -84,13 +84,10 @@ class AudienceOverview extends React.Component {
                                                     <i className="fa fa-question-circle"></i>
                                                 </TooltipNotification>
                                             </label>
-                                            <Toggle
-                                                className="float-right"
-                                                style={{width:'170px', height: '32px'}}
+                                            <ToggleButton
                                                 onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
                                                 off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
-                                                offstyle="secondary"
                                                 active={isAnonymous === "1"}
                                             />
                                         </div>

@@ -12,7 +12,9 @@ class TooltipNotification extends Component {
                     overlay={<Tooltip id={title}>{tooltip}</Tooltip>}
                     delay={delay || 150}
                     placement={placement || "right"} >
-                    {children}
+                    <span>
+                        {children}
+                    </span>
                 </OverlayTrigger>
         )
     }

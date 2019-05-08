@@ -8,10 +8,12 @@ import HeaderPanel from "../../components/common/HeaderPanel";
 import { itemPropsToString } from "../../scripts/arrayHelper";
 import { isValidEmail, isValidName } from "../../scripts/validationChecker";
 import { toast } from "react-toastify";
+import { setUser } from "../../actions/auth";
 
 class ProfileOverview extends React.Component {
     
     state = {
+        isUpdating: false,
         timezones: null,
         countries: null,
         errors: {
@@ -99,6 +101,13 @@ class ProfileOverview extends React.Component {
         this.props.dispatch(setUserProfileData(updatedDetails));
     }
 
+    clearImage = () => {
+        let updatedDetails = { ...this.props.userDetails } 
+        updatedDetails['base64String'] = '';
+        updatedDetails['filename'] = '';
+        this.props.dispatch(setUserProfileData(updatedDetails));
+    }
+
     saveChanges = () => {
         let hasErrors = false
         Object.keys(this.state.errors).forEach(error => {
@@ -119,8 +128,8 @@ class ProfileOverview extends React.Component {
         const { userDetails, accountDetails } = this.props;
         const { departmentName, email, firstName, lastName, language, phonenumber, base64String } = userDetails
         const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
-
-        console.log(userDetails)
+        
+        this.setState({isUpdating: true});
 
         post('users', 'updateSelf',
             {
@@ -139,9 +148,24 @@ class ProfileOverview extends React.Component {
                 timezone,
                 vatId
             },
-            () => toast('Profile details updated!'),
-            () => toast('Unable to update profile details...')
+            imageUrl => {
+                this.updateUserPicture(imageUrl)
+                toast('Profile details updated!')
+                this.setState({isUpdating: false});
+
+            },
+            () => {
+                toast('Unable to update profile details...')
+                this.setState({isUpdating: false});
+
+            }
         )
+    }
+
+    updateUserPicture = imageUrl => {
+        let userToUpdate = { ...this.props.currentUser };
+        userToUpdate['profilePic'] = imageUrl;
+        this.props.dispatch(setUser(userToUpdate));
     }
     
     // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -150,7 +174,7 @@ class ProfileOverview extends React.Component {
     render() {
 
         const { userDetails, accountDetails } = this.props;
-        const { timezones, countries, errors } = this.state;
+        const { timezones, countries, errors, isUpdating } = this.state;
 
         return (
             <div>
@@ -177,6 +201,7 @@ class ProfileOverview extends React.Component {
                                     setImage={this.setImage}
                                     userImage={itemPropsToString(userDetails, 'filename')} 
                                     colWidth={6}
+                                    clearImage={this.clearImage}
                                     labelText={"Profile Picture"}
                                 />
                             </div>
@@ -481,7 +506,7 @@ class ProfileOverview extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <BottomSaveBar onSave={this.saveChanges} />  
+                    <BottomSaveBar loading={isUpdating} onSave={this.saveChanges} />  
                 </div>
             </div>
         )
@@ -490,7 +515,8 @@ class ProfileOverview extends React.Component {
     (state) => {
         return {
             userDetails: state.userReducer.userDetails,
-            accountDetails: state.userReducer.accountDetails
+            accountDetails: state.userReducer.accountDetails,
+            currentUser: state.authReducer.currentUser
         }
     }
 )(ProfileOverview);

@@ -98,6 +98,8 @@ class SettingsOverview extends React.Component {
     render() {
 
         const { settings } = this.props;
+
+        console.log(settings)
         
         return (
             <div>
@@ -117,6 +119,7 @@ class SettingsOverview extends React.Component {
                                 <div className="card-body">
                                     <div className="form-horizontal">
                                         <ResponseCodeInput />
+                                        <hr/>
                                         <ResponseToggleInput />
                                         <div className="card border-0">
                                             {settings && <Collapse in={!!(settings && settings.internetselected === "1")}>    
@@ -125,7 +128,9 @@ class SettingsOverview extends React.Component {
                                                 </span>
                                             </Collapse>} 
                                         </div>
+                                        <hr className="mt-0" />
                                         <ResponseToggleSMSInput />
+                                        <hr />
                                         <div className="card border-0">
                                             {settings && <Collapse in={!!(settings && settings.textmessagingselected === "1")}> 
                                                 <span>                      

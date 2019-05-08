@@ -1,6 +1,7 @@
 'use-strict';
 
 // Polyfills for < IE11
+import 'bootstrap';
 import 'core-js/es6/map';
 import 'core-js/es6/set';
 import 'raf/polyfill';

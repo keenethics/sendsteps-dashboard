@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import SurveyNameContainer from './SurveyNameContainer'
 import './CreateSurveyContainer.scss'
 import { connect } from 'react-redux';
-import Toggle from 'react-bootstrap-toggle';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
+import ToggleButton from '../../../../components/common/inputs/toggle/ToggleButton';
 class CreateSurveyContainer extends Component {
 
     isSurveyEnabled = status => {
@@ -24,11 +24,10 @@ class CreateSurveyContainer extends Component {
                     </div>
                     <div className="col-sm-6">
                     {!surveyStatus && <i className="fa fa-circle-o-notch fa-spin"></i>}
-                    {surveyStatus && <Toggle
+                    {surveyStatus && <ToggleButton
                         onClick={this.props.toggleSurveyActive}
                         on={<span><i className="fa fa-check"></i> Yes</span>}
                         off={<span><i className="fa fa-times"></i> No</span>}
-                        offstyle="secondary"
                         active={surveyStatus === "1"}
                     />}
                     </div>

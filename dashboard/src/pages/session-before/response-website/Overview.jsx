@@ -10,6 +10,7 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 class ResponseOverview extends React.Component {
 
     componentDidMount() {
+        
     }
 
     handleOpen() {

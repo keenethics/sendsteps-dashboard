@@ -57,7 +57,8 @@ class OptionTypeContainer extends Component {
         return (
             <FormGroup>
                 <div className="row">
-                    <div className="col-sm-12">
+                    <div className="col-sm-3">
+                    </div>
                         {this.isTextQuestion(type) && <>
                             <TextContainer />
                         </>}
@@ -94,7 +95,6 @@ class OptionTypeContainer extends Component {
                                 updateOptions={this.props.updateSingleOption}
                             />
                         </>}
-                    </div>
                 </div>
             </FormGroup>
         );
