@@ -41,7 +41,8 @@ class MessageFilterOverview extends React.Component {
 
     componentDidMount() {
         
-            const socket = getSocket(399370);
+        const socket = getSocket(399370);
+        this.getMessageData();
 
 
             // All (Current) socket events.
@@ -108,11 +109,6 @@ class MessageFilterOverview extends React.Component {
             socket.on("welcome", e => {
     
             });
-        }
-    
-
-        this.getMessageData();
-        // })
     }
 
     toggleAutoAccept = value => {
