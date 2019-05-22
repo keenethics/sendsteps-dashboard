@@ -1,145 +1,97 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setView } from '../../actions/app';
-import { 
-    setFirstName, 
-    setLastName, 
-    setEmail, 
-    setPassword, 
-    setPasswordConfirm, 
-    setAcceptTerms,
-    setFirstNameError,
-    setLastNameError,
-    setEmailError,
-    setPasswordError,
-    setPasswordConfirmError,
-    setAcceptTermsError,
-    showPassword,
-    resetRegistrationForm,
-} from '../../actions/registration';
-import { authLoading, register } from '../../actions/auth';
-import { isValidEmail, isValidPassword, isValidName } from '../../scripts/validationChecker';
-import './Forms.scss';
+import { setView } from 'App/actions/app';
+import { authLoading, register } from 'App/actions/auth';
+import { isValidEmail, isValidPassword, isValidName, isEqual, getValidationState } from 'App/scripts/validationChecker';
 import { toast } from 'react-toastify';
+import errorMessages from 'App/scripts/errorMessages';
+import 'App/pages/registration/Forms.scss';
+import { hasErrors, getRandomSuccessMessage } from 'App/scripts/errorHelper';
 
 class RegistrationForm extends Component {
 
+    errors = {
+        firstName: null,
+        lastName: null,
+        email: null,
+        password: null,
+        passwordConfirm: null,
+        termsAccepted: null,
+    }
+
+    initialState = {
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        passwordConfirm: '',
+        termsAccepted: false,
+        errors: {
+            ...this.errors
+        },
+        showPassword: false
+    }
+
+    state = {
+        ...this.initialState
+    }
+
     componentWillMount() {
-        this.props.dispatch(resetRegistrationForm());
+        this.setState({...this.initialState});
         this.props.dispatch(authLoading(false));
     }
 
-    showLoginForm() {
+    set = (e, property) => {
+        this.setState({
+            [property]: e.target.value,
+            errors: { 
+                ...this.state.errors, 
+                [property]: null
+            }
+        });
+    }
+
+    isValidated = () => {
+        const { firstName, lastName, email, password, passwordConfirm, termsAccepted, errors } = this.state
+
+        errors.firstName = !isValidName(firstName) ? errorMessages.NAME : null;
+        errors.lastName = !isValidName(lastName) ? errorMessages.NAME : null
+        errors.email = !isValidEmail(email) ? errorMessages.EMAIL : null;
+        errors.password = !isValidPassword(password) ? errorMessages.PASSWORD : null;
+        errors.passwordConfirm = !isEqual(password, passwordConfirm) ? errorMessages.PASSWORD_CONFIRM : null;
+        errors.termsAccepted = !termsAccepted ? errorMessages.TERMS : null;
+
+        this.setState({ errors });
+        return !hasErrors(errors);
+    }
+
+
+    showLoginForm = () => {
         this.props.dispatch(setView('LOGIN'));
     }
 
-    showPassword(e) {
-        this.props.dispatch(showPassword(!this.props.showPassword));
+    showPassword = e => {
+        this.setState({showPassword: !this.state.showPassword})
     }
 
-    setFirstName(e) {
-        this.props.dispatch(setFirstName(e.target.value));
+    setAcceptTerms = e => {
+        this.setState({
+            termsAccepted: !this.state.termsAccepted,
+            errors: {
+                ...this.state.errors,
+                termsAccepted: e.target.checked ? null : errorMessages.TERMS
+            }
+        });
     }
 
-    setLastName(e) {
-        this.props.dispatch(setLastName(e.target.value));
-    }
-
-    setEmail(e) {
-        this.props.dispatch(setEmail(e.target.value));
-    }
-
-    setPassword(e) {
-        this.props.dispatch(setPassword(e.target.value));
-    }
-
-    setPasswordConfirm(e) {
-        this.props.dispatch(setPasswordConfirm(e.target.value));
-    }
-
-    setAcceptTerms(e) {
-        this.checkTerms(!this.props.termsAccepted);
-        this.props.dispatch(setAcceptTerms(e.target.checked));
-    }
-
-    checkFirstName() {
-        let firstNameError = '';
-        if(!this.props.firstName) {
-            firstNameError = 'Please enter your first name.';
+    attemptSignup = () => {
+        if(this.isValidated()) {
+            this.signup();
         }
-        this.props.dispatch(setFirstNameError(firstNameError));
     }
 
-    checkLastName() {
-        let lastNameError = '';
-        if(!this.props.lastName) {
-            lastNameError = 'Please enter your last name.';
-        }
-        this.props.dispatch(setLastNameError(lastNameError));
-    }
-
-    checkEmail() {
-        let emailError = '';
-        if(!isValidEmail(this.props.email)) {
-            emailError = 'Please enter a valid email.';
-        }
-        this.props.dispatch(setEmailError(emailError));
-    } 
-
-    checkPassword() {
-        let passwordError = '';
-        if(!isValidPassword(this.props.password)) {
-            passwordError = 'Please enter at least 8 characters.';
-        }
-        this.props.dispatch(setPasswordError(passwordError));
-    } 
-
-    checkPasswordConfirm() {
-        let passwordConfirmError = '';
-
-        if(!isValidPassword(this.props.password) || (this.props.passwordConfirm !== this.props.password)) {
-            passwordConfirmError = 'The selected passwords do not match.';
-        }
-        this.props.dispatch(setPasswordConfirmError(passwordConfirmError));
-    }
-
-    checkTerms(checked = this.props.termsAccepted) {
-        let termsError = '';
-        if(!checked) {
-            termsError = 'Please accept the terms before signing up.';
-        }
-        this.props.dispatch(setAcceptTermsError(termsError));
-    }
-
-    errorCheck() {
-        this.checkFirstName();
-        this.checkLastName();
-        this.checkEmail();
-        this.checkPassword();
-        this.checkPasswordConfirm();
-        this.checkTerms();
-    }
-
-    fieldsAreValid() {
-        if( isValidName(this.props.firstName) &&
-            isValidName(this.props.lastName) &&
-            isValidEmail(this.props.email) &&
-            isValidPassword(this.props.password) &&
-            isValidPassword(this.props.passwordConfirm) &&
-            this.props.termsAccepted) {
-            return true;
-        }
-        return false;
-    }
-
-    register() {
-        if(!this.fieldsAreValid()) {
-            this.errorCheck();
-            return;
-        }
-
+    signup = () => {
         this.props.dispatch(authLoading(true));
-
         register(
             this.props.firstName,
             this.props.lastName,
@@ -163,40 +115,25 @@ class RegistrationForm extends Component {
 
     render() {
 
-        const { firstName, lastName, email, password, passwordConfirm, termsAccepted,
-                firstNameError, lastNameError, emailError, passwordError, passwordConfirmError, termsAcceptedError, 
-                showPassword, authLoading, generalError } = this.props;
+        const { firstName, lastName, email, password, passwordConfirm, termsAccepted, showPassword, errors } = this.state;
 
-        let firstNameErrorClass = firstNameError ? 'is-invalid' : null;
-        firstNameErrorClass = !firstNameError && firstName ? 'is-valid' : firstNameErrorClass;
-
-        let lastNameErrorClass = lastNameError ? 'is-invalid' : null;
-        lastNameErrorClass = !lastNameError && lastName ? 'is-valid' : lastNameErrorClass;
-
-        let emailErrorClass = emailError ? 'is-invalid' : null;
-        emailErrorClass = !emailError && email ? 'is-valid' : emailErrorClass;
-
-        let passwordErrorClass = passwordError ? 'is-invalid' : null;
-        passwordErrorClass = !passwordError && password ? 'is-valid' : passwordErrorClass;
-
-        let passwordConfirmErrorClass = passwordConfirmError ? 'is-invalid' : null;
-        passwordConfirmErrorClass = !passwordConfirmError && passwordConfirm ? 'is-valid' : passwordConfirmErrorClass;
-
-        let termsErrorClass = termsAcceptedError ? 'is-invalid' : null;
-        termsErrorClass = !termsAcceptedError && termsAccepted ? 'is-valid' : termsErrorClass;
+        const { authLoading, generalError } = this.props;
 
         return (
             <div className="jumbotron vertical-center not-logged-in">
                 <div className="col-sm-6 col-sm-offset-3 registration-form">
                     <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">
-                                <strong>Register </strong>
-                                {generalError && <span className="pull-right text-danger">
-                                    <i className="fa fa-exclamation-triangle"></i> {generalError}
-                                </span>}
-                            </h5>
-                            <hr/>
+                        <div className="card-header">
+                            <div className="card-title mb-0">
+                                <h5 className="mb-0">
+                                    Register
+                                    {generalError && <span className="pull-right text-danger">
+                                        <i className="fa fa-exclamation-triangle"></i> {generalError}
+                                    </span>}
+                                </h5>
+                            </div>
+                        </div>
+                        <div className="card-body pb-0">
                             <div className="register">
                                 {authLoading && <div className="auth-loading-overlay">
                                 <div className="auth-loading-content vertical-center"><i className="fa fa-circle-o-notch fa-spin"></i></div>
@@ -204,9 +141,9 @@ class RegistrationForm extends Component {
                                 <form autoComplete="off">
                                     <div className="row">
                                         <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
-                                            <div className="fa-sm form-group">
-                                                <label className="col-form-label">First name</label>
-                                                <div className="input-group mb-3">
+                                            <div className="form-group mb-2">
+                                                <label className="col-form-label col-form-label-sm">First name</label>
+                                                <div className="input-group input-group-sm">
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text" ><i className="fa fa-user"></i></span>
                                                     </div>
@@ -215,20 +152,26 @@ class RegistrationForm extends Component {
                                                         name="first-name" 
                                                         data-lpignore='true' 
                                                         value={firstName} 
-                                                        onChange={this.setFirstName.bind(this)} 
-                                                        onBlur={this.checkFirstName.bind(this)} 
+                                                        onChange={e => this.set(e, 'firstName')} 
                                                         type="text" 
-                                                        className={"form-control input-sm " + firstNameErrorClass}
+                                                        className={"form-control input-sm" + getValidationState(firstName, isValidName)}
                                                         placeholder="First name" 
                                                     />
+                                                    {errors.firstName && <span className="invalid-feedback d-inline pl-1 pt-1">
+                                                        <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.firstName}
+                                                    </span>}
+                                                    {isValidName(firstName) && 
+                                                    <span className="valid-feedback d-inline pl-1 pt-1">
+                                                        <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(1)}
+                                                    </span>}
+
                                                 </div>
-                                                {firstNameError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {firstNameError}</span>}
                                             </div>
                                         </div>
                                         <div className="col-sm-12 col-lg-6 col-md-6 col-xs-12">
-                                            <div className="fa-sm form-group">
-                                                <label className="col-form-label">Last name</label>
-                                                <div className="input-group mb-3">
+                                            <div className="form-group mb-2">
+                                                <label className="col-form-label-sm col-form-label">Last name</label>
+                                                <div className="input-group input-group-sm">
                                                     <div className="input-group-prepend">
                                                         <span className="input-group-text" ><i className="fa fa-user"></i></span>
                                                     </div>
@@ -237,62 +180,78 @@ class RegistrationForm extends Component {
                                                         name="last-name" 
                                                         data-lpignore='true' 
                                                         value={lastName} 
-                                                        onChange={this.setLastName.bind(this)} 
-                                                        onBlur={this.checkLastName.bind(this)} 
+                                                        onChange={e => this.set(e, 'lastName')} 
                                                         type="text" 
-                                                        className={"form-control input-sm " + lastNameErrorClass}
+                                                        className={"form-control input-sm" + getValidationState(lastName, isValidName)}
                                                         placeholder="Last name" 
                                                     />
+                                                    {errors.lastName && <span className="invalid-feedback d-inline pl-1 pt-1">
+                                                        <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.lastName}
+                                                    </span>}
+                                                    {isValidName(lastName) && 
+                                                    <span className="valid-feedback d-inline pl-1 pt-1">
+                                                        <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(2)}
+                                                    </span>}
                                                 </div>
-                                                {lastNameError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {lastNameError}</span>}
                                             </div>
                                         </div>      
                                     </div>
-                                    <div className="fa-sm form-group">
-                                        <label className="col-form-label">Email</label>
-                                        <div className="input-group mb-3">
+                                    <div className="form-group mb-2">
+                                        <label className="col-form-label-sm col-form-label">Email</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" ><i className="fa fa-envelope"></i></span>
                                             </div>
                                             <input 
                                                 required
-                                                name="register-em" 
-                                                value={email} onChange={this.setEmail.bind(this)} 
-                                                onBlur={this.checkEmail.bind(this)} 
+                                                name="register-email"
+                                                autoComplete="email"
+                                                value={email}
+                                                onChange={e => this.set(e, 'email')} 
                                                 data-lpignore='true' 
                                                 type="email" 
-                                                className={"form-control input-sm " + emailErrorClass} 
+                                                className={"form-control input-sm" + getValidationState(email, isValidEmail)}
                                                 placeholder="Enter email" 
                                             />
+                                            {errors.email && <span className="invalid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.email}
+                                            </span>}
+                                            {isValidEmail(email) && <span className="valid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(3)}
+                                            </span>}
                                         </div>
-                                        {emailError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {emailError}</span>}
                                     </div>
-                                    <div className="fa-sm form-group">
-                                        <label className="col-form-label">Password</label>
-                                        <div className="input-group mb-3">
+                                    <div className="form-group mb-2">
+                                        <label className="col-form-label-sm col-form-label">Password</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" ><i className="fa fa-unlock"></i></span>
                                             </div>
                                             <input 
                                                 required
-                                                name="register-pas" 
+                                                name="register-pass" 
+                                                autoComplete="new-password"
                                                 value={password} 
-                                                onChange={this.setPassword.bind(this)} 
-                                                onBlur={this.checkPassword.bind(this)} 
+                                                onChange={e => this.set(e, 'password')} 
                                                 data-lpignore='true' 
                                                 type={showPassword ? "text" : "password"} 
-                                                className={"form-control input-sm " + passwordErrorClass}
+                                                className={"form-control input-sm" + getValidationState(password, isValidPassword)}
                                                 placeholder="Password" 
                                             />
                                             <div className="input-group-append">
-                                                <span onClick={this.showPassword.bind(this)} className="input-group-text show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
+                                                <span onClick={this.showPassword} className="input-group-text show-pass" ><i className={"fa fa-" + (showPassword ? "eye-slash" : "eye")}></i></span>
                                             </div>
+                                            {errors.password && <span className="invalid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.password}
+                                            </span>}
+                                            {isValidPassword(password) && <span className="valid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(4)}
+                                            </span>}
                                         </div>
-                                        {passwordError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordError}</span>}
                                     </div>
-                                    <div className="fa-sm form-group">
-                                        <label className="col-form-label">Confirm password</label>
-                                        <div className="input-group mb-3">
+                                    <div className="form-group mb-2">
+                                        <label className="col-form-label-sm col-form-label">Confirm password</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text" ><i className="fa fa-unlock"></i></span>
                                             </div>
@@ -300,39 +259,50 @@ class RegistrationForm extends Component {
                                                 required 
                                                 name="register-pas-confirm" 
                                                 value={passwordConfirm} 
-                                                onChange={this.setPasswordConfirm.bind(this)} 
-                                                onBlur={this.checkPasswordConfirm.bind(this)} 
+                                                onChange={e => this.set(e, 'passwordConfirm')} 
                                                 data-lpignore='true' 
                                                 type="password" 
-                                                className={"form-control input-sm " + passwordConfirmErrorClass}
+                                                className={"form-control input-sm" + getValidationState(passwordConfirm, e => isEqual(password, e))}
                                                 placeholder="Password" 
                                             />
+                                            {errors.passwordConfirm && <span className="invalid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.passwordConfirm}
+                                            </span>}
+                                            {isEqual(password, passwordConfirm) && <span className="valid-feedback d-inline pl-1 pt-1">
+                                                <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(5)}
+                                            </span>}
                                         </div>
-                                        {passwordConfirmError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {passwordConfirmError}</span>}
+                                        
                                     </div>
-                                    <div className="fa-sm form-group">
+                                    <hr className="mb-2 mt-3" />
+                                    <div className="form-group mb-2">
                                         <div className="custom-control custom-checkbox">
                                             <input 
-                                                className={"form-check-input " + termsErrorClass}
+                                                className={"form-check-input input-sm " + getValidationState(termsAccepted, e => !!e)}
                                                 required
                                                 name="agreement" 
-                                                onChange={this.setAcceptTerms.bind(this)} 
+                                                onChange={this.setAcceptTerms} 
                                                 checked={termsAccepted} 
                                                 type="checkbox" 
                                                 id="agreementCheck"
                                             />  
-                                            <label className="custom-col-form-label" htmlFor="agreementCheck"> 
+                                            <label className="col-form-label-sm custom-col-form-label mb-0 pb-1 pt-0" htmlFor="agreementCheck"> 
                                                 I accept the license agreement & general conditions
                                             </label>
-                                    </div>
-                                    {termsAcceptedError && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {termsAcceptedError}</span>}
+                                        </div>
+                                        {errors.termsAccepted && <span className="invalid-feedback d-inline pl-1">
+                                            <i className="fa fa-exclamation-triangle fa-xs"></i> {errors.termsAccepted}
+                                        </span>}
+                                        {!!termsAccepted && <span className="valid-feedback d-inline pl-1 pt-1">
+                                            <i className="fa fa-check fa-xs"></i> {getRandomSuccessMessage(6)}
+                                        </span>}
                                     </div>
                                 </form>
                             </div>
                         </div>  
                         <div className="card-footer">
-                            <button type="button" onClick={this.showLoginForm.bind(this)} className="btn btn-outline-primary"><i className="fa fa-chevron-left"></i> Back to login</button>
-                            <button type="button" onClick={this.register.bind(this)} className="float-right btn btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
+                            <button type="button" onClick={this.showLoginForm} className="btn btn-sm btn-outline-primary"><i className="fa fa-chevron-left"></i> Back to login</button>
+                            <button type="button" onClick={this.attemptSignup} className="float-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
                         </div>
                     </div>
                 </div>
@@ -344,23 +314,6 @@ class RegistrationForm extends Component {
 export default connect(
     (state) => {
         return {
-            firstName: state.registrationReducer.firstName,
-            lastName: state.registrationReducer.lastName,
-            email: state.registrationReducer.email,
-            password: state.registrationReducer.password,
-            passwordConfirm: state.registrationReducer.passwordConfirm,
-            termsAccepted: state.registrationReducer.termsAccepted,
-
-            firstNameError: state.registrationReducer.firstNameError,
-            lastNameError: state.registrationReducer.lastNameError,
-            emailError: state.registrationReducer.emailError,
-            passwordError: state.registrationReducer.passwordError,
-            passwordConfirmError: state.registrationReducer.passwordConfirmError,
-            termsAcceptedError: state.registrationReducer.termsAcceptedError,
-            generalError: state.registrationReducer.generalError,
-
-            showPassword: state.registrationReducer.showPassword,
-
             authLoading: state.authReducer.authLoading,
         }
     }

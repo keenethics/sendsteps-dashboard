@@ -10,7 +10,7 @@ export function isValidName(name) {
 export function isValidPassword(password) {
     // Current rules
 
-    // At least 8 characters
+    // At least 6 characters
 
     // Suggested rules
     
@@ -38,4 +38,14 @@ export function urlIsImage(url) {
         }
     }
     return false
+}
+
+export function isEqual(first, second) {
+    return !!(first.length && second.length) && first === second;
+}
+/*
+    Return Bootstrap 4 valid/invalid input classname
+*/
+export function getValidationState(value, validator) {
+    return value.length ? (validator(value) ? " is-valid" : " is-invalid") : "";
 }

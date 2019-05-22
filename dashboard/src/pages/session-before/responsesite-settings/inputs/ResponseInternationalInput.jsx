@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import Toggle from 'react-bootstrap-toggle';
 import { setResponseSiteSettings } from '../actions';
@@ -32,7 +31,7 @@ class ResponseInternationalInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">International Audience <TooltipNotification 
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">International Audience <TooltipNotification 
                     title={"International Audience"}
                     tooltip={
                         <span className="text-left">
@@ -45,12 +44,12 @@ class ResponseInternationalInput extends Component {
                 <div className="col-sm-6">
                     {responsePhonenumbers &&
                         <Toggle
-                            style={{width:'80px', height: '32px'}}
+                            size="sm"
                             onClick={this.changeInternational}
                             on={<span><i className="fa fa-check"></i> Yes</span>}
                             off={<span><i className="fa fa-times"></i> No</span>}
                             offstyle="secondary"
-                            disabled={this.isLocalOnly() || this.isInternationalOnly()}
+                            disabled={(this.isLocalOnly() || this.isInternationalOnly())}
                             active={settings && settings.phonenumberForeignerCompatible === "1"}
                         />}
                 </div>
