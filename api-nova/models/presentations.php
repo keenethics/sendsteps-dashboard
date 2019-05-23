@@ -149,6 +149,15 @@ class Presentations_Model extends Model {
         return $returned;
     }
 
+    public function getActiveBySessionId($sessionId) {
+        $query = 'SELECT p.* FROM `presentations` p
+            LEFT JOIN sessionruns sr ON p.sessionRunId = sr.id
+            WHERE <sr.sessionId> = :sessionId AND p.active = 1;';
+        $params['sessionId'] = (int) $sessionId;
+        $results = $this->query($query, $params);
+        return $results;
+    }
+
     public function getMostRecentBySessionId($sessionId) {
 
         $query = 'SELECT p.* FROM `presentations` p
@@ -172,5 +181,44 @@ class Presentations_Model extends Model {
         //     ]
         // );
         // return $result;
+    }
+
+    public function getOpened($presentations) {
+        $result = [];
+        foreach($presentations as $presentation) {
+            if($presentation['opened'] === 1) {
+                $result[] = $presentation;
+            }
+        }
+        return $result;
+    }
+
+    public function updateOpenedStatus($presentations, $messagerounds, $votes) {
+        $ids = [];
+
+        foreach($presentations as $presentation) {
+            $ids[] = $presentation['id'];
+        }
+
+        $openPresentationIds = [];
+
+        foreach ($messagerounds as $openMessageRound)
+        {
+            $openPresentationIds[] = $openMessageRound['presentationId'];
+        }
+        foreach ($votes as $openVote)
+        {
+            $openPresentationIds[] = $openVote['presentationId'];
+        }
+
+        foreach($presentations as $key => $presentation) {
+            if(in_array($presentation['id'], $openPresentationIds)) {
+                $presentations[$key]['opened'] = 1;
+            } else {
+                $presentations[$key]['opened'] = 0;
+
+            }
+        }
+        return $presentations;
     }
 }

@@ -113,36 +113,67 @@ class MessageFilter extends NovaApi {
 
     public function getMessageFilterData(Request $request) {
 
-        $messageModel = $this->loadModel('livemessageroundmessages');
+        // Initialize models
+        $onscreenmessageModel = $this->loadModel('onscreenmessages');
+        $presentationsModel = $this->loadModel('presentations');
+        $messageroundsModel = $this->loadModel('messagerounds');
+        $sessionrunsModel = $this->loadModel('sessionruns');
         $groupModel = $this->loadModel('livemessageroundmessagegroups');
+        $votesModel = $this->loadModel('votes');
+        $messageModel = $this->loadModel('livemessageroundmessages');
         $sessionModel = $this->loadModel('sessions');
 
-        $extraDetails = $sessionModel->getSessionById($this->getUserSessionId())[0];
-        
-        $groupData = $groupModel->getGroupsByUserId($extraDetails['userId']);
 
+        $sessionId = $this->getUserSessionId();
+        $session = $sessionModel->getSessionById($sessionId)[0];
+
+        $presentations = $presentationsModel->getActiveBySessionId($sessionId); 
+
+        $presentationIds = [];
+        foreach($presentations as $presentation) {
+            $presentationIds[] = $presentation['id'];
+        }
+
+        $messagerounds = $messageroundsModel->getActiveByPresentationIdsAndSessionId($presentationIds, $sessionId);
+        $votes = $votesModel->getActiveByPresentationIdsAndSessionId($presentationIds, $sessionId);
+        $presentations = $presentationsModel->updateOpenedStatus($presentations, $messagerounds, $votes);
+        $presentations = $presentationsModel->getOpened($presentations);
+
+        $openMessageRound = null;
+        foreach($messagerounds as $messageround) {
+            if($messageround['opened'] === 1) {
+                $openMessageRound = $messageRound;
+                break;
+            }
+        }
+
+        $messagesForCurrentMessageRound = [];
+        $onScreenMessages = [];
+        if($openMessageRound) {
+            $messagesForCurrentMessageRound = $messageModel->findByMessageroundId($openMessageRound['id']);
+            $onScreenMessages = $onscreenmessageModel->getByMessageroundId($openMessageRound['id']);
+        }
+
+        $activeSessionRun = $sessionrunsModel->getOpenedBySessionId($sessionId);
+        $groupData = $groupModel->getGroupsByUserId($session['userId']);
         $messages = $messageModel->findByMessageRoundId($request->msgRoundId);
 
         return json_encode([
-            'messages' => $messages,
+            'messages' => $messagesForCurrentMessageRound,
+            'onScreenMessages' => $onScreenMessages,
             'groups' => $groupData,
-            'autoAccept' => $extraDetails['autoApprove'],
-            'upvoting' => $extraDetails['hasUpvoting']
+            'autoAccept' => $session['autoApprove'],
+            'upvoting' => $session['hasUpvoting'],
+            'activeSessionRun' => $activeSessionRun,
+            'presentations' => $presentations,
+            'messageRounds' => $messagerounds,
+            'openMessageRound' => $openMessageRound
         ]);
 
-        // Still need these before being able to work with sockets: 
+        // Still need these
         // return [
-        //     // "upvotingEnabled" => $session->hasUpvoting,
-        //     "presentations" => $presentations,
-        //     "messageRounds" => $messageRounds,
-        //     "openMessageRound" => $openMessageRound,
-        //     // "messages" => $messageForCurrentMessageRound,
-        //     "onScreenMessages" => $onScreenMessages,
-        //     // "groups" => $groups,
         //     "lockId" => $modelModeratorlocks->id,
         //     "oldModeratorsClosed" => $oldModeratorsClosed,
-        //     "activeSessionRun" => is_object($activeSessionRun) ? $activeSessionRun->id : $activeSessionRun,
-        //     // "autoApprove" => $session->autoApprove,
         //     "autoApproveInterval" => $session->autoApproveInterval,
         //     "moderatorSharingToken" => $user->moderatorSharingToken
         // ];

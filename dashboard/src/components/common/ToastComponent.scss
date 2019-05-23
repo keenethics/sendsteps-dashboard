@@ -1,6 +1,11 @@
 .toast-default {
     background: #4e4e4e !important;
     color: #ffffff !important;
+    border-radius: 3px !important;
+    padding: 12px;
+    font-size: 12px;
+    font-weight: 100;
+    vertical-align: middle;
     .Toastify__close-button--default {
         color: #ffffff;
     }

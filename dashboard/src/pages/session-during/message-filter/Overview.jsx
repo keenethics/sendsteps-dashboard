@@ -259,7 +259,7 @@ class MessageFilterOverview extends React.Component {
                                 <div className="col-md-12">
                                     <FormGroup controlId="formControlsSelect">
                                         {/* Only Questions that have a type of OPEN ENDED */}
-                                        <label>Current Slide/Question</label>
+                                        <label className="col-form-label col-form-label-sm">Current Slide/Question</label>
                                         <select placeholder="select">
                                             <option value="select">Select</option>
                                             <option value="other">...</option>
@@ -270,9 +270,10 @@ class MessageFilterOverview extends React.Component {
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="col-form-label">Upvoting</label>
+                                        <label className="col-form-label col-form-label-sm">Upvoting</label>
                                         <br/>
-                                        <DefaultToggle
+                                        <Toggle
+                                            size="sm"
                                             onClick={() => this.toggleUpvoting(!upvotingEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}
@@ -282,9 +283,10 @@ class MessageFilterOverview extends React.Component {
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="col-form-label">Auto Accept messages</label>
+                                        <label className="col-form-label col-form-label-sm">Auto Accept messages</label>
                                         <br/>
-                                        <DefaultToggle
+                                        <Toggle
+                                            size="sm"
                                             onClick={() => this.toggleAutoAccept(!autoAcceptEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}

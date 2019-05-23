@@ -22,7 +22,7 @@ class ResponseToggleSMSInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">TXT/SMS <TooltipNotification 
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">TXT/SMS <TooltipNotification 
                         title={"TXT/SMS"}
                         tooltip={
                             <span className="text-left">
@@ -35,8 +35,9 @@ class ResponseToggleSMSInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {settings && 
-                        <DefaultToggle
-                            onClick={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')}
+                        <Toggle
+                            size="sm"
+                            onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}
                             off={<span><i className="fa fa-times"></i> Off</span>}
                             active={!!settings.textmessagingselected}

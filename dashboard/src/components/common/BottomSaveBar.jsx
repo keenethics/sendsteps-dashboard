@@ -17,17 +17,17 @@ class BottomSaveBar extends Component  {
                     <div className="row">
                         <div className="col-sm-12">
                             {!noSave &&
-                            <div className={"btn btn-success " + ((disabled || loading) ? "disabled": "")} 
+                            <div className={"btn btn-sm btn-success " + ((disabled || loading) ? "disabled": "")} 
                                 onClick={onSave || function(){ console.log("onSave")}}
                             >
-                                {!loading && <i className="mx-1 fa fa-save"></i>}
-                                {loading && <span className="mx-1 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
+                                {!loading && <i className="fa fa-save"></i>}
+                                {loading && <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
                             </div>}
                             <button 
                                 onClick={() => this.goBack()}
                                 type='button' 
                                 id='back-btn' 
-                                className='btn btn-outline-secondary float-right'>
+                                className='btn btn-sm btn-outline-secondary float-right'>
                                 <i className="fa fa-chevron-left"></i> Back
                             </button>
                         </div>

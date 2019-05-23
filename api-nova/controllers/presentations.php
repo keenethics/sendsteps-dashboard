@@ -99,9 +99,5 @@ class Presentations extends NovaAPI {
             return json_encode(['content' => $results]);                
         }
         return false;
-    }
-
-  
-
-    
+    }    
 }
