@@ -45,7 +45,7 @@ class SettingsOverview extends React.Component {
     checkIfShouldChangeForeignerCompatible(numbers) {
         const { settings } = this.props;
         if(typeof numbers[settings.phonenumberForeignerCompatible] === 'undefined') {
-            const newSettings = settings.phonenumberForeignerCompatible === "2" ? "1" : "2"
+            const newSettings = settings.phonenumberForeignerCompatible === 2 ? 1 : 2
             this.updateSettings(newSettings, 'phonenumberForeignerCompatible')
         }
     }
@@ -122,7 +122,7 @@ class SettingsOverview extends React.Component {
                                         <hr/>
                                         <ResponseToggleInput />
                                         <div className="card border-0">
-                                            {settings && <Collapse in={!!(settings && settings.internetselected === "1")}>    
+                                            {settings && <Collapse in={!!(settings && !!settings.internetselected)}>    
                                                 <span>
                                                     <ResponseURLInput /> 
                                                 </span>
@@ -132,7 +132,7 @@ class SettingsOverview extends React.Component {
                                         <ResponseToggleSMSInput />
                                         <hr />
                                         <div className="card border-0">
-                                            {settings && <Collapse in={!!(settings && settings.textmessagingselected === "1")}> 
+                                            {settings && <Collapse in={!!(settings && !!settings.textmessagingselected)}> 
                                                 <span>                      
                                                     <ResponseCountryInput getPhonenumberList={this.getPhonenumberList} />
                                                     <ResponseInternationalInput getPhonenumberList={this.getPhonenumberList} />

@@ -11,10 +11,12 @@ import { post } from '../../../scripts/api';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
 import './Overview.scss'
 import Toggle from 'react-bootstrap-toggle';
+import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
+
 class AudienceOverview extends React.Component {
 
     state = {
-        isAnonymous: "1"
+        isAnonymous: true
     }
 
     componentDidMount() {
@@ -42,12 +44,13 @@ class AudienceOverview extends React.Component {
     }
 
     setNonAnonymousFromDialog = () => {
+
         this.props.dispatch(toggleModal(false));
-        this.setIdentificationType("0");
+        this.setIdentificationType(false);
     }
 
     toggleAnonymous = isAnonymous => {
-        if(isAnonymous === "0") {
+        if(!isAnonymous) {
             this.props.dispatch(toggleModal(true));
         } else {
             this.setIdentificationType(isAnonymous)
@@ -85,17 +88,16 @@ class AudienceOverview extends React.Component {
                                                 </TooltipNotification>
                                             </label>
                                             <br/>
-                                            <Toggle
-                                                offstyle="secondary"
-                                                onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
+                                            <DefaultToggle
+                                                onClick={() => this.toggleAnonymous(!isAnonymous)}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
                                                 off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
-                                                active={isAnonymous === "1"}
+                                                active={!!isAnonymous}
                                             />
                                         </div>
                                     </div>
                                     <hr className="mb-0"/>
-                                    {isAnonymous === "0" && <CreateQuestionContainer />}
+                                    {!isAnonymous && <CreateQuestionContainer />}
                                 </div>
                             </div>
                         </div>

@@ -3,14 +3,15 @@ import TooltipNotification from '../../../../components/common/TooltipNotificati
 import { setResponseSiteSettings } from '../actions';
 import Toggle from 'react-bootstrap-toggle';
 import { connect } from 'react-redux';
+import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
 
 class ResponseToggleSMSInput extends Component {
 
     updateSettings = (value, field) => {
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
-        if(value === "0") {
-            newSettings['internetselected'] = "1"
+        if(!value) {
+            newSettings['internetselected'] = true
         }
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
@@ -34,12 +35,11 @@ class ResponseToggleSMSInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {settings && 
-                        <Toggle
-                            onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
+                        <DefaultToggle
+                            onClick={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}
                             off={<span><i className="fa fa-times"></i> Off</span>}
-                            offstyle="secondary"
-                            active={settings.textmessagingselected === "1"}
+                            active={!!settings.textmessagingselected}
                         />}
                 </div>
             </div>

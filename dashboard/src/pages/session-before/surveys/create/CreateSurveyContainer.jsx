@@ -3,13 +3,9 @@ import SurveyNameContainer from './SurveyNameContainer'
 import './CreateSurveyContainer.scss'
 import { connect } from 'react-redux';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
-import ToggleButton from '../../../../components/common/inputs/toggle/ToggleButton';
 import Toggle from 'react-bootstrap-toggle';
+import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
 class CreateSurveyContainer extends Component {
-
-    isSurveyEnabled = status => {
-        return status && status === '1'
-    }
 
     render() {
 
@@ -24,17 +20,16 @@ class CreateSurveyContainer extends Component {
                         <label className="col-form-label" >Show Survey</label>
                     </div>
                     <div className="col-sm-6">
-                    {!surveyStatus && <i className="fa fa-circle-o-notch fa-spin"></i>}
-                    {surveyStatus && <Toggle
+                    <DefaultToggle
                         offstyle={'secondary'}
                         onClick={this.props.toggleSurveyActive}
                         on={<span><i className="fa fa-check"></i> Yes</span>}
                         off={<span><i className="fa fa-times"></i> No</span>}
-                        active={surveyStatus === "1"}
-                    />}
+                        active={!!surveyStatus}
+                    />
                     </div>
                     <div className="col-sm-3 text-right">
-                        {this.isSurveyEnabled(surveyStatus) && surveyURL && <>
+                        {!!surveyStatus && !!surveyURL && <>
                             <TooltipNotification placement="left" tooltip={"(Click to open in new tab)"}>
                                 <button className="btn btn-outline-secondary">
                                     <a target='_blank' href={surveyURL}><i><i className="fa fa-external-link"></i> Survey Link</i></a>

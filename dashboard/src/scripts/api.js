@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
+import { formatTypes } from './arrayHelper';
 
 const apiUrl = process.env.NOVA_API_URL;
 
@@ -28,13 +29,7 @@ export function post(controller, functionName, params, onSuccess, onFail) {
         if(result.error) {
             onFail(result.error);
         } else {
-
-
-            // Maybe parse result 0/1 to true/false and cast numbers to ints
-            // Prevents having to parseInt 
-            // Though database has 0/1/2/3 values for some rows (yay)
-            // Maybe just cast to int and for checking use !!value
-            onSuccess(result);
+            onSuccess(formatTypes(result));
         }
     })
     .catch(error => onFail(error))
@@ -58,7 +53,7 @@ export function get(controller, functionName, params, onSuccess, onFail) {
     .then(result => result.json())
     .then(result => {
         result.error && onFail(result);
-        !result.error && onSuccess(result)
+        !result.error && onSuccess(formatTypes(result))
     })
     .catch(error => onFail(error))
 }

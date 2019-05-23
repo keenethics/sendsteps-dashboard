@@ -37,35 +37,21 @@ class Users extends NovaAPI {
         $accountsModel = $this->loadModel('accounts');
 
         $currentUserData = $usersModel->getProfileDetailsByUserId($this->userId);
-        $fileUrl = $currentUserData['filename'];
+
+        $request->fileUrl = $currentUserData['filename'];
+        $request->accountId = $currentUserData['accountId'];
+        $request->userId = $this->userId;
+
         if(isset($request->base64String)) {
             $upload = new Upload();
-            $fileUrl = $upload->saveFile($request->base64String);
+            $request->fileUrl = $upload->saveFile($request->base64String);
         } 
 
-        $userUpdated = $usersModel->updateProfileDetails(
-            $this->userId,
-            $request->firstName,
-            $request->lastName,
-            $request->email,
-            $request->departmentName,
-            $request->language,
-            $request->phonenumber,
-            $fileUrl
-        );
+        $userUpdated = $usersModel->updateProfileDetails($request);
+        $accountUpdated = $accountsModel->updateProfileDetails($request);
 
-        $accountUpdated = $accountsModel->updateProfileDetails(
-            $currentUserData['accountId'],
-            $request->country,
-            $request->postalCode,
-            $request->city,
-            $request->address,
-            $request->university,
-            $request->timezone,
-            $request->vatId
-        );
         if($userUpdated && $accountUpdated) {
-            return json_encode($fileUrl);
+            return json_encode($request->fileUrl);
         }
     }
 }

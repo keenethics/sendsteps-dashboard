@@ -8,17 +8,10 @@ import RegistrationOverview from './pages/registration/DetailsContainer';
 import AuthorizationLoadingView from './pages/base/AuthorizationLoadingView';
 import DashboardApp from './pages/base/DashboardApp';
 import { withRouter, Route } from 'react-router-dom';
-import { getSocket } from './scripts/websockets';
-    
 export class App extends Component {
+    
     componentDidMount() {
-        this.testSockets();
         this.checkAuth();
-    }
-
-    testSockets = () => {
-        const socket = getSocket()
-        console.log(socket)
     }
 
     componentWillReceiveProps(nextProps) {

@@ -69,9 +69,9 @@ class OverviewTable extends Component {
     
     getSurveyStatus = (status, row) => {
 
-        const isPlaying = status === "1"
-        const isPaused = status === "3"
-        const isStopped = status === "2"
+        const isPlaying = status === 1
+        const isPaused = status === 3
+        const isStopped = status === 2
 
         let currentStatus = "Inactive"
         currentStatus = isPlaying ? "Playing" : currentStatus

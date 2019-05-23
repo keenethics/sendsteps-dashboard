@@ -59,10 +59,10 @@ class SurveysOverview extends React.Component {
         post(
             'tabstatus',
             'updateSurveyActive',
-            { status: isActive ? "1" : "0" },
+            { status: !!isActive},
             result => {
                 this.setState({ surveyStatus: result.status })
-                const isEnabled = result.status === "1" ? "enabled" : "disabled"
+                const isEnabled = !!result.status ? "enabled" : "disabled"
                 toast('Survey Tab ' + isEnabled + '!');
             },
             error => {

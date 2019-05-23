@@ -299,7 +299,7 @@ class SurveyQuestion extends Component {
                         deleteOption={this.deleteOption}
                         updateSingleOption={this.updateSingleOption}
                     />}
-                    {parseInt(currentType.survey_question_type_id, 10) !== 6 &&
+                    {currentType.survey_question_type_id !== 6 &&
                     <FormGroup>
                         <div className="row">
                             <div className="col-sm-3">

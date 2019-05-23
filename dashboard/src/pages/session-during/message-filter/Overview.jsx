@@ -12,6 +12,7 @@ import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
 import Toggle from 'react-bootstrap-toggle';
 import { getSocket } from '../../../scripts/websockets';
+import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
 class MessageFilterOverview extends React.Component {
 
     state = {
@@ -31,8 +32,8 @@ class MessageFilterOverview extends React.Component {
                 this.props.dispatch(setMessageFilterData(data.messages))
                 this.props.dispatch(setMessageGroupData(data.groups))
 
-                this.props.dispatch(toggleAutoAccept(data.autoAccept === "1"))
-                this.props.dispatch(toggleUpvoting(data.upvoting === "1"))
+                this.props.dispatch(toggleAutoAccept(!!data.autoAccept))
+                this.props.dispatch(toggleUpvoting(!!data.upvoting))
 
             },
             error => console.log(error)
@@ -43,7 +44,6 @@ class MessageFilterOverview extends React.Component {
         
         const socket = getSocket(399370);
         this.getMessageData();
-
 
             // All (Current) socket events.
             // When joining a room, this client subscribes to events
@@ -272,11 +272,10 @@ class MessageFilterOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="col-form-label">Upvoting</label>
                                         <br/>
-                                        <Toggle
+                                        <DefaultToggle
                                             onClick={() => this.toggleUpvoting(!upvotingEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}
-                                            offstyle="secondary"
                                             active={upvotingEnabled}
                                         />  
                                     </div>
@@ -285,7 +284,7 @@ class MessageFilterOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="col-form-label">Auto Accept messages</label>
                                         <br/>
-                                        <Toggle
+                                        <DefaultToggle
                                             onClick={() => this.toggleAutoAccept(!autoAcceptEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}

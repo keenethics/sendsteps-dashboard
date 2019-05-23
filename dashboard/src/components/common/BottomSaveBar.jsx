@@ -21,7 +21,7 @@ class BottomSaveBar extends Component  {
                                 onClick={onSave || function(){ console.log("onSave")}}
                             >
                                 {!loading && <i className="mx-1 fa fa-save"></i>}
-                                {loading && <span class="mx-1 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
+                                {loading && <span className="mx-1 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
                             </div>}
                             <button 
                                 onClick={() => this.goBack()}

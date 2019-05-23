@@ -98,21 +98,21 @@ class Users_Model extends Model {
         return $resultsClean;
     }
 
-    public function updateProfileDetails($userId, ...$fields) {
-        [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
+    public function updateProfileDetails($requestParams) {
+        // [ $firstName, $lastName, $email, $departmentName, $language, $phonenumber, $filename ] = $fields;
         
         $update = $this->database()->update(
             'users',
             [
-                'firstName' => $firstName,
-                'lastName' => $lastName,
-                'email' => $email,
-                'departmentName' => $departmentName,
-                'language' => $language,
-                'phonenumber' => $phonenumber,
-                'filename' => $filename
+                'firstName' => $requestParams->firstName,
+                'lastName' => $requestParams->lastName,
+                'email' => $requestParams->email,
+                'departmentName' => $requestParams->departmentName,
+                'language' => $requestParams->language,
+                'phonenumber' => $requestParams->phonenumber,
+                'filename' => $requestParams->fileUrl
             ],
-            ['id' => $userId ]
+            ['id' => $requestParams->userId ]
         );
 
         if($update->execute()) {

@@ -6,8 +6,8 @@ class ButtonSwitch extends Component {
 
         const { onChange, options, optionText, selected } = this.props;
 
-        const isActive = selected === "1" && "success btn-success active";
-        const isInactive = selected === "0" && "active";
+        const isActive = !!selected && "success btn-success active";
+        const isInactive = !selected && "active";
 
         return (
             <div>

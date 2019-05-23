@@ -21,7 +21,7 @@ export const getLabelFormatter = (cell, row) => {
 }
 
 export const getTrueFalseFormatter = cell => {
-    if(cell === "1") {
+    if(!!cell) {
         return <button disabled={true} className="tf-button btn btn-danger"><i className="fa fa-times"></i> No </button>;
     }
     return <button disabled={true} className="tf-button btn btn-success"><i className="fa fa-check"></i> Yes</button>;

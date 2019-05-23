@@ -1,8 +1,11 @@
+import { isObject, isNull } from 'util';
+
+
 export function isValueInArray(value, list) {
     if(!value || !list) {
         return false;
     }
-    return list.indexOf(value) > -1;
+    return list.indexOf(value) !== -1;
 }
 
 export function formatLabelsToKeyValuePairs(labels, data) {
@@ -55,4 +58,23 @@ export function valuesToString(theObject) {
 
 export function itemPropsToString(item, property) {
     return item && item[property] ? item[property] : ""
+}
+
+/*
+    Recursive function for parsing Object identifier values to integers
+    { userId : "1337", items : [{ id: "123" }] } will become:
+    { userId : 1337, items : [{ id: 123 }] }
+*/
+
+export function formatTypes(dataObject) {
+    if(!(typeof dataObject === 'string')) {
+        Object.keys(dataObject).forEach(item => {
+            const currentItem = dataObject[item];
+            dataObject[item] = (isNaN(currentItem) || !currentItem) ? currentItem : parseInt(currentItem, 10);
+            if(isObject(currentItem) && !isNull(currentItem) && !!Object.keys(currentItem).length) {
+                dataObject[item] = formatTypes(currentItem);
+            }
+        })
+    }
+    return dataObject;
 }

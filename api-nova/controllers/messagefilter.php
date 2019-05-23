@@ -129,5 +129,22 @@ class MessageFilter extends NovaApi {
             'autoAccept' => $extraDetails['autoApprove'],
             'upvoting' => $extraDetails['hasUpvoting']
         ]);
+
+        // Still need these before being able to work with sockets: 
+        // return [
+        //     // "upvotingEnabled" => $session->hasUpvoting,
+        //     "presentations" => $presentations,
+        //     "messageRounds" => $messageRounds,
+        //     "openMessageRound" => $openMessageRound,
+        //     // "messages" => $messageForCurrentMessageRound,
+        //     "onScreenMessages" => $onScreenMessages,
+        //     // "groups" => $groups,
+        //     "lockId" => $modelModeratorlocks->id,
+        //     "oldModeratorsClosed" => $oldModeratorsClosed,
+        //     "activeSessionRun" => is_object($activeSessionRun) ? $activeSessionRun->id : $activeSessionRun,
+        //     // "autoApprove" => $session->autoApprove,
+        //     "autoApproveInterval" => $session->autoApproveInterval,
+        //     "moderatorSharingToken" => $user->moderatorSharingToken
+        // ];
     }
 }

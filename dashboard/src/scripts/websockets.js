@@ -1,11 +1,14 @@
 import io from 'socket.io-client';
 
-let socket = null;
+let nodeServer = process.env.NODE_URL;
 
+let activeSocket = null
+
+console.log(nodeServer)
 export function getSocket() {
-    if(!socket) {
-        socket = io(
-            'https://node.sendsteps.com:8001/', // Move to .env with proper url 
+    if(!activeSocket) {
+        activeSocket = io(
+            nodeServer, 
             {
                 'reconnection': true,
                 'reconnectionDelay': 2000,
@@ -16,9 +19,7 @@ export function getSocket() {
             }
         );
 
-        socket.emit('session:subscribe', {sessionId: 399370});
-
-       
+        activeSocket.emit('session:subscribe', {sessionId: 591});
     }
-    return socket;
+    return activeSocket;
 }

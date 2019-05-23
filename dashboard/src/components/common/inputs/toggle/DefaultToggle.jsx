@@ -4,7 +4,7 @@ import './DefaultToggle.scss';
 
 class DefaultToggle extends Component {
     render() {
-        // onClick, on, off, style
+        // onClick, on, off, style, disabled
         return (
             <Toggle
                 { ...this.props }

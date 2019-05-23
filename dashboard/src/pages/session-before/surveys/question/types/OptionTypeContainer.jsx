@@ -22,32 +22,32 @@ class OptionTypeContainer extends Component {
 
     isTextQuestion = type => {
         const textTypeIndex = 1
-        return parseInt(type.survey_question_type_id, 10) === textTypeIndex
+        return type.survey_question_type_id === textTypeIndex
     }
 
     isParagraphQuestion = type => {
         const paragraphTypeIndex = 2
-        return parseInt(type.survey_question_type_id, 10) === paragraphTypeIndex
+        return type.survey_question_type_id === paragraphTypeIndex
     }
 
     isMultipleChoiceQuestion = type => {
         const multipleChoiceTypeIndex = 3
-        return parseInt(type.survey_question_type_id, 10) === multipleChoiceTypeIndex
+        return type.survey_question_type_id === multipleChoiceTypeIndex
     }
 
     isCheckboxQuestion = type => {
         const checkboxTypeIndex = 4
-        return parseInt(type.survey_question_type_id, 10) === checkboxTypeIndex
+        return type.survey_question_type_id === checkboxTypeIndex
     }
 
     isScaleQuestion = type => {
         const scaleTypeIndex = 5
-        return parseInt(type.survey_question_type_id, 10) === scaleTypeIndex
+        return type.survey_question_type_id === scaleTypeIndex
     }
 
     isExplanationQuestion = type => {
         const explanationTypeIndex = 6
-        return parseInt(type.survey_question_type_id, 10) === explanationTypeIndex
+        return type.survey_question_type_id === explanationTypeIndex
     }
 
     render() {
