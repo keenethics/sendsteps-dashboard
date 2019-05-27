@@ -43,7 +43,6 @@ export default class ImageUploadField extends React.Component {
 
     resetState = () => {
         this.props.setImage('');
-        console.log('reset')
         this.setState({ ...this.initialState })
     }
 
@@ -61,7 +60,7 @@ export default class ImageUploadField extends React.Component {
 
         return (
             <div className={"col-md-" + colWidth || 6}>
-                <label className="col-form-label">{labelText || "No labelText selected"}</label>
+                <label className="col-form-label col-form-label-sm">{labelText || "No labelText selected"}</label>
 
                 <div className="picture-upload">
                     <span className="pull-right clear-icon" onClick={this.resetState}><i className="fa fa-lg fa-times"></i></span>
@@ -83,9 +82,11 @@ export default class ImageUploadField extends React.Component {
                     </div>}
                     
                     <div className="form-group">
-                        <div className="input-group">
-                            <span className="input-group-addon btn btn-default btn-file">
-                                Browse... <input type="file" onChange={this.upload} />
+                        <div className="input-group input-group-sm">
+                            <span className="input-group-prepend">
+                                <span className="input-group-text btn btn-sm btn-default btn-file">
+                                    <i className="fa fa-file-image-o mr-2"></i> Browse... <input type="file" onChange={this.upload} />
+                                </span>
                             </span>
                             <input id="profile-img" value={fileName} placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
                         </div>

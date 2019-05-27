@@ -51,7 +51,7 @@ class ResponseInternationalInput extends Component {
                             off={<span><i className="fa fa-times"></i> No</span>}
                             offstyle="secondary"
                             disabled={(this.isLocalOnly() || this.isInternationalOnly())}
-                            active={settings && settings.phonenumberForeignerCompatible === "1"}
+                            active={settings && settings.phonenumberForeignerCompatible === 1}
                         />}
                 </div>
             </div>

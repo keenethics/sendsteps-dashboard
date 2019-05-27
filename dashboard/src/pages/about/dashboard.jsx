@@ -1,7 +1,6 @@
 import React from "react";
 import { QAPanel, BlogPanel } from './extra_components/InfoPanels';
-import HeaderPanel from "../../components/common/HeaderPanel";
-
+import HeaderPanel from 'App/components/common/HeaderPanel';
 class AboutDashboard extends React.Component {
 
     render() {

@@ -1,14 +1,14 @@
 import React from "react";
 import { connect } from 'react-redux';
-import { get, post } from '../../scripts/api';
+import { get, post } from 'App/scripts/api';
 import { setUserProfileData, setAccountProfileData } from './actions';
-import ImageUploadField from "../../components/common/ImageUploadField";
-import BottomSaveBar from "../../components/common/BottomSaveBar";
-import HeaderPanel from "../../components/common/HeaderPanel";
-import { itemPropsToString } from "../../scripts/arrayHelper";
-import { isValidEmail, isValidName } from "../../scripts/validationChecker";
+import ImageUploadField from "App/components/common/ImageUploadField";
+import BottomSaveBar from "App/components/common/BottomSaveBar";
+import HeaderPanel from "App/components/common/HeaderPanel";
+import { itemPropsToString } from "App/scripts/arrayHelper";
+import { isValidEmail, isValidName } from "App/scripts/validationChecker";
 import { toast } from "react-toastify";
-import { setUser } from "../../actions/auth";
+import { setUser } from "App/actions/auth";
 
 class ProfileOverview extends React.Component {
     
@@ -47,7 +47,7 @@ class ProfileOverview extends React.Component {
     }
 
     getUserInfo = () => {
-        get('users', 'getProfileData',
+        get('userscontroller', 'getProfileData',
             {},
             result => {
 
@@ -212,8 +212,8 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.firstName && "has-error")}>
-                                        <label className="col-form-label">First Name</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm col-form-label-sm">First Name</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                 <i className="fa fa-user"></i>
@@ -233,8 +233,8 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.lastName && "has-error")}>
-                                        <label className="col-form-label">Last Name</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Last Name</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-user"></i>
@@ -256,8 +256,8 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Organisation</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Organisation</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-building"></i>
@@ -274,8 +274,8 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Department</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Department</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-user-md"></i>
@@ -295,8 +295,8 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Role</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Role</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-user-times"></i>
@@ -313,8 +313,8 @@ class ProfileOverview extends React.Component {
         
                                 <div className="col-sm-6 col-xs-12">
                                     <div className={"form-group " + (errors.email && "has-error")}>
-                                        <label className="col-form-label">Email</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Email</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-envelope"></i>
@@ -336,8 +336,8 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Phonenumber</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Phonenumber</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-phone"></i>
@@ -355,8 +355,8 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Email Language</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Email Language</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-globe"></i>
@@ -380,8 +380,8 @@ class ProfileOverview extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Address</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Address</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-map-marker"></i>
@@ -399,8 +399,8 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Postal Code</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Postal Code</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-address-card"></i>
@@ -420,8 +420,8 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">City</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">City</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-home"></i>
@@ -439,8 +439,8 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Country</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Country</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-flag"></i>
@@ -463,8 +463,8 @@ class ProfileOverview extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">Timezone</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">Timezone</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-globe"></i>
@@ -487,8 +487,8 @@ class ProfileOverview extends React.Component {
 
                                 <div className="col-sm-6 col-xs-12">
                                     <div className="form-group">
-                                        <label className="col-form-label">VAT ID</label>
-                                        <div className="input-group">
+                                        <label className="col-form-label col-form-label-sm">VAT ID</label>
+                                        <div className="input-group input-group-sm">
                                             <div className="input-group-prepend">
                                                 <span className="input-group-text">
                                                     <i className="fa fa-user"></i>

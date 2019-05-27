@@ -39,7 +39,7 @@ class ResponseToggleInput extends Component {
                 <div className="col-sm-6">
                     <Toggle
                         size="sm"
-                        onClick={() => this.updateSettings(settings.internetselected === "1" ? "0" : "1", 'internetselected')}
+                        onClick={() => this.updateSettings(!settings.internetselected, 'internetselected')}
                         on={<span><i className="fa fa-check"></i> On</span>}
                         off={<span><i className="fa fa-times"></i> Off</span>}
                         offstyle="secondary"

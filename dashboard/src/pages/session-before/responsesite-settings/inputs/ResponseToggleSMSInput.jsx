@@ -8,6 +8,7 @@ import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultTo
 class ResponseToggleSMSInput extends Component {
 
     updateSettings = (value, field) => {
+        console.log(value)
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
         if(!value) {
@@ -19,6 +20,8 @@ class ResponseToggleSMSInput extends Component {
     render() {
 
         const { settings } = this.props
+
+        console.log(settings)
 
         return (
             <div className="form-group row">
@@ -37,9 +40,10 @@ class ResponseToggleSMSInput extends Component {
                     {settings && 
                         <Toggle
                             size="sm"
-                            onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
+                            onClick={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}
                             off={<span><i className="fa fa-times"></i> Off</span>}
+                            offstyle="secondary"
                             active={!!settings.textmessagingselected}
                         />}
                 </div>

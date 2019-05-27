@@ -312,7 +312,7 @@ class LayoutOverview extends React.Component {
                                                     onClick={() => this.updateSettings(!responseSettings.logo_url_new_tab, 'logo_url_new_tab')}
                                                     on={<><i className="fa fa-check"></i> Yes</>}
                                                     off={<><i className="fa fa-times"></i> No</>}
-                                                    active={responseSettings.logo_url_new_tab === "1"}
+                                                    active={!!responseSettings.logo_url_new_tab}
                                                 />
                                             </div>
                                             </div>
@@ -364,7 +364,7 @@ class LayoutOverview extends React.Component {
                                                             onClick={() => this.updateSettings(!responseSettings.enable_overlay, 'enable_overlay')}
                                                             on={<><i className="fa fa-check"></i> On</>}
                                                             off={<><i className="fa fa-times"></i> Off</>}
-                                                            active={responseSettings.enable_overlay === "1"}
+                                                            active={!!responseSettings.enable_overlay}
                                                         />
                                                     </div>
                                                 </div>
