@@ -78,3 +78,13 @@ export function formatTypes(dataObject) {
     }
     return dataObject;
 }
+
+export function idToAssociative(list) {
+    let assocList = []
+    list.forEach(item => {
+        const itemId = item.id;
+        delete item.id;
+        assocList[itemId] = {...item}
+    });
+    return assocList;
+}

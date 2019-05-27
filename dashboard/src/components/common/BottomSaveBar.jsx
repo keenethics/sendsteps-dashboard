@@ -4,9 +4,14 @@ import { withRouter } from 'react-router-dom';
 
 class BottomSaveBar extends Component  {
 
+    state = {
+        loading: false
+    }
+
     goBack() {
         this.props.history.goBack();
     }
+
     render() {
 
         const { onSave, noSave, disabled, loading } = this.props;

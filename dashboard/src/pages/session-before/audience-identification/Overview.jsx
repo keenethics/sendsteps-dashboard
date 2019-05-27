@@ -11,7 +11,6 @@ import { post } from '../../../scripts/api';
 import CreateQuestionContainer from './question/CreateQuestionContainer';
 import './Overview.scss'
 import Toggle from 'react-bootstrap-toggle';
-import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
 
 class AudienceOverview extends React.Component {
 
@@ -77,7 +76,7 @@ class AudienceOverview extends React.Component {
                                     <hr/>
                                     <div className="row">
                                         <div className="col-sm-12 px-3">
-                                            <label className="col-form-label">How to Participate <TooltipNotification 
+                                            <label className="col-form-label col-form-label-sm">How to Participate <TooltipNotification 
                                                 title={"How to Participate"}
                                                 tooltip={
                                                     <span className="text-left">
@@ -88,7 +87,9 @@ class AudienceOverview extends React.Component {
                                                 </TooltipNotification>
                                             </label>
                                             <br/>
-                                            <DefaultToggle
+                                            <Toggle
+                                                size="sm"
+                                                offstyle="secondary"
                                                 onClick={() => this.toggleAnonymous(!isAnonymous)}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
                                                 off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}

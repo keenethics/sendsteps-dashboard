@@ -48,7 +48,7 @@ class MultipleChoiceOption extends Component {
 
         return (
             <FormGroup>
-                <InputGroup>
+                <div className="input-group input-group-sm">
                     <div className="input-group-prepend disabled">
                         <div className="input-group-text">
                             <input type="checkbox" disabled="disabled" />
@@ -57,9 +57,9 @@ class MultipleChoiceOption extends Component {
                     <FormControl placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
                     {(addedNext || !this.isGeneratedKey(optionKey)) &&
                     <div onClick={this.deleteOption} className="input-group-append">
-                        <button className="btn btn-outline-danger"><i className="fa fa-trash"></i> Delete </button>
+                        <button className="btn btn-sm btn-outline-danger"><i className="fa fa-trash"></i> Delete </button>
                     </div>}
-                </InputGroup>
+                </div>
             </FormGroup>
         );
     }

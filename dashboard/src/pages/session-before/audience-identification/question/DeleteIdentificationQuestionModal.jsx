@@ -20,7 +20,7 @@ class DeleteIdentificationQuestionModal extends Component {
             'deleteIdentificationQuestion',
             { id: deleteIdentificationQuestionId },
             () => {
-                this.props.getIdentificationQuestions()
+                this.props.getQuestions()
                 this.props.dispatch(setDeletingIdentificationId(null))
                 toast("Identification question removed!")
             },
@@ -49,8 +49,8 @@ class DeleteIdentificationQuestionModal extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn btn-danger" className="pull-left" onClick={this.deleteIdentificationQuestion}><i className="fa fa-trash"></i> Delete</div>
-                    <div className="btn btn-primary" onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</div>
+                    <div className="btn btn-sm btn-danger float-left" onClick={this.deleteIdentificationQuestion}><i className="fa fa-trash"></i> Delete</div>
+                    <div className="btn btn-sm btn-primary" onClick={this.toggleClose}><i className="fa fa-times"></i> Cancel</div>
                 </Modal.Footer>
             </Modal>
         );

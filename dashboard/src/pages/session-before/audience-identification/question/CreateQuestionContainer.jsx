@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { get, post } from '../../../../scripts/api'
-import IdentificationQuestion from './IdentificationQuestion';
+import Question from './Question';
 import DeleteIdentificationQuestionModal from './DeleteIdentificationQuestionModal';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import LoadingPlaceholder from '../../../base/LoadingPlaceholder';
@@ -8,35 +8,39 @@ import LoadingPlaceholder from '../../../base/LoadingPlaceholder';
 class CreateQuestionContainer extends Component {
 
     state = {
-        identificationQuestions: null,
+        questions: null,
         error: null
     }
 
     componentDidMount() {
-        this.getIdentificationQuestions()
+        this.getQuestions()
     }
 
-    getIdentificationQuestions = () => {
+    getQuestions = () => {
         post(
             'audienceidentification',
             'getQuestions',
             {},
-            identificationQuestions => this.setState({identificationQuestions, error: null}),
-            error => this.setState({error, identificationQuestions: null}) 
+            questions => this.setState({questions, error: null}),
+            error => this.setState({error, questions: null}) 
         )
     }
 
-    updateIdentificationQuestionOrder = () => {
-        const { identificationQuestions } = this.state
+    setQuestions = questions => {
+        this.setState({questions})
+    }
 
-        const idPositions = identificationQuestions.map(question => question.id);
+    updateIdentificationQuestionOrder = () => {
+        const { questions } = this.state
+
+        const idPositions = questions.map(question => question.id);
 
         post(
             'audienceidentification',
             'updateOrder',
             { idPositions },
             orderedQuestions => this.setState({
-                identificationQuestions: this.sortByOrder(orderedQuestions), 
+                questions: this.sortByOrder(orderedQuestions), 
                 error: null
             }),
             // error => this.setState({
@@ -51,20 +55,20 @@ class CreateQuestionContainer extends Component {
             return true;
         }
 
-        const identificationQuestions = this.sortByOrder(
+        const questions = this.sortByOrder(
             this.swapOrder(
                 result.source.index,
                 result.destination.index
             )
         )
         this.setState({
-            identificationQuestions
+            questions
         }, () => this.updateIdentificationQuestionOrder());
     }
 
     swapOrder = (sourceOrder, destinationOrder) => {
-        const { identificationQuestions } = this.state 
-        let newQuestions = [ ...identificationQuestions ]
+        const { questions } = this.state 
+        let newQuestions = [ ...questions ]
         const placeholder = newQuestions.splice(sourceOrder - 1, 1)[0]
         placeholder.fieldIndex = destinationOrder
 
@@ -86,37 +90,36 @@ class CreateQuestionContainer extends Component {
     }
 
     getLastCount = () => {
-        const { identificationQuestions } = this.state;
-        return identificationQuestions.length + 1;
+        const { questions } = this.state;
+        return questions.length + 1;
     }
 
     render() {
 
-        const { identificationQuestions } = this.state
+        const { questions } = this.state
 
         return (
             <>
-                {identificationQuestions && 
+                {questions && 
                 <>
-                    <DragDropContext onDragStart={this.onDragStart} onDragUpdate={this.onDragUpdate} onDragEnd={res => this.onDragEnd(res)} >
+                    <DragDropContext onDragEnd={res => this.onDragEnd(res)} >
                     <Droppable ignoreContainerClipping={true} droppableId="droppable">                
                         {(provided, snapshot) => <div ref={provided.innerRef}>
-                            {identificationQuestions && identificationQuestions.map((question, index) => {
+                            {questions && questions.map((question, index) => {
                                 return (
                                 <Draggable draggableId={question.id} index={index + 1} key={question.id}>
                                     {(provided, snapshot) => <> 
-                                        {console.log(snapshot)}
                                         <div 
                                         className="drag-item"
                                         ref={provided.innerRef}
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
-                                            <IdentificationQuestion 
+                                            <Question 
+                                                setQuestions={this.setQuestions}
                                                 isDragging={snapshot.isDragging} 
                                                 isDroppable={!!snapshot.draggingOver} 
                                                 order={question.fieldIndex} 
-                                                getIdentificationQuestions={this.getIdentificationQuestions} 
-                                                savedQuestion={question} 
+                                                question={question} 
                                             />
                                         </div>
                                     </>}
@@ -125,10 +128,10 @@ class CreateQuestionContainer extends Component {
                         </div>}
                     </Droppable>
                     </DragDropContext>
-                    <IdentificationQuestion order={identificationQuestions ? this.getLastCount() : 1}  getIdentificationQuestions={this.getIdentificationQuestions} />
-                    <DeleteIdentificationQuestionModal getIdentificationQuestions={this.getIdentificationQuestions} />
+                    <Question order={questions ? this.getLastCount() : 1} setQuestions={this.setQuestions} />
+                    <DeleteIdentificationQuestionModal getQuestions={this.getQuestions} />
                 </>}
-                {!identificationQuestions && <LoadingPlaceholder />}
+                {!questions && <LoadingPlaceholder />}
             </>
         );
     }

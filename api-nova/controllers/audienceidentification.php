@@ -8,42 +8,39 @@ class AudienceIdentification extends NovaAPI {
     
     public function getQuestions() {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
-        return json_encode($identificationQuestionModel->getBySessionId($this->getUserSessionId()));
+        $identificationQuestions = $identificationQuestionModel->getBySessionId($this->getUserSessionId());
+        foreach($identificationQuestions as $key => $question) {
+            $identificationQuestions[$key]['options'] = $this->getQuestionOptions($question['id']);
+        }
+        return json_encode($identificationQuestions);
     }
 
-    public function getQuestionOptions(Request $request) {
+    public function getQuestionOptions($questionId) {
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
-        return json_encode($identificationOptionModel->getByInfoFieldId($request->id));
+        return $identificationOptionModel->getByInfoFieldId($questionId);
     }
 
     public function createIdentificationQuestion(Request $request) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
 
-        if(!isset($request->questionId)) {
+        if(!isset($request->question->id)) {
             $updatedParticipantInfoFieldId = $identificationQuestionModel->createQuestion(
                 $this->getUserSessionId(),
-                $request->question,
-                $request->type,
-                $request->required,
-                $request->order
+                $request->question
             );
         } 
         else 
         {
             $updatedParticipantInfoFieldId = $identificationQuestionModel->updateQuestion(
-                $request->question,
-                $request->type,
-                $request->required,
-                $request->questionId,
-                $request->order
+                $request->question
             );
         }
         $identificationOptionModel->deleteOptions($updatedParticipantInfoFieldId);
-        if(count((array) $request->identificationQuestionOptions) > 0 && strlen(array_values((array) $request->identificationQuestionOptions)[0]) > 0) {
-            $identificationOptionModel->addOptions($updatedParticipantInfoFieldId, $request->identificationQuestionOptions);
+        if(count((array) $request->question->options) > 0 && strlen(array_values((array) $request->question->options)[0]) > 0) {
+            $identificationOptionModel->addOptions($updatedParticipantInfoFieldId, $request->question->options);
         }
-        return true;
+        return $this->getQuestions();
     }
 
     public function updateOrder(Request $request) {
