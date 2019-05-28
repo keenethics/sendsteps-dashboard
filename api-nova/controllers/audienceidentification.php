@@ -2,8 +2,6 @@
 
 require_once __DIR__.'/../base/nova-api.php';
 
-
-
 class AudienceIdentification extends NovaAPI {
     
     public function getQuestions() {
@@ -53,8 +51,8 @@ class AudienceIdentification extends NovaAPI {
     public function deleteIdentificationQuestion(Request $request) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
-
         $identificationQuestionModel->deleteQuestion($request->id);
-        return json_encode(!!$identificationOptionModel->deleteOptions($request->id));
+        $identificationOptionModel->deleteOptions($request->id);
+        return $this->getQuestions();
     }
 }

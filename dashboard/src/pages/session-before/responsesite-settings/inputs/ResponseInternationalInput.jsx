@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
-import Toggle from 'react-bootstrap-toggle';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
-import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class ResponseInternationalInput extends Component {
 
     changeInternational = value => {
@@ -44,7 +44,7 @@ class ResponseInternationalInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {responsePhonenumbers &&
-                        <Toggle
+                        <Switch
                             size="sm"
                             onClick={this.changeInternational}
                             on={<span><i className="fa fa-check"></i> Yes</span>}

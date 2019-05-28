@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
-import Toggle from 'react-bootstrap-toggle';
-import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class ResponseToggleInput extends Component {
 
     updateSettings = (value, field) => {
@@ -37,7 +37,7 @@ class ResponseToggleInput extends Component {
                 </label>
                 {settings && 
                 <div className="col-sm-6">
-                    <Toggle
+                    <Switch
                         size="sm"
                         onClick={() => this.updateSettings(!settings.internetselected, 'internetselected')}
                         on={<span><i className="fa fa-check"></i> On</span>}

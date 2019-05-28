@@ -7,6 +7,12 @@ export default function appReducer(state, action) {
                 menuOpened: action.isOpened
             }
         }
+        case 'SET_APP_SIZE': {
+            return {
+                ...state,
+                appSize: action.appSize
+            }
+        }
         case 'SET_BREADCRUMBS': {
             return {
                 ...state,

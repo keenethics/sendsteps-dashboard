@@ -1,18 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import ResponseSiteContainer from '../../base/ResponseSiteContainer';
-import InputField from '../../../components/common/InputField';
-import ColorPickerField from '../../../components/common/ColorPickerField';
-import ButtonSwitch from '../../../components/common/ButtonSwitch';
-import { isValueInArray } from '../../../scripts/arrayHelper';
-import ColorInfo from '../../../components/common/ColorInfo';
-import BottomSaveBar from '../../../components/common/BottomSaveBar';
-import HeaderPanel from '../../../components/common/HeaderPanel';
+import ResponseSiteContainer from 'App/pages/base/ResponseSiteContainer';
+import InputField from 'App/components/common/InputField';
+import ColorPickerField from 'App/components/common/ColorPickerField';
+import ButtonSwitch from 'App/components/common/ButtonSwitch';
+import { isValueInArray } from 'App/scripts/arrayHelper';
+import ColorInfo from 'App/components/common/ColorInfo';
+import BottomSaveBar from 'App/components/common/BottomSaveBar';
+import HeaderPanel from 'App/components/common/HeaderPanel';
 import { setResponseSettings, setLayoutSettings } from './actions';
 import { post } from '../../../scripts/api';
 import { toast } from 'react-toastify';
-import Toggle from 'react-bootstrap-toggle';
-import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 
 class LayoutOverview extends React.Component {
 
@@ -259,7 +259,7 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Favicon Type</label>
                                                 <br/>
-                                                <DefaultToggle
+                                                <Switch
                                                     style={{width: '120px'}}
                                                     offstyle="secondary"
                                                     onClick={() => this.updateSettings(responseSettings.favicon_type === "image" ? "url" : "image", 'favicon_type')}
@@ -306,7 +306,7 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Logo Url New Tab</label>
                                                 <br/>
-                                                <DefaultToggle
+                                                <Switch
                                                     style={{width: '80px'}}
                                                     offstyle="secondary"
                                                     onClick={() => this.updateSettings(!responseSettings.logo_url_new_tab, 'logo_url_new_tab')}
@@ -320,7 +320,7 @@ class LayoutOverview extends React.Component {
                                             <div className="form-group">
                                                 <label className="col-form-label">Background Type</label>
                                                 <br/>
-                                                <DefaultToggle 
+                                                <Switch 
                                                     onClick={() => this.updateSettings(responseSettings.main_background_type === "image" ? "url" : "image", 'main_background_type')}
                                                     on={<><i className="fa fa-image"></i> Image</>}
                                                     off={<><i className="fa fa-link"></i> Url</>}
@@ -358,7 +358,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Overlay Enabled</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.enable_overlay, 'enable_overlay')}
@@ -372,7 +372,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">New Relic</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.switch_off_new_relic, 'switch_off_new_relic')}
@@ -386,7 +386,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Analytics</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.switch_off_analytics, 'switch_off_analytics')}
@@ -400,7 +400,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Contact</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.switch_off_contact, 'switch_off_contact')}
@@ -414,7 +414,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Only Unique Response Codes</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.unique_response_codes_only, 'unique_response_codes_only')}
@@ -428,7 +428,7 @@ class LayoutOverview extends React.Component {
                                                     <div className="form-group">
                                                         <label className="col-form-label">Dark Theme</label>
                                                         <br/>
-                                                        <DefaultToggle
+                                                        <Switch
                                                             style={{width: '80px'}}
                                                             offstyle="secondary"
                                                             onClick={() => this.updateSettings(!responseSettings.dark_sst_logo, 'dark_sst_logo')}

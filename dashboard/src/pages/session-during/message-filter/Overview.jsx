@@ -10,9 +10,9 @@ import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
 import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
-import Toggle from 'react-bootstrap-toggle';
 import { getSocket } from '../../../scripts/websockets';
-import DefaultToggle from '../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class MessageFilterOverview extends React.Component {
 
     state = {
@@ -272,7 +272,7 @@ class MessageFilterOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="col-form-label col-form-label-sm">Upvoting</label>
                                         <br/>
-                                        <Toggle
+                                        <Switch
                                             size="sm"
                                             onClick={() => this.toggleUpvoting(!upvotingEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
@@ -285,7 +285,7 @@ class MessageFilterOverview extends React.Component {
                                     <div className="form-group">
                                         <label className="col-form-label col-form-label-sm">Auto Accept messages</label>
                                         <br/>
-                                        <Toggle
+                                        <Switch
                                             size="sm"
                                             onClick={() => this.toggleAutoAccept(!autoAcceptEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}

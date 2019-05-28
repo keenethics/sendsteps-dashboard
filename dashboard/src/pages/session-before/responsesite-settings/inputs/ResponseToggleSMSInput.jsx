@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
-import Toggle from 'react-bootstrap-toggle';
 import { connect } from 'react-redux';
-import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
 
 class ResponseToggleSMSInput extends Component {
 
@@ -38,7 +37,7 @@ class ResponseToggleSMSInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {settings && 
-                        <Toggle
+                        <Switch
                             size="sm"
                             onClick={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}

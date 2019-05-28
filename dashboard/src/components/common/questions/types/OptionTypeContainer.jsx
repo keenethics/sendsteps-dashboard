@@ -9,89 +9,78 @@ import ScaleContainer from './scale/ScaleContainer';
 
 class OptionTypeContainer extends Component {
     
-    state = {
-        options: null,
-        optionsLoaded: false
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.options && !this.state.optionsLoaded) {
-            this.setState({ optionsLoaded: true })
-        } 
-    }
-
     isTextQuestion = type => {
-        const textTypeIndex = 1
-        return type.survey_question_type_id === textTypeIndex
+        const textType = 'textbox'
+        return type === textType
     }
 
     isParagraphQuestion = type => {
-        const paragraphTypeIndex = 2
-        return type.survey_question_type_id === paragraphTypeIndex
+        const paragraphType = 'paragraph'
+        return type === paragraphType
     }
 
     isMultipleChoiceQuestion = type => {
-        const multipleChoiceTypeIndex = 3
-        return type.survey_question_type_id === multipleChoiceTypeIndex
+        const multipleChoiceType = 'radio'
+        return type === multipleChoiceType
     }
 
     isCheckboxQuestion = type => {
-        const checkboxTypeIndex = 4
-        return type.survey_question_type_id === checkboxTypeIndex
+        const checkboxType = 'checkbox'
+        return type === checkboxType
     }
 
     isScaleQuestion = type => {
-        const scaleTypeIndex = 5
-        return type.survey_question_type_id === scaleTypeIndex
+        const scaleType = 'scale'
+        return type === scaleType
     }
 
     isExplanationQuestion = type => {
-        const explanationTypeIndex = 6
-        return type.survey_question_type_id === explanationTypeIndex
+        const explanationType = 'explanation'
+        return type === explanationType
     }
 
     render() {
 
-        const { type, options } = this.props
+        const { question, currentType } = this.props
+
 
         return (
             <FormGroup>
                 <div className="row">
                     <div className="col-sm-3">
                     </div>
-                        {this.isTextQuestion(type) && <>
+                        {this.isTextQuestion(currentType.key) && <>
                             <TextContainer />
                         </>}
-                        {this.isParagraphQuestion(type) && <>
+                        {this.isParagraphQuestion(currentType.key) && <>
                             <ParagraphContainer />
                         </>}
-                        {this.isMultipleChoiceQuestion(type) && <>
+                        {this.isMultipleChoiceQuestion(currentType.key) && <>
                             <MultipleChoiceContainer 
-                                options={options} 
+                                options={question.options} 
                                 updateOptions={(text, key) => this.props.updateOptions(text, key)}
                                 addOption={() => this.props.addOption()}
                                 deleteOption={key => this.props.deleteOption(key)}
                             />
                         </>}
-                        {this.isCheckboxQuestion(type) && <>
+                        {this.isCheckboxQuestion(currentType.key) && <>
                             <CheckboxContainer 
-                                options={options} 
+                                options={question.options} 
                                 updateOptions={(text, key) => this.props.updateOptions(text, key)}
                                 addOption={() => this.props.addOption()}
                                 deleteOption={key => this.props.deleteOption(key)}
                             />
                         </>}
-                        {this.isScaleQuestion(type) && <>
+                        {this.isScaleQuestion(currentType.key) && <>
                             <ScaleContainer
-                                options={options}
+                                options={question.options}
                                 addOption={() => this.props.addOption()}
-                                updateOptions={(text, key) => this.props.updateOptions(text, key)}
-                                setAllOptions={this.props.setAllOptions}
+                                setOptions={this.props.setOptions}
                             />
                         </>}
-                        {this.isExplanationQuestion(type) && <>
+                        {this.isExplanationQuestion(currentType.key) && <>
                             <ExplanationContainer 
-                                options={options}
+                                options={question.options}
                                 updateOptions={this.props.updateSingleOption}
                             />
                         </>}

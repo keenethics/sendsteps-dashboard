@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { FormControl, FormGroup, Form } from 'react-bootstrap'
-import { generateKey, swap, firstOfObject } from '../../../../../../scripts/arrayHelper';
+import { FormControl, FormGroup } from 'react-bootstrap'
+import { generateKey, firstOfObject } from 'App/scripts/arrayHelper';
+
 class ScaleContainer extends Component {
 
     scalePrefix = '######';
@@ -10,19 +11,26 @@ class ScaleContainer extends Component {
         contentLoaded: false
     }
 
+    setOptions = (text, optionIndex) => {
+        let { options } = this.props
+        options[optionIndex] = text
+        this.props.setOptions(options)
+    }
+
     setActive = e => {
         console.log(e.target.value)
-        const { options, updateOptions } = this.props;
+        const { options } = this.props;
         this.setState({currentInput: parseInt(e.target.value, 10)})
-        updateOptions(parseInt(e.target.value, 10), Object.keys(options)[2]);
+        this.setOptions(parseInt(e.target.value, 10), Object.keys(options)[2]);
     }
 
     componentWillReceiveProps(nextProps) {
         if(this.isFetchedData(nextProps.options)) {
-            this.props.setAllOptions(this.formatOptions(nextProps.options))
+
+            this.props.setOptions(this.formatOptions(nextProps.options))
         } 
         else if(Object.keys(nextProps.options).length < 3) {
-            this.props.setAllOptions(this.formatInitial());
+            this.props.setOptions(this.formatInitial());
         }
     }
 
@@ -54,13 +62,13 @@ class ScaleContainer extends Component {
     }
 
     setFirstScaleText = e => {
-        const { options, updateOptions } = this.props;
-        updateOptions(e.target.value, Object.keys(options)[0]);
+        const { options} = this.props;
+        this.setOptions(e.target.value, Object.keys(options)[0]);
     }
 
     setLastScaleText = e => {
-        const { options, updateOptions } = this.props;
-        updateOptions(e.target.value, Object.keys(options)[1]);
+        const { options } = this.props;
+        this.setOptions(e.target.value, Object.keys(options)[1]);
     }
 
     render() {
@@ -70,31 +78,22 @@ class ScaleContainer extends Component {
 
         return (
             <>
-                <div className="col-sm-6 pb-3">
+                <div className="col-sm-6 pb-3 small">
                     <div className="custom-control custom-radio custom-control-inline">
                         <input readOnly className="form-check-input" type="radio" name="scale_1" checked={true} disabled />
                         <label className="form-check-label">1</label>
                     </div>
-                    <div className="custom-control custom-radio custom-control-inline">
-                        <input className="form-check-input" onChange={this.setActive} type="radio" value={2} name="scale_2" checked={currentInput === 2} />
-                        <label className="form-check-label" htmlFor="scale_2">2</label>
-                    </div>
-                    <div className="custom-control custom-radio custom-control-inline">
-                        <input className="form-check-input" onChange={this.setActive} type="radio" value={3} name="scale_3" checked={currentInput === 3} />
-                        <label className="form-check-label" htmlFor="scale_3">3</label>
-                    </div>
-                    <div className="custom-control custom-radio custom-control-inline">
-                        <input className="form-check-input" onChange={this.setActive} type="radio" value={4} name="scale_4" checked={currentInput === 4} />
-                        <label className="form-check-label">4</label>
-                    </div>
-                    <div className="custom-control custom-radio custom-control-inline">
-                        <input className="form-check-input" onChange={this.setActive} type="radio" value={5} name="scale_5" checked={currentInput === 5} />
-                        <label className="form-check-label">5</label>
-                    </div>
+                    {/* Lol */}
+                    {[2,3,4,5].map(scaleAmount => {
+                        return (<div key={scaleAmount} className="custom-control custom-radio custom-control-inline">
+                            <input className="form-check-input" onChange={this.setActive} type="radio" value={scaleAmount} name="scale_2" checked={currentInput === scaleAmount} />
+                            <label className="form-check-label" htmlFor={'scale_' + scaleAmount}>{scaleAmount}</label>
+                        </div>)
+                    })}
                 </div>
                 <div className="col-sm-6 offset-md-3">
                     <FormGroup>
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <div className="input-group-prepend">
                             <span className="input-group-text">
                                 <i className="fa fa-tachometer mr-2"></i> 1
@@ -103,10 +102,9 @@ class ScaleContainer extends Component {
                         <FormControl value={firstOfObject(options)} onChange={this.setFirstScaleText} placeholder="Example: Poor" />
                     </div>
                     </FormGroup>
-
                 </div>
                 <div className="col-sm-6 offset-md-3">
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <div className="input-group-prepend">
                             <span className="input-group-text">
                                 <i className="fa fa-tachometer mr-2"></i> {currentInput}

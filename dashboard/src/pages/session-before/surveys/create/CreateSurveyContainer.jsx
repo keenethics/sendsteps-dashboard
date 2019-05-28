@@ -3,8 +3,8 @@ import SurveyNameContainer from './SurveyNameContainer'
 import './CreateSurveyContainer.scss'
 import { connect } from 'react-redux';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
-import Toggle from 'react-bootstrap-toggle';
-import DefaultToggle from '../../../../components/common/inputs/toggle/DefaultToggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class CreateSurveyContainer extends Component {
 
     render() {
@@ -20,7 +20,7 @@ class CreateSurveyContainer extends Component {
                         <label className="col-form-label" >Show Survey</label>
                     </div>
                     <div className="col-sm-6">
-                    <DefaultToggle
+                    <Switch
                         offstyle={'secondary'}
                         onClick={this.props.toggleSurveyActive}
                         on={<span><i className="fa fa-check"></i> Yes</span>}

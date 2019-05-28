@@ -6,8 +6,6 @@ class CheckboxContainer extends Component {
 
         const { options, updateOptions, addOption, deleteOption, optionsLoaded } = this.props
 
-        console.log(options)
-
         return (
             <div className="col-sm-9">
                 {options && Object.keys(options).map(key => {

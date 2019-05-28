@@ -88,3 +88,25 @@ export function idToAssociative(list) {
     });
     return assocList;
 }
+
+export function swapOrder(list, property, sourceOrder, destinationOrder) {
+    let newList = [ ...list ];
+    const placeholder = newList.splice(sourceOrder - 1, 1)[0]
+    placeholder[property] = destinationOrder
+
+    newList.forEach((question, index) => {
+        let newOrder = index + 1
+        if(newOrder >= destinationOrder) {
+            newOrder = index + 2
+        }
+        question[property] = newOrder
+    })
+    newList.push(placeholder)
+    return newList;
+}
+
+export function sortByProperty(property, list) {
+    return list.sort((a, b) =>     {
+        return a[property] - b[property];
+    })
+}

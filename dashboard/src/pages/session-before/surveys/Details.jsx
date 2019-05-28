@@ -5,10 +5,10 @@ import moment from 'moment';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { get, post } from "../../../scripts/api";
-import CreateQuestionContainer from "./question/CreateQuestionContainer";
 import SurveyNameContainer from "./create/SurveyNameContainer";
 import { toast } from "react-toastify";
 import './Details.scss'
+import SurveyQuestionWrapper from "./question/SurveyQuestionWrapper";
 class SurveyDetails extends React.Component {
 
     componentDidMount() {
@@ -69,7 +69,7 @@ class SurveyDetails extends React.Component {
                             <hr />
                             <SurveyNameContainer name={surveyDetails.survey_name} />
                             <hr className="mb-0"/>
-                            <CreateQuestionContainer />
+                            <SurveyQuestionWrapper />
                         </div>
                     </div>}
                     <BottomSaveBar disabled={surveyDetails && surveyDetails.survey_name.length < 3} onSave={this.saveSettings} />

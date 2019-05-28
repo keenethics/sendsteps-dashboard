@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FormControl } from 'react-bootstrap'
-import { firstOfObject } from '../../../../../../scripts/arrayHelper';
+import { firstOfObject } from 'App/scripts/arrayHelper';
 
 class ExplanationContainer extends Component {
 

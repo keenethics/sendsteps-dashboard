@@ -24,7 +24,6 @@ class Surveys extends NovaAPI {
         if(isset($request->id)){
             $surveyModel = $this->loadModel('surveys');
             $results = $surveyModel->getActiveById($request->id);
-    
             return json_encode(['content' => $results[0]]);           
         }
         return false;        
@@ -76,35 +75,26 @@ class Surveys extends NovaAPI {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
         $surveyQuestionTypesModel = $this->loadModel('surveyquestiontypes');
-
-        if(!isset($request->surveyQuestionId)) {
+        if(!isset($request->question->survey_question_id)) {
             $updatedSurveyQuestionId = $surveyQuestionModel->createQuestion(
                 $request->question,
-                $request->typeId,
-                $request->required,
-                $request->surveyId,
-                $request->order,
                 $this->getUserSessionId()
             );
         } 
         else 
         {
             $updatedSurveyQuestionId = $surveyQuestionModel->updateQuestion(
-                $request->surveyQuestionId,
-                $request->question,
-                $request->typeId,
-                $request->required,
-                $request->order
+                $request->question
             );
         }
-
         if($updatedSurveyQuestionId) {
             $surveyQuestionOptionModel->deleteOptions($updatedSurveyQuestionId);
-            if(count((array) $request->surveyQuestionOptions) > 0 && strlen(array_values((array) $request->surveyQuestionOptions)[0]) > 0) {
-                $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $request->typeId, $request->surveyQuestionOptions);
+            if(!!count((array) $request->question->options) && strlen(array_values((array) $request->question->options)[0]) > 0) {
+                $surveyQuestionOptionModel->addOptions($updatedSurveyQuestionId, $request->question->survey_question_type_id, $request->question->options);
             }
             $survey = $surveyQuestionModel->getById($updatedSurveyQuestionId);
-            return json_encode($survey);
+            $request->id = $request->question->survey_id;
+            return $this->getQuestions($request);
         }
         return false;
     }
@@ -121,19 +111,23 @@ class Surveys extends NovaAPI {
 
     public function getQuestions(Request $request) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
-        return json_encode($surveyQuestionModel->getBySurveyId($request->id));
+        $surveyQuestions = $surveyQuestionModel->getBySurveyId($request->id);
+        foreach($surveyQuestions as $key => $question) {
+            $surveyQuestions[$key]['options'] = $this->getQuestionOptions($question['survey_question_id']);
+        }
+        return json_encode($surveyQuestions);
     }
 
     public function updateSurveyName(Request $request) {
         $surveyModel = $this->loadModel('surveys');
         if($surveyModel->updateSurveyNameById($request->id, $request->surveyName)) {
-            return $this->getDetails($request->id);
+            return $this->getDetails($request);
         }
     }
 
-    public function getQuestionOptions(Request $request) {
+    public function getQuestionOptions($questionId) {
         $surveyQuestionOptionModel = $this->loadModel('surveyquestionoptions');
-        return json_encode($surveyQuestionOptionModel->getByQuestionId($request->id));
+        return $surveyQuestionOptionModel->getByQuestionId($questionId);
     }
 
     private function getUpdateSurveyStatusFields($currentSurvey, $newStatus) {
@@ -166,7 +160,8 @@ class Surveys extends NovaAPI {
     public function updateOrder(Request $request) {
         $surveyQuestionModel = $this->loadModel('surveyquestions');
         if($surveyQuestionModel->updateOrder($request->idPositions)) {
-            return $this->getQuestions($request->surveyId);
+            $request->id = $request->surveyId;
+            return $this->getQuestions($request);
         }
     }
 

@@ -19,8 +19,8 @@ class DeleteIdentificationQuestionModal extends Component {
             'audienceidentification',
             'deleteIdentificationQuestion',
             { id: deleteIdentificationQuestionId },
-            () => {
-                this.props.getQuestions()
+            questions => {
+                this.props.setQuestions(questions);
                 this.props.dispatch(setDeletingIdentificationId(null))
                 toast("Identification question removed!")
             },

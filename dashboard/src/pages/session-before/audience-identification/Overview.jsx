@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setAudienceData } from './actions';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
@@ -8,9 +7,9 @@ import TooltipNotification from '../../../components/common/TooltipNotification'
 import { toggleModal } from '../../../actions/app';
 import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
-import CreateQuestionContainer from './question/CreateQuestionContainer';
+import IdentificationQuestionWrapper from './question/IdentificationQuestionWrapper';
 import './Overview.scss'
-import Toggle from 'react-bootstrap-toggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
 
 class AudienceOverview extends React.Component {
 
@@ -67,7 +66,7 @@ class AudienceOverview extends React.Component {
                         <p>Be able to identify your audience by requesting attendee information upon starting a session.</p>
                         <p>As such you’ll be able to match responses with respondents. Alternatively, let attendees respond anonymous to ensure authentic feedback throughout your session.</p>
                     </span>}/>
-                <div className="container-fluid">
+                <div className="container-fluid mb-3">
                     <div className="row">
                         <div className="col-md-6">
                             <div className="card">
@@ -87,7 +86,7 @@ class AudienceOverview extends React.Component {
                                                 </TooltipNotification>
                                             </label>
                                             <br/>
-                                            <Toggle
+                                            <Switch
                                                 size="sm"
                                                 offstyle="secondary"
                                                 onClick={() => this.toggleAnonymous(!isAnonymous)}
@@ -98,7 +97,7 @@ class AudienceOverview extends React.Component {
                                         </div>
                                     </div>
                                     <hr className="mb-0"/>
-                                    {!isAnonymous && <CreateQuestionContainer />}
+                                    {!isAnonymous && <IdentificationQuestionWrapper />}
                                 </div>
                             </div>
                         </div>
@@ -106,7 +105,6 @@ class AudienceOverview extends React.Component {
                         <ResponseSiteContainer  /* Pass selected url, if nothings selected, don't render response site */ />
                         </div>
                     </div>
-                    <BottomSaveBar />
                     <DefaultModal 
                         title={"Are you sure?"}
                         content={<p>Your audience will be tracked individually during the session</p>}
