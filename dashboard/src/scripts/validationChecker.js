@@ -4,7 +4,7 @@ export function isValidEmail(email) {
 }
 
 export function isValidName(name) {
-    return name.length > 0 && name.length < 255;
+    return name.length > 1 && name.length < 255;
 }
 
 export function isValidPassword(password) {
@@ -47,5 +47,5 @@ export function isEqual(first, second) {
     Return Bootstrap 4 valid/invalid input classname
 */
 export function getValidationState(value, validator) {
-    return value.length ? (validator(value) ? " is-valid" : " is-invalid") : "";
+    return !!value.length ? (validator(value) ? " is-valid" : " is-invalid") : "";
 }

@@ -4,23 +4,25 @@ import { ListGroupItem } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 class MenuItem extends Component {
+
     render() {
 
         const { menuOpened, menuText, faIconClass } = this.props;
 
-        return (
+    return (
             <div className="menu-item">
-                <TooltipNotification placement="right" tooltip={menuText} title={menuText} delay={menuOpened ? 133337 : 150}>
+                <TooltipNotification placement="left-end" tooltip={menuText} title={menuText} delay={menuOpened ? (1337 * 1337) : 150}>
                     <Link to={this.props.link}>
                         <ListGroupItem>
-                            <i className={"fa " + faIconClass}></i> 
-                            <span className="text">
+                            <i className={" fa " + faIconClass}></i> 
+                            <span className="text pl-3">
                                 {menuText}
                             </span>
                         </ListGroupItem>
                     </Link>
                 </TooltipNotification>
             </div>
+
         )
     }
 }

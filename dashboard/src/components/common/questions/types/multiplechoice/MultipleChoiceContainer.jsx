@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import MultipleChoiceOption from './MultipleChoiceOption';
-
+import $ from 'jquery';
 class MultipleChoiceContainer extends Component {
+
+    deleteOption = key => {
+        const optionToDelete = document.getElementById('mpc_option_' + key);
+        const opts = $(optionToDelete).closest(".mpc-opts").find(':input');
+        opts[opts.length - 1].focus();
+        this.props.deleteOption(key)
+    }
 
     render() {
 
-        const { options, updateOptions, addOption, deleteOption, optionsLoaded } = this.props
+        const { options, updateOptions, addOption, optionsLoaded } = this.props
 
         return (
-            <div className="col-sm-9">
+            <div className="col-sm-9 mpc-opts">
                 {options && Object.keys(options).map(key => {
                     return (
                     <span key={key}>
@@ -16,7 +23,7 @@ class MultipleChoiceContainer extends Component {
                             optionsLoaded={optionsLoaded}
                             setOptionText={updateOptions}
                             addOption={addOption}
-                            deleteOption={() => deleteOption(key)}
+                            deleteOption={() => this.deleteOption(key)}
                             optionKey={key}
                             option={options[key]} 
                         />

@@ -8,7 +8,7 @@ class TextContainer extends Component {
                 <div className="input-group input-group-sm">
                     <div className="input-group-prepend">
                     <span className="input-group-text">
-                        <i className="fa fa-comment-o"></i>
+                        <i className="fa fa-comment-o px-2"></i>
                     </span>
                     </div>
                     <FormControl disabled={true} placeholder="Their Answer" />

@@ -7,6 +7,8 @@ import LoadingPlaceholder from 'App/pages/base/LoadingPlaceholder';
 import { sortByProperty, swapOrder } from 'App/scripts/arrayHelper';
 import { setDeletingIdentificationId } from 'App/pages/session-before/audience-identification/actions';
 import { connect } from 'react-redux';
+import { Collapse } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 class IdentificationQuestionWrapper extends Component {
 
     allowedTypes = {
@@ -45,7 +47,7 @@ class IdentificationQuestionWrapper extends Component {
         )
     }
 
-    saveQuestion = question => {
+    saveQuestion = (question, callBack) => {
         const { id } = this.questionProps;
 
         post(
@@ -59,7 +61,10 @@ class IdentificationQuestionWrapper extends Component {
                 //     this.setState({question: this.mapQuestionProps()})
                 // }
                 this.setQuestions(questions)
-                // toast("Identification question saved!")
+                if(callBack) {
+                    callBack()
+                }
+                toast("Question saved!")
             },
             err => {
                 // toast("Unable to save identification question")
@@ -116,6 +121,8 @@ class IdentificationQuestionWrapper extends Component {
         
         return (
             <>
+                <Collapse timeout={250} in={!!questions}>
+                    <div>
                 {questions && 
                 <>
                     <DragDropContext onDragEnd={res => this.onDragEnd(res)} >
@@ -131,6 +138,8 @@ class IdentificationQuestionWrapper extends Component {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
                                             <Question 
+                                                index={index}
+                                                
                                                 saveQuestion={this.saveQuestion}
                                                 deleteQuestion={this.deleteQuestion}
                                                 setQuestions={this.setQuestions}
@@ -158,6 +167,8 @@ class IdentificationQuestionWrapper extends Component {
                     <DeleteIdentificationQuestionModal setQuestions={this.setQuestions} />
                 </>}
                 {!questions && <LoadingPlaceholder />}
+                </div>
+                </Collapse>
             </>
         );
     }

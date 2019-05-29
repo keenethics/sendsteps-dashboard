@@ -68,14 +68,14 @@ class AudienceOverview extends React.Component {
                     </span>}/>
                 <div className="container-fluid mb-3">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
                             <div className="card">
                                 <div className="card-body">
                                     <h3>How to identify your participants?</h3>
                                     <hr/>
                                     <div className="row">
                                         <div className="col-sm-12 px-3">
-                                            <label className="col-form-label col-form-label-sm">How to Participate <TooltipNotification 
+                                            <label className="col-form-label col-form-label-sm mb-2">How to Participate <TooltipNotification 
                                                 title={"How to Participate"}
                                                 tooltip={
                                                     <span className="text-left">
@@ -88,6 +88,7 @@ class AudienceOverview extends React.Component {
                                             <br/>
                                             <Switch
                                                 size="sm"
+                                                style={{width: '150px'}}
                                                 offstyle="secondary"
                                                 onClick={() => this.toggleAnonymous(!isAnonymous)}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
@@ -101,7 +102,7 @@ class AudienceOverview extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12">
                         <ResponseSiteContainer  /* Pass selected url, if nothings selected, don't render response site */ />
                         </div>
                     </div>

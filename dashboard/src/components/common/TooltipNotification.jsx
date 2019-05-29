@@ -9,6 +9,7 @@ class TooltipNotification extends Component {
 
         return (
                 <OverlayTrigger 
+                    style={{position: 'relative'}}
                     overlay={<Tooltip id={title}>{tooltip}</Tooltip>}
                     delay={delay || 150}
                     placement={placement || "right"} >

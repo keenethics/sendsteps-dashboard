@@ -67,12 +67,12 @@ class SurveyDetails extends React.Component {
                         <div className="card-body">
                             <h3>Edit Survey</h3>
                             <hr />
-                            <SurveyNameContainer name={surveyDetails.survey_name} />
+                            <SurveyNameContainer setName={this.saveSettings} name={surveyDetails.survey_name} />
                             <hr className="mb-0"/>
                             <SurveyQuestionWrapper />
                         </div>
                     </div>}
-                    <BottomSaveBar disabled={surveyDetails && surveyDetails.survey_name.length < 3} onSave={this.saveSettings} />
+                    <BottomSaveBar noSave={true} />
                 </div>
             </div>
         );

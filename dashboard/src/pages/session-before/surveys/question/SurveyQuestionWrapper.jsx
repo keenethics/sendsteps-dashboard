@@ -7,6 +7,7 @@ import Question from 'App/components/common/questions/Question';
 import { sortByProperty, swapOrder } from 'App/scripts/arrayHelper';
 import { setDeletingSurveyQuestionId } from 'App/pages/session-before/surveys/actions';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 
 class SurveyQuestionWrapper extends Component {
 
@@ -49,18 +50,12 @@ class SurveyQuestionWrapper extends Component {
             'surveys',
             'getQuestions',
             { id: this.props.match.params.id },
-            questions => this.setState({
-                questions: sortByProperty(this.questionProps.order, questions), 
-                error: null
-            }),
-            error => this.setState({
-                error, 
-                questions: null
-            }) 
+            questions => this.setQuestions(questions),
+            error => console.log(error) 
         )
     }
 
-    saveQuestion = question => {
+    saveQuestion = (question, callBack) => {
         question.survey_id = this.props.match.params.id;
         if(isNaN(question.survey_question_type_id)) {
             question.survey_question_type_id = Object.keys(this.allowedTypes).indexOf(question.survey_question_type_id) + 1;
@@ -69,14 +64,12 @@ class SurveyQuestionWrapper extends Component {
             'surveys',
             'createSurveyQuestion',
             { question },
-            // instead of empty response update all questions
             questions => {
-                // this.setState({optionsExpanded: false})
-                // if(!question[id]) {
-                //     this.setState({question: this.mapQuestionProps()})
-                // }
-                this.setState({questions})
-                // toast("Identification question saved!")
+                this.setQuestions(questions)
+                if(callBack) {
+                    callBack()
+                }
+                toast("Question saved!");
             },
             err => {
                 // toast("Unable to save identification question")
@@ -94,15 +87,18 @@ class SurveyQuestionWrapper extends Component {
             'surveys',
             'updateOrder',
             { idPositions, surveyId: this.props.match.params.id },
-            orderedQuestions => this.setState({
-                questions: sortByProperty(this.questionProps.order, orderedQuestions), 
-                error: null
-            }),
-            // error => this.setState({
-            //     error, 
-            //     questions: null
-            // })
+            orderedQuestions => this.setQuestions(orderedQuestions),
+            error => console.log(error)
         )
+    }
+
+    setQuestions = (questions, callBack) => {
+        this.setState({
+            questions: sortByProperty(
+                this.questionProps.order,
+                questions
+            )
+        }, () => callBack ? callBack() : []);
     }
 
     onDragEnd = result => {
@@ -119,9 +115,7 @@ class SurveyQuestionWrapper extends Component {
                 result.destination.index
             )
         )
-        this.setState({
-            questions
-        }, () => this.updateOrder());
+        this.setQuestions(questions, this.updateOrder);
     }
     
     render() {
@@ -143,6 +137,7 @@ class SurveyQuestionWrapper extends Component {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
                                             <Question 
+                                                index={index}
                                                 saveQuestion={this.saveQuestion}
                                                 deleteQuestion={this.deleteQuestion}
                                                 isDroppable={!!snapshot.draggingOver} 

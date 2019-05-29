@@ -176,6 +176,8 @@ class ProfileOverview extends React.Component {
         const { userDetails, accountDetails } = this.props;
         const { timezones, countries, errors, isUpdating } = this.state;
 
+        const isLoaded = (!!userDetails && !!accountDetails)
+
         return (
             <div>
                 <HeaderPanel 
@@ -197,6 +199,7 @@ class ProfileOverview extends React.Component {
                                     </p>
                                 </div>
                                 <ImageUploadField 
+                                    disabled={!isLoaded}
                                     setBase64File={this.setBase64File}
                                     setImage={this.setImage}
                                     userImage={itemPropsToString(userDetails, 'filename')} 
@@ -220,6 +223,7 @@ class ProfileOverview extends React.Component {
                                             </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onBlur={this.validateFirstName}
                                                 onChange={value => this.updateUserData('firstName', value)}
                                                 value={itemPropsToString(userDetails, 'firstName')} 
@@ -241,6 +245,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onBlur={this.validateLastName}
                                                 onChange={value => this.updateUserData('lastName', value)}
                                                 value={itemPropsToString(userDetails, 'lastName')} 
@@ -264,6 +269,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('university', value)}
                                                 value={itemPropsToString(accountDetails, 'university')} 
                                                 placeholder="Enter your Organisation" 
@@ -282,6 +288,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateUserData('departmentName', value)}
                                                 value={itemPropsToString(userDetails, 'departmentName')} 
                                                 placeholder="Enter your Department" 
@@ -303,6 +310,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 value={itemPropsToString(userDetails, 'role')} 
                                                 className="form-control" 
                                                 disabled="disabled" 
@@ -321,6 +329,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input
+                                                disabled={!isLoaded}
                                                 onBlur={this.validateEmail}
                                                 onChange={value => this.updateUserData('email', value)}
                                                 value={itemPropsToString(userDetails, 'email')} 
@@ -344,6 +353,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateUserData('phonenumber', value)}
                                                 value={itemPropsToString(userDetails, 'phonenumber')} 
                                                 placeholder="Enter your phonenumber" 
@@ -363,6 +373,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <select 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateUserData('language', value)}
                                                 value={itemPropsToString(userDetails, 'language')} 
                                                 className="form-control" id="language">
@@ -388,6 +399,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('address', value)}
                                                 value={itemPropsToString(accountDetails, 'address')} 
                                                 placeholder="Enter your Address" 
@@ -407,6 +419,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('postalCode', value)}
                                                 value={itemPropsToString(accountDetails, 'postalCode')} 
                                                 placeholder="Enter your Postal Code" 
@@ -428,6 +441,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('city', value)}
                                                 value={itemPropsToString(accountDetails, 'city')} 
                                                 placeholder="Enter your City" 
@@ -447,6 +461,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <select 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('country', value)}
                                                 value={itemPropsToString(accountDetails, 'country')} 
                                                 className="form-control" 
@@ -471,6 +486,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <select 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('timezone', value)}
                                                 value={itemPropsToString(accountDetails, 'timezone')} 
                                                 className="form-control" 
@@ -495,6 +511,7 @@ class ProfileOverview extends React.Component {
                                                 </span>
                                             </div>
                                             <input 
+                                                disabled={!isLoaded}
                                                 onChange={value => this.updateAccountData('vatId', value)}
                                                 value={itemPropsToString(accountDetails, 'vatId')} 
                                                 placeholder="Enter your VAT ID"  
@@ -506,7 +523,7 @@ class ProfileOverview extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <BottomSaveBar loading={isUpdating} onSave={this.saveChanges} />  
+                    <BottomSaveBar disabled={!isLoaded} loading={isUpdating} onSave={this.saveChanges} />  
                 </div>
             </div>
         )

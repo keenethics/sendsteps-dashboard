@@ -29,7 +29,7 @@ class SurveysOverview extends React.Component {
                     surveyStatus: res.status,
                     surveyURL: res.url
                 })
-                this.props.dispatch(setSurveyData(res))
+                this.props.dispatch(setSurveyData(res.content))
             },
             err => console.log(err)
         )
@@ -81,7 +81,7 @@ class SurveysOverview extends React.Component {
                 status: newStatus
             },
             res => {
-                this.props.dispatch(setSurveyData(res))
+                this.props.dispatch(setSurveyData(res.content))
                 toast("Survey Status updated!")
             },
             error => console.log(error)
@@ -122,7 +122,6 @@ class SurveysOverview extends React.Component {
                             </p>}
                             {surveys && 
                             <OverviewTable 
-                                data={surveys.content} 
                                 updateSurveyStatus={this.updateSurveyStatus} 
                             />}
                         </div>

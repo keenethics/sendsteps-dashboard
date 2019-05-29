@@ -56,7 +56,6 @@
 		}
     }
     .list-group-item {
-        padding:16px 4px 12px 48px;
         text-align:left;
         transition: $defaultAnimation;
         border-radius: 0px !important;
@@ -66,11 +65,11 @@
         border-top:none;
         border-right:none;
         border-left:none;
+        padding-left: 23px;
         .text {
             color: #9dbbd2;
         }
         i {
-            left: -24px;
             position: relative;
         }
         .fa {

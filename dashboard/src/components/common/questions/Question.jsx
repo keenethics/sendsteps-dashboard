@@ -6,6 +6,8 @@ import OptionTypeContainer from 'App/components/common/questions/types/OptionTyp
 import { generateKey } from 'App/scripts/arrayHelper';
 import 'App/components/common/questions/Question.scss';
 import Switch from 'App/components/common/inputs/switch/Switch';
+import TooltipNotification from 'App/components/common/TooltipNotification';
+import { getValidationState, isValidName } from 'App/scripts/validationChecker';
 
 class Question extends Component {
 
@@ -146,15 +148,12 @@ class Question extends Component {
         const { id } = this.props.questionProps;
 
         // this.setState({optionsExpanded: false})
-
-        setTimeout(() => {
+        this.props.saveQuestion(question, () => {
+            this.setState({optionsExpanded: false})
             if(!question[id]) {
-                this.resetState();
+                this.setState({question: { ...this.mapQuestionProps()}} )
             }
-        }, 75)
-        this.setState({optionsExpanded: false})
-        this.props.saveQuestion(question)
-       
+        })
     }
 
     /* 
@@ -177,7 +176,7 @@ class Question extends Component {
             checkbox: 'check-square-o',
             scale: 'balance-scale',
             paragraph: 'paragraph',
-            explanation: 'info'
+            explanation: 'info mx-1'
         }
         return 'fa fa-' + iconList[currentType.key]
     }
@@ -230,6 +229,12 @@ class Question extends Component {
         this.updateQuestionProperties({options})
     }
 
+    isValidQuestion = () => {
+        const { question } = this.state
+        const { text } = this.props.questionProps;
+        return !question[text].length || question[text].length >= 3
+    }
+
     translateToType = (types, actualType) => {
         let currentType = { }
         if(types.hasOwnProperty(actualType)) {
@@ -242,10 +247,16 @@ class Question extends Component {
         return currentType
     }
 
+    isExpanded = () => {
+        const{ optionsExpanded, question } = this.state;
+        const { id, text } = this.props.questionProps;
+        return optionsExpanded || (!question[id] && !!question[text].length)
+    }
+
     render() {
 
         const { question, optionsExpanded } = this.state
-        const { types, questionProps } = this.props
+        const { types, questionProps, index } = this.props
         const { id, text, required, type } = questionProps
         const currentType = this.translateToType(types, question[type]);
 
@@ -261,11 +272,12 @@ class Question extends Component {
                     <div className="col-sm-9">
                         <div className="input-group input-group-sm">
                             <div className="input-group-prepend">
-                                <span className="input-group-text">
+                                <span className="input-group-text px-3">
                                     <i className={this.getQuestionIconClassName(currentType)}></i>
                                 </span>
                             </div>
-                            <input className="form-control" 
+                            <input 
+                                className={"form-control " + (this.isExpanded() ? getValidationState(question[text], this.isValidQuestion) : '')}
                                 value={question[text]}
                                 disabled={this.titleDisabled()}
                                 type="text"
@@ -274,26 +286,35 @@ class Question extends Component {
                             />
                             <div className="input-group-append">
                                 {(!question[id] ? false : !optionsExpanded) && <>
-                                    <button onClick={this.editQuestion} className="btn btn-sm btn-primary">
-                                        <i className="fa fa-pencil"></i> 
+                                    <button onClick={this.editQuestion} className="btn btn-sm btn-warning">
+                                        <TooltipNotification tooltip="Edit Question" placement="top">
+                                            <i className="fa fa-pencil-square-o px-1"></i> 
+                                        </TooltipNotification>
                                     </button>
                                 </>}
                                 {this.shouldShowSaveButton() && <>
-                                    <button onClick={this.saveQuestion} className="btn btn-sm btn-success">
-                                        <i className="fa fa-check"></i> 
-                                    </button>
+                                <button disabled={!(question[text].length >= 3)} onClick={this.saveQuestion} className="btn btn-sm btn-success">
+                                    <TooltipNotification tooltip="Save Options" placement="top">
+                                        <i className="fa fa-save px-1"></i> 
+                                    </TooltipNotification>
+                                </button>
                                 </>}
                                 {}
                                 {(!!question[id]) && <>
-                                    <button onClick={this.deleteQuestion} className="btn btn-sm btn-danger">
-                                        <i className="fa fa-trash"></i> 
-                                    </button>
+                                <button onClick={this.deleteQuestion} disabled={!index} className="btn btn-sm btn-danger">
+                                    <TooltipNotification tooltip="Remove Question" placement="top">
+                                        <i className="fa fa-trash px-1"></i>
+                                    </TooltipNotification>
+                                </button>
                                 </>}
                             </div>
+                            {!this.isValidQuestion() && <span className="invalid-feedback d-inline py-1">
+                                <i className="fa fa-exclamation-triangle fa-xs"></i> Please enter at least three characters.
+                            </span>}
                         </div>
                     </div>
                 </div>
-                <Collapse in={optionsExpanded || (!question[id] && !!question[text].length)}>
+                <Collapse timeout={1500} in={this.isExpanded()}>
                     <div>
                         <div>
                             <div className="form-group row">
@@ -303,7 +324,7 @@ class Question extends Component {
                                 <div className="col-sm-9">
                                     <div className="input-group input-group-sm">
                                         <div className="input-group-prepend">
-                                            <span className="input-group-text">
+                                            <span className="input-group-text px-3">
                                                 <i className="fa fa-list"></i>
                                             </span>
                                         </div>

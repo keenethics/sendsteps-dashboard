@@ -24,7 +24,11 @@ $titleFont : 'Roboto Slab',sans-serif;
 
 html {
   overflow-y: scroll !important;
-  overflow-x: hidden;
+}
+
+// Prevent modals from pushing the screen
+body {
+  padding-right: 0px !important;
 }
 
 html, body, .App, .wrapper, #root {

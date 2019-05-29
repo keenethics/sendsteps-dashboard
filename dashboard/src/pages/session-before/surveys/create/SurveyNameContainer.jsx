@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { toast } from 'react-toastify'
 import { get } from '../../../../scripts/api';
 import { setSurveyData, setSurveyDetails } from '../actions'
+import { getValidationState, isValidName } from 'App/scripts/validationChecker';
 
 class SurveyNameContainer extends Component {
 
@@ -13,10 +14,7 @@ class SurveyNameContainer extends Component {
     }
 
     isSurveyNameValid = () => {
-        if(this.state.surveyName.length < 3) {
-            return false
-        }
-        return true
+        return (this.state.surveyName.length > 3 || (this.props.name && this.props.name.length > 3))
     }
 
     validateSurveyName = () => {
@@ -24,6 +22,14 @@ class SurveyNameContainer extends Component {
             this.clearError()
         } else {
             this.setNameError()
+        }
+    }
+
+    updateName = () => {
+        if(this.isSurveyNameValid()) {
+            this.props.setName();
+        } else {
+            this.validateSurveyName();
         }
     }
 
@@ -73,8 +79,8 @@ class SurveyNameContainer extends Component {
             'surveys',
             'addSurvey',
             { name: surveyName },
-            newData => {
-                this.props.dispatch(setSurveyData(newData))
+            result => {
+                this.props.dispatch(setSurveyData(result.content))
                 toast("Created new Survey!")
                 this.clearData()
             },
@@ -99,30 +105,36 @@ class SurveyNameContainer extends Component {
         return (
             <div className="form-group row px-3">
                     <div className="col-sm-3">
-                        <label className="col-form-label">Survey Name</label>
+                        <label className="col-form-label col-form-label-sm">Survey Name</label>
                     </div>
                     <div className="col-sm-6">
-                        <div className="input-group input-group-lg">
+                        <div className="input-group input-group-sm">
                             <div className="input-group-prepend">
                                 <span className="input-group-text">
-                                    <i className="fa fa-list"></i>
+                                    <i className="fa fa-list px-2"></i>
                                 </span>
                             </div>
                             <input
                                 onBlur={this.validateSurveyName}
                                 type="text"
                                 value={name ? name : surveyName}
-                                placeholder="Survey Name"
+                                placeholder="Enter a Survey name"
                                 onChange={this.setSurveyName}
-                                className={'form-control ' + (this.isSurveyNameValid() ? 'is-valid' : '')}
+                                className={'form-control ' + getValidationState(name ? name : surveyName, this.isSurveyNameValid)}
                             />
                         </div>
-                        {!!error && <span className="invalid-feedback"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
+                        {!!error && <span className="invalid-feedback d-inline"><i className="fa fa-exclamation-triangle fa-xs"></i> {error}</span>}
                     </div>
                     {create && 
                     <div className="col-sm-3 text-right">
-                        <button type="button" className="btn btn-lg btn-success" disabled={!this.isSurveyNameValid()} onClick={this.checkIfValidAndCreateNew}>
+                        <button type="button" className="btn btn-sm btn-success" disabled={!this.isSurveyNameValid()} onClick={this.checkIfValidAndCreateNew}>
                             <i className="fa fa-plus-square"></i> Create new Survey
+                        </button>
+                    </div>}
+                    {!create && 
+                    <div className="col-sm-3 text-right">
+                        <button type="button" className="btn btn-sm btn-success" disabled={!this.isSurveyNameValid()} onClick={this.updateName}>
+                            <i className="fa fa-save mr-1"></i> Update Survey Name
                         </button>
                     </div>}
             </div>

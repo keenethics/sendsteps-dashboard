@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { get } from '../../../../scripts/api';
-import { setDeleteSurveyId } from '../actions'
+import { get } from 'App/scripts/api';
+import { setDeleteSurveyId, setSurveyData } from '../actions'
 import { Modal, Button } from 'react-bootstrap'
-import { setSurveyData } from '../../../session-results/surveys/actions';
 import { toast } from 'react-toastify';
 
 class DeleteSurveyModal extends Component {
@@ -17,8 +16,7 @@ class DeleteSurveyModal extends Component {
             'deleteSurvey',
             { id: deleteSurveyId },
             result => {
-                console.log(result)
-                this.props.dispatch(setSurveyData(result))
+                this.props.dispatch(setSurveyData(result.content))
                 this.props.dispatch(setDeleteSurveyId(null))
                 toast("Survey deleted!")
             },

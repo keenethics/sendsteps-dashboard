@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FormGroup, InputGroup, FormControl } from "react-bootstrap";
+import TooltipNotification from 'App/components/common/TooltipNotification';
 
 class CheckboxOption extends Component {
 
@@ -21,7 +22,6 @@ class CheckboxOption extends Component {
             deleteOption(optionKey)
             addedNext = false
         }
-
         this.setState({ addedNext })
     }
 
@@ -34,6 +34,14 @@ class CheckboxOption extends Component {
         return !Number.isInteger(parseInt(key, 10))
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.optionKey) {
+            if(!this.isGeneratedKey(nextProps.optionKey)) {
+                this.setState({addedNext: true})
+            }
+        }
+    }
+
     render() {
 
         const { addedNext } = this.state
@@ -43,14 +51,18 @@ class CheckboxOption extends Component {
             <FormGroup>
                 <div className="input-group input-group-sm">
                     <div className="input-group-prepend disabled">
-                        <div className="input-group-text">
+                        <div className="input-group-text px-3">
                             <input type="radio" disabled="disabled" />
                         </div>
                     </div>
-                    <FormControl placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
+                    <FormControl id={'check_option_' + optionKey} placeholder="Answer Option" value={option} onChange={this.setOptionText} type="text" />
                     {(addedNext || !this.isGeneratedKey(optionKey)) &&
                     <div onClick={this.deleteOption} className="input-group-append">
-                        <button className="btn btn-sm btn-outline-danger"><i className="fa fa-trash"></i> Delete</button>
+                        <button className="btn btn-sm btn-outline-danger">
+                            <TooltipNotification tooltip="Remove Option">
+                                <i className="fa fa-trash px-1"></i>
+                            </TooltipNotification>
+                        </button>
                     </div>}
                 </div>
             </FormGroup>

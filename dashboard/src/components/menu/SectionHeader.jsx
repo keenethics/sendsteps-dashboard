@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import './SectionHeader.scss';
 
 class SectionHeader extends Component {
+
     render() {
         return (
             <div className={"section-header"}>

@@ -55,7 +55,7 @@ export default class ImageUploadField extends React.Component {
 
     render() {
 
-        const { colWidth, labelText, userImage } = this.props;
+        const { colWidth, labelText, userImage, disabled } = this.props;
         const { imagePreview, fileName } = this.state;
 
         return (
@@ -63,7 +63,7 @@ export default class ImageUploadField extends React.Component {
                 <label className="col-form-label col-form-label-sm">{labelText || "No labelText selected"}</label>
 
                 <div className="picture-upload">
-                    <span className="pull-right clear-icon" onClick={this.resetState}><i className="fa fa-lg fa-times"></i></span>
+                    <span className="pull-right clear-icon" onClick={this.resetState}><i className="fa fa-xs fa-times"></i></span>
                     {!imagePreview && !userImage && <div className="picture-container">
                         <div className="current-picture">
                             <div className="btn-circle btn-lg">
@@ -88,7 +88,7 @@ export default class ImageUploadField extends React.Component {
                                     <i className="fa fa-file-image-o mr-2"></i> Browse... <input type="file" onChange={this.upload} />
                                 </span>
                             </span>
-                            <input id="profile-img" value={fileName} placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
+                            <input disabled={disabled} id="profile-img" value={fileName} placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
                         </div>
                     </div>
                 </div>  

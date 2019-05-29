@@ -70,7 +70,7 @@ export function formatTypes(dataObject) {
     if(!(typeof dataObject === 'string')) {
         Object.keys(dataObject).forEach(item => {
             const currentItem = dataObject[item];
-            dataObject[item] = (isNaN(currentItem) || !currentItem || !currentItem.length) ? currentItem : parseInt(currentItem, 10)
+            dataObject[item] = (isNaN(currentItem) || !currentItem || !currentItem.length) ? currentItem : currentItem >> 0
             if(isObject(currentItem) && !isNull(currentItem) && !!Object.keys(currentItem).length) {
                 dataObject[item] = formatTypes(currentItem);
             }

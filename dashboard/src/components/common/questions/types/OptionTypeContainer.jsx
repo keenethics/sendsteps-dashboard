@@ -45,7 +45,7 @@ class OptionTypeContainer extends Component {
 
 
         return (
-            <FormGroup>
+            <FormGroup className="mb-0">
                 <div className="row">
                     <div className="col-sm-3">
                     </div>
@@ -82,6 +82,7 @@ class OptionTypeContainer extends Component {
                             <ExplanationContainer 
                                 options={question.options}
                                 updateOptions={this.props.updateSingleOption}
+                                setOptions={this.props.setOptions}
                             />
                         </>}
                 </div>

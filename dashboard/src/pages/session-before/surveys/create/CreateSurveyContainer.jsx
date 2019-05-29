@@ -17,7 +17,7 @@ class CreateSurveyContainer extends Component {
                 <hr />
                 <div className="form-group row px-3">
                     <div className="col-sm-3">
-                        <label className="col-form-label" >Show Survey</label>
+                        <label className="col-form-label col-form-label-sm" >Show Survey</label>
                     </div>
                     <div className="col-sm-6">
                     <Switch
@@ -31,7 +31,7 @@ class CreateSurveyContainer extends Component {
                     <div className="col-sm-3 text-right">
                         {!!surveyStatus && !!surveyURL && <>
                             <TooltipNotification placement="left" tooltip={"(Click to open in new tab)"}>
-                                <button className="btn btn-outline-secondary">
+                                <button className="btn btn-sm btn-outline-secondary">
                                     <a target='_blank' href={surveyURL}><i><i className="fa fa-external-link"></i> Survey Link</i></a>
                                 </button>
                             </TooltipNotification>
