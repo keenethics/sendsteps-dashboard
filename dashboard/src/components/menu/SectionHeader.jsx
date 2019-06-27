@@ -6,7 +6,7 @@ class SectionHeader extends Component {
 
     render() {
         return (
-            <div className={"section-header"}>
+            <div className={"section-header small"}>
                 {this.props.menuOpened ? <p>{this.props.headerText}</p> : null}
             </div>
         )

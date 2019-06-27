@@ -255,16 +255,21 @@ class MessageFilterOverview extends React.Component {
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-body">
-                            <div className="row">
+                            <div className="row mb-3">
                                 <div className="col-md-12">
-                                    <FormGroup controlId="formControlsSelect">
+                                    <label className="col-form-label col-form-label-sm">Current Slide/Question</label>
+                                    <div className="input-group input-group-sm" >
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text">
+                                                <i className="fa fa-question"></i>
+                                            </span>
+                                        </div>
                                         {/* Only Questions that have a type of OPEN ENDED */}
-                                        <label className="col-form-label col-form-label-sm">Current Slide/Question</label>
-                                        <select placeholder="select">
+                                        <select className="form-control" placeholder="select">
                                             <option value="select">Select</option>
                                             <option value="other">...</option>
                                         </select>
-                                    </FormGroup>
+                                    </div>
                                 </div>
                             </div>
                             <div className="row">

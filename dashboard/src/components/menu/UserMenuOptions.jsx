@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signOut } from '../../actions/auth';
+import { signOut } from 'App/actions/auth';
 import { Link } from 'react-router-dom';
-import RoleBadge from '../common/labels/RoleBadge';
+import RoleBadge from 'App/components/common/labels/RoleBadge';
 
 class UserMenuOptions extends Component {
+
+    addinUrl = 'https://update.sendsteps.com/Sendsteps.setup.exe';
 
 
     signOut = () => {
@@ -25,29 +27,28 @@ class UserMenuOptions extends Component {
                         <i className="fa fa-md fa-chevron-down"></i>
                     </button>
                     <div className="dropdown-menu dropdown-menu-right" style={{minWidth: '300px'}} >
-                    <Link to={"/user/edit-profile"} className="dropdown-item">
-                        Edit profile <i className="pt-1 pb-1 float-right fa fa-pencil"></i>
-                    </Link>
-                    <Link to={"/user/edit-profile"} className="dropdown-item">
-                        License & User Info <i className="pt-1 pb-1 float-right fa fa-id-card"></i>
-                    </Link>
-                    <Link to={"/user/edit-profile"} className="dropdown-item">
-                        Change Password <i className="pt-1 pb-1 float-right fa fa-lock"></i>
-                    </Link>
-                    <Link to={"/user/edit-profile"} className="dropdown-item">
-                        Download Sendsteps <i className="pt-1 pb-1 float-right fa fa-download"></i>
-                    </Link>
-                    <Link to={"/user/edit-profile"} className="dropdown-item">
-                        Help <i className="pt-1 pb-1 float-right fa fa-question-circle"></i>
-                    </Link>
-                    <div className="dropdown-divider"></div>
-                    <div onClick={this.signOut} className="dropdown-item">
-                        Sign Out <i className="pt-1 pb-1 float-right fa fa-sign-out"></i>
+                        <Link to={"/user/edit-profile"} className="dropdown-item small">
+                            Edit profile <i className="pt-1 pb-1 float-right fa fa-pencil"></i>
+                        </Link>
+                        <Link to={"/user/edit-profile"} className="dropdown-item small">
+                            License & User Info <i className="pt-1 pb-1 float-right fa fa-id-card"></i>
+                        </Link>
+                        <Link to={"/user/edit-profile"} className="dropdown-item small">
+                            Change Password <i className="pt-1 pb-1 float-right fa fa-lock"></i>
+                        </Link>
+                        <a href={this.addinUrl} target="_blank" className="dropdown-item small">
+                            Download Sendsteps <i className="pt-1 pb-1 float-right fa fa-download"></i>
+                        </a>
+                        <Link to={"/user/edit-profile"} className="dropdown-item small">
+                            Help <i className="pt-1 pb-1 float-right fa fa-question-circle"></i>
+                        </Link>
+                        <div className="dropdown-divider"></div>
+                            <div onClick={this.signOut} className="dropdown-item small">
+                                Sign Out <i className="pt-1 pb-1 float-right fa fa-sign-out"></i>
+                            </div>
                     </div>
                 </div>
-              
-                </div>
-          </span>
+            </span>
         );
     }
 }

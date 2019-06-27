@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MultipleChoiceOption from './MultipleChoiceOption';
 import $ from 'jquery';
+import { Flipper, Flipped } from "react-flip-toolkit";
+
 class MultipleChoiceContainer extends Component {
 
     deleteOption = key => {
@@ -16,19 +18,21 @@ class MultipleChoiceContainer extends Component {
 
         return (
             <div className="col-sm-9 mpc-opts">
-                {options && Object.keys(options).map(key => {
-                    return (
-                    <span key={key}>
-                        <MultipleChoiceOption 
-                            optionsLoaded={optionsLoaded}
-                            setOptionText={updateOptions}
-                            addOption={addOption}
-                            deleteOption={() => this.deleteOption(key)}
-                            optionKey={key}
-                            option={options[key]} 
-                        />
-                    </span>)
-                })}
+                {options && <>
+                    {Object.keys(options).map(key => {
+                        return (
+                        <span key={key}>
+                            <MultipleChoiceOption 
+                                optionsLoaded={optionsLoaded}
+                                setOptionText={updateOptions}
+                                addOption={addOption}
+                                deleteOption={() => this.deleteOption(key)}
+                                optionKey={key}
+                                option={options[key]} 
+                            />
+                        </span>)
+                    })}
+                </>}
             </div>
         );
     }

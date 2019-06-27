@@ -131,17 +131,17 @@ class IncomingToolbar extends Component {
         return (
             <div className="card-footer pt-0">
                 <div>
-                    <button className="btn btn-success mr-2 mt-2" onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1}>Send to Screen</button>
-                    <button className="btn btn-primary mr-2 mt-2" onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1}>Send to Queue</button>
-                    {selectedIncomingIds.length < 1 && <button className="btn btn-outline-secondary mr-2 mt-2"  onClick={() => this.showMessageModal()}>Add Message</button>}
-                    {selectedIncomingIds.length >= 1 && <button className="btn btn-outline-secondary mr-2 mt-2" disabled={selectedIncomingIds.length > 1} onClick={() => this.showEditMessageModal()}>Edit Message</button>}
-                    <button className="btn btn-outline-secondary mr-2 mt-2" onClick={() => this.deleteSelected()} disabled={selectedIncomingIds.length < 1}><i className="fa fa-trash"></i></button>
-                    <button className="btn btn-primary mr-2 mt-2 float-right" onClick={() => this.expandPanel()} >More {incomingPanelExpanded ? <i className="fa fa-chevron-up"></i> : <i className="fa fa-chevron-down"></i>}</button>
+                    <button className="btn btn-sm btn-success mr-2 mt-2" onClick={() => this.sendIdsToScreen()} disabled={selectedIncomingIds.length < 1}>Send to Screen</button>
+                    <button className="btn btn-sm btn-primary mr-2 mt-2" onClick={() => this.sendIdsToQueue()} disabled={selectedIncomingIds.length < 1}>Send to Queue</button>
+                    {!selectedIncomingIds.length && <button className="btn btn-sm btn-outline-secondary mr-2 mt-2"  onClick={() => this.showMessageModal()}>Add Message</button>}
+                    {!!selectedIncomingIds.length && <button className="btn btn-sm btn-outline-secondary mr-2 mt-2" disabled={!!selectedIncomingIds.length} onClick={() => this.showEditMessageModal()}>Edit Message</button>}
+                    <button className="btn btn-sm btn-outline-secondary mr-2 mt-2" onClick={() => this.deleteSelected()} disabled={!selectedIncomingIds.length}><i className="fa fa-trash"></i></button>
+                    <button className="btn btn-sm btn-primary mr-2 mt-2 float-right" onClick={() => this.expandPanel()} >More {incomingPanelExpanded ? <i className="fa fa-chevron-up"></i> : <i className="fa fa-chevron-down"></i>}</button>
                 </div>
                 <Collapse in={incomingPanelExpanded}>
                     <div>
                         <div className="btn-toolbar">
-                            <div className="input-group mr-2 mt-2">
+                            <div className="input-group input-group-sm mr-2 mt-2">
                                 <div className="input-group-prepend">
                                     <label className="input-group-text">
                                         Add to Group 
@@ -158,9 +158,9 @@ class IncomingToolbar extends Component {
                                     })}
                                 </select>
                             </div>
-                            <div className="btn btn-primary mr-2 mt-2" disabled={selectedIncomingIds.length < 1}onClick={() => this.addToGroup()} >Add </div>
-                            <div className="btn btn-outline-secondary mr-2 mt-2" onClick={() => this.showGroupModal(true)}>My Groups</div>
-                            <div className="btn btn-outline-secondary mt-2">Send to...</div>
+                            <div className="btn btn-sm btn-primary mr-2 mt-2" disabled={selectedIncomingIds.length < 1}onClick={() => this.addToGroup()} >Add </div>
+                            <div className="btn btn-sm btn-outline-secondary mr-2 mt-2" onClick={() => this.showGroupModal(true)}>My Groups</div>
+                            <div className="btn btn-sm btn-outline-secondary mt-2">Send to...</div>
                         </div>
                     </div>
                 </Collapse>

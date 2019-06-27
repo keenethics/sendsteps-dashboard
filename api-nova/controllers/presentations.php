@@ -29,11 +29,11 @@ class Presentations extends NovaAPI {
             $results['presentationId'] = (int) $record['id'];
             $results['presentationStart'] = $record['startTime'];
             $results['presentationEnd'] = $record['endTime'];
-            $results['nrOfActiveAttendees'] = (int) $presentationModel->getParticipantNumbersByPresentationId($id);            
+            $results['nrOfActiveAttendees'] = (int) $presentationModel->getParticipantNumbersByPresentationId($request->id);            
             
             // Check for open ended questions & populate rounds with the results
             $results['rounds'] = $openEndedResult = array();
-            $messagesFromDB = $presentationModel->getMessagesByPresentationId($id);
+            $messagesFromDB = $presentationModel->getMessagesByPresentationId($request->id);
             if (count($messagesFromDB) > 0){
                 foreach($messagesFromDB as $key => $m) {
                     if ($key == 0 OR $m['messageRoundId'] != $messagesFromDB[($key-1)]['messageRoundId'] ) {
@@ -61,8 +61,8 @@ class Presentations extends NovaAPI {
             
             // Check for rating questions & populate rounds with the results
             $ratingsResult = array();
-            $slides = $presentationModel->getSlidesByPresentationId($id);
-            $votesAndPercentages = $presentationModel->getVotesWithPercentages($id);
+            $slides = $presentationModel->getSlidesByPresentationId($request->id);
+            $votesAndPercentages = $presentationModel->getVotesWithPercentages($request->id);
             if (count($slides) > 0) {
                 $results['slides'] = $slides;
                 foreach($slides as $key => $s) {

@@ -84,6 +84,7 @@ class LoginForm extends Component {
 
         console.log(errors)
         this.setState({ errors });
+        this.props.dispatch(setGeneralError(null));
         return !hasErrors(errors)
 
     }

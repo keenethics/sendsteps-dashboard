@@ -43,7 +43,6 @@ class OptionTypeContainer extends Component {
 
         const { question, currentType } = this.props
 
-
         return (
             <FormGroup className="mb-0">
                 <div className="row">

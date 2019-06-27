@@ -64,8 +64,8 @@ class MessageModal extends Component {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn btn-success" onClick={() => this.addMessage()}><i className="fa fa-plus"></i> Add</div>
-                    <div className="btn btn-primary" onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</div>
+                    <div className="btn btn-sm btn-success" onClick={() => this.addMessage()}><i className="fa fa-plus"></i> Add</div>
+                    <div className="btn btn-sm btn-primary" onClick={() => this.showNewMessageModal(false)}><i className="fa fa-times"></i> Close</div>
                 </Modal.Footer>
             </Modal>
         );

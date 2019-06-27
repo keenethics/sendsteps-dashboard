@@ -99,7 +99,7 @@ class ResponseOverview extends React.Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="col-form-label">Show Tweets</label>
+                                                <label className="col-form-label col-form-label-sm">Show Tweets</label>
                                                 <ButtonSwitch />
                                             </div>
                                         </div>

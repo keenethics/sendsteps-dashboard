@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { toggleModal } from '../../actions/app';
-import { Modal, Button } from 'react-bootstrap';
+import { toggleModal } from 'App/actions/app';
+import { Modal } from 'react-bootstrap';
 
 class DefaultModal extends React.Component {
 
@@ -22,8 +22,8 @@ class DefaultModal extends React.Component {
                     {content}
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn btn-outline-primary" onClick={onConfirm}>{confirmText ? confirmText : "Save"}</div>
-                    <div className="btn btn-outline-secondary" onClick={this.handleClose.bind(this)}>{cancelText ? cancelText : "Close"}</div>
+                    <div className="btn btn-sm btn-outline-primary" onClick={onConfirm}>{confirmText ? confirmText : "Save"}</div>
+                    <div className="btn btn-sm btn-outline-secondary" onClick={this.handleClose.bind(this)}>{cancelText ? cancelText : "Close"}</div>
                 </Modal.Footer>
             </Modal>
         )

@@ -16,7 +16,7 @@ class Question extends Component {
         return {
             [questionProps.id]: null,
             [questionProps.text]: '',
-            [questionProps.order]: 1,
+            [questionProps.order]: this.props.index,
             [questionProps.type]: Object.keys(this.props.types)[0],
             [questionProps.required]: false,
             options: { [generateKey()]: ''},
@@ -225,9 +225,9 @@ class Question extends Component {
         this.updateQuestionProperties({options});
     }
 
-    setOptions = options => {
-        this.updateQuestionProperties({options})
-    }
+    /*
+        Validator for question titles
+    */
 
     isValidQuestion = () => {
         const { question } = this.state
@@ -235,8 +235,12 @@ class Question extends Component {
         return !question[text].length || question[text].length >= 3
     }
 
+
+    /*
+        Translates current type to a key value pair
+    */
     translateToType = (types, actualType) => {
-        let currentType = { }
+        let currentType = {}
         if(types.hasOwnProperty(actualType)) {
             currentType.key = actualType
             currentType.value = types[actualType];
@@ -247,6 +251,9 @@ class Question extends Component {
         return currentType
     }
 
+    /*
+        Determines if the options should be expanded
+    */
     isExpanded = () => {
         const{ optionsExpanded, question } = this.state;
         const { id, text } = this.props.questionProps;
@@ -293,8 +300,8 @@ class Question extends Component {
                                     </button>
                                 </>}
                                 {this.shouldShowSaveButton() && <>
-                                <button disabled={!(question[text].length >= 3)} onClick={this.saveQuestion} className="btn btn-sm btn-success">
-                                    <TooltipNotification tooltip="Save Options" placement="top">
+                                <button disabled={!(question[text].toString().length >= 3)} onClick={this.saveQuestion} className="btn btn-sm btn-success">
+                                    <TooltipNotification tooltip="Save Question" placement="top">
                                         <i className="fa fa-save px-1"></i> 
                                     </TooltipNotification>
                                 </button>
@@ -344,8 +351,7 @@ class Question extends Component {
                                 addOption={this.addOption}
                                 updateOptions={this.updateOptions}
                                 deleteOption={this.deleteOption}
-
-                                setOptions={this.setOptions}
+                                setOptions={options => this.updateQuestionProperties({options})}
                             />
                             <div className="form-group row">
                                 <div className="col-sm-3">

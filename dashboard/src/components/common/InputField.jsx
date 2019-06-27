@@ -36,11 +36,11 @@ export default class InputField extends React.Component {
         return (
             <div className="form-group">    
                 {labelText && 
-                <label className="col-form-label">
+                <label className="col-form-label col-form-label-sm">
                     {labelText}
                 </label>}
                 {extraLabelText || ""}
-                <div className="input-group">
+                <div className="input-group input-group-sm">
                     {leftFaIcon && <div className="input-group-prepend">
                         <span className="input-group-text">
                             <i className={"fa fa-" + leftFaIcon}></i>
@@ -52,7 +52,7 @@ export default class InputField extends React.Component {
                         id={inputId || ""} 
                         className="form-control" 
                         value={this.state.value}
-                        readOnly={readonly && "readonly"}
+                        readOnly={!!readonly}
                     />
                     {rightFaIcon && !clearButton && 
                     <div className="input-group-append">

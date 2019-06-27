@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
-import { getOptions, getSort, getNameFormatter } from '../../base/BaseTable';
+import { getOptions, getSort, getNameFormatter } from 'App/pages/base/BaseTable';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
 import DeleteSurveyModal from './delete/DeleteSurveyModal';
 import { setDeleteSurveyId, setCurrentSurveyToPlay } from './actions'
 import { connect } from 'react-redux'
-import TooltipNotification from '../../../components/common/TooltipNotification';
+import TooltipNotification from 'App/components/common/TooltipNotification';
 import moment from 'moment';
 import './Overview.scss';
 class OverviewTable extends Component {
@@ -79,11 +77,11 @@ class OverviewTable extends Component {
         currentStatus = isStopped ? "Stopped" : currentStatus
 
         return <>
-            <div className="survey-btn-padding d-inline-flex text-center" style={{textAlign: 'center'}}>
+            <div className="survey-btn-padding d-inline-flex text-center">
                 {!isPlaying &&
                 <TooltipNotification 
                     title="play"
-                    placement={"top"} 
+                    placement={"right-end"} 
                     tooltip={"Play Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-sm btn-outline-secondary" onClick={() => this.togglePlayDialog(row.id)}>
                             <i className="fa small fa-play"></i>
@@ -98,7 +96,7 @@ class OverviewTable extends Component {
                 {!(isPaused || isStopped) && 
                 <TooltipNotification 
                     title="pause"
-                    placement={"top"} 
+                    placement={"right-end"} 
                     tooltip={"Pause Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-sm btn-outline-secondary" onClick={() => this.props.updateSurveyStatus(3, row.id)}>
                             <i className="fa small fa-pause"></i>
@@ -113,7 +111,7 @@ class OverviewTable extends Component {
                 {!isStopped &&
                 <TooltipNotification 
                     title="stop"
-                    placement={"top"} 
+                    placement={"right-end"} 
                     tooltip={"Stop Survey " + "(Currently " + currentStatus + ")"}>
                         <button className="btn btn-sm btn-outline-primary" 
                             onClick={() => this.props.updateSurveyStatus(2, row.id)} 

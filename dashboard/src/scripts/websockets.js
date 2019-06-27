@@ -1,25 +1,21 @@
 import io from 'socket.io-client';
 
-let nodeServer = process.env.NODE_URL;
-
-let activeSocket = null
-
-console.log(nodeServer)
 export function getSocket() {
-    if(!activeSocket) {
-        activeSocket = io(
-            nodeServer, 
-            {
-                'reconnection': true,
-                'reconnectionDelay': 2000,
-                'reconnectionAttempts': (24 * 60 * 60),
-                'reconnectionDelayMax': 5000,
-                'timeout': 10000,
-                'transports': ['websocket']
-            }
-        );
+    const webSocket = io(
+        'https://node.sendsteps.com:8001', 
+        {
+            'reconnection': true,
+            'reconnectionDelay': 2000,
+            'reconnectionAttempts': (24 * 60 * 60),
+            'reconnectionDelayMax': 5000,
+            'timeout': 10000,
+            'transports': ['websocket']
+        }
+    );
+    webSocket.emit('vote:updated', {});
 
-        activeSocket.emit('session:subscribe', {sessionId: 591});
-    }
-    return activeSocket;
+    // webSocket.on('session:subscribed', data => {
+    //     console.log('session:subscribed', data);
+    // });
+    return webSocket;
 }

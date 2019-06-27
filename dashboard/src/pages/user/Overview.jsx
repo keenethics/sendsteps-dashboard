@@ -46,12 +46,23 @@ class ProfileOverview extends React.Component {
         this.getUserInfo();
     }
 
+    getProfileData = (params, onSuccess, onFail) => {
+        const functionName = 'getProfileData'
+        get(
+            this.controller,
+            functionName,
+            { ...params },
+            res => onSuccess(res),
+            err => onFail(err)
+        );
+    }
+
     getUserInfo = () => {
         get('userscontroller', 'getProfileData',
             {},
             result => {
 
-                const { timezones, countries, user, account} = result;
+                const { timezones, countries, user, account } = result;
 
                 this.setState({ timezones, countries })
                 this.props.dispatch(setUserProfileData(user))

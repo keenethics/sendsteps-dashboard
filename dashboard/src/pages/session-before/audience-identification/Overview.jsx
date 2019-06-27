@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
-import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import { toggleModal } from '../../../actions/app';

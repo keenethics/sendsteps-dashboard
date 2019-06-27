@@ -147,7 +147,6 @@ class SettingsOverview extends React.Component {
                                         </div>
                                         <hr className="mt-0" />
                                         <ResponseToggleSMSInput />
-                                        <hr />
                                         <div className="card border-0">
                                             {settings && <Collapse in={!!(settings && !!settings.textmessagingselected)}> 
                                                 <span>                      

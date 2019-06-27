@@ -155,6 +155,7 @@ class SurveyQuestionWrapper extends Component {
                     </Droppable>
                 </DragDropContext>
                 <Question 
+                    index={!!questions ? questions.length + 1 : 1}
                     saveQuestion={this.saveQuestion}
                     getquestions={this.getQuestions} 
                     questionProps={this.questionProps}

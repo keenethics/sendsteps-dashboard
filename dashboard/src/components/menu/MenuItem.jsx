@@ -15,7 +15,7 @@ class MenuItem extends Component {
                     <Link to={this.props.link}>
                         <ListGroupItem>
                             <i className={" fa " + faIconClass}></i> 
-                            <span className="text pl-3">
+                            <span className="text small pl-3">
                                 {menuText}
                             </span>
                         </ListGroupItem>

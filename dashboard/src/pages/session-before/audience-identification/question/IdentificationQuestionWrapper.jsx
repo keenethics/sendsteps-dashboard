@@ -138,7 +138,7 @@ class IdentificationQuestionWrapper extends Component {
                                         {...provided.draggableProps}
                                         {...provided.dragHandleProps}>
                                             <Question 
-                                                index={index}
+                                                index={index + 1}
                                                 
                                                 saveQuestion={this.saveQuestion}
                                                 deleteQuestion={this.deleteQuestion}
@@ -159,6 +159,7 @@ class IdentificationQuestionWrapper extends Component {
                     </Droppable>
                     </DragDropContext>
                     <Question 
+                        index={!!questions ? questions.length + 1 : 1}
                         types={this.allowedTypes}
                         questionProps={this.questionProps}
                         setQuestions={this.setQuestions} 

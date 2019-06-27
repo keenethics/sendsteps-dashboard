@@ -1,6 +1,5 @@
 <?php
 
-require __DIR__.'../../vendor/autoload.php';
 include __DIR__.'./../helpers/HashHelper.php';
 
 use OpenCloud\ObjectStore\Constants\UrlType;

@@ -5,7 +5,6 @@ export default function appReducer(state, action) {
 
     switch(action.type) {
         case 'TOGGLE_MENU': {
-            console.log('tog')
             if(!action.isOpened) {
                 addToLocalStorage('smallMenu', 1)
             } else {

@@ -34,6 +34,7 @@ class DeleteSurveyModal extends Component {
 
         return (
             <Modal
+                className="small"
                 onHide={this.hideModal}
                 show={!!deleteSurveyId}>
                 <Modal.Header closeButton>
@@ -43,10 +44,10 @@ class DeleteSurveyModal extends Component {
                     Are you sure you want to delete this survey?
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn btn-danger" onClick={this.deleteSurvey}>
+                    <div className="btn btn-sm btn-danger" onClick={this.deleteSurvey}>
                         <i className="fa fa-trash"></i> Delete
                     </div>
-                    <div className="btn btn-primary" onClick={this.hideModal}>
+                    <div className="btn btn-sm btn-primary" onClick={this.hideModal}>
                         <i className="fa fa-times"></i> Cancel
                     </div>
                 </Modal.Footer>

@@ -8,7 +8,7 @@ const HeaderPanel = props => {
     return (
         <span>
             <div className="card mt-3">
-                <div className="card-body">
+                <div className="card-body pb-0">
                     <h1>{title}</h1>  
                     {content &&
                     <span>
