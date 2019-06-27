@@ -16,7 +16,7 @@ class AuthorizationLoadingView extends Component {
                 })
             }, 5000)
         } catch(err) {
-            console.warn(err);
+            // console.warn(err);
         }
     }
 
