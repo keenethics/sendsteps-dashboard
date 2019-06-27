@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import ResponseSiteContainer from 'App/pages/base/ResponseSiteContainer';
 import InputField from 'App/components/common/InputField';

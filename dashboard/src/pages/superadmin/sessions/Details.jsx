@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import InputField from '../../../components/common/InputField';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { post, get } from "../../../scripts/api";

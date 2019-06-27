@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import moment from 'moment';
 import ExcelView from '../../pages/superadmin/phonenumbers/extra_components/ExcelView';
 import TooltipNotification from '../../components/common/TooltipNotification';

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 const HeaderPanel = props => {
