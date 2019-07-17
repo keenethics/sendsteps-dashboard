@@ -1,10 +1,10 @@
-import Particles from "react-particles-js";
-import React, { Component } from "react";
-import Details from "./Details";
-import { connect } from "react-redux";
-import SendstepsLogo from "./SendstepsLogo";
-import { particleJSParams } from "../../scripts/particleJSParams";
-import "./DetailsContainer.scss";
+import Particles from 'react-particles-js';
+import React, { Component } from 'react';
+import Details from './Details';
+import { connect } from 'react-redux';
+import SendstepsLogo from './SendstepsLogo';
+import { particleJSParams } from '../../scripts/particleJSParams';
+import './DetailsContainer.scss';
 
 class DetailsContainer extends Component {
   render() {

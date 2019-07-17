@@ -1,53 +1,54 @@
-import fetch from "cross-fetch";
-import "whatwg-fetch";
+import fetch from 'cross-fetch';
+import 'whatwg-fetch';
 import {
   addToLocalStorage,
   removeFromLocalStorage
-} from "../scripts/localStorage";
-import { addCookieValues, removeCookieValues } from "../scripts/cookieStorage";
-import { toast } from "react-toastify";
+} from '../scripts/localStorage';
+import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
+import { toast } from 'react-toastify';
 
 // const LOGIN_URL = process.env.LOGIN_URL;
-const LOGIN_URL = "/api/login";
-const LOGIN_CHECK_AUTH_URL = "/api/login/check_auth";
+const REGISTRATION_URL = '/api/registration';
+const LOGIN_URL = '/api/login';
+const LOGIN_CHECK_AUTH_URL = '/api/login/check_auth';
 
 export function setAuthorized(isAuthorized) {
   return {
-    type: "SET_AUTHORIZED",
+    type: 'SET_AUTHORIZED',
     isAuthorized
   };
 }
 
 export function setUser(currentUser) {
   return {
-    type: "SET_USER",
+    type: 'SET_USER',
     currentUser
   };
 }
 
 export function authRequired(isAuthRequired) {
   return {
-    type: "AUTH_REQUIRED",
+    type: 'AUTH_REQUIRED',
     isAuthRequired
   };
 }
 
 export function authLoading(authLoading) {
   return {
-    type: "AUTH_LOADING",
+    type: 'AUTH_LOADING',
     authLoading
   };
 }
 
-export function checkAuthorized(token = "") {
+export function checkAuthorized(token = '') {
   return dispatch => {
     const data = { jwt: token };
 
     dispatch(authRequired(true));
     fetch(LOGIN_CHECK_AUTH_URL, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     })
@@ -69,22 +70,22 @@ export function checkAuthorized(token = "") {
 
 export function securityError(securityError) {
   return {
-    type: "SECURITY_ERROR",
+    type: 'SECURITY_ERROR',
     securityError
   };
 }
 
 export function setGeneralError(generalError) {
   return {
-    type: "GENERAL_ERROR",
+    type: 'GENERAL_ERROR',
     generalError
   };
 }
 
 export function signOut() {
   return dispatch => {
-    removeFromLocalStorage("token");
-    removeCookieValues("SSTToken");
+    removeFromLocalStorage('token');
+    removeCookieValues('SSTToken');
     dispatch(setAuthorized(false));
     dispatch(authRequired(null));
   };
@@ -95,60 +96,66 @@ export function register(
   lastName,
   email,
   password,
-  passwordConfirm,
-  termsAccepted,
   onSuccess,
   onFail
 ) {
-  const registerParams = JSON.stringify({
-    email: encodeURIComponent(email),
-    password: encodeURIComponent(password),
-    passwordConfirm: encodeURIComponent(passwordConfirm),
-    options: {
-      firstName: encodeURIComponent(firstName),
-      lastName: encodeURIComponent(lastName),
-      termsAccepted: encodeURIComponent(termsAccepted)
-    }
-  });
+  const registerData = {
+    email,
+    password,
+    firstName,
+    lastName
+  };
 
-  fetch(LOGIN_URL, {
-    method: "POST",
+  fetch(REGISTRATION_URL, {
+    method: 'POST',
     headers: {
-      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      'Content-Type': 'application/json'
     },
-    body: "function=register&params=" + registerParams
+    body: JSON.stringify(registerData)
   })
     .then(result => result.json())
-    .then(
-      result => {
-        // console.log(result)
-        if (result.error) {
-          console.log(result.error);
-        }
-      },
-      error => {
-        console.log(error);
+    .then(result => {
+      if (result.error) {
+        console.log(result.error);
+        onFail(result);
       }
-    );
+
+      if (result && result.jwt) {
+        if (!addToLocalStorage('token', result.jwt)) {
+          if (!addCookieValues('SSTToken', result.jwt, 48)) {
+            toast(
+              'Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'
+            );
+          }
+        }
+        onSuccess(result);
+      } else {
+        onFail(result);
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      onFail(error);
+    });
 }
 
 export function authenticate(email, password, onSuccess, onFail) {
   const data = { email, password };
 
   fetch(LOGIN_URL, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json"
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
   })
     .then(result => result.json())
     .then(result => {
       if (result && result.jwt) {
-        if (!addToLocalStorage("token", result.jwt)) {
-          if (!addCookieValues("SSTToken", result.jwt, 48)) {
+        if (!addToLocalStorage('token', result.jwt)) {
+          if (!addCookieValues('SSTToken', result.jwt, 48)) {
             toast(
-              "Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in."
+              'Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'
             );
           }
         }

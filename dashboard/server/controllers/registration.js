@@ -1,8 +1,8 @@
-const models = require("../models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const models = require('../models');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 // for using .env variables
-require("dotenv-safe").config();
+require('dotenv-safe').config();
 
 const { user: User } = models;
 
@@ -12,7 +12,9 @@ async function registerUser(req, res) {
   if (!firstName || !lastName || !email || !password) {
     return res
       .status(400)
-      .send("firstName, lastName, email and password must be specified");
+      .json({
+        error: 'firstName, lastName, email and password must be specified'
+      });
   }
 
   try {
@@ -21,7 +23,7 @@ async function registerUser(req, res) {
     });
 
     if (checkedUser) {
-      return res.status(409).send("Email is already in use.");
+      return res.status(409).json({ error: 'Email is already in use.' });
     }
 
     // Generate hash for password
@@ -33,25 +35,29 @@ async function registerUser(req, res) {
       email,
       password: hashed,
       accountId: 0,
-      emailUnconfirmed: "",
-      auth_key: "",
-      role: "user",
+      emailUnconfirmed: '',
+      auth_key: '',
+      role: 'admin',
       isDeleted: 0,
       createdDate: new Date().toLocaleString(),
       lastUsedDate: new Date().toLocaleString(),
       created_at: Math.round(Date.now() / 1000),
       updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: ""
+      moderatorSharingToken: ''
     });
 
-    console.log("Created user:", createdUser);
+    console.log('Created user:', createdUser);
 
     // Generation JWT token
     const token = jwt.sign({ email, password }, process.env.JWT_PRIVATE_KEY, {
-      algorithm: "HS256"
+      algorithm: 'HS256'
     });
 
-    return res.json({ jwt: token });
+    return res.json({
+      jwt: token,
+      userId: createdUser.id,
+      userType: createdUser.role
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).send(err);

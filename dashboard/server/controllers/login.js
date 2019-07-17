@@ -60,7 +60,10 @@ async function checkAuth(req, res) {
       return res.status(400).send("Wrong token. User not found");
     }
 
-    return res.json(verifiedUser);
+    return res.json({
+      userId: verifiedUser.id,
+      userType: verifiedUser.role
+    });
   } catch (err) {
     console.log(err);
     return res.status(500).send(err);
