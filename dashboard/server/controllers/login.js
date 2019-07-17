@@ -33,8 +33,6 @@ async function getUser(req, res) {
       algorithm: "HS256"
     });
 
-    //const result = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-
     return res.json({
       jwt: token
     });
@@ -44,6 +42,32 @@ async function getUser(req, res) {
   }
 }
 
+async function checkAuth(req, res) {
+  const token = req.body.jwt;
+
+  if (!token) {
+    return res.status(400).send("token must be specified");
+  }
+
+  try {
+    const { email } = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+
+    const verifiedUser = await User.findOne({
+      where: { email }
+    });
+
+    if (!verifiedUser) {
+      return res.status(400).send("Wrong token. User not found");
+    }
+
+    return res.json(verifiedUser);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).send(err);
+  }
+}
+
 module.exports = {
-  getUser
+  getUser,
+  checkAuth
 };

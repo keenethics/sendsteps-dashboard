@@ -9,6 +9,11 @@ router.route('/')
     login.getUser,
   );
 
+  router.route('/check_auth')
+  .post(
+    login.checkAuth,
+  );
+
 
 module.exports = router;
 

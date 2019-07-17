@@ -3,6 +3,7 @@ import RegistrationForm from "./RegistrationForm";
 import LoginForm from "./LoginForm";
 import { connect } from "react-redux";
 import PasswordResetForm from "./PasswordResetForm";
+
 class RegistrationOverview extends Component {
   render() {
     const { currentView } = this.props;

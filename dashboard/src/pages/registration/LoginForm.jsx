@@ -116,6 +116,7 @@ class LoginForm extends Component {
           this.props.dispatch(authRequired(true));
           this.props.dispatch(setAuthorized(true));
           toast("Logged in as " + email);
+          console.log("User data: ", userData);
         },
         error => this.handleLoginErrors(error)
       );
