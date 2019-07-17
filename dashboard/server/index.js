@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index');
 const port = process.env.PORT || 3001;
@@ -7,6 +8,8 @@ const port = process.env.PORT || 3001;
 
 const app = express();
 app.db = require('./models');
+
+app.use(bodyParser.json());
 
 const isProduction = process.env.NODE_ENV === 'production';
 
