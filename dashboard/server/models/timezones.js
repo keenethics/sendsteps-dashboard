@@ -28,6 +28,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'timezones'
+    tableName: 'timezones',
+    timestamps: false
   });
 };

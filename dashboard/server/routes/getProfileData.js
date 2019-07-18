@@ -1,13 +1,13 @@
 const express = require('express');
 const checkJWT = require('../middlewares/checkJWT');
-const getUserData = require('../controllers/getUserData');
+const getProfileData = require('../controllers/getProfileData');
 
 const router = express.Router();
 
 router.route('/')
   .get(
     checkJWT(),
-    getUserData
+    getProfileData
   );
 
 module.exports = router;

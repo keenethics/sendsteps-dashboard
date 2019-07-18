@@ -2,7 +2,8 @@ import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
 
-const API_URL = process.env.NOVA_API_URL;
+//const API_URL = process.env.NOVA_API_URL;
+const API_URL = '/api';
 
 const timeOutDuration = 10000 // ms
 
@@ -36,19 +37,17 @@ export function post(controller, functionName, params, onSuccess, onFail) {
     
 }
 
-// Gets are weird because we are sending params in the body since the API expexts that
-// How to Get without being able to send body params? (Backend thing)
 export function get(controller, functionName, params, onSuccess, onFail) {
-
-    // Make up URL with params instead of body tag
-
     const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
     const fetchParams = {
-        method: 'POST',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: 'controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
     }
-    fetch(API_URL, fetchParams)
+    fetch(`${API_URL}/${functionName}`, fetchParams)
     .then(result => result.json())
     .then(result => {
         result.error && onFail(result);

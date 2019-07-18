@@ -177,7 +177,7 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   User.beforeCreate(async user => {
-    user.accountId = 0;
+    user.accountId = 131;
     user.emailUnconfirmed = '';
     user.auth_key = '';
     user.role = 'admin';
