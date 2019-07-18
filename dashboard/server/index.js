@@ -6,7 +6,7 @@ const routes = require('./routes/index');
 
 require('dotenv-safe').config();
 
-const port = process.env.PORT || 3001;
+const port = process.env.APP_PORT || 3001;
 const app = express();
 app.db = require('./models');
 
@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(morgan('dev'));
+app.use(express.static('build'));
 app.use('/api', routes);
 
 app.get('/*', (req, res) =>

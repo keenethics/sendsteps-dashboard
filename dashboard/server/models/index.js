@@ -1,29 +1,10 @@
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const fromPairs = require("lodash/fromPairs");
+const fs = require('fs');
+const path = require('path');
+const Sequelize = require('sequelize');
+const fromPairs = require('lodash/fromPairs');
+const { connectionParams, config } = require('../config/database')
 
 const basename = path.basename(__filename);
-// const env = process.env.NODE_ENV || 'development';
-// const config = require(`${__dirname}/../config/database.js`)[env]; // eslint-disable-line
-//
-// const connectionParams = config.use_env_variable
-//   ? [process.env[config.use_env_variable]]
-//   : [config.database, config.username, config.password];
-
-const connectionParams = {
-  // dbname: 'testdb',
-  // username: 'root',
-  // password: 'pass',
-  dbname: "addis",
-  username: "nazar",
-  password: "123456"
-};
-
-const config = {
-  host: "localhost",
-  dialect: "mariadb"
-};
 
 const sequelize = new Sequelize(
   connectionParams.dbname,
