@@ -30,17 +30,7 @@ async function registerUser(req, res) {
       firstName,
       lastName,
       email,
-      password,
-      accountId: 0,
-      emailUnconfirmed: '',
-      auth_key: '',
-      role: 'admin',
-      isDeleted: 0,
-      createdDate: new Date().toLocaleString(),
-      lastUsedDate: new Date().toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: ''
+      password
     });
 
     console.log('Created user:', createdUser);
