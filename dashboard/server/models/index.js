@@ -10,17 +10,19 @@ const sequelize = new Sequelize(
   connectionParams.dbname,
   connectionParams.username,
   connectionParams.password,
-  { ...config },
+  { ...config }
 );
 
 const models = fromPairs(
   fs
     .readdirSync(__dirname)
-    .filter(file => (file !== basename) && file.endsWith('.js'))
+    .filter(file => file !== basename && file.endsWith(".js"))
     .map(file => sequelize.import(path.join(__dirname, file)))
-    .map(model => [model.name, model]),
+    .map(model => [model.name, model])
 );
 
-Object.values(models).filter(model => model.associate).forEach(model => model.associate(models));
+Object.values(models)
+  .filter(model => model.associate)
+  .forEach(model => model.associate(models));
 
 module.exports = { sequelize, Sequelize, ...models };
