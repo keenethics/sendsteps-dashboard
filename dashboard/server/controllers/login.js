@@ -1,5 +1,4 @@
 const models = require("../models");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 // for using .env variables
 require("dotenv-safe").config({ allowEmptyValues: true });
@@ -23,13 +22,13 @@ async function getUser(req, res) {
       return res.status(404).send("User not found!");
     }
 
-    const isPassMatch = bcrypt.compareSync(password, searchedUser.password);
+    const isPassMatch = searchedUser.comparePassword(password);
     if (!isPassMatch) {
       return res.status(400).send("Password incorrect!");
     }
 
-    // Generation JWT token
-    const token = jwt.sign({ email, password }, process.env.JWT_PRIVATE_KEY, {
+    // Generating JWT token
+    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
       algorithm: "HS256"
     });
 

@@ -1,8 +1,5 @@
-const express = require("express");
-const router = express.Router();
+async function getUserData(req, res) {
+  res.send("getUserData");
+};
 
-router.route("/").get((req, res) => {
-  
-});
-
-module.exports = router;
+module.exports = getUserData;

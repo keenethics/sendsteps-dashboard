@@ -26,14 +26,11 @@ async function registerUser(req, res) {
       return res.status(409).json({ error: 'Email is already in use.' });
     }
 
-    // Generate hash for password
-    const hashed = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUNDS));
-
     const createdUser = await User.create({
       firstName,
       lastName,
       email,
-      password: hashed,
+      password,
       accountId: 0,
       emailUnconfirmed: '',
       auth_key: '',
@@ -49,7 +46,7 @@ async function registerUser(req, res) {
     console.log('Created user:', createdUser);
 
     // Generation JWT token
-    const token = jwt.sign({ email, password }, process.env.JWT_PRIVATE_KEY, {
+    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
       algorithm: 'HS256'
     });
 

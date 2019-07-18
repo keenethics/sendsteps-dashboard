@@ -1,6 +1,10 @@
+const bcrypt = require('bcrypt');
+// for using .env variables
+require('dotenv-safe').config();
+
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    "user",
+    'user',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -54,12 +58,12 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       },
       userType: {
-        type: DataTypes.ENUM("user", "manager", "admin"),
+        type: DataTypes.ENUM('user', 'manager', 'admin'),
         allowNull: false,
-        defaultValue: "user"
+        defaultValue: 'user'
       },
       role: {
-        type: DataTypes.ENUM("user", "manager", "admin"),
+        type: DataTypes.ENUM('user', 'manager', 'admin'),
         allowNull: false
       },
       isDeleted: {
@@ -85,12 +89,12 @@ module.exports = (sequelize, DataTypes) => {
       isFirstLogin: {
         type: DataTypes.TINYINT(4),
         allowNull: false,
-        defaultValue: "1"
+        defaultValue: '1'
       },
       isGuidedTourTake: {
         type: DataTypes.TINYINT(4),
         allowNull: false,
-        defaultValue: "1"
+        defaultValue: '1'
       },
       filename: {
         type: DataTypes.STRING(100),
@@ -155,22 +159,44 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
-      charset: "utf8",
-      collate: "utf8_unicode_ci",
+      charset: 'utf8',
+      collate: 'utf8_unicode_ci',
       indexes: [
         {
-          name: "accountId",
-          using: "BTREE",
-          fields: ["accountId", "departmentId"]
+          name: 'accountId',
+          using: 'BTREE',
+          fields: ['accountId', 'departmentId']
         },
         {
-          name: "accountId_2",
-          using: "BTREE",
-          fields: ["accountId"]
+          name: 'accountId_2',
+          using: 'BTREE',
+          fields: ['accountId']
         }
       ]
     }
   );
+
+  User.beforeCreate(async user => {
+    user.accountId = 0;
+    user.emailUnconfirmed = '';
+    user.auth_key = '';
+    user.role = 'admin';
+    user.isDeleted = 0;
+    user.createdDate = new Date().toLocaleString();
+    user.lastUsedDate = new Date().toLocaleString();
+    user.created_at = Math.round(Date.now() / 1000);
+    user.updated_at = Math.round(Date.now() / 1000);
+    user.moderatorSharingToken = '';
+
+    user.password = bcrypt.hashSync(
+      user.password,
+      parseInt(process.env.SALT_ROUNDS)
+    );
+  });
+
+  User.prototype.comparePassword = function comparePassword(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
 
   return User;
 };
