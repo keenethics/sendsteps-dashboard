@@ -48,15 +48,17 @@ class ProfileOverview extends React.Component {
         get('users', 'getProfileData',
             {},
             result => {
-
-                const { timezones, countries, user, account} = result;
+                const { timezones, countries, user, account } = result;
 
                 this.setState({ timezones, countries })
                 this.props.dispatch(setUserProfileData(user))
                 this.props.dispatch(setAccountProfileData(account));
 
             },
-            error => toast(`Unable to fetch user data... [${error}]`)
+            error => {
+                toast(`Unable to fetch user data... [${error}]`);
+                console.log(`Unable to fetch user data... [${JSON.stringify(error)}]`)
+            }
         )
     }
 

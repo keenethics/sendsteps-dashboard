@@ -1,6 +1,6 @@
 const express = require('express');
 const login = require('../controllers/login');
-
+const checkJWT = require('../middlewares/checkJWT');
 
 const router = express.Router();
 
@@ -9,9 +9,10 @@ router.route('/')
     login.getUser,
   );
 
-  router.route('/check_auth')
-  .post(
-    login.checkAuth,
+router.route('/check_auth')
+  .get(
+    checkJWT(),
+    login.getUserData,
   );
 
 

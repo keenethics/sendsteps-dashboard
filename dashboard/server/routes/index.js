@@ -9,6 +9,6 @@ const router = express.Router();
 router.use("/auth", authTest);
 router.use("/login", login);
 router.use("/registration", registration);
-//router.route("/test").get("/test", usersTest.returnUsers);
+// router.route("/test").get(usersTest.returnUsers);
 
 module.exports = router;

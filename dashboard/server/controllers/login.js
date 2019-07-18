@@ -42,27 +42,21 @@ async function getUser(req, res) {
   }
 }
 
-async function checkAuth(req, res) {
-  const token = req.body.jwt;
-
-  if (!token) {
-    return res.status(400).send("token must be specified");
-  }
-
+async function getUserData(req, res) {
   try {
-    const { email } = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-
-    const verifiedUser = await User.findOne({
-      where: { email }
+    const userData = await User.findOne({
+      where: { email: req.user.email }
     });
 
-    if (!verifiedUser) {
+    console.log(req.user);
+
+    if (!userData) {
       return res.status(400).send("Wrong token. User not found");
     }
 
     return res.json({
-      userId: verifiedUser.id,
-      userType: verifiedUser.role
+      userId: userData.id,
+      userType: userData.role
     });
   } catch (err) {
     console.log(err);
@@ -72,5 +66,5 @@ async function checkAuth(req, res) {
 
 module.exports = {
   getUser,
-  checkAuth
+  getUserData
 };

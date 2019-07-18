@@ -4,8 +4,7 @@ const { user: User } = models;
 
 async function returnUsers(req, res) {
   try {
-    const users = await User.findAll();
-    return res.send(users);
+    return res.json(req.user);
   } catch (err) {
     return res.status(500).send(err)
   }

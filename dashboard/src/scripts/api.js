@@ -2,7 +2,7 @@ import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
 
-const apiUrl = process.env.NOVA_API_URL;
+const API_URL = process.env.NOVA_API_URL;
 
 const timeOutDuration = 10000 // ms
 
@@ -22,7 +22,7 @@ export function post(controller, functionName, params, onSuccess, onFail) {
     }
 
     // timeOut(5, new Error('Request Timeout'), 
-    fetch(apiUrl, fetchParams)
+    fetch(API_URL, fetchParams)
     .then(result => result.json())
     .then(result => {
         if(result.error) {
@@ -48,7 +48,7 @@ export function get(controller, functionName, params, onSuccess, onFail) {
         headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
         body: 'controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token
     }
-    fetch(apiUrl, fetchParams)
+    fetch(API_URL, fetchParams)
     .then(result => result.json())
     .then(result => {
         result.error && onFail(result);

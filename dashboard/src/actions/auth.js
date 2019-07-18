@@ -42,15 +42,14 @@ export function authLoading(authLoading) {
 
 export function checkAuthorized(token = '') {
   return dispatch => {
-    const data = { jwt: token };
-
     dispatch(authRequired(true));
+
     fetch(LOGIN_CHECK_AUTH_URL, {
-      method: 'POST',
+      method: 'GET',
       headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
     })
       .then(res => {
         return res.json();
