@@ -42,8 +42,7 @@ export function authLoading(authLoading) {
 
 export function checkAuthorized(token = '') {
   return dispatch => {
-    dispatch(authRequired(true));
-
+    
     fetch(LOGIN_CHECK_AUTH_URL, {
       method: 'GET',
       headers: {
@@ -51,11 +50,12 @@ export function checkAuthorized(token = '') {
         'Authorization': `Bearer ${token}`
       }
     })
-      .then(res => {
-        return res.json();
+    .then(res => {
+      return res.json();
       })
       .then(result => {
         if (result) {
+          dispatch(authRequired(true));
           dispatch(setAuthorized(true));
           dispatch(setUser(result));
         }
@@ -151,6 +151,7 @@ export function authenticate(email, password, onSuccess, onFail) {
     .then(result => result.json())
     .then(result => {
       if (result && result.jwt) {
+        console.log("SAVING TOKEN....");
         if (!addToLocalStorage('token', result.jwt)) {
           if (!addCookieValues('SSTToken', result.jwt, 48)) {
             toast(
