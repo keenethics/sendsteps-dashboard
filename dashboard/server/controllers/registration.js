@@ -1,6 +1,7 @@
 const models = require('../models');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const destructurizationHelper = require('../helpers/destructurizationHelper');
+const userRoles = require('../helpers/userRoles');
 // for using .env variables
 require('dotenv-safe').config();
 
@@ -10,11 +11,9 @@ async function registerUser(req, res) {
   const { firstName, lastName, email, password } = req.body;
 
   if (!firstName || !lastName || !email || !password) {
-    return res
-      .status(400)
-      .json({
-        error: 'firstName, lastName, email and password must be specified'
-      });
+    return res.status(400).json({
+      error: 'firstName, lastName, email and password must be specified'
+    });
   }
 
   try {
@@ -27,10 +26,25 @@ async function registerUser(req, res) {
     }
 
     const createdUser = await User.create({
-      firstName,
-      lastName,
-      email,
-      password
+      ...destructurizationHelper(
+        req.body,
+        'firstName',
+        'lastName',
+        'email',
+        'password',
+        'os',
+        'browser'
+      ),
+      accountId: 131,
+      emailUnconfirmed: '',
+      auth_key: '',
+      role: userRoles.ADMIN,
+      isDeleted: 0,
+      createdDate: new Date().toLocaleString(),
+      lastUsedDate: new Date().toLocaleString(),
+      created_at: Math.round(Date.now() / 1000),
+      updated_at: Math.round(Date.now() / 1000),
+      moderatorSharingToken: ''
     });
 
     console.log('Created user:', createdUser);

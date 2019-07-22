@@ -158,7 +158,6 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     {
-      timestamps: false,
       charset: 'utf8',
       collate: 'utf8_unicode_ci',
       indexes: [
@@ -176,18 +175,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.beforeCreate(async user => {
-    user.accountId = 131;
-    user.emailUnconfirmed = '';
-    user.auth_key = '';
-    user.role = 'admin';
-    user.isDeleted = 0;
-    user.createdDate = new Date().toLocaleString();
-    user.lastUsedDate = new Date().toLocaleString();
-    user.created_at = Math.round(Date.now() / 1000);
-    user.updated_at = Math.round(Date.now() / 1000);
-    user.moderatorSharingToken = '';
-
+  User.beforeCreate(user => {
     user.password = bcrypt.hashSync(
       user.password,
       parseInt(process.env.SALT_ROUNDS)

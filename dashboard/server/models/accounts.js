@@ -112,7 +112,6 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: '0'
     }
   }, {
-    tableName: 'accounts',
-    timestamps: false
+    tableName: 'accounts'
   });
 };
