@@ -1,5 +1,5 @@
 const models = require("../models");
-const { isPasswordMatch, getHashedPassword } = require("../helpers/passwordHelpers");
+const { isPasswordMatch, updateUserPassword } = require("../helpers/passwordHelpers");
 
 const { user: User } = models;
 
@@ -7,8 +7,7 @@ const { user: User } = models;
 // supposed that validation of new password is on frontend side
 // endpoint for it is POST to /api/user/changePassword
 async function changePassword(req, res) {
-  const data = req.body;
-  const { email, oldPassword, newPassword } = data;
+  const { email, oldPassword, newPassword } = req.body;
 
   if (!email || !oldPassword || !newPassword) {
     return res.status(400).json({ error: "Email and password must be specified!" });
@@ -29,20 +28,11 @@ async function changePassword(req, res) {
       return res.status(400).json({ error: "Old password is incorrect!" });
     }
 
-    const hashedPassword = getHashedPassword(newPassword);
 
-    const passwordChangeresult = await User.update(
-      { password: hashedPassword },
-      { where: { id: searchedUser.id }},
-    ).then(res => {
-      if (res) return { success: "Password successfully updated." };
-    }).catch(err => {
-      console.error(err);
-      res.status(500);
-      return { error: err.message };
-    });
+    const { success, error, status } = await updateUserPassword(newPassword, searchedUser.id);
+    if (status) res.status(status);
 
-    return res.json(passwordChangeresult);
+    return res.json(success || error);
   } catch (err) {
     console.error(err);
     return res.status(500).send(err);
