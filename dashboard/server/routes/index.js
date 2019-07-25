@@ -3,7 +3,7 @@ const authTest = require("./authTest");
 const login = require("./login");
 const registration = require("./registration");
 const getUserData = require("../controllers/getUserData");
-//const usersTest = require("../controllers/usersTest");
+const userRoutes = require("./userRoutes");
 
 const router = express.Router();
 
@@ -12,6 +12,6 @@ router.use("/login", login);
 router.use("/registration", registration);
 
 router.use("/getUserData", getUserData);
-// router.route("/test").get(usersTest.returnUsers);
+router.use("/user", userRoutes);
 
 module.exports = router;
