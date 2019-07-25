@@ -11,7 +11,7 @@ async function changePassword(req, res) {
   const { email, oldPassword, newPassword } = data;
 
   if (!email || !oldPassword || !newPassword) {
-    return res.status(400).send("Email and password must be specified!");
+    return res.status(400).json({ error: "Email and password must be specified!" });
   }
 
   try {
@@ -21,12 +21,12 @@ async function changePassword(req, res) {
     });
   
     if (!searchedUser) {
-      return res.status(404).send("User not found!");
+      return res.status(404).json({ error: "User not found!" });
     }
 
     const isPassMatch = isPasswordMatch(oldPassword, searchedUser.password);
     if (!isPassMatch) {
-      return res.status(400).send("Old password is incorrect!");
+      return res.status(400).json({ error: "Old password is incorrect!" });
     }
 
     const hashedPassword = getHashedPassword(newPassword);
@@ -35,11 +35,11 @@ async function changePassword(req, res) {
       { password: hashedPassword },
       { where: { id: searchedUser.id }},
     ).then(res => {
-      if (res) return "Password successfully updated.";
+      if (res) return { success: "Password successfully updated." };
     }).catch(err => {
       console.error(err);
       res.status(500);
-      return err.message;
+      return { error: err.message };
     });
 
     return res.json(passwordChangeresult);
