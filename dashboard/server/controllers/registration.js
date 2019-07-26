@@ -217,11 +217,8 @@ async function registerUser(req, res) {
       jwt: token,
       userId: createdUser.id,
       userType: createdUser.role,
-      createdSession,
-      foundSession
     });
   } catch (err) {
-    console.log(err);
     return res.status(500).send(err);
   }
 }

@@ -10,7 +10,6 @@ import { isValidEmail, isValidName } from "../../scripts/validationChecker";
 import { toast } from "react-toastify";
 
 class ProfileOverview extends React.Component {
-    
     state = {
         timezones: null,
         countries: null,
@@ -111,13 +110,12 @@ class ProfileOverview extends React.Component {
     }
 
     updateUserInfo = () => {
-
         const { userDetails, accountDetails } = this.props;
-        const { departmentName, email, firstName, lastName, language, phonenumber, filename } = userDetails
+        const { id, departmentName, email, firstName, lastName, language, phonenumber, filename } = userDetails
         const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
 
-        post('users', 'updateSelf',
-            {
+        post('users', 'updateUserProfile', {
+                id,
                 firstName,
                 lastName,
                 email,
