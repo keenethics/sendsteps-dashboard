@@ -36,10 +36,10 @@ async function generateResetLink(req, res) {
       { where: { email }},
     ).then(res => {
       if (res[0]) {
-        const restoreLink = `${host}/site/reset-password?token=${password_reset_token}`;
+        const restoreLink = `${host}/reset-password?token=${password_reset_token}`;
         // TODO Here should be sending an email with the restore link
 
-        // TODO This is for test, should be removed
+        // TODO This is for test, should be removed, should not to return restoreLink!!!
         return { ...responseAnswer, restoreLink };
       }
       return responseAnswer;
@@ -75,7 +75,7 @@ async function resetUserPassword(req, res) {
   try {
     const searchedUser = await User.findOne({
       where: { password_reset_token: token },
-      attributes: ['password', 'id'],
+      attributes: ['id', 'email'],
     });
   
     if (!searchedUser) {
@@ -85,7 +85,7 @@ async function resetUserPassword(req, res) {
     const { success, error, status } = await updateUserPassword(newPassword, searchedUser.id);
     if (status) res.status(status);
 
-    return res.json(success || error);
+    return res.json({ success, email: searchedUser.email  } || { error });
   } catch (err) {
     console.error(err);
     return res.status(500).send(err);
@@ -94,7 +94,7 @@ async function resetUserPassword(req, res) {
 
 // This should validate restore token
 // Should take password_reset_token
-// endpoint for it is GET to /api/user/resetPassword?token=YOUR_RESTORE_TOKEN
+// endpoint for it is POST to /api/user/resetPassword?token=YOUR_RESTORE_TOKEN
 async function checkPasswordResetLink(req, res) {
   const token = req.query.token || req.body.token;
   if (typeof token === "undefined") {
@@ -126,7 +126,7 @@ async function checkPasswordResetLink(req, res) {
       "to activate your account or reset your password.",
     });
   }
-  res.send({ success: "token valid"});
+  res.send({ success: "token valid" });
 }
 
 module.exports = {

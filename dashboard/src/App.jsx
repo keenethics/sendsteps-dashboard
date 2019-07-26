@@ -6,6 +6,7 @@ import { getFromLocalStorage } from "./scripts/localStorage";
 import { getCookieValues } from "./scripts/cookieStorage";
 import RegistrationOverview from "./pages/registration/DetailsContainer";
 import AuthorizationLoadingView from "./pages/base/AuthorizationLoadingView";
+import ResetPassword from "./pages/base/ResetPassword";
 import DashboardApp from "./pages/base/DashboardApp";
 import { withRouter, Route } from "react-router-dom";
 
@@ -44,9 +45,11 @@ export class App extends Component {
   }
 
   render() {
-    const { isAuthorized, isAuthRequired, currentUser } = this.props;
+    const { isAuthorized, isAuthRequired, currentUser, location } = this.props;
     if (isAuthRequired && isAuthorized && currentUser) {
       return <Route path="/" component={DashboardApp} />;
+    } else if (location.pathname.includes('/reset-password')) {
+      return <ResetPassword />;
     } else if (false === isAuthorized) {
       return <RegistrationOverview />;
     }
