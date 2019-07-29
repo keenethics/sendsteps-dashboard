@@ -3,6 +3,26 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const destructurizationHelper = require('../helpers/destructurizationHelper');
 const { user: User, accounts: Account } = require('../models');
+const { isValidEmail } = require('../helpers/validationHelpers');
+
+function validateData(data) {
+  const { firstName, lastName, email } = data;
+  const errors = {};
+
+  if (firstName.length === 0 || firstName.length > 25) {
+    errors.firstName = 'firstName must be from 1 to 25 characters long';
+  }
+
+  if (lastName.length === 0 || lastName.length > 25) {
+    errors.lastName = 'lastName must be from 1 to 25 characters long';
+  }
+
+  if (!isValidEmail(email)) {
+    errors.email = 'email is invalid';
+  }
+
+  return errors;
+}
 
 async function updateUserProfile(req, res) {
   const enteredInfo = req.body;
@@ -10,6 +30,13 @@ async function updateUserProfile(req, res) {
   const response = {
     message: 'User profile updated!'
   };
+
+  const errors = validateData(req.body);
+  if (Object.keys(errors).length !== 0) {
+    return res.status(400).json({
+      errors
+    });
+  }
 
   try {
     const currentUser = await User.findOne({
