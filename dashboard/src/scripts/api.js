@@ -37,6 +37,28 @@ export function post(controller, functionName, params, onSuccess, onFail) {
     });
 }
 
+export function postNew(apiUrl, params, onSuccess, onFail) {
+    // const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+    const fetchParams = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(params)
+    }
+
+    fetch(apiUrl, fetchParams)
+    .then(result => result.json())
+    .then(result => {
+      if (result.error) {
+        onFail(result);
+      } else {
+        onSuccess(result);
+      }
+    })
+    .catch(error => {
+      onFail(error);
+    });
+}
+
 export function get(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
 

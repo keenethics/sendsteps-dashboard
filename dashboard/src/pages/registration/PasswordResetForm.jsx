@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import { setView } from '../../actions/app';
 import { setRecoveringEmailError, setRecoveringEmail } from '../../actions/login';
 import { isValidEmail } from '../../scripts/validationChecker';
+import { postNew } from '../../scripts/api';
 import './Forms.scss';
+import ToastComponent from '../../components/common/ToastComponent'
+import { toast } from "react-toastify";
 
 class PasswordResetForm extends Component {
 
@@ -26,8 +29,27 @@ class PasswordResetForm extends Component {
 
     resetEmail() {
         this.checkRecoveringEmail();
-        if(!this.props.recoveringEmailError && this.props.recoveringEmail) {
-            alert('Sending reset request... (Not really)');
+        const { recoveringEmail } = this.props;
+        if(!this.props.recoveringEmailError && recoveringEmail) {
+          postNew(
+            '/api/user/requestPasswordReset',
+            { email: recoveringEmail },
+            result => {
+              // TODO should remove restoreLink when there will be email logic
+              const { success, error, restoreLink } = result;
+              toast(success || error);
+
+              // TODO this should be removed when there will be email logic
+              if (restoreLink) {
+                prompt("This is your restore link", restoreLink);
+              }
+            },
+            error => {
+              console.log(error);
+              toast(error);
+            }
+          )
+            // alert('Sending reset request... (Not really)', recoveringEmail);
         }
     }
 
@@ -66,6 +88,7 @@ class PasswordResetForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ToastComponent />
             </div>
         )
     }
