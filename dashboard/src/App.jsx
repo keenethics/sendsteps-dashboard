@@ -13,18 +13,24 @@ import { withRouter, Route } from "react-router-dom";
 export class App extends Component {
   componentDidMount() {
     this.checkAuth();
+    console.log('componentDidMount: checkAuth');
   }
 
   componentWillReceiveProps(nextProps) {
     const currentKey = this.props.location.key;
     const nextKey = nextProps.location.key;
-    if (currentKey !== nextKey) {
+
+    const currentAuthRequired = this.props.isAuthRequired;
+    const nextAuthRequired = nextProps.isAuthRequired;
+    const hasAuthRequiredChanged = currentAuthRequired !== nextAuthRequired;
+
+    if (currentKey !== nextKey || hasAuthRequiredChanged) {
       this.checkAuth();
     }
   }
 
   checkAuth() {
-    let storedKey = getFromLocalStorage("token") || getCookieValues("SSTToken");
+    let storedKey = getFromLocalStorage('token') || getCookieValues('SSTToken');
 
     if (storedKey) {
       this.props.dispatch(securityError(null));

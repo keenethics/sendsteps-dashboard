@@ -1,8 +1,8 @@
-const models = require("../models");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const models = require('../models');
+const jwt = require('jsonwebtoken');
+const destructurizationHelper = require('../helpers/destructurizationHelper');
 // for using .env variables
-require("dotenv-safe").config({ allowEmptyValues: true });
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const { user: User } = models;
 
@@ -11,7 +11,7 @@ async function getUser(req, res) {
   const { email, password } = enteredInfo;
 
   if (!email || !password) {
-    return res.status(400).send("email and password must be specified");
+    return res.status(400).send('email and password must be specified');
   }
 
   try {
@@ -20,18 +20,30 @@ async function getUser(req, res) {
     });
 
     if (!searchedUser) {
-      return res.status(404).send("User not found!");
+      return res.status(404).send('User not found!');
     }
 
-    const isPassMatch = bcrypt.compareSync(password, searchedUser.password);
+    const isPassMatch = searchedUser.comparePassword(password);
     if (!isPassMatch) {
-      return res.status(400).send("Password incorrect!");
+      return res.status(400).send('Password incorrect!');
     }
 
-    // Generation JWT token
-    const token = jwt.sign({ email, password }, process.env.JWT_PRIVATE_KEY, {
-      algorithm: "HS256"
+    // Generating JWT token
+    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
+      algorithm: 'HS256'
     });
+
+    // Changing some user info on login
+    const updateInfo = destructurizationHelper(enteredInfo, 'os', 'browser');
+
+    if (updateInfo) {
+      await User.update(
+        { ...updateInfo },
+        {
+          where: { email }
+        }
+      );
+    }
 
     return res.json({
       jwt: token
@@ -51,12 +63,14 @@ async function getUserData(req, res) {
     console.log(req.user);
 
     if (!userData) {
-      return res.status(400).send("Wrong token. User not found");
+      return res.status(400).send('Wrong token. User not found');
     }
 
     return res.json({
       userId: userData.id,
-      userType: userData.role
+      userType: userData.role,
+      firstName: userData.firstName,
+      lastName: userData.lastName
     });
   } catch (err) {
     console.log(err);
