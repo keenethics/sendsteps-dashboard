@@ -1,9 +1,9 @@
 const models = require('../models');
 const jwt = require('jsonwebtoken');
+const userRoles = require('../helpers/userRoles');
 const fetch = require('node-fetch');
 const uniqid = require('uniqid');
 const destructurizationHelper = require('../helpers/destructurizationHelper');
-const userRoles = require('../helpers/userRoles');
 const {
   DEFAULT_UNKNOWN,
   DEFAULT_USERS,
@@ -22,8 +22,8 @@ const { DEFAULT_USER_TYPE } = require('../helpers/userslogConstants');
 // for using .env variables
 require('dotenv-safe').config();
 
-const IP_PARSE_URL = 'http://api.ipstack.com/';
-const IP_TOKEN = '733471454748189660643ae32dd41def';
+const IP_PARSE_URL = process.env.IP_PARSE_URL;
+const IP_TOKEN = process.env.IP_TOKEN;
 
 const {
   user: User,
@@ -194,12 +194,6 @@ async function registerUser(req, res) {
       moderatorSharingToken: ''
     });
 
-    const foundSession = await Session.findOne({
-      where: {
-        id: createdSession.id
-      }
-    });
-
     const createdUserLog = await UserLog.create({
       ownerAccountId: createdAccount.id,
       createdBy: createdUser.id,
@@ -216,7 +210,7 @@ async function registerUser(req, res) {
     return res.json({
       jwt: token,
       userId: createdUser.id,
-      userType: createdUser.role,
+      userType: createdUser.role
     });
   } catch (err) {
     return res.status(500).send(err);
