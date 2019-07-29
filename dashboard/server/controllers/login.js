@@ -60,8 +60,6 @@ async function getUserData(req, res) {
       where: { email: req.user.email }
     });
 
-    console.log(req.user);
-
     if (!userData) {
       return res.status(400).send('Wrong token. User not found');
     }
