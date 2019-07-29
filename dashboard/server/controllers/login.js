@@ -68,7 +68,9 @@ async function getUserData(req, res) {
 
     return res.json({
       userId: userData.id,
-      userType: userData.role
+      userType: userData.role,
+      firstName: userData.firstName,
+      lastName: userData.lastName
     });
   } catch (err) {
     console.log(err);
