@@ -20,8 +20,7 @@ const {
 } = require('../helpers/sessionsConstants');
 const { isValidEmail, isValidPassword } = require('../helpers/validationHelpers');
 const { DEFAULT_USER_TYPE } = require('../helpers/userslogConstants');
-// for using .env variables
-require('dotenv-safe').config();
+require('dotenv-safe').config()
 
 const IP_PARSE_URL = process.env.IP_PARSE_URL;
 const IP_TOKEN = process.env.IP_TOKEN;
