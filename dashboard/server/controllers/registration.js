@@ -80,7 +80,7 @@ function sendGreetingsEmail(email, firstName, lastName) {
       template_name: 'free-account-in-add-in',
       template_content: [],
       message: {
-        subject: 'example subject',
+        subject: 'Welcome to sendsteps!',
         from_email: 'support@sendsteps.com',
         to: [
           {
