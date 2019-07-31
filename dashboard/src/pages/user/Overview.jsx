@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { get, post } from '../../scripts/api';
 import { setUserProfileData, setAccountProfileData } from './actions';
+import { signOut } from '../../actions/auth';
 import ImageUploadField from '../../components/common/ImageUploadField';
 import BottomSaveBar from '../../components/common/BottomSaveBar';
 import HeaderPanel from '../../components/common/HeaderPanel';
@@ -114,6 +115,24 @@ class ProfileOverview extends React.Component {
     } else {
       toast('Unable to update profile. There are still some invalid fields.');
     }
+  };
+
+  handleDeleteUser = () => {
+    post(
+      '',
+      'deleteUser',
+      {
+        id: this.props.userDetails.id
+      },
+      result => {
+        // Signing user out
+        this.props.dispatch(signOut());
+      },
+      error => {
+        console.log(error);
+        toast('Unable to delete profile. Try again later');
+      }
+    );
   };
 
   updateUserInfo = () => {
@@ -523,7 +542,7 @@ class ProfileOverview extends React.Component {
               </div>
             </div>
           </div>
-          <BottomSaveBar onSave={this.saveChanges} />
+          <BottomSaveBar onSave={this.saveChanges} onDeleteUser={this.handleDeleteUser} />
         </div>
       </div>
     );
