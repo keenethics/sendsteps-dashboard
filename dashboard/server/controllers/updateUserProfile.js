@@ -1,8 +1,10 @@
 const destructurizationHelper = require('../helpers/destructurizationHelper');
+const uploadPhotoToRackspace = require('../middlewares/rackspaceUploader');
 const { user: User, accounts: Account } = require('../models');
 
 async function updateUserProfile(req, res) {
   const enteredInfo = req.body;
+  const file = req.file;
   const { id } = enteredInfo;
 
   try {
@@ -12,7 +14,7 @@ async function updateUserProfile(req, res) {
       }
     });
 
-    const updatedUser = await User.update(
+    let updatedUser = await User.update(
       {
         ...destructurizationHelper(
           enteredInfo,
@@ -52,14 +54,43 @@ async function updateUserProfile(req, res) {
       }
     );
 
-    res.json({
-      message: 'User profile updated!',
-      updatedUser,
-      updatedAccount
-    });
+    if (file) {
+      uploadPhotoToRackspace(file).then(
+        async fileUrl => {
+          updatedUser = await updateUserProfilePicture(id, fileUrl);
+          return res.json({
+            message: 'User profile updated!',
+            updatedUser,
+            updatedAccount,
+            fileUrl
+          });
+        },
+        error => {
+          return res.status(500).send(error);
+        }
+      )
+    } else {
+      res.json({
+        message: 'User profile updated!',
+        updatedUser,
+        updatedAccount
+      });
+    }
   } catch (error) {
     return res.status(500).send(error);
   }
 }
 
-module.exports = updateUserProfile;
+async function updateUserProfilePicture(userId, fileUrl) {
+  const updatedUser = await User.update(
+    { filename: fileUrl },
+    { where: { id: userId }}
+  );
+  return updatedUser;
+}
+
+
+module.exports = {
+  updateUserProfile,
+  updateUserProfilePicture,
+};

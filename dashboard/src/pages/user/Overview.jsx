@@ -109,12 +109,19 @@ class ProfileOverview extends React.Component {
         }
     }
 
+    propsToFormData = (formData, properties) => {
+      for ( var key in properties ) {
+          formData.append(key, properties[key]);
+      }
+      return formData;
+    }
+
     updateUserInfo = () => {
         const { userDetails, accountDetails } = this.props;
         const { id, departmentName, email, firstName, lastName, language, phonenumber, filename } = userDetails
         const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
 
-        post('users', 'updateUserProfile', {
+        let paramsData = {
                 id,
                 firstName,
                 lastName,
@@ -122,7 +129,6 @@ class ProfileOverview extends React.Component {
                 departmentName,
                 language,
                 phonenumber,
-                filename,
                 country,
                 postalCode,
                 city,
@@ -130,7 +136,15 @@ class ProfileOverview extends React.Component {
                 university,
                 timezone,
                 vatId
-            },
+            };
+
+        if (filename instanceof FormData) {
+          paramsData = this.propsToFormData(filename, paramsData);
+        } else {
+          paramsData.filename = filename;
+        }
+
+        post('users', 'updateUserProfile', paramsData,
             () => toast('Profile details updated!'),
             () => toast('Unable to update profile details...')
         )
