@@ -169,9 +169,9 @@ class ProfileOverview extends React.Component {
               }
               return toast('Profile details updated!');
             },
-            () => {
+            ({ error }) => {
               this.setState({ disabledBtn: false });
-              toast('Unable to update profile details...');
+              toast(`Unable to update profile details... ${error}`);
             }
         )
     }

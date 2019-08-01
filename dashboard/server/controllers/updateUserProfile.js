@@ -114,19 +114,19 @@ async function updateUserProfile(req, res) {
         async fileUrl => {
           const updated = await updateUserProfilePicture(id, fileUrl);
           if (!!updated.error) {
-            return res.status(500).send('Can not to update profile picture.')
+            return res.status(500).send({ error: 'Can not to update profile picture.' })
           }
           return res.json({ ...response, fileUrl });
         },
         error => {
-          return res.status(500).send(error);
+          return res.status(500).send({ error });
         }
       )
     } else {
       res.json(response);
     }
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send({ error });
   }
 }
 
