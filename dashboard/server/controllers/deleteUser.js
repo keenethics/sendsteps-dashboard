@@ -1,6 +1,7 @@
 const models = require('../models');
+const userRoles = require('../helpers/userRoles');
 
-const { user: User, sessions: Session } = models;
+const { user: User, accounts: Account, sessions: Session } = models;
 
 function getCurrentDate() {
   let d = new Date(),
@@ -44,11 +45,31 @@ async function deleteUser(req, res) {
       return res.status(404).json({ error: 'User not found' });
     }
 
+    const account = await Account.findOne({
+      where: {
+        id: userToDelete.accountId
+      }
+    });
+
     const sessionToDelete = await Session.findOne({
       where: {
         userId: id
       }
     });
+
+    if (userToDelete.role !== userRoles.ADMIN) {
+      return res.status(403).json({
+        error: 'You cannot self-delete. Please contact your admin'
+      });
+    }
+
+    if (account.audienceSize !== 20 && account.audienceSize !== 3) {
+      return res.status(403).json({
+        error: `Your audience size is ${
+          account.audienceSize
+        }. It needs to be 20 or 3 to delete your account`
+      });
+    }
 
     await User.update(
       {
