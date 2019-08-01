@@ -38,14 +38,16 @@ class BottomSaveBar extends Component {
               >
                 <i className="fa fa-chevron-left" /> Back
               </button>
-              <button
-                onClick={onDeleteUser || (() => console.log('onDeleteUser'))}
-                type="button"
-                id="delete-btn"
-                className="btn btn-danger float-right"
-              >
-                Delete account
-              </button>
+              { onDeleteUser &&
+                <button
+                  onClick={onDeleteUser}
+                  type="button"
+                  id="delete-btn"
+                  className="btn btn-danger float-right"
+                >
+                  Delete account
+                </button>
+              }
             </div>
           </div>
         </div>
