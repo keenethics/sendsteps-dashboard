@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const client = require('../config/rackspace.js');
+const fileIsImage = require('../helpers/validator.js');
 
 
 require('dotenv-safe').config();
@@ -15,6 +16,10 @@ function uploadPhotoToRackspace(fileToUpload) {
   const filePath = path.join(__dirname, '../../', fileToUpload.path)
   return new Promise((resolve, reject) => {
     try {
+      if (!fileIsImage(filePath)) {
+        deleteTempFile(filePath);
+        return reject('Wrong file extation.');
+      }
       const readStream = fs.createReadStream(filePath);
       client.getContainer(process.env.RACKSPACE_CONTAINER, (err, container) => {
         if (err) {

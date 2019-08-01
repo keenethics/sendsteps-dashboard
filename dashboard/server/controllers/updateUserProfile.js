@@ -58,6 +58,9 @@ async function updateUserProfile(req, res) {
       uploadPhotoToRackspace(file).then(
         async fileUrl => {
           updatedUser = await updateUserProfilePicture(id, fileUrl);
+          if (!!updatedUser.error) {
+            return res.status(500).send('Can not to update profile picture.')
+          }
           return res.json({
             message: 'User profile updated!',
             updatedUser,
@@ -82,11 +85,16 @@ async function updateUserProfile(req, res) {
 }
 
 async function updateUserProfilePicture(userId, fileUrl) {
-  const updatedUser = await User.update(
-    { filename: fileUrl },
-    { where: { id: userId }}
-  );
-  return updatedUser;
+  try {
+    const updatedUser = await User.update(
+      { filename: fileUrl },
+      { where: { id: userId }}
+    );
+    return updatedUser;
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
 }
 
 

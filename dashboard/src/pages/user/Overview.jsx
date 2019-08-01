@@ -145,7 +145,10 @@ class ProfileOverview extends React.Component {
         }
 
         post('users', 'updateUserProfile', paramsData,
-            () => toast('Profile details updated!'),
+            (result) => {
+              if (result.fileUrl) this.setImage(result.fileUrl);
+              toast('Profile details updated!')
+            },
             () => toast('Unable to update profile details...')
         )
     }
