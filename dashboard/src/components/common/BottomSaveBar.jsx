@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 class BottomSaveBar extends Component {
   goBack() {
@@ -16,27 +17,22 @@ class BottomSaveBar extends Component {
         <div className="card-body">
           <div className="row">
             <div className="col-sm-12">
-              {!noSave && (
+              {!noSave &&
                 <div
-                  className="btn btn-success"
+                  className={classNames('btn btn-success', { disabled })}
                   disabled={disabled}
-                  onClick={
-                    onSave ||
-                    function() {
-                      console.log('onSave');
-                    }
-                  }
+                  onClick={!disabled && (onSave || function(){ console.log("onSave")})}
                 >
-                  <i className="fa fa-save" /> Save
+                  <i className="fa fa-save"></i> Save
                 </div>
-              )}
-              <button
+              }
+              <button 
                 onClick={() => this.goBack()}
-                type="button"
-                id="back-btn"
-                className="btn btn-outline-secondary float-right ml-3"
+                type='button' 
+                id='back-btn' 
+                className='btn btn-outline-secondary float-right'
               >
-                <i className="fa fa-chevron-left" /> Back
+                <i className="fa fa-chevron-left"></i> Back
               </button>
               { onDeleteUser &&
                 <button

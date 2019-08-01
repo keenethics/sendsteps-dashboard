@@ -33,7 +33,7 @@ class ResetPassword extends Component {
       },
       error => {
         console.log(error);
-        this.setState({ error });
+        this.setState({ ...error });
       }
     )
   }
@@ -54,7 +54,7 @@ class ResetPassword extends Component {
       },
       error => {
         console.log(error);
-        this.setState({ error });
+        this.setState({ ...error });
       }
     )
   }
