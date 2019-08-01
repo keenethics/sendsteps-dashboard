@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const client = require('../config/rackspace.js');
-const fileIsImage = require('../helpers/validator.js');
+const { fileIsImage } = require('../helpers/validationHelpers.js');
 
 
 require('dotenv-safe').config();
