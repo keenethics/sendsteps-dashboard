@@ -67,7 +67,7 @@ function generateMessageKeyword(responseCodeBase) {
     generatedMessage = 'free';
   }
 
-  generatedMessage = responseCodeBase.slice(0, 20) + Math.floor(Math.random() * 10000000000);
+  generatedMessage = responseCodeBase.slice(0, 20) + Math.floor(Math.random() * 10000);
 
   return generatedMessage;
 }
