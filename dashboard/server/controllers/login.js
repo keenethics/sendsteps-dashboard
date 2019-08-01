@@ -91,7 +91,8 @@ async function getUserData(req, res) {
       userId: userData.id,
       userType: userData.role,
       firstName: userData.firstName,
-      lastName: userData.lastName
+      lastName: userData.lastName,
+      profilePic: userData.filename
     });
   } catch (err) {
     console.log(err);
