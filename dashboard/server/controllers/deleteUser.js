@@ -29,13 +29,21 @@ async function deleteUser(req, res) {
   const { id } = req.body;
   const currentDate = getCurrentDate();
   const deleteStringTemplate = '-old-' + currentDate;
+  // From jwt-express
+  const email = req.user.email;
 
   try {
     const userToDelete = await User.findOne({
       where: {
-        id
+        id,
+        email
       }
     });
+
+    if (!userToDelete) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
     const sessionToDelete = await Session.findOne({
       where: {
         userId: id
