@@ -1,3 +1,4 @@
+const mandrill = require('mandrill-api/mandrill');
 const models = require("../models");
 const {
   isResetPassTokenExpired,
@@ -5,6 +6,9 @@ const {
   generateResetPasswordToken,
   resetTokenExpiredTime,
 } = require("../helpers/passwordHelpers");
+require('dotenv-safe').config();
+
+const MANDRILL_API_KEY = process.env.MANDRILL_API_KEY;
 
 const { user: User } = models;
 
@@ -16,6 +20,41 @@ const responseAnswer = {
   check your spam folder.`
 };
 
+
+function sendForgetEmail(email, resetPasswordUrl) {
+  mandrill_client = new mandrill.Mandrill(MANDRILL_API_KEY);
+
+  mandrill_client.messages.sendTemplate(
+    {
+      template_name: 'forgot-password',
+      template_content: [],
+      message: {
+        subject: 'Forgot your password?',
+        from_email: 'support@sendsteps.com',
+        to: [
+          {
+            email,
+            type: 'to'
+          }
+        ],
+        global_merge_vars: [
+          {
+            name: 'RESETPASSWORDURL',
+            content: resetPasswordUrl
+          }
+        ]
+      },
+      async: false
+    },
+    result => {
+      console.log(result);
+    },
+    e => {
+      console.log(`'A mandrill error occurred: ${e.name} - ${e.message}`);
+    }
+  );
+}
+
 // This should generate restore password link and send it to user email
 // Should take an email
 // supposed that validation of email is on frontend side
@@ -25,7 +64,7 @@ async function generateResetLink(req, res) {
   const { host } = req.headers;
 
   if (!email) {
-    return res.status(400).send({ error: "Email be specified!" });
+    return res.status(400).send({ error: "Email must be specified!" });
   }
 
   try {
@@ -36,10 +75,11 @@ async function generateResetLink(req, res) {
       { where: { email }},
     ).then(res => {
       if (res[0]) {
+        console.log(res);
         const restoreLink = `${host}/reset-password?token=${password_reset_token}`;
-        // TODO Here should be sending an email with the restore link
+        sendForgetEmail(email, restoreLink);
 
-        // TODO This is for test, should be removed, should not to return restoreLink!!!
+        // TODO This is for test, should be removed, should not to return restoreLink!!!!
         return { ...responseAnswer, restoreLink };
       }
       return responseAnswer;

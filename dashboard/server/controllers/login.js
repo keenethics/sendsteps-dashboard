@@ -1,10 +1,26 @@
 const models = require('../models');
 const jwt = require('jsonwebtoken');
 const destructurizationHelper = require('../helpers/destructurizationHelper');
+const { isValidEmail, isValidPassword } = require('../helpers/validationHelpers');
 // for using .env variables
 require('dotenv-safe').config({ allowEmptyValues: true });
 
 const { user: User } = models;
+
+function validateData(data) {
+  const { email, password } = data;
+  const errors = {};
+  
+  if (!isValidEmail(email)) {
+    errors.email = 'email is invalid';
+  }
+
+  if (!isValidPassword(password)) {
+    errors.password = 'password must be from 6 to 40 characters long';
+  }
+
+  return errors;
+}
 
 async function getUser(req, res) {
   const enteredInfo = req.body;
@@ -12,6 +28,13 @@ async function getUser(req, res) {
 
   if (!email || !password) {
     return res.status(400).send('email and password must be specified');
+  }
+
+  const errors = validateData(enteredInfo);
+  if (Object.keys(errors).length !== 0) {
+    return res.status(400).json({
+      errors
+    });
   }
 
   try {
@@ -59,8 +82,6 @@ async function getUserData(req, res) {
     const userData = await User.findOne({
       where: { email: req.user.email }
     });
-
-    console.log(req.user);
 
     if (!userData) {
       return res.status(400).send('Wrong token. User not found');

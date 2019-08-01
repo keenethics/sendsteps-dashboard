@@ -1,8 +1,9 @@
-const models = require('../models');
 const jwt = require('jsonwebtoken');
-const userRoles = require('../helpers/userRoles');
 const fetch = require('node-fetch');
 const uniqid = require('uniqid');
+const mandrill = require('mandrill-api/mandrill');
+const models = require('../models');
+const userRoles = require('../helpers/userRoles');
 const destructurizationHelper = require('../helpers/destructurizationHelper');
 const {
   DEFAULT_UNKNOWN,
@@ -13,17 +14,18 @@ const {
   DEFAULT_PAYMENT_AMOUNT,
   DEFAULT_PHONE_NUMBER
 } = require('../helpers/accountsConstants');
-const { DEFAULT_ORIGIN } = require('../helpers/usersConstants');
 const {
   DEFAULT_TEXT_MESSAGING_SELECTED,
   DEFAULT_SESSION_TYPE
 } = require('../helpers/sessionsConstants');
+const { DEFAULT_ORIGIN } = require('../helpers/usersConstants');
+const { isValidEmail, isValidPassword } = require('../helpers/validationHelpers');
 const { DEFAULT_USER_TYPE } = require('../helpers/userslogConstants');
-// for using .env variables
 require('dotenv-safe').config();
 
 const IP_PARSE_URL = process.env.IP_PARSE_URL;
 const IP_TOKEN = process.env.IP_TOKEN;
+const MANDRILL_API_KEY = process.env.MANDRILL_API_KEY;
 
 const {
   user: User,
@@ -70,6 +72,112 @@ function generateMessageKeyword(responseCodeBase) {
   return generatedMessage;
 }
 
+function sendGreetingsEmail(email, firstName, lastName) {
+  mandrill_client = new mandrill.Mandrill(MANDRILL_API_KEY);
+
+  mandrill_client.messages.sendTemplate(
+    {
+      template_name: 'free-account-in-add-in',
+      template_content: [],
+      message: {
+        subject: 'Welcome to sendsteps!',
+        from_email: 'support@sendsteps.com',
+        to: [
+          {
+            email,
+            name: `${firstName} ${lastName}`,
+            type: 'to'
+          }
+        ],
+        global_merge_vars: [
+          {
+            name: 'BRANDNAME',
+            content: 'KEENETHICS'
+          },
+          {
+            name: 'FIRSTNAME',
+            content: firstName
+          },
+          {
+            name: 'URL_BRANDED_DOWNLOAD',
+            content: 'https://google.com'
+          }
+        ]
+      },
+      async: false
+    },
+    result => {
+      console.log(result);
+    },
+    e => {
+      console.log(`'A mandrill error occurred: ${e.name} - ${e.message}`);
+    }
+  );
+}
+
+function validateData(data) {
+  const {
+    firstName,
+    lastName,
+    email,
+    password,
+    users,
+    audienceSize,
+    licenceType,
+    timezone,
+    address,
+    paymentAmount,
+    sendstepsEducation
+  } = data;
+  const errors = {};
+
+  if (firstName.length === 0 || firstName.length > 25) {
+    errors.firstName = 'firstName must be from 1 to 25 characters long';
+  }
+
+  if (lastName.length === 0 || lastName.length > 25) {
+    errors.lastName = 'lastName must be from 1 to 25 characters long';
+  }
+
+  if (!isValidEmail(email)) {
+    errors.email = 'email is invalid';
+  }
+
+  if (!isValidPassword(password)) {
+    errors.password = 'password must be from 6 to 40 characters long';
+  }
+
+  if (users && (users < 0 || !Number.isInteger(users))) {
+    errors.users = 'users must be a positive integer';
+  }
+
+  if (audienceSize && (audienceSize < 0 || !Number.isInteger(audienceSize))) {
+    errors.audienceSize = 'audienceSize must be a positive integer';
+  }
+
+  if (licenceType && licenceType.length > 75) {
+    errors.licenceType = 'licenceType must be shorter than 75 characters';
+  }
+
+  if (timezone && timezone.length > 75) {
+    errors.timezone = 'timezone must be shorter than 75 characters';
+  }
+
+  if (address && address.length > 75) {
+    errors.address = 'address must be shorter than 75 characters';
+  }
+
+  if (paymentAmount && (paymentAmount < 0 || !Number.isInteger(paymentAmount))) {
+    errors.paymentAmount = 'paymentAmount must be a positive integer';
+  }
+
+  if (sendstepsEducation && (sendstepsEducation !== 1 && sendstepsEducation !== 0)) {
+    errors.sendstepsEducation = 'sendstepsEducation must be 1 or 0';
+  }
+
+  return errors;
+}
+
 async function registerUser(req, res) {
   const {
     firstName,
@@ -88,6 +196,13 @@ async function registerUser(req, res) {
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({
       error: 'firstName, lastName, email and password must be specified'
+    });
+  }
+
+  const errors = validateData(req.body);
+  if (Object.keys(errors).length !== 0) {
+    return res.status(400).json({
+      errors
     });
   }
 
@@ -169,7 +284,6 @@ async function registerUser(req, res) {
     );
 
     const generatedMessage = generateMessageKeyword(createdAccount.responseCodeBase);
-
     const createdSession = await Session.create({
       accountId: createdAccount.id,
       loginCode: uniqid().slice(8),
@@ -206,6 +320,9 @@ async function registerUser(req, res) {
     const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
       algorithm: 'HS256'
     });
+
+    // Sending email
+    sendGreetingsEmail(createdUser.email, createdUser.firstName, createdUser.lastName);
 
     return res.json({
       jwt: token,
