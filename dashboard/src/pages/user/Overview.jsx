@@ -17,7 +17,8 @@ class ProfileOverview extends React.Component {
             firstName: null,
             lastName: null,
             email: null
-        }
+        },
+        disabledBtn: false,
     }
 
     resetErrors = () => {
@@ -103,6 +104,7 @@ class ProfileOverview extends React.Component {
         })
 
         if(!hasErrors) {
+            this.setState({ disabledBtn: true })
             this.updateUserInfo()
         } else {
             toast('Unable to update profile. There are still some invalid fields.')
@@ -146,10 +148,14 @@ class ProfileOverview extends React.Component {
 
         post('users', 'updateUserProfile', paramsData,
             (result) => {
+              this.setState({ disabledBtn: false });
               if (result.fileUrl) this.setImage(result.fileUrl);
               toast('Profile details updated!')
             },
-            () => toast('Unable to update profile details...')
+            () => {
+              this.setState({ disabledBtn: false });
+              toast('Unable to update profile details...');
+            }
         )
     }
     
@@ -159,7 +165,7 @@ class ProfileOverview extends React.Component {
     render() {
 
         const { userDetails, accountDetails } = this.props;
-        const { timezones, countries, errors } = this.state;
+        const { timezones, countries, errors, disabledBtn } = this.state;
 
         return (
             <div>
@@ -489,7 +495,7 @@ class ProfileOverview extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <BottomSaveBar onSave={this.saveChanges} />  
+                    <BottomSaveBar disabled={disabledBtn} onSave={this.saveChanges} />
                 </div>
             </div>
         )

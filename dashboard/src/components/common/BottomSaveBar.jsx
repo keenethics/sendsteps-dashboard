@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import classNames from 'classnames';
 
 class BottomSaveBar extends Component  {
 
@@ -17,9 +18,9 @@ class BottomSaveBar extends Component  {
                     <div className="row">
                         <div className="col-sm-12">
                             {!noSave &&
-                            <div className="btn btn-success" 
+                            <div className={classNames('btn btn-success', { disabled })}
                                 disabled={disabled}
-                                onClick={onSave || function(){ console.log("onSave")}}
+                                onClick={!disabled && (onSave || function(){ console.log("onSave")})}
                             >
                                 <i className="fa fa-save"></i> Save
                             </div>}
