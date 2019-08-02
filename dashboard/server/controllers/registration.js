@@ -273,9 +273,7 @@ async function registerUser(req, res) {
     });
 
     // Generating JWT token
-    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
-      algorithm: 'HS256'
-    });
+    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY);
 
     // Sending email
     sendGreetingsEmail(createdUser.email, createdUser.firstName);
