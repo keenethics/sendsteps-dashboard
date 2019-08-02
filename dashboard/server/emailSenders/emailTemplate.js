@@ -8,6 +8,7 @@ function emailTemplate(templateName, subject, email, vars) {
       message: {
         subject,
         from_email: 'support@sendsteps.com',
+        from_name: 'Sendsteps',
         to: [
           {
             email,

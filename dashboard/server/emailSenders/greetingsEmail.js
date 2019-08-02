@@ -6,7 +6,8 @@ function sendGreetingsEmail(email, firstName) {
   const vars = [
     {
       name: 'BRANDNAME',
-      content: 'KEENETHICS'
+      // TODO this should be taken from addinsettings table, column name, but I'm not sure how...
+      content: 'Sendsteps'
     },
     {
       name: 'FIRSTNAME',

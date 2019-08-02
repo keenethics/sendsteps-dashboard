@@ -16,11 +16,13 @@ function timeOut(timeout, error, promise) {
 
 export function post(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const isFormData = params instanceof FormData;
+  const contentType = isFormData ? {} : { 'Content-Type': 'application/json' };
 
   const fetchParams = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-    body: JSON.stringify(params)
+    headers: { ...contentType, Authorization: `Bearer ${token}` },
+    body: isFormData ? params : JSON.stringify(params)
   };
 
   fetch(`${API_URL}/${functionName}`, fetchParams)

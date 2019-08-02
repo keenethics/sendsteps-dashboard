@@ -38,10 +38,8 @@ async function generateResetLink(req, res) {
         if (res[0]) {
           const restoreLink = `${origin}/reset-password?token=${password_reset_token}`;
           sendForgotEmail(email, restoreLink);
-
-          // TODO This is for test, should be removed, should not to return restoreLink!!!!
-          return { ...responseAnswer, restoreLink };
         }
+
         return responseAnswer;
       })
       .catch(err => {

@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const destructurizationHelper = require('../helpers/destructurizationHelper');
+const uploadPhotoToRackspace = require('../middlewares/rackspaceUploader');
 const { user: User, accounts: Account } = require('../models');
 const { isValidEmail } = require('../helpers/validationHelpers');
 
@@ -26,6 +27,7 @@ function validateData(data) {
 
 async function updateUserProfile(req, res) {
   const enteredInfo = req.body;
+  const file = req.file;
   const { id, email } = enteredInfo;
   const response = {
     message: 'User profile updated!'
@@ -107,10 +109,42 @@ async function updateUserProfile(req, res) {
       }
     );
 
-    res.json(response);
+    if (file) {
+      uploadPhotoToRackspace(file).then(
+        async fileUrl => {
+          const updated = await updateUserProfilePicture(id, fileUrl);
+          if (!!updated.error) {
+            return res.status(500).send({ error: 'Can not to update profile picture.' })
+          }
+          return res.json({ ...response, fileUrl });
+        },
+        error => {
+          return res.status(500).send({ error });
+        }
+      )
+    } else {
+      res.json(response);
+    }
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send({ error });
   }
 }
 
-module.exports = updateUserProfile;
+async function updateUserProfilePicture(userId, fileUrl) {
+  try {
+    const updatedUser = await User.update(
+      { filename: fileUrl },
+      { where: { id: userId }}
+    );
+    return updatedUser;
+  } catch (error) {
+    console.error(error);
+    return { error };
+  }
+}
+
+
+module.exports = {
+  updateUserProfile,
+  updateUserProfilePicture,
+};
