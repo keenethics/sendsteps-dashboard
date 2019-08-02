@@ -24,7 +24,7 @@ const responseAnswer = {
 // endpoint for it is POST to /api/user/requestPasswordReset
 async function generateResetLink(req, res) {
   const { email } = req.body;
-  const { host } = req.headers;
+  const { origin } = req.headers;
 
   if (!email) {
     return res.status(400).send({ error: 'Email must be specified!' });
@@ -36,8 +36,7 @@ async function generateResetLink(req, res) {
     const updatedResult = await User.update({ password_reset_token }, { where: { email } })
       .then(res => {
         if (res[0]) {
-          console.log(res);
-          const restoreLink = `${host}/reset-password?token=${password_reset_token}`;
+          const restoreLink = `${origin}/reset-password?token=${password_reset_token}`;
           sendForgotEmail(email, restoreLink);
 
           // TODO This is for test, should be removed, should not to return restoreLink!!!!
