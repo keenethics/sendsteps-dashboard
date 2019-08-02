@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 const fetch = require('node-fetch');
 const uniqid = require('uniqid');
-const mandrill = require('mandrill-api/mandrill');
 const models = require('../models');
 const userRoles = require('../helpers/userRoles');
 const destructurizationHelper = require('../helpers/destructurizationHelper');
+const { sendGreetingsEmail } = require('../emailSenders/greetingsEmail');
 const {
   DEFAULT_UNKNOWN,
   DEFAULT_USERS,
@@ -25,7 +25,6 @@ require('dotenv-safe').config();
 
 const IP_PARSE_URL = process.env.IP_PARSE_URL;
 const IP_TOKEN = process.env.IP_TOKEN;
-const MANDRILL_API_KEY = process.env.MANDRILL_API_KEY;
 
 const {
   user: User,
@@ -70,49 +69,6 @@ function generateMessageKeyword(responseCodeBase) {
   generatedMessage = responseCodeBase.slice(0, 20) + Math.floor(Math.random() * 10000);
 
   return generatedMessage;
-}
-
-function sendGreetingsEmail(email, firstName, lastName) {
-  mandrill_client = new mandrill.Mandrill(MANDRILL_API_KEY);
-
-  mandrill_client.messages.sendTemplate(
-    {
-      template_name: 'free-account-in-add-in',
-      template_content: [],
-      message: {
-        subject: 'Welcome to sendsteps!',
-        from_email: 'support@sendsteps.com',
-        to: [
-          {
-            email,
-            name: `${firstName} ${lastName}`,
-            type: 'to'
-          }
-        ],
-        global_merge_vars: [
-          {
-            name: 'BRANDNAME',
-            content: 'KEENETHICS'
-          },
-          {
-            name: 'FIRSTNAME',
-            content: firstName
-          },
-          {
-            name: 'URL_BRANDED_DOWNLOAD',
-            content: 'https://google.com'
-          }
-        ]
-      },
-      async: false
-    },
-    result => {
-      console.log(result);
-    },
-    e => {
-      console.log(`'A mandrill error occurred: ${e.name} - ${e.message}`);
-    }
-  );
 }
 
 function validateData(data) {
@@ -322,7 +278,7 @@ async function registerUser(req, res) {
     });
 
     // Sending email
-    sendGreetingsEmail(createdUser.email, createdUser.firstName, createdUser.lastName);
+    sendGreetingsEmail(createdUser.email, createdUser.firstName);
 
     return res.json({
       jwt: token,

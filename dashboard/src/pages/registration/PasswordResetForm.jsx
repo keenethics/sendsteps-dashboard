@@ -35,21 +35,13 @@ class PasswordResetForm extends Component {
             '/api/user/requestPasswordReset',
             { email: recoveringEmail },
             result => {
-              // TODO should remove restoreLink when there will be email logic
-              const { success, error, restoreLink } = result;
+              const { success, error } = result;
               toast(success || error);
-
-              // TODO this should be removed when there will be email logic
-              if (restoreLink) {
-                prompt("This is your restore link", restoreLink);
-              }
             },
             error => {
-              console.log(error);
               toast(error);
             }
           )
-            // alert('Sending reset request... (Not really)', recoveringEmail);
         }
     }
 
