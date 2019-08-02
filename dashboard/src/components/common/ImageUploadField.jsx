@@ -31,7 +31,7 @@ export default class ImageUploadField extends React.Component {
 
         image.src = URL.createObjectURL(filePath)
 
-        this.props.setImage(image.src);
+        // this.props.setImage(image.src);
 
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -47,10 +47,15 @@ export default class ImageUploadField extends React.Component {
     }
 
     upload = e => {
-        this.getBase64DataFromFilePath(e.target.files[0]).then(
-            data => console.log(data),
-            error => console.log(error)
-        );
+      let formData = new FormData();
+      const file = e.target.files[0];
+      formData.append('file', file);
+      this.props.setImage(formData);
+
+      this.getBase64DataFromFilePath(e.target.files[0]).then(
+        data => console.log(data),
+        error => console.log(error)
+      );
     }
 
     render() {

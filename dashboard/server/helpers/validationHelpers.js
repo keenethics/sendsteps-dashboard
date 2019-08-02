@@ -9,7 +9,21 @@ function isValidPassword(password) {
   return password.length >= 6 && password.length <= 40;
 }
 
+function fileIsImage (filePath) {
+  const supportedFiles = [
+    'jpeg',
+    'jpg',
+    'gif',
+    'png',
+    'bmp'
+  ];
+
+  return supportedFiles.includes(filePath.split('.').pop());
+}
+
+
 module.exports = {
   isValidEmail,
-  isValidPassword
+  isValidPassword,
+  fileIsImage
 };
