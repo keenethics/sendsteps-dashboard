@@ -1,5 +1,6 @@
-const models = require('../models');
+const parser = require('ua-parser-js');
 const jwt = require('jsonwebtoken');
+const models = require('../models');
 const destructurizationHelper = require('../helpers/destructurizationHelper');
 const { isValidEmail, isValidPassword } = require('../helpers/validationHelpers');
 // for using .env variables
@@ -10,7 +11,7 @@ const { user: User } = models;
 function validateData(data) {
   const { email, password } = data;
   const errors = {};
-  
+
   if (!isValidEmail(email)) {
     errors.email = 'email is invalid';
   }
@@ -57,7 +58,13 @@ async function getUser(req, res) {
     });
 
     // Changing some user info on login
-    const updateInfo = destructurizationHelper(enteredInfo, 'os', 'browser');
+    const { browser, os } = parser(req.headers['user-agent']);
+
+    const updateInfo = destructurizationHelper(
+      { browser: browser.name, os: `${os.name} ${(os.version ? os.version : '')}` },
+      'os',
+      'browser'
+    );
 
     if (updateInfo) {
       await User.update(
@@ -84,7 +91,7 @@ async function getUserData(req, res) {
     });
 
     if (!userData) {
-      return res.status(400).send('Wrong token. User not found');
+      return res.status(400).json({ message: 'Wrong token. User not found' });
     }
 
     return res.json({
