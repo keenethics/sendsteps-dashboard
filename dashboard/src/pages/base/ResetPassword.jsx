@@ -8,6 +8,7 @@ import {
   authRequired,
 } from "../../actions/auth";
 import { toast } from "react-toastify";
+import ToastComponent from '../../components/common/ToastComponent'
 
 // This is component for test the logic, no pass validation
 class ResetPassword extends Component {
@@ -15,6 +16,7 @@ class ResetPassword extends Component {
       super(props);
       this.state = {
           newPassword: '',
+          repeatPassword: '',
           error: null,
           success: null,
       }
@@ -39,28 +41,38 @@ class ResetPassword extends Component {
   }
 
   handleSubmit = () => {
-    const { newPassword } = this.state;
+    const { newPassword, repeatPassword } = this.state;
+    if (newPassword !== repeatPassword) {
+      return toast('Passwords mismatch!');
+    }
     const token = window.location.search.replace('?token=', '');
     postNew(
       `/api/user/resetUserPassword`,
       { newPassword, token },
       result => {
         const { success, error, email } = result;
-        this.setState({ error });
+        if (error) {
+          return toast(error);
+        }
+        // this.setState({ error });
         console.log(email, newPassword);
         if (success && email) {
           this.login(email, newPassword);
         }
       },
-      error => {
-        console.log(error);
-        this.setState({ ...error });
+      ({error}) => {
+        // this.setState({ error });
+        toast(error);
       }
     )
   }
 
   handleChange = (event) => {
     this.setState({ newPassword: event.target.value });
+  }
+
+  handleRepeatChange = (event) => {
+    this.setState({ repeatPassword: event.target.value });
   }
 
   login = (email, password) => {
@@ -89,9 +101,11 @@ class ResetPassword extends Component {
     }
     return (
       <div>
-        <label>
+        <label style={{display: 'flex', flexDirection: 'column', width: '250px'}}>
           New password:
-          <input type="text" onChange={this.handleChange} />
+          <input type="password" onChange={this.handleChange} />
+          Repeat password:
+          <input type="password" onChange={this.handleRepeatChange} />
         </label>
         <input type="button" value="Change" onClick={this.handleSubmit}/>
       </div>
@@ -102,6 +116,7 @@ class ResetPassword extends Component {
     return (
       <div>
         {this.restoreForm()}
+        <ToastComponent />
       </div>
     );
   }
