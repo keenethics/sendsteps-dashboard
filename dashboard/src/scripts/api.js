@@ -40,14 +40,14 @@ export function post(controller, functionName, params, onSuccess, onFail) {
 }
 
 export function postNew(apiUrl, params, onSuccess, onFail) {
-    // const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    const fetchParams = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(params)
-    }
+  // const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const fetchParams = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  };
 
-    fetch(apiUrl, fetchParams)
+  fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
       if (result.error) {
@@ -74,8 +74,10 @@ export function get(controller, functionName, params, onSuccess, onFail) {
   fetch(`${API_URL}/${functionName}`, fetchParams)
     .then(result => result.json())
     .then(result => {
-      result.error && onFail(result);
-      !result.error && onSuccess(result);
+      if (result.error) {
+        return onFail(result);
+      }
+      onSuccess(result);
     })
     .catch(error => onFail(error));
 }
