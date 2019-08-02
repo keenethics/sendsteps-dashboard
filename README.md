@@ -2,7 +2,7 @@
 
 This is app to manage your presentation which you can create  in PowerPoint using plugin.
 
-dashboard.sendsteps.com - current old dashboard version
+dashboard.sendsteps.com - current old dashboard version<br />
 sendsteps.me - response site
 
 ## Getting started
@@ -30,6 +30,19 @@ cp .env.example .env
 ```
 This project using MariaDB as database. You need to install it locally
 here is helpfull link for Ubuntu [Install MariaDB on Ubuntu](https://computingforgeeks.com/how-to-install-mariadb-10-4-on-ubuntu-18-04-ubuntu-16-04/)
+
+Create database with some test data<br />
+(you will need to change creadantional in package.json:<br />
+  YOUR_USER - your user name for MariaDB<br />
+  YOUR_PASSWORD - your password for user in MariaDB)
+
+```bash
+npm run migration
+```
+or run the command, where generate_addis.sql - path to SQL file
+```bash
+mysql -u YOUR_USER -p YOUR_PASSWORD < generate_addis.sql
+```
 
 Running the project in development mode:
 
