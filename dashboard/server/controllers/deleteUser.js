@@ -33,6 +33,10 @@ async function deleteUser(req, res) {
   // From jwt-express
   const email = req.user.email;
 
+  if (!id) {
+    res.status(400).json({ message: 'id should be presented' });
+  }
+
   try {
     const userToDelete = await User.findOne({
       where: {
