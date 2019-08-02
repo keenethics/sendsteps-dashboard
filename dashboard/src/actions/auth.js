@@ -151,7 +151,6 @@ export function authenticate(email, password, onSuccess, onFail) {
     .then(result => result.json())
     .then(result => {
       if (result && result.jwt) {
-        console.log("SAVING TOKEN....");
         if (!addToLocalStorage('token', result.jwt)) {
           if (!addCookieValues('SSTToken', result.jwt, 48)) {
             toast(

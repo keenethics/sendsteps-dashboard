@@ -177,7 +177,6 @@ class ProfileOverview extends React.Component {
               this.setState({ disabledBtn: false });
               if (result.fileUrl) this.setImage(result.fileUrl);
               if (result.token) {
-                console.log('SAVING TOKEN....');
                 if (!addToLocalStorage('token', result.token)) {
                   if (!addCookieValues('SSTToken', result.token, 48)) {
                     toast(
