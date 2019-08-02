@@ -4,10 +4,8 @@ const registration = require('./registration');
 const getProfileData = require('./getProfileData');
 const updateUserProfile = require('./updateUserProfile');
 const deleteUser = require('./deleteUser');
-const nodemailer = require('nodemailer');
-const path = require('path');
-const ejs = require('ejs');
 const userRoutes = require('./userRoutes');
+const getDownloadAddInUrl = require('./getDownloadAddInUrl');
 
 const router = express.Router();
 
@@ -17,6 +15,7 @@ router.use('/getProfileData', getProfileData);
 router.use('/updateUserProfile', updateUserProfile);
 router.use('/deleteUser', deleteUser);
 router.use('/user', userRoutes);
+router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 
 router.get('/test', async (req, res) => {
   // TODO clean this method in production
