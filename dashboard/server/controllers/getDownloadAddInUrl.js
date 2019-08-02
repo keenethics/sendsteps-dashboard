@@ -3,7 +3,7 @@ const Op = Sequelize.Op;
 const { addinsettings: Addinsetting, sessions: Session } = require('../models');
 
 async function getDownloadAddInUrl(req, res) {
-  const defaultUrl = 'http://beta-downloads.sendsteps.com/Sendsteps.setup.exe';
+  const defaultUrl = 'https://update.sendsteps.com/Sendsteps.setup.exe';
   const originUrl = req.protocol + '://' + req.get('host');
   const userId = req.body.userId;
 
