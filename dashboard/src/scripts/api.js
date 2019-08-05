@@ -81,3 +81,24 @@ export function get(controller, functionName, params, onSuccess, onFail) {
     })
     .catch(error => onFail(error));
 }
+
+export function getNew(apiUrl, params, onSuccess, onFail) {
+  const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
+  const fetchParams = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  fetch(apiUrl, fetchParams)
+    .then(result => result.json())
+    .then(result => {
+      if (result.error) {
+        return onFail(result);
+      }
+      onSuccess(result);
+    })
+    .catch(error => onFail(error));
+}

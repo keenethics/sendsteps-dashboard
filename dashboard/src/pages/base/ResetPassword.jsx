@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
-import { postNew } from '../../scripts/api';
+import { postNew, getNew } from '../../scripts/api';
 import {
   authLoading,
   authenticate,
@@ -25,7 +25,7 @@ class ResetPassword extends Component {
   componentDidMount() {
     const { search } = window.location;
     
-    postNew(
+    getNew(
       `/api/user/resetPassword${search}`,
       {},
       result => {
