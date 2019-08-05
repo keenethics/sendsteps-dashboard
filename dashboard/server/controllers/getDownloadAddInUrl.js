@@ -7,6 +7,10 @@ async function getDownloadAddInUrl(req, res) {
   const originUrl = req.protocol + '://' + req.get('host');
   const userId = req.body.userId;
 
+  if (!userId) {
+    return res.status(400).json({ message: 'userId should be presented' });
+  }
+
   const foundSession = await Session.findOne({
     where: {
       userId

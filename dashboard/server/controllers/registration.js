@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const parser = require('ua-parser-js');
 const fetch = require('node-fetch');
 const uniqid = require('uniqid');
 const models = require('../models');
@@ -151,7 +152,7 @@ async function registerUser(req, res) {
 
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).json({
-      error: 'firstName, lastName, email and password must be specified'
+      message: 'firstName, lastName, email and password must be specified'
     });
   }
 
@@ -168,7 +169,7 @@ async function registerUser(req, res) {
     });
 
     if (checkedUser) {
-      return res.status(409).json({ error: 'Email is already in use.' });
+      return res.status(409).json({ message: 'Email is already in use.' });
     }
 
     const date = new Date();
@@ -187,6 +188,11 @@ async function registerUser(req, res) {
       }
     });
 
+    // Obtaining user os and browser
+    const { browser, os } = parser(req.headers['user-agent']);
+
+    const userInfo = { browser: browser.name, os: `${os.name} ${os.version ? os.version : ''}` };
+
     // Creating records
     const createdUser = await User.create({
       firstName,
@@ -196,7 +202,7 @@ async function registerUser(req, res) {
       role: userRoles.ADMIN,
       auth_key: '',
       accountId: 0,
-      ...destructurizationHelper(req.body, 'language', 'os', 'browser'),
+      ...destructurizationHelper(userInfo, 'language', 'os', 'browser'),
       origin: DEFAULT_ORIGIN,
       emailUnconfirmed: '',
       isDeleted: 0,

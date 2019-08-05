@@ -20,7 +20,7 @@ router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 router.get('/test', async (req, res) => {
   // TODO clean this method in production
 
-  return res.json({ req });
+  return res.json(req);
 });
 
 module.exports = router;

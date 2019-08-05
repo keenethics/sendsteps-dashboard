@@ -148,8 +148,10 @@ class RegistrationForm extends Component {
   }
 
   handleRegistrationErrors = error => {
+    const errorMessage = error.message || 'Something went wrong during registration!';
+
     this.props.dispatch(
-      setGeneralError('Something went wrong during registration!')
+      setGeneralError(errorMessage)
     );
 
     this.props.dispatch(authLoading(false));
