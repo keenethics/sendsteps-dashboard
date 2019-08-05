@@ -210,7 +210,8 @@ async function registerUser(req, res) {
       lastUsedDate: date.toLocaleString(),
       created_at: Math.round(Date.now() / 1000),
       updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: ''
+      moderatorSharingToken: '',
+      isGuidedTourTake: 0
     });
 
     const createdAccount = await Account.create({
