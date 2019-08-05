@@ -99,7 +99,8 @@ async function getUserData(req, res) {
       userType: userData.role,
       firstName: userData.firstName,
       lastName: userData.lastName,
-      profilePic: userData.filename
+      profilePic: userData.filename,
+      isGuidedTourTake: userData.isGuidedTourTake
     });
   } catch (err) {
     console.log(err);
