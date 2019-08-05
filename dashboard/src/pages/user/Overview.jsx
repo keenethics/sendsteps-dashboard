@@ -139,7 +139,9 @@ class ProfileOverview extends React.Component {
 
     propsToFormData = (formData, properties) => {
       for ( var key in properties ) {
-          formData.append(key, properties[key]);
+          if (properties[key] !== null) {
+            formData.append(key, properties[key]);
+          }
       }
       return formData;
     }
@@ -177,7 +179,6 @@ class ProfileOverview extends React.Component {
               this.setState({ disabledBtn: false });
               if (result.fileUrl) this.setImage(result.fileUrl);
               if (result.token) {
-                console.log('SAVING TOKEN....');
                 if (!addToLocalStorage('token', result.token)) {
                   if (!addCookieValues('SSTToken', result.token, 48)) {
                     toast(

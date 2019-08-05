@@ -5,6 +5,7 @@ const {
   generateResetPasswordToken,
   resetTokenExpiredTime
 } = require('../helpers/passwordHelpers');
+const { isValidPassword } = require('../helpers/validationHelpers');
 const { sendForgotEmail } = require('../emailSenders/forgotPasswordEmail');
 require('dotenv-safe').config();
 
@@ -63,6 +64,9 @@ async function resetUserPassword(req, res) {
   const { newPassword, token } = req.body;
   if (!newPassword || !token) {
     return res.status(400).send({ error: 'Password and token must be specified!' });
+  }
+  if (!isValidPassword(newPassword)) {
+    return res.status(400).send({ error: 'Password must be from 6 to 40 characters long' });
   }
 
   const isTokenExpired = isResetPassTokenExpired(token);

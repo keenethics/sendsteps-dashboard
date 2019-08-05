@@ -7,6 +7,6 @@ const router = express.Router();
 router.route("/changePassword").post(changePassword);
 router.route("/requestPasswordReset").post(generateResetLink);
 router.route("/resetUserPassword").post(resetUserPassword);
-router.route("/resetPassword").post(checkPasswordResetLink);
+router.route("/resetPassword").get(checkPasswordResetLink);
 
 module.exports = router;
