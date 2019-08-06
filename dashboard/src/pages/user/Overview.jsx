@@ -137,12 +137,12 @@ class ProfileOverview extends React.Component {
     );
   };
 
-  propsToFormData = (formData, properties) => {
-    for (var key in properties) {
-      if (properties[key] !== null) {
-        formData.append(key, properties[key]);
+    propsToFormData = (formData, properties) => {
+      for ( var key in properties ) {
+        if (properties[key] !== null && !formData.has(key)) {
+          formData.append(key, properties[key]);
+        }
       }
-    }
     return formData;
   };
 

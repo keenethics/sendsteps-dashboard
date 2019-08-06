@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.route('/').post(
   checkJWT(),
-  uploadFile.single('file'),
+  uploadFile,
   updateUserProfile
 );
 
