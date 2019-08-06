@@ -94,15 +94,15 @@ function validateData(data) {
   const errors = {};
 
   if (firstName.length === 0 || firstName.length > 25) {
-    errors.firstName = 'firstName must be from 1 to 25 characters long';
+    errors.firstName = 'first name must be from 1 to 25 characters long';
   } else if (!isText(firstName)) {
-    errors.firstName = 'firstName should be valid';
+    errors.firstName = 'first name should be valid';
   }
 
   if (lastName.length === 0 || lastName.length > 25) {
-    errors.lastName = 'lastName must be from 1 to 25 characters long';
+    errors.lastName = 'last name must be from 1 to 25 characters long';
   } else if (!isText(lastName)) {
-    errors.lastName = 'lastName should be valid';
+    errors.lastName = 'last name should be valid';
   }
 
   if (!isValidEmail(email)) {
@@ -118,11 +118,11 @@ function validateData(data) {
   }
 
   if (audienceSize && (audienceSize < 0 || !Number.isInteger(audienceSize))) {
-    errors.audienceSize = 'audienceSize must be a positive integer';
+    errors.audienceSize = 'audience size must be a positive integer';
   }
 
   if (licenceType && licenceType.length > 75) {
-    errors.licenceType = 'licenceType must be shorter than 75 characters';
+    errors.licenceType = 'licence type must be shorter than 75 characters';
   }
 
   if (timezone && timezone.length > 75) {
@@ -134,11 +134,11 @@ function validateData(data) {
   }
 
   if (paymentAmount && (paymentAmount < 0 || !Number.isInteger(paymentAmount))) {
-    errors.paymentAmount = 'paymentAmount must be a positive integer';
+    errors.paymentAmount = 'payment amount must be a positive integer';
   }
 
   if (sendstepsEducation && (sendstepsEducation !== 1 && sendstepsEducation !== 0)) {
-    errors.sendstepsEducation = 'sendstepsEducation must be 1 or 0';
+    errors.sendstepsEducation = 'sendsteps education must be 1 or 0';
   }
 
   return errors;

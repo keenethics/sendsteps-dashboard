@@ -48,11 +48,11 @@ function validateData(data) {
   }
 
   if (postalCode && !isText(postalCode)) {
-    errors.postalCode = 'postalCode should be valid';
+    errors.postalCode = 'postal code should be valid';
   }
 
   if (departmentName && !isText(departmentName)) {
-    errors.departmentName = 'departmentName should be valid';
+    errors.departmentName = 'department name should be valid';
   }
 
   if (language && !isText(language)) {
