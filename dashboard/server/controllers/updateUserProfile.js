@@ -28,15 +28,15 @@ function validateData(data) {
   const errors = {};
 
   if (firstName.length === 0 || firstName.length > 25) {
-    errors.firstName = 'firstName must be from 1 to 25 characters long';
+    errors.firstName = 'first name must be from 1 to 25 characters long';
   } else if (!isText(firstName)) {
-    errors.firstName = 'firstName should be valid';
+    errors.firstName = 'first name should be valid';
   }
 
   if (lastName.length === 0 || lastName.length > 25) {
-    errors.lastName = 'lastName must be from 1 to 25 characters long';
+    errors.lastName = 'last name must be from 1 to 25 characters long';
   } else if (!isText(lastName)) {
-    errors.lastName = 'lastName should be valid';
+    errors.lastName = 'last name should be valid';
   }
 
   if (!isValidEmail(email)) {
