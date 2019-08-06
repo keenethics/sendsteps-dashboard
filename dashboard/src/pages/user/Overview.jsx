@@ -139,7 +139,7 @@ class ProfileOverview extends React.Component {
 
     propsToFormData = (formData, properties) => {
       for ( var key in properties ) {
-          if (properties[key] !== null) {
+          if (properties[key] !== null && !formData.has(key)) {
             formData.append(key, properties[key]);
           }
       }

@@ -56,4 +56,7 @@ function uploadPhotoToRackspace(fileToUpload) {
   })
 }
 
-module.exports = uploadPhotoToRackspace;
+module.exports = {
+  uploadPhotoToRackspace,
+  deleteTempFile,
+};

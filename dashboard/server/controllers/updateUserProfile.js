@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const destructurizationHelper = require('../helpers/destructurizationHelper');
-const uploadPhotoToRackspace = require('../middlewares/rackspaceUploader');
+const { uploadPhotoToRackspace, deleteTempFile } = require('../middlewares/rackspaceUploader');
 const { user: User, accounts: Account } = require('../models');
 const { isValidEmail } = require('../helpers/validationHelpers');
 
@@ -35,6 +35,7 @@ async function updateUserProfile(req, res) {
 
   const errors = validateData(req.body);
   if (Object.keys(errors).length !== 0) {
+    if (file) deleteTempFile(file.path);
     return res.status(400).json({
       errors
     });
@@ -59,6 +60,7 @@ async function updateUserProfile(req, res) {
       });
 
       if (userWithEmail) {
+        if (file) deleteTempFile(file.path);
         return res.status(409).json({ error: 'User with this email already exist' });
       } else {
         // Generating JWT token
@@ -126,6 +128,7 @@ async function updateUserProfile(req, res) {
       res.json(response);
     }
   } catch (error) {
+    if (file) deleteTempFile(file.path);
     return res.status(500).send({ error });
   }
 }

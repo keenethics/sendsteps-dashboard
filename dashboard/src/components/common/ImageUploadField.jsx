@@ -1,5 +1,7 @@
 import React from 'react';
 import './ImageUploadField.scss';
+import { urlIsImage } from '../../scripts/validationChecker';
+import { toast } from 'react-toastify';
 
 export default class ImageUploadField extends React.Component {
 
@@ -49,6 +51,9 @@ export default class ImageUploadField extends React.Component {
     upload = e => {
       let formData = new FormData();
       const file = e.target.files[0];
+      if (!urlIsImage(file.name)) {
+        return toast('Wrong file extansion!');
+      }
       formData.append('file', file);
       this.props.setImage(formData);
 
@@ -90,7 +95,7 @@ export default class ImageUploadField extends React.Component {
                             <span className="input-group-addon btn btn-default btn-file">
                                 Browse... <input type="file" onChange={this.upload} />
                             </span>
-                            <input id="profile-img" value={fileName} placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
+                            <input id="profile-img" value={fileName} placeholder="(PNG, JPEG, JPG, BMP, GIF)" className="form-control" name='picture' />
                         </div>
                     </div>
                 </div>  
