@@ -52,7 +52,7 @@ export default class ImageUploadField extends React.Component {
       let formData = new FormData();
       const file = e.target.files[0];
       if (!urlIsImage(file.name)) {
-        return toast('Wrong file extansion!');
+        return toast('Wrong file extension!');
       }
       formData.append('file', file);
       this.props.setImage(formData);

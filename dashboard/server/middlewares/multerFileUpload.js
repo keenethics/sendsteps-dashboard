@@ -22,7 +22,7 @@ const upload = multer({
 async function uploadFile(req, res, next) {
   upload(req, res, function(err) {
     if (err) {
-      return res.send({ error: `${err.message}. Max allowed file size is 2MB.` });
+      return res.status(413).send({ error: `${err.message}. Max allowed file size is 2MB.` });
     }
     next();
   });
