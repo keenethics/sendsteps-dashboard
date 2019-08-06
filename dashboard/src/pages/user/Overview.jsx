@@ -21,7 +21,7 @@ class ProfileOverview extends React.Component {
       lastName: null,
       email: null
     },
-    disabledBtn: false,
+    disabledBtn: false
   };
 
   resetErrors = () => {
@@ -111,11 +111,11 @@ class ProfileOverview extends React.Component {
       }
     });
 
-    if(!hasErrors) {
-        this.setState({ disabledBtn: true })
-        this.updateUserInfo()
+    if (!hasErrors) {
+      this.setState({ disabledBtn: true });
+      this.updateUserInfo();
     } else {
-        toast('Unable to update profile. There are still some invalid fields.')
+      toast('Unable to update profile. There are still some invalid fields.');
     }
   };
 
@@ -137,72 +137,91 @@ class ProfileOverview extends React.Component {
     );
   };
 
-    propsToFormData = (formData, properties) => {
-      for ( var key in properties ) {
-          if (properties[key] !== null) {
-            formData.append(key, properties[key]);
-          }
+  propsToFormData = (formData, properties) => {
+    for (var key in properties) {
+      if (properties[key] !== null) {
+        formData.append(key, properties[key]);
       }
-      return formData;
+    }
+    return formData;
+  };
+
+  updateUserInfo = () => {
+    const { userDetails, accountDetails } = this.props;
+    const {
+      id,
+      departmentName,
+      email,
+      firstName,
+      lastName,
+      language,
+      phonenumber,
+      filename
+    } = userDetails;
+    const { country, postalCode, city, address, university, vatId, timezone } = accountDetails;
+
+    let paramsData = {
+      id,
+      firstName,
+      lastName,
+      email,
+      departmentName,
+      language,
+      phonenumber,
+      country,
+      postalCode,
+      city,
+      address,
+      university,
+      timezone,
+      vatId
+    };
+
+    if (filename instanceof FormData) {
+      paramsData = this.propsToFormData(filename, paramsData);
+    } else {
+      paramsData.filename = filename;
     }
 
-    updateUserInfo = () => {
-        const { userDetails, accountDetails } = this.props;
-        const { id, departmentName, email, firstName, lastName, language, phonenumber, filename } = userDetails
-        const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
-
-        let paramsData = {
-                id,
-                firstName,
-                lastName,
-                email,
-                departmentName,
-                language,
-                phonenumber,
-                country,
-                postalCode,
-                city,
-                address,
-                university,
-                timezone,
-                vatId
-            };
-
-        if (filename instanceof FormData) {
-          paramsData = this.propsToFormData(filename, paramsData);
-        } else {
-          paramsData.filename = filename;
+    post(
+      'users',
+      'updateUserProfile',
+      paramsData,
+      result => {
+        this.setState({ disabledBtn: false });
+        if (result.fileUrl) this.setImage(result.fileUrl);
+        if (result.token) {
+          if (!addToLocalStorage('token', result.token)) {
+            if (!addCookieValues('SSTToken', result.token, 48)) {
+              toast(
+                'Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'
+              );
+            }
+          }
+        }
+        if (result.errors) {
+          return toast(
+            `Unable to save: ${Object.keys(result.errors)
+              .map(key => result.errors[key])
+              .join('; ')}`
+          );
         }
 
-        post('users', 'updateUserProfile', paramsData,
-            result => {
-              this.setState({ disabledBtn: false });
-              if (result.fileUrl) this.setImage(result.fileUrl);
-              if (result.token) {
-                if (!addToLocalStorage('token', result.token)) {
-                  if (!addCookieValues('SSTToken', result.token, 48)) {
-                    toast(
-                      'Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'
-                    );
-                  }
-                }
-              }
-              return toast('Profile details updated!');
-            },
-            ({ error }) => {
-              this.setState({ disabledBtn: false });
-              toast(`Unable to update profile details... ${error}`);
-            }
-        )
-    }
-    
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    // Use 'react-image-crop' for Images
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    render() {
+        return toast('Profile details updated!');
+      },
+      ({ error }) => {
+        this.setState({ disabledBtn: false });
+        toast(`Unable to update profile details... ${error}`);
+      }
+    );
+  };
 
-        const { userDetails, accountDetails } = this.props;
-        const { timezones, countries, errors, disabledBtn } = this.state;
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // Use 'react-image-crop' for Images
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  render() {
+    const { userDetails, accountDetails } = this.props;
+    const { timezones, countries, errors, disabledBtn } = this.state;
 
     return (
       <div>
@@ -553,7 +572,11 @@ class ProfileOverview extends React.Component {
               </div>
             </div>
           </div>
-          <BottomSaveBar disabled={disabledBtn} onSave={this.saveChanges} onDeleteUser={this.handleDeleteUser} />
+          <BottomSaveBar
+            disabled={disabledBtn}
+            onSave={this.saveChanges}
+            onDeleteUser={this.handleDeleteUser}
+          />
         </div>
       </div>
     );

@@ -20,7 +20,12 @@ const {
   DEFAULT_SESSION_TYPE
 } = require('../helpers/sessionsConstants');
 const { DEFAULT_ORIGIN } = require('../helpers/usersConstants');
-const { isValidEmail, isValidPassword } = require('../helpers/validationHelpers');
+const {
+  isValidEmail,
+  isValidPassword,
+  isText,
+  trimObject
+} = require('../helpers/validationHelpers');
 const { DEFAULT_USER_TYPE } = require('../helpers/userslogConstants');
 require('dotenv-safe').config();
 
@@ -90,10 +95,14 @@ function validateData(data) {
 
   if (firstName.length === 0 || firstName.length > 25) {
     errors.firstName = 'firstName must be from 1 to 25 characters long';
+  } else if (!isText(firstName)) {
+    errors.firstName = 'firstName should be valid';
   }
 
   if (lastName.length === 0 || lastName.length > 25) {
     errors.lastName = 'lastName must be from 1 to 25 characters long';
+  } else if (!isText(lastName)) {
+    errors.lastName = 'lastName should be valid';
   }
 
   if (!isValidEmail(email)) {
@@ -136,6 +145,8 @@ function validateData(data) {
 }
 
 async function registerUser(req, res) {
+  trimObject(req.body);
+
   const {
     firstName,
     lastName,
@@ -159,7 +170,7 @@ async function registerUser(req, res) {
   const errors = validateData(req.body);
   if (Object.keys(errors).length !== 0) {
     return res.status(400).json({
-      errors
+      message: Object.values(errors).join(";\n")
     });
   }
 

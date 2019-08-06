@@ -21,10 +21,10 @@ router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 router.use('/checkGuidedTour', checkGuidedTour);
 router.use('/takeGuidedTour', takeGuidedTour);
 
-router.get('/test', async (req, res) => {
+router.post('/test', (req, res) => {
   // TODO clean this method in production
 
-  return res.json(req);
+  return res.json(req.body);
 });
 
 module.exports = router;
