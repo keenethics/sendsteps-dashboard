@@ -43,7 +43,7 @@ function validateData(data) {
     errors.email = 'email is invalid';
   }
 
-  if (!isValidPhoneNumber(phonenumber)) {
+  if (phonenumber && !isValidPhoneNumber(phonenumber)) {
     errors.phonenumber = 'phone number is invalid';
   }
 
