@@ -1,6 +1,6 @@
 function isValidEmail(email) {
   //from https://gist.github.com/badsyntax/719800
-  return /^([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x22([^\x0d\x22\x5c\x80-\xff]|\x5c[\x00-\x7f])*\x22))*\x40([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d)(\x2e([^\x00-\x20\x22\x28\x29\x2c\x2e\x3a-\x3c\x3e\x40\x5b-\x5d\x7f-\xff]+|\x5b([^\x0d\x5b-\x5d\x80-\xff]|\x5c[\x00-\x7f])*\x5d))*$/.test(
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
     email
   );
 }
@@ -9,21 +9,41 @@ function isValidPassword(password) {
   return password.length >= 6 && password.length <= 40;
 }
 
-function fileIsImage (filePath) {
-  const supportedFiles = [
-    'jpeg',
-    'jpg',
-    'gif',
-    'png',
-    'bmp'
-  ];
+function isValidPhoneNumber(phoneNumber) {
+  const phoneRegexp = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\.0-9]*$/;
+
+  return phoneRegexp.test(phoneNumber);
+}
+
+function fileIsImage(filePath) {
+  const supportedFiles = ['jpeg', 'jpg', 'gif', 'png', 'bmp'];
 
   return supportedFiles.includes(filePath.split('.').pop());
 }
 
+function isText(text) {
+  const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+  const trimed = text.trim();
+
+  if (trimed.length === 0) {
+    return false;
+  }
+
+  return !specialCharacters.test(trimed);
+}
+
+function trimObject(obj) {
+  Object.keys(obj).forEach(k => {
+    const elem = obj[k];
+    if (typeof elem === 'string') obj[k] = elem.trim();
+  });
+}
 
 module.exports = {
   isValidEmail,
   isValidPassword,
-  fileIsImage
+  isValidPhoneNumber,
+  fileIsImage,
+  isText,
+  trimObject
 };

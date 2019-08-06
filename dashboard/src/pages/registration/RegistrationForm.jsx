@@ -238,8 +238,10 @@ class RegistrationForm extends Component {
             <div className="card-body">
               <h5 className="card-title">
                 <strong>Register </strong>
+              </h5>
+              <h5 className="card-title">
                 {generalError && (
-                  <span className="pull-right text-danger">
+                  <span className="text-danger">
                     <i className="fa fa-exclamation-triangle" /> {generalError}
                   </span>
                 )}
