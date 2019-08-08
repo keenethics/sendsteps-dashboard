@@ -10,13 +10,13 @@ sendsteps.me - response site
 Clone the repository
 
 ```bash
-git clone https://github.com/keenethics/sendsteps-dashboard.git
+git clone git@bitbucket.org:johnsendsteps/dashboard-new.git
 ```
 
 Navigate to your repository folder, then to the dashboard folder
 
 ```bash
-cd sendsteps-dashboard/dashboard
+cd dashboard-new/dashboard
 ```
 Install the project dependencies:
 
