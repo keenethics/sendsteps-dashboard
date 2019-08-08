@@ -1,13 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import SignOutButton from './SignOutButton';
 import './MenuProfile.scss';
 import { urlIsImage } from '../../scripts/validationChecker';
 
 class MenuProfile extends React.Component {
     render() {
-
         const { menuOpened, currentUser } = this.props;
 
         return (

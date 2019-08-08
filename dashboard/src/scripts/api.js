@@ -2,57 +2,103 @@ import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
 
-const apiUrl = process.env.NOVA_API_URL;
+//const API_URL = process.env.NOVA_API_URL;
+const API_URL = '/api';
 
-const timeOutDuration = 10000 // ms
+const timeOutDuration = 10000; // ms
 
 function timeOut(timeout, error, promise) {
-    return new Promise((resolve, reject) => {
-        promise.then(resolve, reject);
-        setTimeout(reject.bind(null, error), timeOut)
-    });
+  return new Promise((resolve, reject) => {
+    promise.then(resolve, reject);
+    setTimeout(reject.bind(null, error), timeOut);
+  });
 }
 
 export function post(controller, functionName, params, onSuccess, onFail) {
-    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    const fetchParams = {
-        method: 'POST',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: 'controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token
-    }
+  const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const isFormData = params instanceof FormData;
+  const contentType = isFormData ? {} : { 'Content-Type': 'application/json' };
 
-    // timeOut(5, new Error('Request Timeout'), 
-    fetch(apiUrl, fetchParams)
+  const fetchParams = {
+    method: 'POST',
+    headers: { ...contentType, Authorization: `Bearer ${token}` },
+    body: isFormData ? params : JSON.stringify(params)
+  };
+
+  fetch(`${API_URL}/${functionName}`, fetchParams)
     .then(result => result.json())
     .then(result => {
-        if(result.error) {
-            onFail(result.error);
-        } else {
-            onSuccess(result);
-        }
+      if (result.error) {
+        onFail(result);
+      } else {
+        onSuccess(result);
+      }
     })
-    .catch(error => onFail(error))
-    // ) 
-    
+    .catch(error => {
+      onFail(error);
+    });
 }
 
-// Gets are weird because we are sending params in the body since the API expexts that
-// How to Get without being able to send body params? (Backend thing)
-export function get(controller, functionName, params, onSuccess, onFail) {
+export function postNew(apiUrl, params, onSuccess, onFail) {
+  // const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const fetchParams = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(params)
+  };
 
-    // Make up URL with params instead of body tag
-
-    const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
-    const fetchParams = {
-        method: 'POST',
-        headers: {"Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        body: 'controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token
-    }
-    fetch(apiUrl, fetchParams)
+  fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-        result.error && onFail(result);
-        !result.error && onSuccess(result)
+      if (result.error) {
+        onFail(result);
+      } else {
+        onSuccess(result);
+      }
     })
-    .catch(error => onFail(error))
+    .catch(error => {
+      onFail(error);
+    });
+}
+
+export function get(controller, functionName, params, onSuccess, onFail) {
+  const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
+  const fetchParams = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  fetch(`${API_URL}/${functionName}`, fetchParams)
+    .then(result => result.json())
+    .then(result => {
+      if (result.error) {
+        return onFail(result);
+      }
+      onSuccess(result);
+    })
+    .catch(error => onFail(error));
+}
+
+export function getNew(apiUrl, params, onSuccess, onFail) {
+  const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+
+  const fetchParams = {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  };
+  fetch(apiUrl, fetchParams)
+    .then(result => result.json())
+    .then(result => {
+      if (result.error) {
+        return onFail(result);
+      }
+      onSuccess(result);
+    })
+    .catch(error => onFail(error));
 }

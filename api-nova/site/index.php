@@ -3,8 +3,8 @@
     require_once __DIR__."/../../api-common/urls.php";//Load $internalURLs Array  
     require_once __DIR__."/../vendor/autoload.php"; // Autoload composer packages
     // Load .env file for environment variables
-        $dotenv = Dotenv\Dotenv::create('../');
-        $dotenv->load();
+        //$dotenv = Dotenv\Dotenv::create('../');
+        //$dotenv->load();
 
     try {
         $token = isset($_POST['token']) ? $_POST['token'] : '';

@@ -3,7 +3,7 @@
 define("DB_SERVER", "localhost");
 define("DB_DATABASE", "addins");
 define("DB_USERNAME", "root");
-define("DB_PASSWORD", "");
+define("DB_PASSWORD", "pass");
 define("DB_PORT", 3306);
 define("DB_TYPE", "mysql");
 define("DB_TIMEZONE_OVERWRITE", ""); // Ensure that dates and times from the databases are always CET, this is used by the classes defined in mysql.inc.php 
