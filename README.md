@@ -12,6 +12,7 @@ Clone the repository
 ```bash
 git clone git@bitbucket.org:johnsendsteps/dashboard-new.git
 ```
+checkout to the branch keenEthics
 
 Navigate to your repository folder, then to the dashboard folder
 
