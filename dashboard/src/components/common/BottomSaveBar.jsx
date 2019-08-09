@@ -20,7 +20,7 @@ class BottomSaveBar extends Component {
               {!noSave &&
                 <div
                   className={classNames('btn btn-sm btn-success', { disabled: disabled || loading })}
-                  onClick={!disabled && (onSave || function(){ console.log("onSave")})}
+                  onClick={(!disabled && onSave) || function(){ console.log("onSave")}}
                 >
                   {!loading && <i className="fa fa-save"></i>}
                   {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save

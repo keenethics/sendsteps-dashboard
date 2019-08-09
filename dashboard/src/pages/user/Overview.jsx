@@ -248,7 +248,7 @@ class ProfileOverview extends React.Component {
   // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   render() {
     const { userDetails, accountDetails } = this.props;
-    const { timezones, countries, errors, disabledBtn } = this.state;
+    const { timezones, countries, errors, disabledBtn, isUpdating } = this.state;
     
     const isLoaded = (!!userDetails && !!accountDetails)
 
