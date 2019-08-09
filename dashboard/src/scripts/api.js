@@ -53,11 +53,11 @@ export function postNew(apiUrl, params, onSuccess, onFail) {
   fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-        if(result.error) {
-            onFail(result.error);
-        } else {
-            onSuccess(result);
-        }
+      if (result.error) {
+        onFail(result);
+      } else {
+        onSuccess(result);
+      }
     })
     .catch(error => {
       onFail(error);
@@ -101,8 +101,10 @@ export function getNew(apiUrl, params, onSuccess, onFail) {
   fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-        result.error && onFail(result);
-        !result.error && onSuccess(result)
+      if (result.error) {
+        return onFail(result);
+      }
+      onSuccess(result);
     })
     .catch(error => onFail(error));
 }

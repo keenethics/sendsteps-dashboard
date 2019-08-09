@@ -9,10 +9,9 @@ sendsteps.me - response site
 
 Clone the repository
 
-```bash
-git clone git@bitbucket.org:johnsendsteps/dashboard-new.git
-```
 checkout to the branch keenEthics
+git clone https://github.com/keenethics/sendsteps-dashboard.git
+```
 
 Navigate to your repository folder, then to the dashboard folder
 

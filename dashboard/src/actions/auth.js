@@ -109,7 +109,6 @@ export function register(
     termsAccepted,
   };
 
-console.log(registerData );
   fetch(REGISTRATION_URL, {
     method: 'POST',
     headers: {

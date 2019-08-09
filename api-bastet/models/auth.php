@@ -93,9 +93,9 @@
             
             $password = crypt($password, $hash);
             // $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 13));
-            if (strlen($password) !== 60) {
-                return false;
-            }
+            // if (strlen($password) !== 60) {
+            //     return false;
+            // }
             return hash_equals($hash, $password);//Secured against cryptographic timing attacks
         }
         

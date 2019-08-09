@@ -18,6 +18,8 @@ class RegistrationForm extends Component {
         passwordConfirm: null,
         termsAccepted: null,
     }
+    this.props.dispatch(setLastNameError(lastNameError));
+  }
 
     initialState = {
         firstName: '',
@@ -31,10 +33,14 @@ class RegistrationForm extends Component {
         },
         showPassword: false
     }
+    this.props.dispatch(setEmailError(emailError));
+  }
 
     state = {
         ...this.initialState
     }
+    this.props.dispatch(setPasswordError(passwordError));
+  }
 
     componentWillMount() {
         this.setState({...this.initialState});
@@ -50,6 +56,8 @@ class RegistrationForm extends Component {
             }
         });
     }
+    this.props.dispatch(setPasswordConfirmError(passwordConfirmError));
+  }
 
     isValidated = () => {
         const { firstName, lastName, email, password, passwordConfirm, termsAccepted, errors } = this.state
