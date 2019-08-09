@@ -23,28 +23,26 @@ describe('Login test', () => {
   before(done => {
     const date = new Date();
 
-    User.destroy({ where: { email: testUser.email } }).then(async () => {
-      User.create({
-        email: testUser.email,
-        password: testUser.password,
-        firstName: testUser.firstName,
-        lastName: testUser.lastName,
-        role: userRole,
-        auth_key: '',
-        accountId: 0,
-        origin: 'test',
-        emailUnconfirmed: '',
-        isDeleted: 0,
-        createdDate: date.toLocaleString(),
-        lastUsedDate: date.toLocaleString(),
-        created_at: Math.round(Date.now() / 1000),
-        updated_at: Math.round(Date.now() / 1000),
-        moderatorSharingToken: '',
-        isGuidedTourTake: 0
-      }).then(user => {
-        createdUser = user;
-        done();
-      });
+    User.create({
+      email: testUser.email,
+      password: testUser.password,
+      firstName: testUser.firstName,
+      lastName: testUser.lastName,
+      role: userRole,
+      auth_key: '',
+      accountId: 0,
+      origin: 'test',
+      emailUnconfirmed: '',
+      isDeleted: 0,
+      createdDate: date.toLocaleString(),
+      lastUsedDate: date.toLocaleString(),
+      created_at: Math.round(Date.now() / 1000),
+      updated_at: Math.round(Date.now() / 1000),
+      moderatorSharingToken: '',
+      isGuidedTourTake: 0
+    }).then(user => {
+      createdUser = user;
+      done();
     });
   });
 
