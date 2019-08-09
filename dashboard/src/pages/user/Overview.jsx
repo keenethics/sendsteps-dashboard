@@ -51,7 +51,7 @@ class ProfileOverview extends React.Component {
 
   getUserInfo = () => {
     get(
-      'users',
+      '',
       'getProfileData',
       {},
       result => {
@@ -186,7 +186,7 @@ class ProfileOverview extends React.Component {
     }
 
     post(
-      'users',
+      '',
       'updateUserProfile',
       paramsData,
       result => {
