@@ -38,7 +38,7 @@ class PasswordResetForm extends Component {
     }
 
     recover() {
-      const { recoveringEmail } = this.props;
+      const { recoveringEmail } = this.state;
       if(!this.props.recoveringEmailError && recoveringEmail) {
         postNew(
           '/api/user/requestPasswordReset',

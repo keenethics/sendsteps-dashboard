@@ -55,6 +55,7 @@ export function checkAuthorized(token = '') {
       })
       .then(result => {
         if(result && typeof result.authorized !== 'undefined') {
+            dispatch(authRequired(result.authorized));
             dispatch(setAuthorized(result.authorized));
             dispatch(setUser(result));
         }
