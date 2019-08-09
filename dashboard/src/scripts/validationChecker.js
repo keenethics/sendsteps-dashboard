@@ -25,6 +25,7 @@ export function isValidPassword(password) {
 export function urlIsImage(url) {
     const supportedFiles = [
         '.jpeg',
+        '.jpg',
         '.gif',
         '.png',
         '.bmp'

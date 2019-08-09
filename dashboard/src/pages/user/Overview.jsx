@@ -1,50 +1,223 @@
-import React from "react";
+import React from 'react';
 import { connect } from 'react-redux';
 import { get, post } from 'App/scripts/api';
 import { setUserProfileData, setAccountProfileData } from './actions';
-import ImageUploadField from "App/components/common/ImageUploadField";
-import BottomSaveBar from "App/components/common/BottomSaveBar";
-import HeaderPanel from "App/components/common/HeaderPanel";
-import { itemPropsToString } from "App/scripts/arrayHelper";
-import { isValidEmail, isValidName } from "App/scripts/validationChecker";
-import { toast } from "react-toastify";
+import { signOut } from 'App/actions/auth';
+import ImageUploadField from 'App/components/common/ImageUploadField';
+import BottomSaveBar from 'App/components/common/BottomSaveBar';
+import HeaderPanel from 'App/components/common/HeaderPanel';
+import { itemPropsToString } from 'App/scripts/arrayHelper';
+import { isValidEmail, isValidName } from 'App/scripts/validationChecker';
+import { toast } from 'react-toastify';
+import { addToLocalStorage } from 'App/scripts/localStorage';
+import { addCookieValues } from 'App/scripts/cookieStorage';
 import { setUser } from "App/actions/auth";
 
 class ProfileOverview extends React.Component {
-    
-    state = {
-        isUpdating: false,
-        timezones: null,
-        countries: null,
-        errors: {
-            firstName: null,
-            lastName: null,
-            email: null
+  state = {
+    isUpdating: false,
+    timezones: null,
+    countries: null,
+    errors: {
+      firstName: null,
+      lastName: null,
+      email: null
+    },
+    disabledBtn: false
+  };
+
+  resetErrors = () => {
+    this.setState({
+      errors: {
+        firstName: null,
+        lastName: null,
+        email: null
+      }
+    });
+  };
+
+  setError = (error, errorMessage) => {
+    this.setState({
+      errors: {
+        ...errors,
+        [error]: errorMessage
+      }
+    });
+  };
+
+  componentDidMount() {
+    this.getUserInfo();
+  }
+
+  getUserInfo = () => {
+    get(
+      '',
+      'getProfileData',
+      {},
+      result => {
+        const { timezones, countries, user, account } = result;
+
+        this.setState({ timezones, countries });
+        this.props.dispatch(setUserProfileData(user));
+        this.props.dispatch(setAccountProfileData(account));
+      },
+      error => {
+        toast(`Unable to fetch user data... [${error}]`);
+        console.log(`Unable to fetch user data... [${JSON.stringify(error)}]`);
+      }
+    );
+  };
+
+  updateUserData = (field, e) => {
+    let updatedDetails = { ...this.props.userDetails };
+    updatedDetails[field] = e.target.value;
+    this.props.dispatch(setUserProfileData(updatedDetails));
+  };
+
+  updateAccountData = (field, e) => {
+    let updatedDetails = { ...this.props.accountDetails };
+    updatedDetails[field] = e.target.value;
+    this.props.dispatch(setAccountProfileData(updatedDetails));
+  };
+
+  validateEmail = e => {
+    const emailError = !isValidEmail(e.target.value) ? 'Please enter a valid E-mail' : null;
+    this.setState({ errors: { ...this.state.errors, email: emailError } });
+  };
+
+  validateFirstName = e => {
+    const firstNameError = !isValidName(e.target.value)
+      ? 'Please enter a valid first name (1-255 characters)'
+      : null;
+    this.setState({ errors: { ...this.state.errors, firstName: firstNameError } });
+  };
+
+  validateLastName = e => {
+    const lastNameError = !isValidName(e.target.value)
+      ? 'Please enter a valid last name (1-255 characters)'
+      : null;
+    this.setState({ errors: { ...this.state.errors, lastName: lastNameError } });
+  };
+
+  setImage = src => {
+    let updatedDetails = { ...this.props.userDetails };
+    updatedDetails['filename'] = src;
+    this.props.dispatch(setUserProfileData(updatedDetails));
+  };
+
+  saveChanges = () => {
+    let hasErrors = false;
+    Object.keys(this.state.errors).forEach(error => {
+      if (this.state.errors[error]) {
+        hasErrors = true;
+      }
+    });
+
+    if (!hasErrors) {
+      this.setState({ disabledBtn: true });
+      this.updateUserInfo();
+    } else {
+      toast('Unable to update profile. There are still some invalid fields.');
+    }
+  };
+
+  handleDeleteUser = () => {
+    post(
+      '',
+      'deleteUser',
+      {
+        id: this.props.userDetails.id
+      },
+      result => {
+        // Signing user out
+        this.props.dispatch(signOut());
+      },
+      error => {
+        console.log(error);
+        toast('Unable to delete profile. Try again later');
+      }
+    );
+  };
+
+  propsToFormData = (formData, properties) => {
+      for ( var key in properties ) {
+        if (properties[key] !== null && !formData.has(key)) {
+          formData.append(key, properties[key]);
         }
+      }
+    return formData;
+  };
+
+  updateUserInfo = () => {
+    const { userDetails, accountDetails } = this.props;
+    const {
+      id,
+      departmentName,
+      email,
+      firstName,
+      lastName,
+      language,
+      phonenumber,
+      filename
+    } = userDetails;
+    const { country, postalCode, city, address, university, vatId, timezone } = accountDetails;
+
+    let paramsData = {
+      id,
+      firstName,
+      lastName,
+      email,
+      departmentName,
+      language,
+      phonenumber,
+      country,
+      postalCode,
+      city,
+      address,
+      university,
+      timezone,
+      vatId
+    };
+
+    if (filename instanceof FormData) {
+      paramsData = this.propsToFormData(filename, paramsData);
+    } else {
+      paramsData.filename = filename;
     }
 
-    resetErrors = () => {
-        this.setState({
-            errors: {
-                firstName: null,
-                lastName: null,
-                email: null
+    post(
+      '',
+      'updateUserProfile',
+      paramsData,
+      result => {
+        this.setState({ disabledBtn: false });
+        if (result.fileUrl) this.setImage(result.fileUrl);
+        if (result.token) {
+          if (!addToLocalStorage('token', result.token)) {
+            if (!addCookieValues('SSTToken', result.token, 48)) {
+              toast(
+                'Unable to save user key to LocalStorage/Cookies, please enable these settings in your browser before logging in.'
+              );
             }
-        })
-    }
+          }
+        }
+        if (result.errors) {
+          return toast(
+            `Unable to save: ${Object.keys(result.errors)
+              .map(key => result.errors[key])
+              .join('; ')}`
+          );
+        }
 
-    setError = (error, errorMessage) => {
-        this.setState({
-            errors: {
-                ...errors,
-                [error]: errorMessage
-            }
-        })
-    }
+        return toast('Profile details updated!');
+      },
+      ({ error }) => {
+        this.setState({ disabledBtn: false });
+        toast(`Unable to update profile details... ${error}`);
+      }
+    );
+  };
 
-    componentDidMount() {
-        this.getUserInfo();
-    }
 
     getProfileData = (params, onSuccess, onFail) => {
         const functionName = 'getProfileData'
@@ -55,55 +228,6 @@ class ProfileOverview extends React.Component {
             res => onSuccess(res),
             err => onFail(err)
         );
-    }
-
-    getUserInfo = () => {
-        get('userscontroller', 'getProfileData',
-            {},
-            result => {
-
-                const { timezones, countries, user, account } = result;
-
-                this.setState({ timezones, countries })
-                this.props.dispatch(setUserProfileData(user))
-                this.props.dispatch(setAccountProfileData(account));
-
-            },
-            error => toast(`Unable to fetch user data... [${error}]`)
-        )
-    }
-
-    updateUserData = (field, e) => {
-        let updatedDetails = { ...this.props.userDetails } 
-        updatedDetails[field] = e.target.value;
-        this.props.dispatch(setUserProfileData(updatedDetails));
-    }
-
-    updateAccountData = (field, e) => {
-        let updatedDetails = { ...this.props.accountDetails } 
-        updatedDetails[field] = e.target.value;
-        this.props.dispatch(setAccountProfileData(updatedDetails));
-    }
-
-    validateEmail = e => {
-        const emailError = !isValidEmail(e.target.value) ? 'Please enter a valid E-mail' : null
-        this.setState({errors: { ...this.state.errors, email: emailError}})
-    }
-
-    validateFirstName = e => {
-        const firstNameError = !isValidName(e.target.value) ? 'Please enter a valid first name (1-255 characters)' : null
-        this.setState({errors: { ...this.state.errors, firstName: firstNameError}})
-    }
-
-    validateLastName = e => {
-        const lastNameError = !isValidName(e.target.value) ? 'Please enter a valid last name (1-255 characters)' : null
-        this.setState({errors: { ...this.state.errors, lastName: lastNameError}})
-    }
-
-    setImage = src => {
-        let updatedDetails = { ...this.props.userDetails } 
-        updatedDetails['filename'] = src;
-        this.props.dispatch(setUserProfileData(updatedDetails));
     }
 
     setBase64File = base64String => {
@@ -119,75 +243,14 @@ class ProfileOverview extends React.Component {
         this.props.dispatch(setUserProfileData(updatedDetails));
     }
 
-    saveChanges = () => {
-        let hasErrors = false
-        Object.keys(this.state.errors).forEach(error => {
-            if(this.state.errors[error]) {
-                hasErrors = true;
-            }
-        })
-
-        if(!hasErrors) {
-            this.updateUserInfo()
-        } else {
-            toast('Unable to update profile. There are still some invalid fields.')
-        }
-    }
-
-    updateUserInfo = () => {
-
-        const { userDetails, accountDetails } = this.props;
-        const { departmentName, email, firstName, lastName, language, phonenumber, base64String } = userDetails
-        const { country, postalCode, city, address, university, vatId, timezone } = accountDetails
-        
-        this.setState({isUpdating: true});
-
-        post('users', 'updateSelf',
-            {
-                firstName,
-                lastName,
-                email,
-                departmentName,
-                language,
-                phonenumber,
-                base64String,
-                country,
-                postalCode,
-                city,
-                address,
-                university,
-                timezone,
-                vatId
-            },
-            imageUrl => {
-                this.updateUserPicture(imageUrl)
-                toast('Profile details updated!')
-                this.setState({isUpdating: false});
-
-            },
-            () => {
-                toast('Unable to update profile details...')
-                this.setState({isUpdating: false});
-
-            }
-        )
-    }
-
-    updateUserPicture = imageUrl => {
-        let userToUpdate = { ...this.props.currentUser };
-        userToUpdate['profilePic'] = imageUrl;
-        this.props.dispatch(setUser(userToUpdate));
-    }
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // Use 'react-image-crop' for Images
+  // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  render() {
+    const { userDetails, accountDetails } = this.props;
+    const { timezones, countries, errors, disabledBtn, isUpdating } = this.state;
     
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    // Use 'react-image-crop' for Images
-    // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    render() {
-
-        const { userDetails, accountDetails } = this.props;
-        const { timezones, countries, errors, isUpdating } = this.state;
-
-        const isLoaded = (!!userDetails && !!accountDetails)
+    const isLoaded = (!!userDetails && !!accountDetails)
 
         return (
             <div>
@@ -534,12 +597,19 @@ class ProfileOverview extends React.Component {
                             </div>
                         </div>
                     </div>
-                    <BottomSaveBar disabled={!isLoaded} loading={isUpdating} onSave={this.saveChanges} />  
+                    <BottomSaveBar
+                      disabled={disabledBtn || !isLoaded}
+                      loading={isUpdating}
+                      onSave={this.saveChanges}
+                      onDeleteUser={this.handleDeleteUser} />  
+
+                  </div>
                 </div>
-            </div>
-        )
-    }
-} export default connect(
+              );
+            }
+          }
+
+export default connect(
     (state) => {
         return {
             userDetails: state.userReducer.userDetails,

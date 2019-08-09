@@ -6,6 +6,7 @@ vendor/
 # misc
 .DS_Store
 .env
+composer.phar
 
 npm-debug.log*
 yarn-debug.log*

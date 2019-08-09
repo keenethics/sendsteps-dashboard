@@ -1,5 +1,7 @@
 import * as React from 'react'; 
 import './ImageUploadField.scss';
+import { urlIsImage } from '../../scripts/validationChecker';
+import { toast } from 'react-toastify';
 
 export default class ImageUploadField extends React.Component {
 
@@ -31,7 +33,7 @@ export default class ImageUploadField extends React.Component {
 
         image.src = URL.createObjectURL(filePath)
 
-        this.props.setImage(image.src);
+        // this.props.setImage(image.src);
 
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -47,10 +49,18 @@ export default class ImageUploadField extends React.Component {
     }
 
     upload = e => {
-        this.getBase64DataFromFilePath(e.target.files[0]).then(
-            data => this.props.setBase64File && this.props.setBase64File(data),
-            error => console.log(error)
-        );
+      let formData = new FormData();
+      const file = e.target.files[0];
+      if (!urlIsImage(file.name)) {
+        return toast('Wrong file extension!');
+      }
+      formData.append('file', file);
+      this.props.setImage(formData);
+
+      this.getBase64DataFromFilePath(e.target.files[0]).then(
+        data => this.props.setBase64File && this.props.setBase64File(data),
+        error => console.log(error)
+      );
     }
 
     render() {

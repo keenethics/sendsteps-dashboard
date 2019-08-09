@@ -6,7 +6,6 @@ import { urlIsImage } from 'App/scripts/validationChecker';
 
 class MenuProfile extends React.Component {
     render() {
-
         const { menuOpened, currentUser } = this.props;
 
         return (

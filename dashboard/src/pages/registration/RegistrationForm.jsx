@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setView } from 'App/actions/app';
-import { authLoading, register } from 'App/actions/auth';
+import { authLoading, register, setAuthorized, authRequired, setUser } from 'App/actions/auth';
 import { isValidEmail, isValidPassword, isValidName, isEqual, getValidationState } from 'App/scripts/validationChecker';
 import { toast } from 'react-toastify';
 import errorMessages from 'App/scripts/errorMessages';
@@ -93,17 +93,20 @@ class RegistrationForm extends Component {
     signup = () => {
         this.props.dispatch(authLoading(true));
         register(
-            this.props.firstName,
-            this.props.lastName,
-            this.props.email,
-            this.props.password,
-            this.props.passwordConfirm,
-            this.props.termsAccepted,
+            this.state.firstName,
+            this.state.lastName,
+            this.state.email,
+            this.state.password,
+            this.state.passwordConfirm,
+            this.state.termsAccepted,
             result => {
                 console.log(result)
-                toast("Register doesn't fully work yet!")
+                // toast("Register doesn't fully work yet!");
+                toast(`Registered as  ${this.props.firstName} ${this.props.lastName}`);
                 this.props.dispatch(authLoading(false));
-
+                this.props.dispatch(setAuthorized(true));
+                this.props.dispatch(authRequired(true));
+                this.props.dispatch(setUser(result));
             },
             error => {
                 console.log(error)
@@ -303,12 +306,12 @@ class RegistrationForm extends Component {
                         <div className="card-footer">
                             <button type="button" onClick={this.showLoginForm} className="btn btn-sm btn-outline-primary"><i className="fa fa-chevron-left"></i> Back to login</button>
                             <button type="button" onClick={this.attemptSignup} className="float-right btn btn-sm btn-primary"><i className="fa fa-sign-in-alt"></i> Sign up</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-        )
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default connect(
