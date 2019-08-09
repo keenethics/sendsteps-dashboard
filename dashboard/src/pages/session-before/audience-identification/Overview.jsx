@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 import HeaderPanel from '../../../components/common/HeaderPanel';

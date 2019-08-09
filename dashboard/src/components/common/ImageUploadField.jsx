@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import './ImageUploadField.scss';
 
 export default class ImageUploadField extends React.Component {

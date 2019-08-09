@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import './InfoPanels.scss';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
 

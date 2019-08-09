@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import { FormGroup } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';

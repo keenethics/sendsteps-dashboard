@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import ReactExport from "react-data-export";
 
 const ExcelFile = ReactExport.ExcelFile;

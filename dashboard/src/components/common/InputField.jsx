@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import TooltipNotification from './TooltipNotification';
 
 export default class InputField extends React.Component {
