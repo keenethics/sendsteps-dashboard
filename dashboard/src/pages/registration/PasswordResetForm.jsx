@@ -8,8 +8,6 @@ import { toast } from "react-toastify";
 import errorMessages from 'App/scripts/errorMessages';
 import { getRandomSuccessMessage } from 'App/scripts/errorHelper';
 import './Forms.scss';
-import ToastComponent from '../../components/common/ToastComponent'
-import { toast } from "react-toastify";
 
 class PasswordResetForm extends Component {
 
