@@ -4,6 +4,6 @@ $db_options = array(
     'database_name' => 'addins',
     'server' => 'localhost',
     'username' => 'root',
-    'password' => 'pass',
+    'password' => '',
     'port' => 3306
 );
