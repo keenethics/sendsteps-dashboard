@@ -17,10 +17,11 @@ describe('Login test', () => {
     email: 'test@gmail.com',
     password: 'password'
   };
-  const date = new Date();
   const userRole = 'admin';
 
   before(done => {
+    const date = new Date();
+    
     User.destroy({ where: { email: testUser.email } }).then(() => {
       User.create({
         email: testUser.email,
@@ -43,7 +44,7 @@ describe('Login test', () => {
     });
   });
 
-  describe('/POST login', () => {
+  describe('POST /login', () => {
     it('correct login request', done => {
       chai
         .request(server)
@@ -85,7 +86,7 @@ describe('Login test', () => {
     });
   });
 
-  describe('Check Auth test', () => {
+  describe('GET /login/check_auth', () => {
     it('correct check Auth request', done => {
       const token = jwt.sign({ email: testUser.email }, process.env.JWT_PRIVATE_KEY);
 
@@ -117,6 +118,5 @@ describe('Login test', () => {
           done();
         });
     });
-
   });
 });
