@@ -145,6 +145,7 @@ function validateData(data) {
 }
 
 async function registerUser(req, res) {
+  console.log(req.body, '<---');
   trimObject(req.body);
 
   const {

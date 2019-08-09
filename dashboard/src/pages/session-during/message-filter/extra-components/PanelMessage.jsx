@@ -15,7 +15,6 @@ class PanelMessage extends Component {
     onToggleStar() {
         const messageId = this.props.message.id;
 
-
         const socket = io.connect('http://localhost:8001',
         {
             'reconnection': true,
@@ -79,11 +78,9 @@ class PanelMessage extends Component {
                     </span>
                 </div>}
                 <div className="msg-text" onClick={() => this.onToggleSelect()}>
-                    
                     <span>
                         {message.text}
                     </span>
-                   
                 </div>
                 {message.groupId !== null && <span style={this.getGroupStyle()} className="grouped-msg"></span>}
             </div>

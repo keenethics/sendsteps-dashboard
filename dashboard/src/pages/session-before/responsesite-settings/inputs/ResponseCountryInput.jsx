@@ -22,7 +22,7 @@ class ResponseCountryInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">Country <TooltipNotification 
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">Country <TooltipNotification 
                         title={"Country"}
                         tooltip={
                             <span className="text-left">
@@ -36,7 +36,7 @@ class ResponseCountryInput extends Component {
                 </label>
                 <div className="col-sm-6">
                 {settings && settings.countriesList &&
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <div className="input-group-prepend">
                             <span className="input-group-text">
                                 <i className="fa fa-globe"></i>

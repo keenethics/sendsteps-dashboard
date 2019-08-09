@@ -6,18 +6,18 @@ class ButtonSwitch extends Component {
 
         const { onChange, options, optionText, selected } = this.props;
 
-        const isActive = selected === "1" && "success btn-success active";
-        const isInactive = selected === "0" && "active";
+        const isActive = !!selected && "success btn-success active";
+        const isInactive = !selected && "active";
 
         return (
             <div>
-                <div className="btn-group">
+                <div className="btn-group btn-group-sm">
                     {!options && 
                     <span>
-                        <button onClick={() => onChange ? onChange(true) : console.log(true)} className={"btn btn-outline-secondary " + isActive}>
+                        <button onClick={() => onChange ? onChange(true) : console.log(true)} className={"btn btn-sm btn-outline-secondary " + isActive}>
                             <i className="fa fa-check"></i> On
                         </button>
-                        <button onClick={() => onChange ? onChange(false) : console.log(false)} className={"btn btn-outline-secondary " + isInactive}>
+                        <button onClick={() => onChange ? onChange(false) : console.log(false)} className={"btn btn-sm btn-outline-secondary " + isInactive}>
                             <i className="fa fa-times"></i> Off
                         </button>
                     </span>}
@@ -28,7 +28,7 @@ class ButtonSwitch extends Component {
                                 selectedIndex = 1;
                             }
                             return (
-                                <button className={"btn btn-outline-secondary " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
+                                <button className={"btn btn-sm btn-outline-secondary " + (selectedIndex === (index + 1) && "active") } key={index} onClick={() => onChange ? onChange(option) : console.log(option) } >
                                     {(optionText && typeof optionText[index] !== 'undefined') && optionText[index]}
                                     {!optionText && option}
                                 </button>

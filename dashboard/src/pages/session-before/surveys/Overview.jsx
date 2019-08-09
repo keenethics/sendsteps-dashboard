@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setSurveyData } from './actions';
@@ -29,7 +29,7 @@ class SurveysOverview extends React.Component {
                     surveyStatus: res.status,
                     surveyURL: res.url
                 })
-                this.props.dispatch(setSurveyData(res))
+                this.props.dispatch(setSurveyData(res.content))
             },
             err => console.log(err)
         )
@@ -59,10 +59,10 @@ class SurveysOverview extends React.Component {
         post(
             'tabstatus',
             'updateSurveyActive',
-            { status: isActive ? "1" : "0" },
+            { status: !!isActive},
             result => {
                 this.setState({ surveyStatus: result.status })
-                const isEnabled = result.status === "1" ? "enabled" : "disabled"
+                const isEnabled = !!result.status ? "enabled" : "disabled"
                 toast('Survey Tab ' + isEnabled + '!');
             },
             error => {
@@ -81,7 +81,7 @@ class SurveysOverview extends React.Component {
                 status: newStatus
             },
             res => {
-                this.props.dispatch(setSurveyData(res))
+                this.props.dispatch(setSurveyData(res.content))
                 toast("Survey Status updated!")
             },
             error => console.log(error)
@@ -92,6 +92,8 @@ class SurveysOverview extends React.Component {
         
         const { surveys } = this.props;
         const { surveyStatus, surveyURL, modalOpen } = this.state;
+
+        console.log(surveys)
 
         return (
             <div>
@@ -115,12 +117,11 @@ class SurveysOverview extends React.Component {
                             />
                             <hr/>
                             {!surveys &&
-                            <p className="text-center">
+                            <p className="text-center py-3">
                                 There are no surveys to display...
                             </p>}
                             {surveys && 
                             <OverviewTable 
-                                data={surveys.content} 
                                 updateSurveyStatus={this.updateSurveyStatus} 
                             />}
                         </div>

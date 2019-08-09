@@ -1,64 +1,58 @@
-
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class AudienceIdentification extends NovaAPI {
     
     public function getQuestions() {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
-        return json_encode($identificationQuestionModel->getBySessionId($this->getUserSessionId()));
+        $identificationQuestions = $identificationQuestionModel->getBySessionId($this->getUserSessionId());
+        foreach($identificationQuestions as $key => $question) {
+            $identificationQuestions[$key]['options'] = $this->getQuestionOptions($question['id']);
+        }
+        return json_encode($identificationQuestions);
     }
 
-    public function getQuestionOptions($infoFieldId) {
+    public function getQuestionOptions($questionId) {
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
-        return json_encode($identificationOptionModel->getByInfoFieldId($infoFieldId));
+        return $identificationOptionModel->getByInfoFieldId($questionId);
     }
 
-    public function createIdentificationQuestion(...$params) {
+    public function createIdentificationQuestion(Request $request) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
 
-        [ $questionTitle, $type, $isRequired, $participantInfofieldId, $order, $options ] = $params;
-
-        if($participantInfofieldId == NULL) {
+        if(!isset($request->question->id)) {
             $updatedParticipantInfoFieldId = $identificationQuestionModel->createQuestion(
                 $this->getUserSessionId(),
-                $questionTitle,
-                $type,
-                $isRequired,
-                $order
+                $request->question
             );
         } 
         else 
         {
             $updatedParticipantInfoFieldId = $identificationQuestionModel->updateQuestion(
-                $questionTitle,
-                $type,
-                $isRequired,
-                $participantInfofieldId,
-                $order
+                $request->question
             );
         }
-
         $identificationOptionModel->deleteOptions($updatedParticipantInfoFieldId);
-        if(count((array) $options) > 0 && strlen(array_values((array) $options)[0]) > 0) {
-            $identificationOptionModel->addOptions($updatedParticipantInfoFieldId, $options);
+        if(count((array) $request->question->options) > 0 && strlen(array_values((array) $request->question->options)[0]) > 0) {
+            $identificationOptionModel->addOptions($updatedParticipantInfoFieldId, $request->question->options);
         }
-        return true;
+        return $this->getQuestions();
     }
 
-    public function updateOrder($orderIds) {
+    public function updateOrder(Request $request) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
-        if($identificationQuestionModel->updateOrder($orderIds, $this->getUserSessionId())) {
+        if($identificationQuestionModel->updateOrder($request->idPositions, $this->getUserSessionId())) {
             return $this->getQuestions();
         }
     }
 
-    public function deleteIdentificationQuestion($identificationQuestionId) {
+    public function deleteIdentificationQuestion(Request $request) {
         $identificationQuestionModel = $this->loadModel('participantinfofields');
         $identificationOptionModel = $this->loadModel('participantinfofieldsoption');
-
-        $identificationQuestionModel->deleteQuestion($identificationQuestionId);
-        return json_encode(!!$identificationOptionModel->deleteOptions($identificationQuestionId));
+        $identificationQuestionModel->deleteQuestion($request->id);
+        $identificationOptionModel->deleteOptions($request->id);
+        return $this->getQuestions();
     }
 }

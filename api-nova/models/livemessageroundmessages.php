@@ -230,14 +230,23 @@ class Livemessageroundmessages_Model extends Model {
     }
 
     public function getRecentActivity($sessionId) {
-        return $this->database()->select(
+        return $this->database()->count(
             'livemessageroundmessages',
-            '*',
+            'id',
             [
                 'sessionId' => $sessionId,
                 'LIMIT' => 10,
-                'ORDER' => ["timestamp" => "DESC"],
+                'ORDER' => ["timestamp" => "DESC"]
             ]
         );
+        // return $this->database()->select(
+        //     'livemessageroundmessages',
+        //     '*',
+        //     [
+        //         'sessionId' => $sessionId,
+        //         'LIMIT' => 10,
+        //         'ORDER' => ["timestamp" => "DESC"],
+        //     ]
+        // );
     }
 }

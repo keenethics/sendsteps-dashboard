@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
+import { formatTypes } from './arrayHelper';
 
 //const API_URL = process.env.NOVA_API_URL;
 const API_URL = '/api';
@@ -50,11 +51,11 @@ export function postNew(apiUrl, params, onSuccess, onFail) {
   fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-      if (result.error) {
-        onFail(result);
-      } else {
-        onSuccess(result);
-      }
+        if(result.error) {
+            onFail(result.error);
+        } else {
+            onSuccess(formatTypes(result));
+        }
     })
     .catch(error => {
       onFail(error);
@@ -95,10 +96,8 @@ export function getNew(apiUrl, params, onSuccess, onFail) {
   fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-      if (result.error) {
-        return onFail(result);
-      }
-      onSuccess(result);
+        result.error && onFail(result);
+        !result.error && onSuccess(formatTypes(result))
     })
     .catch(error => onFail(error));
 }

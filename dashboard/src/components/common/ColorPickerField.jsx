@@ -31,14 +31,14 @@ class ColorPickerField extends Component {
         return (
             <div>
                 <div className="form-group">
-                    <label className="col-form-label">
+                    <label className="col-form-label col-form-label-sm">
                         {labelText} 
                         {infoContent && 
                         <TooltipNotification title="Colorpicker" placement={"top"} tooltip={infoContent}>
                             <i className="fa fa-question-circle"></i>
                         </TooltipNotification>}
                     </label>
-                    <div className="input-group">
+                    <div className="input-group input-group-sm">
                         <TooltipNotification title="Colorpicker" placement={"top"} tooltip={"Edit Color"}>
                             <div className="input-group-prepend">
                                 <span onClick={this.toggleColorPicker} className="input-group-text">

@@ -2,13 +2,10 @@ import React, { Component } from 'react';
 import SurveyNameContainer from './SurveyNameContainer'
 import './CreateSurveyContainer.scss'
 import { connect } from 'react-redux';
-import Toggle from 'react-bootstrap-toggle';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
-class CreateSurveyContainer extends Component {
+import Switch from 'App/components/common/inputs/switch/Switch';
 
-    isSurveyEnabled = status => {
-        return status && status === '1'
-    }
+class CreateSurveyContainer extends Component {
 
     render() {
 
@@ -18,24 +15,23 @@ class CreateSurveyContainer extends Component {
             <div>
                 <h3>Conduct a survey among your audience</h3>
                 <hr />
-                <div className="form-group row">
+                <div className="form-group row px-3">
                     <div className="col-sm-3">
-                        <label className="col-form-label" >Show Survey</label>
+                        <label className="col-form-label col-form-label-sm" >Show Survey</label>
                     </div>
                     <div className="col-sm-6">
-                    {!surveyStatus && <i className="fa fa-circle-o-notch fa-spin"></i>}
-                    {surveyStatus && <Toggle
+                    <Switch
+                        offstyle={'secondary'}
                         onClick={this.props.toggleSurveyActive}
                         on={<span><i className="fa fa-check"></i> Yes</span>}
                         off={<span><i className="fa fa-times"></i> No</span>}
-                        offstyle="secondary"
-                        active={surveyStatus === "1"}
-                    />}
+                        active={!!surveyStatus}
+                    />
                     </div>
                     <div className="col-sm-3 text-right">
-                        {this.isSurveyEnabled(surveyStatus) && surveyURL && <>
+                        {!!surveyStatus && !!surveyURL && <>
                             <TooltipNotification placement="left" tooltip={"(Click to open in new tab)"}>
-                                <button className="btn btn-outline-secondary">
+                                <button className="btn btn-sm btn-outline-secondary">
                                     <a target='_blank' href={surveyURL}><i><i className="fa fa-external-link"></i> Survey Link</i></a>
                                 </button>
                             </TooltipNotification>

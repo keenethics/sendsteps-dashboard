@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import InputField from '../../../components/common/InputField';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import { post, get } from "../../../scripts/api";
@@ -413,13 +413,13 @@ class SessionOverview extends React.Component {
                                                     <label className="btn btn-outline-secondary ">
                                                         <div className="btn-group">
                                                             <span className="btn-group-addon"><i className="fa fa-check"></i> Yes</span>
-                                                            <input type="radio" id="internationalAudienceOn" className='internationalAudience' name="internationalAudience" value="1" />
+                                                            <input type="radio" id="internationalAudienceOn" className='internationalAudience' name="internationalAudience" value={true} />
                                                         </div>
                                                     </label>
                                                     <label className="btn btn-outline-secondary">
                                                         <div className="btn-group">
                                                                 <span className="btn-group-addon"><i className="fa fa-times"></i> No</span>
-                                                            <input type="radio" id="internationalAudienceOff" className='internationalAudience' name="internationalAudience" value="0" />
+                                                            <input type="radio" id="internationalAudienceOff" className='internationalAudience' name="internationalAudience" value={false} />
                                                         </div>
                                                     </label>
                                                 </div>

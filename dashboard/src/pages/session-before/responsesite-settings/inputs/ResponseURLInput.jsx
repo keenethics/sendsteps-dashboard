@@ -20,7 +20,7 @@ class ResponseURLInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">URL <TooltipNotification 
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">URL <TooltipNotification 
                     title={"URL"}
                     tooltip={
                         <span className="text-left">
@@ -35,7 +35,7 @@ class ResponseURLInput extends Component {
                 <div className="col-sm-6">
                     {
                         settings && settings.responseSitesList &&
-                        <div className="input-group">
+                        <div className="input-group input-group-sm">
                             <div className="input-group-prepend">
                                 <span className="input-group-text">
                                     <i className="fa fa-link"></i>

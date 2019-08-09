@@ -14,46 +14,39 @@ class Participantinfofields_Model extends Model {
         );
     }
 
-    public function createQuestion($sessionId, ...$params) {
-
-        [ $questionTitle, $type, $isRequired, $order ] = $params;
-
+    public function createQuestion($sessionId, $question) {
         $result = $this->insertOn(
             'participantinfofields',
             [
-                'title' => $questionTitle,
-                'type' => $type,
-                'isRequired' => $isRequired,
+                'title' => $question->title,
+                'type' => $question->type,
+                'isRequired' => $question->isRequired,
                 'deleted' => 0,
                 'sessionId' => $sessionId,
-                'fieldIndex' => $order
+                'fieldIndex' => $question->fieldIndex
             ] 
         );
         return $result;
     }
 
-    public function updateQuestion(...$params) {
-
-        [ $questionTitle, $type, $isRequired, $participantInfofieldId, $order ] = $params;
-
+    public function updateQuestion($question) {
         $update = $this->database()->update(
             'participantinfofields',
             [
-                'title' => $questionTitle,
-                'isRequired' => $isRequired,
-                'type' => $type,
-                'fieldIndex' => $order
+                'title' => $question->title,
+                'isRequired' => $question->isRequired,
+                'type' => $question->type,
+                'fieldIndex' => $question->fieldIndex
             ],
             [
-                'id' => $participantInfofieldId
+                'id' => $question->id
             ]
         );
 
         if($update->execute()) {
-            return $participantInfofieldId;
+            return $question->id;
         }
         return false;
-
     }
 
     public function deleteQuestion($infoFieldId) {
