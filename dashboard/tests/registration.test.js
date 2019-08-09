@@ -1,18 +1,17 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 const server = require('../server');
 const models = require('../server/models');
 require('dotenv-safe').config();
 
 chai.use(chaiHttp);
 
-const { user: User } = models;
+const { user: User, accounts: Account } = models;
 const apiBase = process.env.API_BASE || '/api';
 
 describe('Registration test', () => {
+  let createdTakenUser, registratedUser, registratedAccount;
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',
@@ -25,7 +24,7 @@ describe('Registration test', () => {
   before(done => {
     const date = new Date();
 
-    User.destroy({ where: { email: { [Op.or]: [testUser.email, takenEmail] } } }).then(() => {
+    User.destroy({ where: { email: [testUser.email, takenEmail] } }).then(() => {
       User.create({
         email: takenEmail,
         password: testUser.password,
@@ -43,7 +42,10 @@ describe('Registration test', () => {
         updated_at: Math.round(Date.now() / 1000),
         moderatorSharingToken: '',
         isGuidedTourTake: 0
-      }).then(() => done());
+      }).then(user => {
+        createdTakenUser = user;
+        done();
+      });
     });
   });
 
@@ -53,7 +55,7 @@ describe('Registration test', () => {
         .request(server)
         .post(`${apiBase}/registration`)
         .send({ ...testUser })
-        .end((err, res) => {
+        .end(async (err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.userId.should.be.a('number');
@@ -61,6 +63,11 @@ describe('Registration test', () => {
 
           const decoded = jwt.verify(res.body.jwt, process.env.JWT_PRIVATE_KEY);
           decoded.email.should.be.eql(testUser.email);
+
+          registratedUser = await User.findOne({where: {
+            email: testUser.email
+          }});
+          registratedAccount = await Account.findOne({where: {id: registratedUser.accountId}})
 
           done();
         });
@@ -117,5 +124,12 @@ describe('Registration test', () => {
           done();
         });
     });
+  });
+
+  after(done => {
+    createdTakenUser.destroy().then(() => done());
+
+    registratedUser.destroy();
+    registratedAccount.destroy();
   });
 });

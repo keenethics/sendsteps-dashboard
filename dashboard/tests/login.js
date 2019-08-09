@@ -11,6 +11,7 @@ const apiBase = process.env.API_BASE || '/api';
 const { user: User } = models;
 
 describe('Login test', () => {
+  let createdUser;
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',
@@ -21,8 +22,8 @@ describe('Login test', () => {
 
   before(done => {
     const date = new Date();
-    
-    User.destroy({ where: { email: testUser.email } }).then(() => {
+
+    User.destroy({ where: { email: testUser.email } }).then(async () => {
       User.create({
         email: testUser.email,
         password: testUser.password,
@@ -40,7 +41,10 @@ describe('Login test', () => {
         updated_at: Math.round(Date.now() / 1000),
         moderatorSharingToken: '',
         isGuidedTourTake: 0
-      }).then(() => done());
+      }).then(user => {
+        createdUser = user;
+        done();
+      });
     });
   });
 
@@ -105,7 +109,7 @@ describe('Login test', () => {
           done();
         });
     });
-    
+
     it('incorrect check Auth request (unathorized request)', done => {
       chai
         .request(server)
@@ -118,5 +122,9 @@ describe('Login test', () => {
           done();
         });
     });
+  });
+
+  after(done => {
+    createdUser.destroy().then(() => done());
   });
 });
