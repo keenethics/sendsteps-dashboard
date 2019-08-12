@@ -7,6 +7,7 @@ const config = {
   define: {
     timestamps: false
   },
+  logging: false
 };
 
 module.exports = {
@@ -14,16 +15,16 @@ module.exports = {
     connectionParams: {
       dbname: process.env.DB_NAME,
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      password: process.env.DB_PASSWORD
     },
-    config,
+    config
   },
   test: {
     connectionParams: {
       dbname: process.env.DB_NAME_TEST,
       username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
+      password: process.env.DB_PASSWORD
     },
-    config,
+    config
   }
 };
