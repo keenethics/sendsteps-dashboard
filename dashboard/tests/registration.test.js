@@ -15,38 +15,44 @@ describe('Registration test', () => {
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',
-    email: 'test@gmail.com',
+    email: 'test_registration@gmail.com',
     password: 'password'
   };
-  const takenEmail = 'taken@gmail.com';
+  const takenEmail = 'taken_registration@gmail.com';
   const userRole = 'admin';
 
   before(done => {
     const date = new Date();
 
-    User.destroy({ where: { email: [testUser.email, takenEmail] } }).then(() => {
-      User.create({
-        email: takenEmail,
-        password: testUser.password,
-        firstName: testUser.firstName,
-        lastName: testUser.lastName,
-        role: userRole,
-        auth_key: '',
-        accountId: 0,
-        origin: 'test',
-        emailUnconfirmed: '',
-        isDeleted: 0,
-        createdDate: date.toLocaleString(),
-        lastUsedDate: date.toLocaleString(),
-        created_at: Math.round(Date.now() / 1000),
-        updated_at: Math.round(Date.now() / 1000),
-        moderatorSharingToken: '',
-        isGuidedTourTake: 0
-      }).then(user => {
+    User.destroy({ where: { email: [testUser.email, takenEmail] } })
+      .then(() => {
+        return User.create({
+          email: takenEmail,
+          password: testUser.password,
+          firstName: testUser.firstName,
+          lastName: testUser.lastName,
+          role: userRole,
+          auth_key: '',
+          accountId: 0,
+          origin: 'test',
+          emailUnconfirmed: '',
+          isDeleted: 0,
+          createdDate: date.toLocaleString(),
+          lastUsedDate: date.toLocaleString(),
+          created_at: Math.round(Date.now() / 1000),
+          updated_at: Math.round(Date.now() / 1000),
+          moderatorSharingToken: '',
+          isGuidedTourTake: 0
+        });
+      })
+      .then(user => {
         createdTakenUser = user;
         done();
+      })
+      .catch(error => {
+        console.error(error);
+        done();
       });
-    });
   });
 
   describe('POST /registration', () => {
@@ -64,10 +70,12 @@ describe('Registration test', () => {
           const decoded = jwt.verify(res.body.jwt, process.env.JWT_PRIVATE_KEY);
           decoded.email.should.be.eql(testUser.email);
 
-          registratedUser = await User.findOne({where: {
-            email: testUser.email
-          }});
-          registratedAccount = await Account.findOne({where: {id: registratedUser.accountId}})
+          registratedUser = await User.findOne({
+            where: {
+              email: testUser.email
+            }
+          });
+          registratedAccount = await Account.findOne({ where: { id: registratedUser.accountId } });
 
           done();
         });
@@ -127,9 +135,10 @@ describe('Registration test', () => {
   });
 
   after(done => {
-    createdTakenUser.destroy().then(() => done());
-
-    registratedUser.destroy();
-    registratedAccount.destroy();
+    createdTakenUser
+      .destroy()
+      .then(() => registratedUser.destroy())
+      .then(() => registratedAccount.destroy())
+      .then(() => done());
   });
 });

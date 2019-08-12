@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 const server = require('../server');
 const models = require('../server/models');
 require('dotenv-safe').config();
@@ -9,26 +10,25 @@ chai.use(chaiHttp);
 const apiBase = process.env.API_BASE || '/api';
 const { user: User, accounts: Account, timezones: Timezone, countries: Country } = models;
 
-/*
-describe('getProfileData test', () => {
+describe('GET /getProfileData', () => {
   let createdUser, createdAccount;
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',
-    email: 'getProfileData@gmail.com',
+    email: 'test_getProfileData@gmail.com',
     password: 'password'
   };
 
-  before(async () => {
+  before(done => {
     const date = new Date();
     const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
     const userRole = 'admin';
 
-    createdUser = await User.create({
+    User.create({
       ...testUser,
       role: userRole,
       auth_key: '',
-      accountId: 132,
+      accountId: 1337,
       origin: 'origin',
       emailUnconfirmed: '',
       isDeleted: 0,
@@ -38,64 +38,86 @@ describe('getProfileData test', () => {
       updated_at: Math.round(Date.now() / 1000),
       moderatorSharingToken: '',
       isGuidedTourTake: 0
-    });
+    })
+      .then(user => {
+        createdUser = user;
 
-    createdAccount = await Account.create({
-      users: 0,
-      audienceSize: 20,
-      licenceType: 'yearly',
-      startDate: date.toLocaleString(),
-      endDate: dateAfterYear.toLocaleString(),
-      timezone: 'Europe/Amsterdam',
-      pluginId: 1,
-      address: '',
-      city: 'UNKNOWN',
-      country: 'UNKNOWN',
-      paymentAmount: 0,
-      responseCodeBase: 'sendsteps',
-      sendstepsEducation: 0,
-      university: '',
-      postalCode: '',
-      phonenumber: '1234567890',
-      paymentMethod: 'UNKNOWN',
-      accountOwner: createdUser.id
-    });
+        return Account.create({
+          users: 0,
+          audienceSize: 20,
+          licenceType: 'yearly',
+          startDate: date.toLocaleString(),
+          endDate: dateAfterYear.toLocaleString(),
+          timezone: 'Europe/Amsterdam',
+          pluginId: 1,
+          address: '',
+          city: 'UNKNOWN',
+          country: 'UNKNOWN',
+          paymentAmount: 0,
+          responseCodeBase: 'sendsteps',
+          sendstepsEducation: 0,
+          university: '',
+          postalCode: '',
+          phonenumber: '1234567890',
+          paymentMethod: 'UNKNOWN',
+          accountOwner: createdUser.id
+        });
+      })
+      .then(account => {
+        createdAccount = account;
 
-    return User.update(
-      {
-        accountId: createdAccount.id
-      },
-      {
-        where: {
-          id: createdAccount.accountOwner
-        }
-      }
-    );
+        return User.update(
+          {
+            accountId: createdAccount.id
+          },
+          {
+            where: {
+              id: createdAccount.accountOwner
+            }
+          }
+        );
+      })
+      .then(() => {
+        done();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   });
 
-  describe('GET /getProfileData', async () => {
-    const email = 'test@gmail.com';
+  it('correct request', done => {
+    let timezoneData;
 
-    it('correct request', async () => {
-      const timezoneData = await Timezone.findAll();
-      const countriesData = await Country.findAll({
-        attributes: ['isoCode', 'name']
-      });
-      const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY);
-
-      chai
-        .request(server)
-        .get(`${apiBase}/getProfileData`)
-        .set('Authorization', `Bearer ${token}`)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.user.should.be.a('object');
-          res.body.account.should.be.a('object');
-          res.body.timezones.should.be.eql(timezoneData);
-          res.body.countries.should.be.eql(countriesData);
+    Timezone.findAll()
+      .then(timezones => {
+        timezoneData = timezones;
+        return Country.findAll({
+          attributes: ['isoCode', 'name'],
+          raw: true
         });
-    });
+      })
+      .then(countriesData => {
+        const token = jwt.sign({ email: testUser.email }, process.env.JWT_PRIVATE_KEY);
+
+        chai
+          .request(server)
+          .get(`${apiBase}/getProfileData`)
+          .set('Authorization', `Bearer ${token}`)
+          .then(res => {
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            res.body.user.should.be.a('object');
+            res.body.account.should.be.a('object');
+            res.body.timezones.should.be.eql(timezoneData);
+            const isCountriesEqual = _.isEqual(res.body.countries, countriesData);
+            isCountriesEqual.should.be.true;
+            done();
+          })
+          .catch(err => console.log(err));
+      })
+      .catch(error => {
+        console.error(error);
+      });
   });
 
   after(done => {
@@ -107,4 +129,3 @@ describe('getProfileData test', () => {
       });
   });
 });
-/*

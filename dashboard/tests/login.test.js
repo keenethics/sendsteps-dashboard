@@ -15,7 +15,7 @@ describe('Login test', () => {
   const testUser = {
     firstName: 'Test',
     lastName: 'Test',
-    email: 'test@gmail.com',
+    email: 'test_login@gmail.com',
     password: 'password'
   };
   const userRole = 'admin';
@@ -71,6 +71,7 @@ describe('Login test', () => {
         .send()
         .end((err, res) => {
           res.should.have.status(400);
+
           done();
         });
     });
