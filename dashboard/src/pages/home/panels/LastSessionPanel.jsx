@@ -15,8 +15,9 @@ class LastSessionPanel extends Component {
                 </div>
                 <div className="card-body text-center">
                     <h2>
-                        {!responses && <i className="fa fa-circle-o-notch fa-spin"></i>}
-                        {responses && numWithCommas(responses)}
+                        {(!responses && !error) && <i className="fa fa-circle-o-notch fa-spin"></i>}
+                        {(responses && !error) && numWithCommas(responses)}
+                        {(!responses && error) && <>N/A</>}
                     </h2>
                 </div>
                 <div className="card-footer" style={{height: '40px'}}>

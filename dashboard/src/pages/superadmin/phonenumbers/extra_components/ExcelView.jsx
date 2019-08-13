@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import ReactExport from "react-data-export";
 
 const ExcelFile = ReactExport.ExcelFile;
@@ -16,8 +16,8 @@ export default class ExcelView extends React.Component {
                 <ExcelSheet data={data} name="Phonenumbers">
                     <ExcelColumn label="Country" value={(col) => col.name + " (" + col.isoCode + ")"} />
                     <ExcelColumn label="Phonenumber" value="displayText"/>
-                    <ExcelColumn label="International" value={(col) => col.foreignerCompatible === "1" ? "Yes" : "No"}/>
-                    <ExcelColumn label="Public" value={(col) => col.public === "1" ? "Yes" : "No"}/>
+                    <ExcelColumn label="International" value={(col) => !!col.foreignerCompatible ? "Yes" : "No"}/>
+                    <ExcelColumn label="Public" value={(col) => !!col.public ? "Yes" : "No"}/>
                 </ExcelSheet>
             </ExcelFile>
         );

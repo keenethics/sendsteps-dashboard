@@ -6,18 +6,12 @@ const {
   resetTokenExpiredTime
 } = require('../helpers/passwordHelpers');
 const { isValidPassword } = require('../helpers/validationHelpers');
+const { responseAnswer, emailNotSpecified } = require('../helpers/resetUserPasswordConstants');
 const { sendForgotEmail } = require('../emailSenders/forgotPasswordEmail');
 require('dotenv-safe').config();
 
 const { user: User } = models;
 
-const responseAnswer = {
-  success: `If this email address exists in
-  our database we will have
-  sent you a verification link.
-  Wait for 1 minute and if the email does not arrive soon,
-  check your spam folder.`
-};
 
 // This should generate restore password link and send it to user email
 // Should take an email
@@ -28,7 +22,7 @@ async function generateResetLink(req, res) {
   const { origin } = req.headers;
 
   if (!email) {
-    return res.status(400).send({ error: 'Email must be specified!' });
+    return res.status(400).send(emailNotSpecified);
   }
 
   try {

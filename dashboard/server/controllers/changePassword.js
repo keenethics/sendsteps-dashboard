@@ -7,7 +7,8 @@ const { user: User } = models;
 // supposed that validation of new password is on frontend side
 // endpoint for it is POST to /api/user/changePassword
 async function changePassword(req, res) {
-  const { email, oldPassword, newPassword } = req.body;
+  const { oldPassword, newPassword } = req.body;
+  const email = req.user.email;
 
   if (!email || !oldPassword || !newPassword) {
     return res.status(400).json({ error: "Email and password must be specified!" });

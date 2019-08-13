@@ -49,7 +49,7 @@ async function getUser(req, res) {
 
     const isPassMatch = searchedUser.comparePassword(password);
     if (!isPassMatch) {
-      return res.status(400).send('Password incorrect!');
+      return res.status(401).send('Wrong password');
     }
 
     // Generating JWT token
@@ -100,7 +100,8 @@ async function getUserData(req, res) {
       firstName: userData.firstName,
       lastName: userData.lastName,
       profilePic: userData.filename,
-      isGuidedTourTake: userData.isGuidedTourTake
+      isGuidedTourTake: userData.isGuidedTourTake,
+      authorized: true
     });
   } catch (err) {
     console.log(err);

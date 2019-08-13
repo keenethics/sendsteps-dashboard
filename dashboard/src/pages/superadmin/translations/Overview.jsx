@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import OverviewTable from './OverviewTable';
 import { connect } from 'react-redux';
 import { setTranslationData } from './actions';

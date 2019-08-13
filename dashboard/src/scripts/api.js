@@ -1,8 +1,9 @@
 import fetch from 'cross-fetch';
 import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
+import { formatTypes } from './arrayHelper';
 
-//const API_URL = process.env.NOVA_API_URL;
+const API_URL_PHP = process.env.NOVA_API_URL;
 const API_URL = '/api';
 
 const timeOutDuration = 10000; // ms
@@ -16,22 +17,24 @@ function timeOut(timeout, error, promise) {
 
 export function post(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const phpBody = controller && ('controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token);
+  const apiUrl = phpBody && API_URL_PHP || `${API_URL}/${functionName}`;
   const isFormData = params instanceof FormData;
   const contentType = isFormData ? {} : { 'Content-Type': 'application/json' };
 
   const fetchParams = {
     method: 'POST',
     headers: { ...contentType, Authorization: `Bearer ${token}` },
-    body: isFormData ? params : JSON.stringify(params)
+    body: phpBody || (isFormData ? params : JSON.stringify(params))
   };
 
-  fetch(`${API_URL}/${functionName}`, fetchParams)
+  fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
       if (result.error) {
         onFail(result);
       } else {
-        onSuccess(result);
+        onSuccess(formatTypes(result));
       }
     })
     .catch(error => {
@@ -63,21 +66,24 @@ export function postNew(apiUrl, params, onSuccess, onFail) {
 
 export function get(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
+  const phpBody = controller && ('controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token);
+  const apiUrl = phpBody && API_URL_PHP || `${API_URL}/${functionName}`;
 
   const fetchParams = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
-    }
+    },
+    body: phpBody
   };
-  fetch(`${API_URL}/${functionName}`, fetchParams)
+  fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
       if (result.error) {
         return onFail(result);
       }
-      onSuccess(result);
+      onSuccess(formatTypes(result));
     })
     .catch(error => onFail(error));
 }

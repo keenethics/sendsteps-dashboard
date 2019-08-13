@@ -75,7 +75,7 @@ function validateData(data) {
     errors.university = 'university should be valid';
   }
 
-  return errors;
+  return Object.entries(errors).length  && errors;
 }
 
 async function updateUserProfile(req, res) {
@@ -96,7 +96,7 @@ async function updateUserProfile(req, res) {
     });
   }
 
-  res.json(errors);
+  if (errors) return res.status(400).json(errors);
 
   try {
     const currentUser = await User.findOne({

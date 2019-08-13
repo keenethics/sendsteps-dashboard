@@ -13,7 +13,6 @@ import { withRouter, Route } from "react-router-dom";
 export class App extends Component {
   componentDidMount() {
     this.checkAuth();
-    console.log('componentDidMount: checkAuth');
   }
 
   componentWillReceiveProps(nextProps) {

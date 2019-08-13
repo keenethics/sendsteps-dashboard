@@ -4,13 +4,13 @@ export function isValidEmail(email) {
 }
 
 export function isValidName(name) {
-    return name.length > 0 && name.length < 255;
+    return name.length > 1 && name.length < 255;
 }
 
 export function isValidPassword(password) {
     // Current rules
 
-    // At least 8 characters
+    // At least 6 characters
 
     // Suggested rules
     
@@ -39,4 +39,14 @@ export function urlIsImage(url) {
         }
     }
     return false
+}
+
+export function isEqual(first, second) {
+    return !!(first.length && second.length) && first === second;
+}
+/*
+    Return Bootstrap 4 valid/invalid input classname
+*/
+export function getValidationState(value, validator) {
+    return !!value.length ? (validator(value) ? " is-valid" : " is-invalid") : "";
 }

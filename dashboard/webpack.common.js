@@ -3,6 +3,11 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const Dotenv = require("dotenv-webpack");
 
 module.exports = {
+    resolve: {
+        alias: {
+          App: path.resolve(__dirname, 'src/')
+        }
+    },
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'build'),

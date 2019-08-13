@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import { setBreadcrumbsUrl } from '../../actions/app';
 import { withRouter } from "react-router-dom";

@@ -105,40 +105,47 @@ class SideMenu extends Component {
 
                     {isSuperAdmin(currentUser) &&
                         <span>
-                        <SectionHeader 
-                            headerText="Super Admin"
-                        />
-                        <MenuItem 
-                            menuOpened={menuOpened}
-                            menuText="Translations"
-                            faIconClass="fa-language"
-                            link="/superadmin/translations"
-                        />
-                        <MenuItem 
-                            menuOpened={menuOpened}
-                            menuText="Edit Dashboard Layout"
-                            faIconClass="fa-magic"
-                            link="/superadmin/edit-dashboard"
-                        />
-                        <MenuItem 
-                            menuOpened={menuOpened}
-                            menuText="Phonenumbers"
-                            faIconClass="fa-phone"
-                            link="/superadmin/phonenumbers"
-                        />
-                        <MenuItem 
-                            menuOpened={menuOpened}
-                            menuText="Session Overview"
-                            faIconClass="fa-envelope"
-                            link="/superadmin/sessions"
-                        />
-                        <MenuItem 
-                            menuOpened={menuOpened}
-                            menuText="Delete Users"
-                            faIconClass="fa-trash"
-                            link="/superadmin/delete-users"
-                        />
-                        </span>}
+                            <SectionHeader 
+                                headerText="Super Admin"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="Translations"
+                                faIconClass="fa-language"
+                                link="/superadmin/translations"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="Edit Dashboard Layout"
+                                faIconClass="fa-magic"
+                                link="/superadmin/edit-dashboard"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="Phonenumbers"
+                                faIconClass="fa-phone"
+                                link="/superadmin/phonenumbers"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="Session Overview"
+                                faIconClass="fa-envelope"
+                                link="/superadmin/sessions"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="License Reports"
+                                faIconClass="fa-envelope"
+                                link="/superadmin/statistics"
+                            />
+                            <MenuItem 
+                                menuOpened={menuOpened}
+                                menuText="Delete Users"
+                                faIconClass="fa-trash"
+                                link="/superadmin/delete-users"
+                            />
+                        </span>
+                    }
                 </ListGroup>
             </div>
         )

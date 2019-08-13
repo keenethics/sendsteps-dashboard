@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import { toggleModal } from '../../../actions/app';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
@@ -10,6 +10,7 @@ import HeaderPanel from '../../../components/common/HeaderPanel';
 class ResponseOverview extends React.Component {
 
     componentDidMount() {
+        
     }
 
     handleOpen() {
@@ -98,7 +99,7 @@ class ResponseOverview extends React.Component {
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="form-group">
-                                                <label className="col-form-label">Show Tweets</label>
+                                                <label className="col-form-label col-form-label-sm">Show Tweets</label>
                                                 <ButtonSwitch />
                                             </div>
                                         </div>
