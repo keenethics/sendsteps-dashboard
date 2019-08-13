@@ -235,7 +235,7 @@ async function registerUser(req, res) {
       timezone: timezone || DEFAULT_TIMEZONE,
       pluginId: 1,
       address: address || '',
-      city: userLocation.city || "",
+      city: userLocation.city || '',
       country: userLocation.country_name || DEFAULT_UNKNOWN,
       paymentAmount: paymentAmount || DEFAULT_PAYMENT_AMOUNT,
       responseCodeBase: getResponseCodeBase(email),
