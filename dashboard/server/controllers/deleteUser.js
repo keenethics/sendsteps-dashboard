@@ -34,7 +34,7 @@ async function deleteUser(req, res) {
   const email = req.user.email;
 
   if (!id) {
-    res.status(400).json({ message: 'id should be presented' });
+    return res.status(400).json({ message: 'id should be presented' });
   }
 
   try {
@@ -63,13 +63,13 @@ async function deleteUser(req, res) {
 
     if (userToDelete.role !== userRoles.ADMIN) {
       return res.status(403).json({
-        error: 'You cannot self-delete. Please contact your admin'
+        message: 'You cannot self-delete. Please contact your admin'
       });
     }
 
     if (account.audienceSize !== 20 && account.audienceSize !== 3) {
       return res.status(403).json({
-        error: `Your audience size is ${
+        message: `Your audience size is ${
           account.audienceSize
         }. It needs to be 20 or 3 to delete your account`
       });
