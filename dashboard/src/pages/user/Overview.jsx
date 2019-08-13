@@ -120,6 +120,10 @@ class ProfileOverview extends React.Component {
   };
 
   handleDeleteUser = () => {
+    const isUserSure =  confirm("Are you sure you want to delete your account?");
+
+    if (!isUserSure) return;
+
     post(
       '',
       'deleteUser',

@@ -5,6 +5,7 @@ const { addinsettings: Addinsetting, sessions: Session } = require('../models');
 async function getDownloadAddInUrl(req, res) {
   const defaultUrl = 'https://update.sendsteps.com/Sendsteps.setup.exe';
   const originUrl = req.protocol + '://' + req.get('host');
+  console.log("PROTOCOL", req.protocol);
   const userId = req.body.userId;
 
   if (!userId) {
