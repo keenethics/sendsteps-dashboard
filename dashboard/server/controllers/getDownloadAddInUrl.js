@@ -16,6 +16,10 @@ async function getDownloadAddInUrl(req, res) {
       userId
     }
   });
+  
+  if (!foundSession) {
+    return res.status(404).json({ message: 'userId is incorrect' });
+  }
 
   const addinsetting = await Addinsetting.findOne({
     where: {
