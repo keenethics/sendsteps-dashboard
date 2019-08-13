@@ -1,18 +1,12 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const jwt = require('jsonwebtoken');
+const index = require('./index.test');
+const { chai, apiBase, server, should, models, jwt } = index;
 const { DEFAULT_TIMEZONE, DEFAULT_AUDIENCE_SIZE } = require('../server/helpers/accountsConstants');
 const {
   DEFAULT_TEXT_MESSAGING_SELECTED,
   DEFAULT_SESSION_TYPE
 } = require('../server/helpers/sessionsConstants');
-const server = require('../server');
-const models = require('../server/models');
-require('dotenv-safe').config();
 
-chai.use(chaiHttp);
 
-const apiBase = process.env.API_BASE || '/api';
 const { user: User, accounts: Account, sessions: Session, phonenumbers: PhoneNumber } = models;
 
 describe('Delete user test', () => {

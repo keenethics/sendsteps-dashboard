@@ -1,13 +1,7 @@
-const chai = require('chai');
-const chaiHttp = require('chai-http');
-const jwt = require('jsonwebtoken');
+const index = require('./index.test');
+const { chai, apiBase, server, should, models, jwt } = index;
 const _ = require('lodash');
-const server = require('../server');
-const models = require('../server/models');
-require('dotenv-safe').config();
 
-chai.use(chaiHttp);
-const apiBase = process.env.API_BASE || '/api';
 const { user: User, accounts: Account, timezones: Timezone, countries: Country } = models;
 
 describe('GET /getProfileData', () => {
