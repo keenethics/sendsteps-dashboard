@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "target": "es2017",
+      "allowSyntheticDefaultImports": false,
+      "baseUrl": "./",
+      "jsx": "preserve",
+      "checkJs": true,
+      "paths": {
+        "App/*": ["src/*"]
+      }
+    },
+    "exclude": ["node_modules", "public"]
+  }

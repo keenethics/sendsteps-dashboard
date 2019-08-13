@@ -1,8 +1,8 @@
-import React from 'react';
+import * as React from 'react'; 
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './MenuProfile.scss';
-import { urlIsImage } from '../../scripts/validationChecker';
+import { urlIsImage } from 'App/scripts/validationChecker';
 
 class MenuProfile extends React.Component {
     render() {
@@ -10,7 +10,7 @@ class MenuProfile extends React.Component {
 
         return (
             <div>
-                {menuOpened ? 
+                {menuOpened &&
                 <div className="menu-profile">
                     <div className="profile-container">
                         <Link to="/user/edit-profile">
@@ -19,7 +19,7 @@ class MenuProfile extends React.Component {
                                 className="profile-image"
                                 style={{
                                     background: `url(${currentUser.profilePic}) center center`,
-                                    backgroundSize: '90%',
+                                    backgroundSize: '100%',
                                     backgroundRepeat: 'no-repeat',
                                     backgroundColor: '#ffffff'
                                 }}>
@@ -30,18 +30,30 @@ class MenuProfile extends React.Component {
                             </div>}
                         </Link>
                         <div className="profile-details">
-                            <p><i>Hi {currentUser && currentUser.firstName}!</i></p>
-                            <span className="pull-right">
-                                <Link to="/user/edit-profile">
-                                    <button className="btn btn-primary">
-                                        <i className="fa fa-user"></i> Profile
-                                    </button>
-                                </Link>
-                            </span>
+                            <p>Hi <strong>{currentUser && currentUser.firstName}</strong>!</p> 
                         </div>
                     </div>
-                </div> 
-                : ""}
+                </div> }
+                {!menuOpened && <>
+                <Link to="/user/edit-profile">
+                    {currentUser && urlIsImage(currentUser.profilePic) && 
+                    <div 
+                        className="profile-image-small"
+                        style={{
+                            background: `url(${currentUser.profilePic}) center center`,
+                            backgroundSize: '100%',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: '#ffffff'
+                        }}>
+                    </div>}
+                    {currentUser && !urlIsImage(currentUser.profilePic) && 
+                    <div className="profile-image">
+                        <i className="fa fa-lg fa-camera"></i>
+                    </div>}
+                </Link>
+                <hr/>
+                </>}
+
             </div>
         )
     }

@@ -1,10 +1,25 @@
+import { addToLocalStorage } from "App/scripts/localStorage";
+
+
 export default function appReducer(state, action) {
 
     switch(action.type) {
         case 'TOGGLE_MENU': {
+            if(!action.isOpened) {
+                addToLocalStorage('smallMenu', 1)
+            } else {
+                addToLocalStorage('smallMenu', 0)
+            }
             return {
                 ...state,
                 menuOpened: action.isOpened
+            }
+        }
+        case 'SET_APP_SIZE': {
+            addToLocalStorage('appSize', action.appSize)
+            return {
+                ...state,
+                appSize: action.appSize
             }
         }
         case 'SET_BREADCRUMBS': {

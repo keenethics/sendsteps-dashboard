@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
-import Toggle from 'react-bootstrap-toggle';
 import { connect } from 'react-redux';
+import Switch from 'App/components/common/inputs/switch/Switch';
 
 class ResponseToggleSMSInput extends Component {
 
     updateSettings = (value, field) => {
+        console.log(value)
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
+        if(!value) {
+            newSettings['internetselected'] = true
+        }
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
 
@@ -16,9 +20,11 @@ class ResponseToggleSMSInput extends Component {
 
         const { settings } = this.props
 
+        console.log(settings)
+
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">TXT/SMS <TooltipNotification 
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">TXT/SMS <TooltipNotification 
                         title={"TXT/SMS"}
                         tooltip={
                             <span className="text-left">
@@ -31,12 +37,13 @@ class ResponseToggleSMSInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {settings && 
-                        <Toggle
-                            onClick={() => this.updateSettings(settings.textmessagingselected === "1" ? "0" : "1", 'textmessagingselected')}
+                        <Switch
+                            size="sm"
+                            onClick={() => this.updateSettings(!settings.textmessagingselected, 'textmessagingselected')}
                             on={<span><i className="fa fa-check"></i> On</span>}
                             off={<span><i className="fa fa-times"></i> Off</span>}
                             offstyle="secondary"
-                            active={settings.textmessagingselected === "1"}
+                            active={!!settings.textmessagingselected}
                         />}
                 </div>
             </div>

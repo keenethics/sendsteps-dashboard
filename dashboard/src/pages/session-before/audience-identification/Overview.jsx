@@ -1,20 +1,19 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
-import { setAudienceData } from './actions';
 import ResponseSiteContainer from '../../base/ResponseSiteContainer';
-import BottomSaveBar from '../../../components/common/BottomSaveBar';
 import HeaderPanel from '../../../components/common/HeaderPanel';
 import TooltipNotification from '../../../components/common/TooltipNotification';
 import { toggleModal } from '../../../actions/app';
 import DefaultModal from '../../../components/common/DefaultModal';
 import { post } from '../../../scripts/api';
-import Toggle from 'react-bootstrap-toggle';
-import CreateQuestionContainer from './question/CreateQuestionContainer';
+import IdentificationQuestionWrapper from './question/IdentificationQuestionWrapper';
 import './Overview.scss'
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class AudienceOverview extends React.Component {
 
     state = {
-        isAnonymous: "1"
+        isAnonymous: true
     }
 
     componentDidMount() {
@@ -42,12 +41,13 @@ class AudienceOverview extends React.Component {
     }
 
     setNonAnonymousFromDialog = () => {
+
         this.props.dispatch(toggleModal(false));
-        this.setIdentificationType("0");
+        this.setIdentificationType(false);
     }
 
     toggleAnonymous = isAnonymous => {
-        if(isAnonymous === "0") {
+        if(!isAnonymous) {
             this.props.dispatch(toggleModal(true));
         } else {
             this.setIdentificationType(isAnonymous)
@@ -65,16 +65,16 @@ class AudienceOverview extends React.Component {
                         <p>Be able to identify your audience by requesting attendee information upon starting a session.</p>
                         <p>As such you’ll be able to match responses with respondents. Alternatively, let attendees respond anonymous to ensure authentic feedback throughout your session.</p>
                     </span>}/>
-                <div className="container-fluid">
+                <div className="container-fluid mb-3">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12 mb-3">
                             <div className="card">
                                 <div className="card-body">
                                     <h3>How to identify your participants?</h3>
                                     <hr/>
                                     <div className="row">
-                                        <div className="col-sm-12">
-                                            <label className="col-form-label">How to Participate <TooltipNotification 
+                                        <div className="col-sm-12 px-3">
+                                            <label className="col-form-label col-form-label-sm mb-2">How to Participate <TooltipNotification 
                                                 title={"How to Participate"}
                                                 tooltip={
                                                     <span className="text-left">
@@ -84,27 +84,27 @@ class AudienceOverview extends React.Component {
                                                     <i className="fa fa-question-circle"></i>
                                                 </TooltipNotification>
                                             </label>
-                                            <Toggle
-                                                className="float-right"
-                                                style={{width:'170px', height: '32px'}}
-                                                onClick={() => this.toggleAnonymous(isAnonymous === "1" ? "0" : "1")}
+                                            <br/>
+                                            <Switch
+                                                size="sm"
+                                                style={{width: '150px'}}
+                                                offstyle="secondary"
+                                                onClick={() => this.toggleAnonymous(!isAnonymous)}
                                                 on={<span style={{paddingLeft: '10px'}}><i className="fa fa-user-secret"></i> Anonymous</span>}
                                                 off={<span className="text-center"><i className="fa fa-user"></i> Non Anonymous</span>}
-                                                offstyle="secondary"
-                                                active={isAnonymous === "1"}
+                                                active={!!isAnonymous}
                                             />
                                         </div>
                                     </div>
-                                    <hr/>
-                                    {isAnonymous === "0" && <CreateQuestionContainer />}
+                                    <hr className="mb-0"/>
+                                    {!isAnonymous && <IdentificationQuestionWrapper />}
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-lg-6 col-md-12 col-sm-12">
                         <ResponseSiteContainer  /* Pass selected url, if nothings selected, don't render response site */ />
                         </div>
                     </div>
-                    <BottomSaveBar />
                     <DefaultModal 
                         title={"Are you sure?"}
                         content={<p>Your audience will be tracked individually during the session</p>}

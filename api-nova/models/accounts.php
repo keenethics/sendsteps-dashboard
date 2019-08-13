@@ -19,22 +19,20 @@ class Accounts_Model extends Model {
         );
     }
 
-    public function updateProfileDetails($id, ...$fields) {
-
-        [ $country, $postalCode, $city, $address, $university,$timezone, $vatId ] = $fields;
+    public function updateProfileDetails($requestParams) {
 
         $update = $this->database()->update(
             'accounts',
             [
-                'country' => $country,
-                'postalCode' => $postalCode,
-                'city' => $city,
-                'address' => $address,
-                'university' => $university,
-                'timezone' => $timezone,
-                'vatId' => $vatId
+                'country' => $requestParams->country,
+                'postalCode' => $requestParams->postalCode,
+                'city' => $requestParams->city,
+                'address' => $requestParams->address,
+                'university' => $requestParams->university,
+                'timezone' => $requestParams->timezone,
+                'vatId' => $requestParams->vatId
             ],
-            ['id' => $id ]
+            ['id' => $requestParams->accountId ]
         );
         if($update->execute()) {
             return true;

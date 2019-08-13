@@ -20,6 +20,7 @@ import userManageReducer from './pages/superadmin/delete-users/reducers';
 
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { getFromLocalStorage } from 'App/scripts/localStorage';
 
 const rootReducer = combineReducers({
     appReducer,
@@ -53,7 +54,8 @@ const initialState = {
         data: null
     },
     appReducer: {
-        menuOpened: true,
+        menuOpened: !parseInt(getFromLocalStorage('smallMenu'), 10),
+        appSize: getFromLocalStorage('appSize') || 'medium',
         showRegistrationForm: false,
         togglingView: false
     },

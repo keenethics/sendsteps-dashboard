@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import BreadCrumbs from '../../pages/base/BreadCrumbs';
 
 const HeaderPanel = props => {
@@ -8,7 +8,7 @@ const HeaderPanel = props => {
     return (
         <span>
             <div className="card mt-3">
-                <div className="card-body">
+                <div className="card-body pb-0">
                     <h1>{title}</h1>  
                     {content &&
                     <span>

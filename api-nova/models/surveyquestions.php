@@ -12,44 +12,40 @@ class Surveyquestions_Model extends Model {
         return $surveyQuestion;
     }
 
-    public function createQuestion(...$params) {
-        [ $surveyQuestionName, $surveyTypeId, $isRequired, $surveyId, $order, $sessionId ] = $params;
+    public function createQuestion($question, $sessionId) {
         $result = $this->insertOn(
             'survey_question',
             [
-                'question' => $surveyQuestionName,
-                'survey_question_type_id' => $surveyTypeId,
+                'question' => $question->question,
+                'survey_question_type_id' => $question->survey_question_type_id,
                 'session_id' => $sessionId,
                 'created_date_time' => gmdate('Y-m-d H:i:s \G\M\T'),
-                'survey_id' => $surveyId,
+                'survey_id' => $question->survey_id,
                 'status' => 0,
-                'is_required' => $isRequired,
-                // Fix order somehow
-                'order' => $order
+                'is_required' => $question->is_required,
+                'order' => $question->order
             ] 
         );
         return $result;
     }
 
-    public function updateQuestion(...$params) {
-
-        [  $surveyQuestionId, $surveyQuestionName, $surveyTypeId, $isRequired, $order ] = $params;
+    public function updateQuestion($question) {
 
         $update = $this->database()->update(
             'survey_question',
             [
-                'question' => $surveyQuestionName,
-                'is_required' => $isRequired,
-                'survey_question_type_id' => $surveyTypeId,
-                'order' => $order
+                'question' => $question->question,
+                'is_required' => $question->is_required,
+                'survey_question_type_id' => $question->survey_question_type_id,
+                'order' => $question->order
             ],
             [
-                'survey_question_id' => $surveyQuestionId
+                'survey_question_id' => $question->survey_question_id
             ]
         );
 
         if($update->execute()) {
-            return $surveyQuestionId;
+            return $question->survey_question_id;
         }
         return false;
     }

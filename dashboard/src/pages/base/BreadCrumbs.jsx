@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './BreadCrumbs.scss';
+import LoadingPlaceholder from 'App/pages/base/LoadingPlaceholder';
 
 class BreadCrumbs extends Component {
 
@@ -15,7 +16,6 @@ class BreadCrumbs extends Component {
             crumbs = crumbs.replace("session-before/", "Before Session/");    
             crumbs = crumbs.replace("session-during/", "During The Session/");
             crumbs = crumbs.replace("session-results/", "After Session/");
-            
             
             let crumbList = crumbs.split('/').filter(String);
             let actualCrumbs = crumbList.map((crumb, index) => (
@@ -36,7 +36,7 @@ class BreadCrumbs extends Component {
                 {actualCrumbs}
             </div>
         }
-        return null;
+        return <LoadingPlaceholder />;
     }
 }
 

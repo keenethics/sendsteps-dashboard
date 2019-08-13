@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Sessions extends NovaAPI {
@@ -10,13 +11,13 @@ class Sessions extends NovaAPI {
         return json_encode(['content' => $results]);
     }
 
-    public function getDetails($id = NULL) {
+    public function getDetails(Request $request) {
         // Fetch data from single phonenumber
-        if($id != NULL){
+        if(isset($request->id)){
             $this->isSuperAdmin();
             $sessionId = (int) $id;
             $model = $this->loadModel('sessions');
-            $results = $model->getDetails($sessionId);
+            $results = $model->getDetails($request->id);
             return json_encode(['content' => $results]);                
         }
         return false;        
@@ -27,8 +28,8 @@ class Sessions extends NovaAPI {
         return json_encode($model->getIdentificationType($this->getUserSessionId())[0]);
     }
     
-    public function loginAsUser($sessionId = NULL){
-        if($sessionId != NULL){
+    public function loginAsUser(Request $request){
+        if(isset($request->sessionId)){
             $this->isSuperAdmin();
             $usersModel = $this->loadModel('users');
             $sessionsModel = $this->loadModel('sessions');
@@ -39,8 +40,8 @@ class Sessions extends NovaAPI {
         return false;       
     }
 
-    public function setIdentificationType($isAnonymous) {
+    public function setIdentificationType(Request $request) {
         $model = $this->loadModel('sessions');
-        return json_encode($model->setIdentificationType($isAnonymous, $this->getUserSessionId()));
+        return json_encode($model->setIdentificationType($request->isAnonymous, $this->getUserSessionId()));
     }
 }

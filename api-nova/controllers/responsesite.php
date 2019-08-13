@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Responsesite extends NovaAPI {
@@ -27,19 +28,19 @@ class Responsesite extends NovaAPI {
         return json_encode(['content' => $results]);
     }
     
-    public function getSiteList() {
+    public function getSiteList(Request $request) {
         $responsesitesModel = $this->loadModel('responsesites');
         $results = $responsesitesModel->getActiveList();
         return json_encode(['content' => $results]);
     }
     
-    public function getSiteById($id) {
+    public function getSiteById(Request $request) {
         $responsesitesModel = $this->loadModel('responsesites');
-        $results = $responsesitesModel->getActiveById($id);
+        $results = $responsesitesModel->getActiveById($request->id);
         return json_encode(['content' => $results[0]]);
     }
     
-    public function updateSettingsBasic($fields){
+    public function updateSettingsBasic(Request $request){
 
         $sessionModel = $this->loadModel('sessions');
 
@@ -52,7 +53,7 @@ class Responsesite extends NovaAPI {
         $sessionId = $this->getUserSessionId();
         return $sessionModel->updateResponseSettings(
             $sessionId, 
-            $fields
+            $request->settings
         );
         
         
@@ -66,8 +67,8 @@ class Responsesite extends NovaAPI {
             // return $update_id;
     }
 
-    public function checkResponseCode($responseCode, $userId) {
+    public function checkResponseCode(Request $request) {
         $model = $this->loadModel('sessions');
-        return json_encode($model->checkUniqueResponseCode($responseCode, $userId));
+        return json_encode($model->checkUniqueResponseCode($request->keyword, $request->userId));
     }
 }

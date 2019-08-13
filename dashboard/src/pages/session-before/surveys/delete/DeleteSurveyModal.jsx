@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { get } from '../../../../scripts/api';
-import { setDeleteSurveyId } from '../actions'
+import { get } from 'App/scripts/api';
+import { setDeleteSurveyId, setSurveyData } from '../actions'
 import { Modal, Button } from 'react-bootstrap'
-import { setSurveyData } from '../../../session-results/surveys/actions';
 import { toast } from 'react-toastify';
 
 class DeleteSurveyModal extends Component {
@@ -17,7 +16,7 @@ class DeleteSurveyModal extends Component {
             'deleteSurvey',
             { id: deleteSurveyId },
             result => {
-                this.props.dispatch(setSurveyData(result))
+                this.props.dispatch(setSurveyData(result.content))
                 this.props.dispatch(setDeleteSurveyId(null))
                 toast("Survey deleted!")
             },
@@ -35,6 +34,7 @@ class DeleteSurveyModal extends Component {
 
         return (
             <Modal
+                className="small"
                 onHide={this.hideModal}
                 show={!!deleteSurveyId}>
                 <Modal.Header closeButton>
@@ -44,10 +44,10 @@ class DeleteSurveyModal extends Component {
                     Are you sure you want to delete this survey?
                 </Modal.Body>
                 <Modal.Footer>
-                    <div className="btn btn-danger" onClick={this.deleteSurvey}>
+                    <div className="btn btn-sm btn-danger" onClick={this.deleteSurvey}>
                         <i className="fa fa-trash"></i> Delete
                     </div>
-                    <div className="btn btn-primary" onClick={this.hideModal}>
+                    <div className="btn btn-sm btn-primary" onClick={this.hideModal}>
                         <i className="fa fa-times"></i> Cancel
                     </div>
                 </Modal.Footer>

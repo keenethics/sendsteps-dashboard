@@ -22,16 +22,27 @@
 }
 
 .profile-details {
-    padding: 16px 0;
+    padding: 28px 0;
 }
 
 .profile-details p {
     padding: 8px 0px;
 }
-.profile-container {
-    padding: 0 0 8px 0;
-}
 
 .profile-image, .profile-details {
     display: inline-block;
+}
+
+.profile-image-small {
+    width: 24px;
+    height: 24px;
+    background: #ffffff;
+    border-radius: 100%;
+    border: 4px solid $lighterGray;
+    text-align: center;
+    line-height: 56px;
+    color: $darkerGray;
+    margin: 10px;
+    padding: 16px;
+    float: left;
 }

@@ -54,10 +54,10 @@ export function checkAuthorized(token = '') {
       return res.json();
       })
       .then(result => {
-        if (result) {
-          dispatch(authRequired(true));
-          dispatch(setAuthorized(true));
-          dispatch(setUser(result));
+        if(result && typeof result.authorized !== 'undefined') {
+            dispatch(authRequired(result.authorized));
+            dispatch(setAuthorized(result.authorized));
+            dispatch(setUser(result));
         }
       })
       .catch(error => {
@@ -95,6 +95,8 @@ export function register(
   lastName,
   email,
   password,
+  passwordConfirm,
+  termsAccepted,
   onSuccess,
   onFail
 ) {
@@ -102,7 +104,9 @@ export function register(
     email,
     password,
     firstName,
-    lastName
+    lastName,
+    passwordConfirm,
+    termsAccepted,
   };
 
   fetch(REGISTRATION_URL, {

@@ -13,11 +13,11 @@ class Livevotemessages_model extends Model {
             ],
             '*',
             [
+                'accountId' => $accountId,
                 'timestamp[<>]' => [
                     gmdate('Y-m-d H:i:s', time() - (60*60*24*365)),
                     gmdate('Y-m-d H:i:s')
-                ],
-                'accountId' => $accountId
+                ]
             ]
         );
     }
@@ -75,7 +75,7 @@ class Livevotemessages_model extends Model {
                     'livevotemessages.sessionId' => 'id'
                 ]
             ],
-            '*',
+            'count(id)',
             [
                 'accountId' => $accountId,
                 'timestamp[<>]' => [
@@ -107,7 +107,7 @@ class Livevotemessages_model extends Model {
                     'livevotemessages.id' => 'votes.id'
                 ]
             ],
-            '*',
+            'count(id)',
             [
                 'presentationId' => $presentationId,
                 'sessionId' => $sessionId
@@ -116,9 +116,9 @@ class Livevotemessages_model extends Model {
     }
 
     public function getRecentActivity($sessionId) {
-        return $this->database()->select(
+        return $this->database()->count(
             'livevotemessages',
-            '*',
+            'id',
             [
                 'sessionId' => $sessionId,
                 'LIMIT' => 10,

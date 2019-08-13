@@ -1,5 +1,5 @@
-
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Tabstatus extends NovaAPI {
@@ -55,9 +55,9 @@ class Tabstatus extends NovaAPI {
         );
     }
 
-    public function updateSurveyActive($newStatus) {
+    public function updateSurveyActive(Request $request) {
         $model = $this->loadModel('tabstatus');
-        if($model->setSurveyTabBySessionId($this->getUserSessionId(), $newStatus)) {
+        if($model->setSurveyTabBySessionId($this->getUserSessionId(), $request->status)) {
             return json_encode($this->getSurveyTabStatus());
         }
         return false;

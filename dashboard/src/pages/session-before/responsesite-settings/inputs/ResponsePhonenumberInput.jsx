@@ -32,7 +32,7 @@ class ResponsePhonenumberInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">Phone number <TooltipNotification
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">Phone number <TooltipNotification
                     title={"Phone number"}
                     tooltip={
                         <span className="text-left">
@@ -45,7 +45,7 @@ class ResponsePhonenumberInput extends Component {
                 </label>
                 <div className="col-sm-6">
                     {responsePhonenumbers && responsePhonenumbers[settings.phonenumberForeignerCompatible] &&
-                        <div className="input-group">
+                        <div className="input-group input-group-sm">
                             <div className="input-group-prepend">
                                 <span className="input-group-text">
                                     <i className="fa fa-phone"></i>

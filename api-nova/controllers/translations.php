@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Translations extends NovaAPI {
@@ -19,11 +20,11 @@ class Translations extends NovaAPI {
         // return json_encode(['content' => $results]);
     }
 
-    public function getDetails($id = NULL) {
+    public function getDetails(Request $request) {
         // Fetch data from single phonenumber
-        if($id != NULL){
+        if(isset($request->id)){
             $model = $this->loadModel('translations');
-            $results = $model->findActiveById($id);
+            $results = $model->findActiveById($request->id);
             return json_encode(['content' => $results]);                
         }
         return false;        

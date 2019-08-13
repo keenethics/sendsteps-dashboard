@@ -1,8 +1,11 @@
 @import "../../index.scss";
 
 .picture-upload {
-	padding-top: 25px;
 	background-color: $lightestGray;
+}
+
+.picture-container {
+    padding: 28px;
 }
 
 .picture-preview {
@@ -42,8 +45,12 @@
 }
 
 .clear-icon {
-    padding: 10px;
-
+    height: 0px;
+    margin: 0px;
+    padding: 0px;
+    z-index: 9999;
+    position: relative;
+    right: 5px;
     :hover {
         cursor: pointer;
     }
