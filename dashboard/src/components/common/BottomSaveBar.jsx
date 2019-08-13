@@ -39,7 +39,7 @@ class BottomSaveBar extends Component {
                   onClick={onDeleteUser}
                   type="button"
                   id="delete-btn"
-                  className="btn btn-danger float-right"
+                  className="btn btn-danger float-right mr-2"
                 >
                   Delete account
                 </button>

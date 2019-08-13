@@ -42,7 +42,12 @@ export function authLoading(authLoading) {
 
 export function checkAuthorized(token = '') {
   return dispatch => {
-    
+    if (!token) {
+      dispatch(setAuthorized(false));
+      dispatch(authRequired(false));
+      return ;
+    }
+
     fetch(LOGIN_CHECK_AUTH_URL, {
       method: 'GET',
       headers: {

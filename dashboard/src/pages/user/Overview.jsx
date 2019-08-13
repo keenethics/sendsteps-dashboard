@@ -122,6 +122,10 @@ class ProfileOverview extends React.Component {
   };
 
   handleDeleteUser = () => {
+    const isUserSure = confirm('Are you sure you want to delete your account?');
+
+    if (!isUserSure) return;
+
     post(
       '',
       'deleteUser',
@@ -140,11 +144,11 @@ class ProfileOverview extends React.Component {
   };
 
   propsToFormData = (formData, properties) => {
-      for ( var key in properties ) {
-        if (properties[key] !== null && !formData.has(key)) {
-          formData.append(key, properties[key]);
-        }
+    for (var key in properties) {
+      if (properties[key] !== null && !formData.has(key)) {
+        formData.append(key, properties[key]);
       }
+    }
     return formData;
   };
 
