@@ -1,5 +1,6 @@
 const index = require('./index.test');
 const { chai, apiBase, server, should, models, jwt } = index;
+const { createTestUser } = require('./helpers/modelsHelpers');
 
 const { user: User } = models;
 
@@ -13,26 +14,10 @@ describe('Check guided tour test', () => {
   const token = jwt.sign({ email: testUser.email }, process.env.JWT_PRIVATE_KEY);
   let createdUser;
 
-  before(async () => {
-    const date = new Date();
-
-    createdUser = await User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: 'admin',
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
+  before(done => {
+    createTestUser(testUser).then(user => {
+      createdUser = user;
+      done();
     });
   });
 
@@ -71,7 +56,7 @@ describe('Check guided tour test', () => {
       .request(server)
       .post(`${apiBase}/checkGuidedTour`)
       .set('Authorization', `Bearer ${token}`)
-      .send({id: -1})
+      .send({ id: -1 })
       .end((err, res) => {
         res.should.have.status(404);
         res.body.should.be.a('object');

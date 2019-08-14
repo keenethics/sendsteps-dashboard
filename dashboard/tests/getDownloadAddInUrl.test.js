@@ -7,6 +7,7 @@ const {
   DEFAULT_TEXT_MESSAGING_SELECTED,
   DEFAULT_SESSION_TYPE
 } = require('../server/helpers/sessionsConstants');
+const { createTestUser } = require('./helpers/modelsHelpers');
 
 const {
   user: User,
@@ -32,24 +33,7 @@ describe('getDownloadAddInUrl test', () => {
     const date = new Date();
     const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
 
-    createdUser = await User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: 'admin',
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
-    });
+    createdUser = await createTestUser(testUser);
 
     createdAccount = await Account.create({
       users: 0,
