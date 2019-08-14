@@ -4,7 +4,7 @@ const { responseAnswer, emailNotSpecifiedError } = require('../server/helpers/re
 
 const { user: User } = models;
 
-describe('Change user password', () => {
+describe('Request reset password link', () => {
   const testUser = {
     email: 'test@gmail.com',
     password: 'password',

@@ -25,11 +25,20 @@ const invalidTokenError = {
   to activate your account or reset your password.`
 }
 
+const missedPassOrTokenError = { error: 'Password and token must be specified!' };
+const passwordNotValidError = { error: 'Password must be from 6 to 40 characters long' };
+const restoreTokenExpiredError = { error: 'Restore token has expired!' };
+const wrongRestoreTokenError = { error: 'User not found! Invalid restore token.' }
+
 module.exports = {
   responseAnswer,
   emailNotSpecifiedError,
   missingTokenParamError,
   emptyTokenParamError,
   tokenTimeExpiredError,
-  invalidTokenError
+  invalidTokenError,
+  missedPassOrTokenError,
+  passwordNotValidError,
+  restoreTokenExpiredError,
+  wrongRestoreTokenError
 };

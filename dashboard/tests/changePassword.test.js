@@ -93,7 +93,6 @@ describe('Change user password', () => {
         .set('Authorization', `Bearer ${tokenWrong}`)
         .send({ oldPassword: 'password', newPassword: 'password' })
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(404);
           res.body.should.be.a('object');
           res.body.should.have.property('error');

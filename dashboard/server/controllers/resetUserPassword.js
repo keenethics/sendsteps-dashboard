@@ -13,6 +13,10 @@ const {
   emptyTokenParamError,
   tokenTimeExpiredError,
   invalidTokenError,
+  missedPassOrTokenError,
+  passwordNotValidError,
+  restoreTokenExpiredError,
+  wrongRestoreTokenError
 } = require('../helpers/resetUserPasswordConstants');
 const { sendForgotEmail } = require('../emailSenders/forgotPasswordEmail');
 require('dotenv-safe').config();
@@ -64,16 +68,16 @@ async function generateResetLink(req, res) {
 async function resetUserPassword(req, res) {
   const { newPassword, token } = req.body;
   if (!newPassword || !token) {
-    return res.status(400).send({ error: 'Password and token must be specified!' });
+    return res.status(400).send(missedPassOrTokenError);
   }
   if (!isValidPassword(newPassword)) {
-    return res.status(400).send({ error: 'Password must be from 6 to 40 characters long' });
+    return res.status(400).send(passwordNotValidError);
   }
 
   const isTokenExpired = isResetPassTokenExpired(token);
 
   if (isTokenExpired) {
-    return res.status(401).json({ error: 'Restore token has expired!' });
+    return res.status(401).json(restoreTokenExpiredError);
   }
 
   try {
@@ -83,7 +87,7 @@ async function resetUserPassword(req, res) {
     });
 
     if (!searchedUser) {
-      return res.status(404).json({ error: 'User not found! Invalid restore token.' });
+      return res.status(404).json(wrongRestoreTokenError);
     }
 
     const { success, error, status } = await updateUserPassword(newPassword, searchedUser.id);
