@@ -1,39 +1,14 @@
 const index = require('./index.test');
-const { chai, apiBase, server, should, models, jwt } = index;
+const { chai, apiBase, server, should, jwt } = index;
+const { createTestUser, testUser } = require('./helpers/modelsHelpers');
 
-const { user: User } = models;
 
 describe('Change user password', () => {
-  const testUser = {
-    email: 'test_deleteUser@gmail.com',
-    password: 'password',
-    firstName: 'Test',
-    lastName: 'Tester'
-  };
   let createdUser;
 
   before(async () => {
-    const date = new Date();
-    const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
 
-    createdUser = await User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: 'admin',
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
-    });
+    createdUser = await createTestUser();
   });
 
   describe('POST /user/changePassword', () => {
@@ -93,7 +68,6 @@ describe('Change user password', () => {
         .set('Authorization', `Bearer ${tokenWrong}`)
         .send({ oldPassword: 'password', newPassword: 'password' })
         .end((err, res) => {
-          console.log(res.body);
           res.should.have.status(404);
           res.body.should.be.a('object');
           res.body.should.have.property('error');

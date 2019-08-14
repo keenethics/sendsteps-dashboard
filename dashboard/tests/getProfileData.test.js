@@ -1,38 +1,17 @@
 const index = require('./index.test');
 const { chai, apiBase, server, should, models, jwt } = index;
 const _ = require('lodash');
+const { createTestUser, testUser } = require('./helpers/modelsHelpers');
 
 const { user: User, accounts: Account, timezones: Timezone, countries: Country } = models;
 
 describe('GET /getProfileData', () => {
   let createdUser, createdAccount;
-  const testUser = {
-    firstName: 'Test',
-    lastName: 'Test',
-    email: 'test_getProfileData@gmail.com',
-    password: 'password'
-  };
 
   before(done => {
     const date = new Date();
     const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
-    const userRole = 'admin';
-
-    User.create({
-      ...testUser,
-      role: userRole,
-      auth_key: '',
-      accountId: 1337,
-      origin: 'origin',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
-    })
+    createTestUser()
       .then(user => {
         createdUser = user;
 

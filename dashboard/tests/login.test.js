@@ -1,39 +1,14 @@
 const index = require('./index.test');
-const { chai, apiBase, server, should, models, jwt } = index;
-
-const { user: User } = models;
+const { chai, apiBase, server, should, jwt } = index;
+const { createTestUser, testUser } = require('./helpers/modelsHelpers');
 
 describe('Login test', () => {
   let createdUser;
-  const testUser = {
-    firstName: 'Test',
-    lastName: 'Test',
-    email: 'test_login@gmail.com',
-    password: 'password'
-  };
   const userRole = 'admin';
 
   before(done => {
-    const date = new Date();
 
-    User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: userRole,
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
-    }).then(user => {
+    createTestUser().then(user => {
       createdUser = user;
       done();
     });

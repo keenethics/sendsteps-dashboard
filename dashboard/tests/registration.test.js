@@ -2,41 +2,18 @@ const index = require('./index.test');
 const { chai, apiBase, server, should, models, jwt } = index;
 
 const { user: User, accounts: Account } = models;
+const { createTestUser, testUser } = require('./helpers/modelsHelpers');
 
 describe('Registration test', () => {
   let createdTakenUser, registratedUser, registratedAccount;
-  const testUser = {
-    firstName: 'Test',
-    lastName: 'Test',
-    email: 'test_registration@gmail.com',
-    password: 'password'
-  };
   const takenEmail = 'taken_registration@gmail.com';
   const userRole = 'admin';
 
   before(done => {
-    const date = new Date();
 
     User.destroy({ where: { email: [testUser.email, takenEmail] } })
       .then(() => {
-        return User.create({
-          email: takenEmail,
-          password: testUser.password,
-          firstName: testUser.firstName,
-          lastName: testUser.lastName,
-          role: userRole,
-          auth_key: '',
-          accountId: 0,
-          origin: 'test',
-          emailUnconfirmed: '',
-          isDeleted: 0,
-          createdDate: date.toLocaleString(),
-          lastUsedDate: date.toLocaleString(),
-          created_at: Math.round(Date.now() / 1000),
-          updated_at: Math.round(Date.now() / 1000),
-          moderatorSharingToken: '',
-          isGuidedTourTake: 0
-        });
+        return createTestUser({ email: takenEmail });
       })
       .then(user => {
         createdTakenUser = user;
