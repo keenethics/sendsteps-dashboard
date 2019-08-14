@@ -7,10 +7,21 @@ async function takeTour(req, res) {
   const { email } = req.user;
 
   if (!id) {
-    return res.status(400).json({ error: 'ID must be specified!' });
+    return res.status(400).json({ message: 'ID must be specified!' });
   }
 
   try {
+    const foundUser = await User.findOne({
+      where: {
+        id,
+        email
+      }
+    });
+
+    if (!foundUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
     const updatedUser = await User.update(
       { isGuidedTourTake: 1 },
       {
@@ -30,7 +41,7 @@ async function check(req, res) {
   const { email } = req.user;
 
   if (!id) {
-    return res.status(400).json({ error: 'ID must be specified!' });
+    return res.status(400).json({ message: 'ID must be specified!' });
   }
 
   try {
@@ -39,7 +50,7 @@ async function check(req, res) {
     });
 
     if (!searchedUser) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ message: 'User not found' });
     }
 
     return res.json({ isGuidedTourTake: searchedUser.isGuidedTourTake });

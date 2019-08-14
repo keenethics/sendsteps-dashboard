@@ -12,7 +12,6 @@ const testUser = {
 
 const createTestUser = async (props) => {
   const date = new Date();
-  const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
 
   const createdUser = await User.create({
     ...testUser,
