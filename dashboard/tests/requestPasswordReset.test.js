@@ -1,6 +1,6 @@
 const index = require('./index.test');
 const { chai, apiBase, server, should, models } = index;
-const { responseAnswer, emailNotSpecified } = require('../server/helpers/resetUserPasswordConstants');
+const { responseAnswer, emailNotSpecifiedError } = require('../server/helpers/resetUserPasswordConstants');
 
 const { user: User } = models;
 
@@ -48,7 +48,7 @@ describe('Change user password', () => {
           res.should.have.status(400);
           res.body.should.be.a('object');
           res.body.should.have.property('error');
-          res.body.should.to.be.eql(emailNotSpecified);
+          res.body.should.to.be.eql(emailNotSpecifiedError);
     
           done();
         });

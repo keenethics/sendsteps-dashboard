@@ -6,9 +6,30 @@ const responseAnswer = {
   check your spam folder.`
 };
 
-const emailNotSpecified = { error: 'Email must be specified!' };
+const emailNotSpecifiedError = { error: 'Email must be specified!' };
+const missingTokenParamError = { error: 'Missing required parameters: token' };
+const emptyTokenParamError = { error: 'Password reset token cannot be blank.' };
+
+const tokenTimeExpiredError = (expiredTime) => {
+  return {
+    error: `The token in this URL expired on
+    ${expiredTime}.
+    Click on 'Forgot password?' within the dashboard in order
+    to generate a new token. Tokens are valid for 7 days.`
+  };
+}
+
+const invalidTokenError = {
+  error: `This token is not valid anymore.
+  Please click on the latest email you received in order
+  to activate your account or reset your password.`
+}
 
 module.exports = {
   responseAnswer,
-  emailNotSpecified,
+  emailNotSpecifiedError,
+  missingTokenParamError,
+  emptyTokenParamError,
+  tokenTimeExpiredError,
+  invalidTokenError
 };
