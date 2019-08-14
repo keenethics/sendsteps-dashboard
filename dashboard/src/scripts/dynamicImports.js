@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import DynamicImport from "../pages/base/DynamicImport";
 import LoadingView from '../pages/base/LoadingView';
 
@@ -190,6 +190,14 @@ export const SessionOverview = props => (
 
 export const SessionDetails = props => (
 	<DynamicImport load={() => import("../pages/superadmin/sessions/Details")}>
+		{(Component) => Component === null 
+		? <LoadingView />
+		: <Component {...props} />}
+	</DynamicImport>
+)
+
+export const StatisticsOverview = props => (
+	<DynamicImport load={() => import("../pages/superadmin/statistics/Overview")}>
 		{(Component) => Component === null 
 		? <LoadingView />
 		: <Component {...props} />}

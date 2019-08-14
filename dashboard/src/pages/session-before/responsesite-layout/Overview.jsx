@@ -1,16 +1,18 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
-import ResponseSiteContainer from '../../base/ResponseSiteContainer';
-import InputField from '../../../components/common/InputField';
-import ColorPickerField from '../../../components/common/ColorPickerField';
-import ButtonSwitch from '../../../components/common/ButtonSwitch';
-import { isValueInArray } from '../../../scripts/arrayHelper';
-import ColorInfo from '../../../components/common/ColorInfo';
-import BottomSaveBar from '../../../components/common/BottomSaveBar';
-import HeaderPanel from '../../../components/common/HeaderPanel';
+import ResponseSiteContainer from 'App/pages/base/ResponseSiteContainer';
+import InputField from 'App/components/common/InputField';
+import ColorPickerField from 'App/components/common/ColorPickerField';
+import ButtonSwitch from 'App/components/common/ButtonSwitch';
+import { isValueInArray } from 'App/scripts/arrayHelper';
+import ColorInfo from 'App/components/common/ColorInfo';
+import BottomSaveBar from 'App/components/common/BottomSaveBar';
+import HeaderPanel from 'App/components/common/HeaderPanel';
 import { setResponseSettings, setLayoutSettings } from './actions';
 import { post } from '../../../scripts/api';
 import { toast } from 'react-toastify';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 
 class LayoutOverview extends React.Component {
 
@@ -27,9 +29,11 @@ class LayoutOverview extends React.Component {
         )
     }
 
-    fetchSiteSettings(e) {
-        const value = e.target.value;
-        if(value && this.props.responseSites && isValueInArray(value, this.props.responseSites.map((item) => item.id))) {
+    fetchSiteSettings = e => {
+        const value = parseInt(e.target.value, 10);
+        const responseIds = this.props.responseSites.map(item => item.id)
+
+        if(isValueInArray(value, responseIds)) {
             post('responsesite', 'getSiteById', 
                 { id: value }, 
                 result => {
@@ -40,7 +44,17 @@ class LayoutOverview extends React.Component {
                     toast(`Unable to load site settings... [${error}]`)
                 }
             )
+        } else {
+            toast("Value not in array lol")
+            console.log(typeof value)
+            console.log(responseIds)
         }
+    }
+
+    updateSettings = (value, property) => {
+        let responseSettings = { ...this.props.responseSettings };
+        responseSettings[property] = value;
+        this.props.dispatch(setLayoutSettings(responseSettings));
     }
     
     render() {
@@ -66,7 +80,7 @@ class LayoutOverview extends React.Component {
                                     <hr/>
                                     <div className="form-group">
                                         <label>Select a Response Website</label>
-                                        <select className="form-control" onChange={this.fetchSiteSettings.bind(this)} value={null} >
+                                        <select className="form-control" onChange={this.fetchSiteSettings} value={responseSettings? responseSettings.id : ''} >
                                             <option value={''} >Select...</option>
                                             {responseSites && responseSites.map(item => {
                                                 return <option key={item.id} value={item.id}>{item.domain}</option>
@@ -244,14 +258,33 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="col-form-label">Favicon Type</label>
-                                                <ButtonSwitch  options={["Image", "URL"]} />
+                                                <br/>
+                                                <Switch
+                                                    style={{width: '120px'}}
+                                                    offstyle="secondary"
+                                                    onClick={() => this.updateSettings(responseSettings.favicon_type === "image" ? "url" : "image", 'favicon_type')}
+                                                    on={<><i className="fa fa-check"></i> Image</>}
+                                                    off={<><i className="fa fa-times"></i> Url</>}
+                                                    active={responseSettings.favicon_type === "image"}
+                                                />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
-                                            <div className="form-group">
-                                                <label className="col-form-label">Logo Alignment</label>
-                                                <ButtonSwitch  options={["Left", "Center", "Right"]} />
-                                            </div>
+                                                <div className="form-group">
+                                                    <label className="col-form-label">Logo Alignment</label>
+                                                    <br/>
+                                                    <div className="btn-group btn-group-toggle" data-toggle="buttons">
+                                                        <label onClick={() => this.updateSettings('left', 'logo_align')} className={"btn btn-sm btn-primary" + (responseSettings.logo_align === 'left' ? ' active' : '')}>
+                                                            <input type="radio" name="options" autoComplete="off" /> Left
+                                                        </label>
+                                                        <label onChange={() => this.updateSettings('center', 'logo_align')} className={"btn btn-sm btn-primary" + (responseSettings.logo_align === 'center' ? ' active' : '')}>
+                                                            <input type="radio" name="options" autoComplete="off" /> Center
+                                                        </label>
+                                                        <label onChange={() => this.updateSettings('right', 'logo_align')} className={"btn btn-sm btn-primary" + (responseSettings.logo_align === 'right' ? ' active' : '')}>
+                                                            <input type="radio" name="options" autoComplete="off" /> Right
+                                                        </label>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <InputField 
@@ -272,13 +305,27 @@ class LayoutOverview extends React.Component {
                                             <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="col-form-label">Logo Url New Tab</label>
-                                                <ButtonSwitch />
+                                                <br/>
+                                                <Switch
+                                                    style={{width: '80px'}}
+                                                    offstyle="secondary"
+                                                    onClick={() => this.updateSettings(!responseSettings.logo_url_new_tab, 'logo_url_new_tab')}
+                                                    on={<><i className="fa fa-check"></i> Yes</>}
+                                                    off={<><i className="fa fa-times"></i> No</>}
+                                                    active={!!responseSettings.logo_url_new_tab}
+                                                />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
                                             <div className="form-group">
                                                 <label className="col-form-label">Background Type</label>
-                                                <ButtonSwitch options={["Image", "URL"]} />
+                                                <br/>
+                                                <Switch 
+                                                    onClick={() => this.updateSettings(responseSettings.main_background_type === "image" ? "url" : "image", 'main_background_type')}
+                                                    on={<><i className="fa fa-image"></i> Image</>}
+                                                    off={<><i className="fa fa-link"></i> Url</>}
+                                                    active={responseSettings.main_background_type === "image"}
+                                                />
                                             </div>
                                             </div>
                                             <div className="col-md-6">
@@ -310,37 +357,85 @@ class LayoutOverview extends React.Component {
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">Overlay Enabled</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.enable_overlay, 'enable_overlay')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.enable_overlay}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">New Relic</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.switch_off_new_relic, 'switch_off_new_relic')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.switch_off_new_relic}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">Analytics</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.switch_off_analytics, 'switch_off_analytics')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.switch_off_analytics}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">Contact</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.switch_off_contact, 'switch_off_contact')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.switch_off_contact}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">Only Unique Response Codes</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.unique_response_codes_only, 'unique_response_codes_only')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.unique_response_codes_only}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <div className="form-group">
                                                         <label className="col-form-label">Dark Theme</label>
-                                                        <ButtonSwitch  />
+                                                        <br/>
+                                                        <Switch
+                                                            style={{width: '80px'}}
+                                                            offstyle="secondary"
+                                                            onClick={() => this.updateSettings(!responseSettings.dark_sst_logo, 'dark_sst_logo')}
+                                                            on={<><i className="fa fa-check"></i> On</>}
+                                                            off={<><i className="fa fa-times"></i> Off</>}
+                                                            active={!!responseSettings.dark_sst_logo}
+                                                        />
                                                     </div>
                                                 </div>
                                                 <div className="col-md-6">

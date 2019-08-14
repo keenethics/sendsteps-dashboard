@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import { FormGroup } from 'react-bootstrap';
 import HeaderPanel from '../../../components/common/HeaderPanel';
@@ -10,8 +10,9 @@ import AppearedPanel from './extra-components/panels/AppearedPanel';
 import { setMessageFilterData, setMessageGroupData, toggleAutoAccept, toggleUpvoting } from './actions';
 import { post, get } from '../../../scripts/api';
 import { toast } from 'react-toastify';
-import Toggle from 'react-bootstrap-toggle';
 import { getSocket } from '../../../scripts/websockets';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class MessageFilterOverview extends React.Component {
 
     state = {
@@ -31,8 +32,8 @@ class MessageFilterOverview extends React.Component {
                 this.props.dispatch(setMessageFilterData(data.messages))
                 this.props.dispatch(setMessageGroupData(data.groups))
 
-                this.props.dispatch(toggleAutoAccept(data.autoAccept === "1"))
-                this.props.dispatch(toggleUpvoting(data.upvoting === "1"))
+                this.props.dispatch(toggleAutoAccept(!!data.autoAccept))
+                this.props.dispatch(toggleUpvoting(!!data.upvoting))
 
             },
             error => console.log(error)
@@ -40,10 +41,74 @@ class MessageFilterOverview extends React.Component {
     }
 
     componentDidMount() {
-        // const socket = getSocket();
-        // socket.on('connect', () => {
-            this.getMessageData();
-        // })
+        
+        const socket = getSocket(399370);
+        this.getMessageData();
+
+            // All (Current) socket events.
+            // When joining a room, this client subscribes to events
+            // which are sent from that specific room (sessionId)
+    
+            // All Events
+    
+            // (Basic Events)
+    
+            // 'message:created',
+            // 'message:updated',
+            // 'message:removed',
+            // 'voteMessage:created',
+            // 'voteMessage:updated',
+            // 'participant:created',
+            // 'participant:logged_in',
+            // 'participantsInfo:created',
+            // 'groups:updated',
+    
+            // (Client AND User Events)
+    
+            // 'presentation:updated',
+            // 'vote:created',
+            // 'vote:updated',
+            // 'vote:resultsgraph',
+            // 'voteAnswer:created',
+            // 'voteAnswer:updated',
+            // 'voteAnswer:deleted',
+            // 'presentation:clear_results',
+            // 'session:tabs_updated',
+            // 'session:language_updated',
+            // 'session:anonymous_sources_updated',
+            // 'survey:updated',
+    
+            socket.on('session:start', data => {
+                console.log(data);
+            });
+    
+            socket.on("reconnect", () => {
+               
+            });
+    
+            socket.on("reconnect_attempt",() => {
+               
+            });
+    
+            socket.on("reconnecting", attemptCount => {
+               
+            });
+    
+            socket.on("error", error => {
+              
+            });
+    
+            socket.on("reconnect_error", () => {
+              
+            });
+    
+            socket.on("reconnect_failed", () => {
+            
+            });
+            //custom SST welcome event
+            socket.on("welcome", e => {
+    
+            });
     }
 
     toggleAutoAccept = value => {
@@ -190,37 +255,43 @@ class MessageFilterOverview extends React.Component {
                 <div className="container-fluid">
                     <div className="card">
                         <div className="card-body">
-                            <div className="row">
+                            <div className="row mb-3">
                                 <div className="col-md-12">
-                                    <FormGroup controlId="formControlsSelect">
+                                    <label className="col-form-label col-form-label-sm">Current Slide/Question</label>
+                                    <div className="input-group input-group-sm" >
+                                        <div className="input-group-prepend">
+                                            <span className="input-group-text">
+                                                <i className="fa fa-question"></i>
+                                            </span>
+                                        </div>
                                         {/* Only Questions that have a type of OPEN ENDED */}
-                                        <label>Current Slide/Question</label>
-                                        <select placeholder="select">
+                                        <select className="form-control" placeholder="select">
                                             <option value="select">Select</option>
                                             <option value="other">...</option>
                                         </select>
-                                    </FormGroup>
+                                    </div>
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="col-form-label">Upvoting</label>
+                                        <label className="col-form-label col-form-label-sm">Upvoting</label>
                                         <br/>
-                                        <Toggle
+                                        <Switch
+                                            size="sm"
                                             onClick={() => this.toggleUpvoting(!upvotingEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}
-                                            offstyle="secondary"
                                             active={upvotingEnabled}
                                         />  
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="form-group">
-                                        <label className="col-form-label">Auto Accept messages</label>
+                                        <label className="col-form-label col-form-label-sm">Auto Accept messages</label>
                                         <br/>
-                                        <Toggle
+                                        <Switch
+                                            size="sm"
                                             onClick={() => this.toggleAutoAccept(!autoAcceptEnabled)}
                                             on={<span><i className="fa fa-check"></i> On</span>}
                                             off={<span><i className="fa fa-times"></i> Off</span>}

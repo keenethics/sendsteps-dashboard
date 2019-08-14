@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import './ImageUploadField.scss';
 import { urlIsImage } from '../../scripts/validationChecker';
 import { toast } from 'react-toastify';
@@ -58,20 +58,22 @@ export default class ImageUploadField extends React.Component {
       this.props.setImage(formData);
 
       this.getBase64DataFromFilePath(e.target.files[0]).then(
-        data => console.log(data),
+        data => this.props.setBase64File && this.props.setBase64File(data),
         error => console.log(error)
       );
     }
 
     render() {
 
-        const { colWidth, labelText, userImage } = this.props;
+        const { colWidth, labelText, userImage, disabled } = this.props;
         const { imagePreview, fileName } = this.state;
 
         return (
             <div className={"col-md-" + colWidth || 6}>
-                <span className="pull-right clear-icon" onClick={this.resetState}><i className="fa fa-lg fa-times"></i></span>
+                <label className="col-form-label col-form-label-sm">{labelText || "No labelText selected"}</label>
+
                 <div className="picture-upload">
+                    <span className="pull-right clear-icon" onClick={this.resetState}><i className="fa fa-xs fa-times"></i></span>
                     {!imagePreview && !userImage && <div className="picture-container">
                         <div className="current-picture">
                             <div className="btn-circle btn-lg">
@@ -90,12 +92,13 @@ export default class ImageUploadField extends React.Component {
                     </div>}
                     
                     <div className="form-group">
-                        <label className="col-form-label">{labelText || "No labelText selected"}</label>
-                        <div className="input-group">
-                            <span className="input-group-addon btn btn-default btn-file">
-                                Browse... <input type="file" onChange={this.upload} />
+                        <div className="input-group input-group-sm">
+                            <span className="input-group-prepend">
+                                <span className="input-group-text btn btn-sm btn-default btn-file">
+                                    <i className="fa fa-file-image-o mr-2"></i> Browse... <input type="file" onChange={this.upload} />
+                                </span>
                             </span>
-                            <input id="profile-img" value={fileName} placeholder="(PNG, JPEG, JPG, BMP, GIF)" className="form-control" name='picture' />
+                            <input disabled={disabled} id="profile-img" value={fileName} placeholder="(PNG, JPEG, BMP, GIF)" className="form-control" name='picture' />
                         </div>
                     </div>
                 </div>  

@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__.'/../base/nova-api.php';
 
 class Phonenumbers extends NovaAPI {
@@ -8,9 +9,9 @@ class Phonenumbers extends NovaAPI {
         return json_encode(['content' => $results]);
     }
 
-    public function getDetails($id = NULL) {
+    public function getDetails(Request $request) {
         // Fetch data from single phonenumber
-        if($id != NULL){
+        if(isset($request->id)){
             $model = $this->loadModel('phonenumbers');
             $results = $model->findActiveById($id);
             // var_dump($results);exit();
@@ -19,22 +20,22 @@ class Phonenumbers extends NovaAPI {
         return false;        
     }
 
-    public function getNumberByIsoCode($isoCode = NULL) {
+    public function getNumberByIsoCode(Request $request) {
         $model = $this->loadModel('phonenumbers');
-        if($isoCode == "--") {
+        if($request->isoCode == "--") {
             return json_encode(['content' => $model->getDefault()]);
         }
-        else if($isoCode != NULL) {
-            return json_encode(['content' => $model->getByIsoCode($isoCode)]);
+        else if($request->isoCode != NULL) {
+            return json_encode(['content' => $model->getByIsoCode($request->isoCode)]);
         }
         return false;
     }
 
-    public function getKeywords($phonenumberId = NULL) {
+    public function getKeywords(Request $request) {
         // Fetch data from single phonenumber
         if($phonenumberId != NULL){
             $model = $this->loadModel('phonenumbers');
-            $results = $model->findKeywordsByPhonenumberId($phonenumberId);
+            $results = $model->findKeywordsByPhonenumberId($request->id);
             return json_encode(['content' => $results]);                
         }
         return false;        

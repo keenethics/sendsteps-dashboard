@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import TooltipNotification from '../../../../components/common/TooltipNotification';
 import { setResponseSiteSettings } from '../actions';
 import { connect } from 'react-redux';
-import Toggle from 'react-bootstrap-toggle';
+import Switch from 'App/components/common/inputs/switch/Switch';
+
 class ResponseToggleInput extends Component {
 
     updateSettings = (value, field) => {
         const newSettings = { ...this.props.settings }
         newSettings[field] = value;
+        if(!value) {
+            newSettings['textmessagingselected'] = true
+        }
         this.props.dispatch(setResponseSiteSettings(newSettings));
     }
+
+
 
     render() {
 
@@ -17,7 +23,7 @@ class ResponseToggleInput extends Component {
 
         return (
             <div className="form-group row">
-                <label className="col-sm-3 col-form-label text-right">
+                <label className="col-sm-3 col-form-label col-form-label-sm text-right">
                     Response Website <TooltipNotification 
                         title={"Response Website"}
                         tooltip={
@@ -31,12 +37,13 @@ class ResponseToggleInput extends Component {
                 </label>
                 {settings && 
                 <div className="col-sm-6">
-                    <Toggle
-                        onClick={() => this.updateSettings(settings.internetselected === "1" ? "0" : "1", 'internetselected')}
+                    <Switch
+                        size="sm"
+                        onClick={() => this.updateSettings(!settings.internetselected, 'internetselected')}
                         on={<span><i className="fa fa-check"></i> On</span>}
                         off={<span><i className="fa fa-times"></i> Off</span>}
                         offstyle="secondary"
-                        active={settings.internetselected === "1"}
+                        active={!!settings.internetselected}
                     />
                 </div>}
             </div>

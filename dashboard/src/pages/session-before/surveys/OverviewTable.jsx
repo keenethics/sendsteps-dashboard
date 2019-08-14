@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
-import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
-import { getOptions, getSort, getNameFormatter } from '../../base/BaseTable';
+import { getOptions, getSort, getNameFormatter } from 'App/pages/base/BaseTable';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Link } from 'react-router-dom';
 import DeleteSurveyModal from './delete/DeleteSurveyModal';
 import { setDeleteSurveyId, setCurrentSurveyToPlay } from './actions'
 import { connect } from 'react-redux'
-import TooltipNotification from '../../../components/common/TooltipNotification';
+import TooltipNotification from 'App/components/common/TooltipNotification';
 import moment from 'moment';
 import './Overview.scss';
 class OverviewTable extends Component {
@@ -24,14 +22,14 @@ class OverviewTable extends Component {
         return (
             <span className="survey-btn-padding">
                 <Link to={'/session-before/surveys/details/' + row.id}>
-                    <div className="btn btn-outline-secondary">
+                    <div className="btn btn-sm btn-outline-secondary">
                         <i className="fa fa-pencil"></i> Edit
                     </div>
                 </Link> 
-                <div className="btn btn-outline-secondary" onClick={() => this.duplicate(row.id)}>
+                <div className="btn btn-sm btn-outline-secondary" onClick={() => this.duplicate(row.id)}>
                     <i className="fa fa-clone"></i> Duplicate
                 </div>
-                <div className="btn btn-outline-danger" onClick={() => this.toggleDelete(row.id)}>
+                <div className="btn btn-sm btn-outline-danger" onClick={() => this.toggleDelete(row.id)}>
                     <i className="fa fa-trash"></i> Delete
                 </div>
             </span>
@@ -48,14 +46,14 @@ class OverviewTable extends Component {
                 <span className="date-col">
                     {notStarted &&
                     <div>
-                        <i className="fa fa-times"></i> N/A
+                        <i className="fa small fa-times"></i> N/A
                     </div>}
                     {!notStarted && 
                     <>
-                        <div className="btn btn-static date">
+                        <div className="btn btn-sm btn-static date">
                             <i className="fa fa-calendar"></i> {startTime.format("dddd, MMMM Do YYYY")} 
                         </div>
-                        <div className="btn btn-static date">
+                        <div className="btn btn-sm btn-static date">
                             <i className="fa fa-clock-o"></i> {startTime.format("h:mm:ss a")} 
                         </div>
                     </>}
@@ -69,9 +67,9 @@ class OverviewTable extends Component {
     
     getSurveyStatus = (status, row) => {
 
-        const isPlaying = status === "1"
-        const isPaused = status === "3"
-        const isStopped = status === "2"
+        const isPlaying = status === 1
+        const isPaused = status === 3
+        const isStopped = status === 2
 
         let currentStatus = "Inactive"
         currentStatus = isPlaying ? "Playing" : currentStatus
@@ -79,62 +77,65 @@ class OverviewTable extends Component {
         currentStatus = isStopped ? "Stopped" : currentStatus
 
         return <>
-            <div className="survey-btn-padding d-inline-flex text-center" style={{textAlign: 'center'}}>
+            <div className="survey-btn-padding d-inline-flex text-center">
                 {!isPlaying &&
                 <TooltipNotification 
                     title="play"
-                    placement={"bottom"} 
+                    placement={"right-end"} 
                     tooltip={"Play Survey " + "(Currently " + currentStatus + ")"}>
-                        <button className="btn btn-outline-secondary" onClick={() => this.togglePlayDialog(row.id)}>
-                            <i className="fa fa-play"></i>
+                        <button className="btn btn-sm btn-outline-secondary" onClick={() => this.togglePlayDialog(row.id)}>
+                            <i className="fa small fa-play"></i>
                         </button>
                 </TooltipNotification>}
 
                 {isPlaying &&
-                <button className="btn btn-outline-success"  disabled={true}>
-                    <i className="fa fa-play"></i>
+                <button className="btn btn-sm btn-outline-success"  disabled={true}>
+                    <i className="fa small fa-play"></i>
                 </button>}
 
                 {!(isPaused || isStopped) && 
                 <TooltipNotification 
                     title="pause"
-                    placement={"bottom"} 
+                    placement={"right-end"} 
                     tooltip={"Pause Survey " + "(Currently " + currentStatus + ")"}>
-                        <button className="btn btn-outline-secondary" onClick={() => this.props.updateSurveyStatus(3, row.id)}>
-                            <i className="fa fa-pause"></i>
+                        <button className="btn btn-sm btn-outline-secondary" onClick={() => this.props.updateSurveyStatus(3, row.id)}>
+                            <i className="fa small fa-pause"></i>
                         </button>
                 </TooltipNotification>}
 
                 {(isPaused || isStopped) &&
-                <button className="btn btn-outline-secondary" disabled={true}>
-                    <i className="fa fa-pause"></i>
+                <button className="btn btn-sm btn-outline-secondary" disabled={true}>
+                    <i className="fa small fa-pause"></i>
                 </button>}
 
                 {!isStopped &&
                 <TooltipNotification 
                     title="stop"
-                    placement={"bottom"} 
+                    placement={"right-end"} 
                     tooltip={"Stop Survey " + "(Currently " + currentStatus + ")"}>
-                        <button className="btn btn-outline-primary" 
+                        <button className="btn btn-sm btn-outline-primary" 
                             onClick={() => this.props.updateSurveyStatus(2, row.id)} 
                             disabled={isStopped}>
-                            <i className="fa fa-stop"></i>
+                            <i className="fa small fa-stop"></i>
                         </button>
                 </TooltipNotification>}
 
                 {isStopped &&
-                <button className="btn btn-outline-secondary" disabled={true}>
-                    <i className="fa fa-stop"></i>
+                <button className="btn btn-sm btn-outline-secondary" disabled={true}>
+                    <i className="fa small fa-stop"></i>
                 </button>}
             </div>
         </>
     }
 
     render() {
+
+        const { surveys } = this.props
+
         return (
             <div>
-                <BootstrapTable pagination data={this.props.data} options={getOptions()} search>
-                    <TableHeaderColumn headerAlign='center' dataSort caretRender={getSort} dataField='name' dataFormat={getNameFormatter} >Survey Name</TableHeaderColumn>
+                <BootstrapTable className="small" pagination data={surveys} options={getOptions()} search>
+                    <TableHeaderColumn width="150px" headerAlign='center' dataSort caretRender={getSort} dataField='name' dataFormat={getNameFormatter} >Survey Name</TableHeaderColumn>
                     <TableHeaderColumn width="250px" headerAlign='center' dataSort caretRender={getSort} dataField='start_datetime' dataFormat={this.getSurveyStartDate} >Start Date/Time</TableHeaderColumn>
                     <TableHeaderColumn width="200px" headerAlign='center' dataSort caretRender={getSort} dataAlign='center' dataField='status' dataFormat={this.getSurveyStatus} >Status</TableHeaderColumn>
                     <TableHeaderColumn width="350px" isKey={true} headerAlign='center' dataAlign='center' dataField='id' dataFormat={this.getSurveyActions} >Actions</TableHeaderColumn>
@@ -144,4 +145,10 @@ class OverviewTable extends Component {
         )
     }
 }
-export default connect()(OverviewTable);
+export default connect(
+    state => {
+        return {
+            surveys: state.surveyReducer.surveys
+        }
+    }
+)(OverviewTable);

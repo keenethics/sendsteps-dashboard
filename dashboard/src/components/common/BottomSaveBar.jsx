@@ -10,7 +10,7 @@ class BottomSaveBar extends Component {
   }
 
   render() {
-    const { onSave, noSave, disabled, onDeleteUser } = this.props;
+    const { onSave, noSave, disabled, onDeleteUser, loading } = this.props;
 
     return (
       <div className="card mt-3 mb-3">
@@ -19,18 +19,18 @@ class BottomSaveBar extends Component {
             <div className="col-sm-12">
               {!noSave &&
                 <div
-                  className={classNames('btn btn-success', { disabled })}
-                  disabled={disabled}
-                  onClick={!disabled && (onSave || function(){ console.log("onSave")})}
+                  className={classNames('btn btn-sm btn-success', { disabled: disabled || loading })}
+                  onClick={(!disabled && onSave) || function(){ console.log("onSave")}}
                 >
-                  <i className="fa fa-save"></i> Save
+                  {!loading && <i className="fa fa-save"></i>}
+                  {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>} Save
                 </div>
               }
               <button 
                 onClick={() => this.goBack()}
                 type='button' 
                 id='back-btn' 
-                className='btn btn-outline-secondary float-right'
+                className='btn btn-sm btn-outline-secondary float-right'
               >
                 <i className="fa fa-chevron-left"></i> Back
               </button>
@@ -39,7 +39,7 @@ class BottomSaveBar extends Component {
                   onClick={onDeleteUser}
                   type="button"
                   id="delete-btn"
-                  className="btn btn-danger float-right"
+                  className="btn btn-danger float-right mr-2"
                 >
                   Delete account
                 </button>

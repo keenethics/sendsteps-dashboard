@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { signOut } from '../../actions/auth';
 import { connect } from 'react-redux';
 import TooltipNotification from '../common/TooltipNotification';

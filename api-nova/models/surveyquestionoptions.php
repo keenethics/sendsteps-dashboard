@@ -94,9 +94,10 @@ class Surveyquestionoptions_Model extends Model {
     }
 
     public function addOptions($surveyQuestionId, $surveyTypeId, $surveyQuestionOptions) {
+        $formattedOptions = $this->formatByType($surveyQuestionId, $surveyTypeId, $surveyQuestionOptions);
         $this->database()->insert(
             'survey_question_option',
-            $this->formatByType($surveyQuestionId, $surveyTypeId, $surveyQuestionOptions)
+            $formattedOptions
         );
     }
 

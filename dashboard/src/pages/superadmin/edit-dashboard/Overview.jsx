@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'; 
 import { connect } from 'react-redux';
 import { setDashboardData, setDashboardSettings } from './actions';
 import { isValueInArray } from '../../../scripts/arrayHelper';

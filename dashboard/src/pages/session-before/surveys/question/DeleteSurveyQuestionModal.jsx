@@ -20,7 +20,7 @@ class DeleteSurveyQuestionModal extends Component {
             'deleteSurveyQuestion',
             { id: deleteSurveyQuestionId },
             () => {
-                this.props.getSurveyQuestions()
+                this.props.getQuestions()
                 this.props.dispatch(setDeletingSurveyQuestionId(null))
                 toast("Survey question removed!")
             },

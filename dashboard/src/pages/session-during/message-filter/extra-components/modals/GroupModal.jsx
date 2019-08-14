@@ -101,15 +101,15 @@ class GroupModal extends Component {
                             />
                         </div>
                         <div className="col-md-6">
-                            <button className="btn btn-success" disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} ><i className="fa fa-plus"></i> Add group</button>
+                            <button className="btn btn-sm btn-success" disabled={newGroupName.length < 1 || !isValidHexColor(newGroupColor)} onClick={() => this.addGroup()} ><i className="fa fa-plus"></i> Add group</button>
                         </div>
                     </div>
                     {messageGroups && Object.keys(messageGroups).length > 0 &&
                     <span>
                         <hr/>
                         <div className="form-group">
-                            <label className="col-form-label">Groups</label>
-                            <ul className="list-group">
+                            <label className="col-form-label col-form-label-sm">Groups</label>
+                            <ul className="list-group list-group-sm">
                                 {Object.keys(messageGroups).map(group => {
                                     return (
                                         <span key={group}>
@@ -117,10 +117,10 @@ class GroupModal extends Component {
                                                 <span className="group-opts">
                                                     <i style={{color: messageGroups[group].color}} className="fa fa-circle"></i>
                                                 </span>
-                                                <span className="group-name">
+                                                <span className="group-name small">
                                                     <p>{messageGroups[group].name}</p>
                                                 </span>
-                                                <button onClick={() => this.deleteGroup(group)} className="btn btn-xs btn-outline-secondary delete-icon"><i className="fa fa-trash"></i></button>
+                                                <button onClick={() => this.deleteGroup(group)} className="btn btn-sm btn-outline-danger delete-icon"><i className="fa fa-trash"></i></button>
                                             </li>
                                         </span>
                                     )

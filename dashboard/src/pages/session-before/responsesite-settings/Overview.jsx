@@ -5,25 +5,27 @@ import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
 import { post, get } from "../../../scripts/api";
 import { toast } from 'react-toastify';
-import ResponseCodeInput from "./inputs/ResponseCodeInput";
-import ResponseCountryInput from "./inputs/ResponseCountryInput";
-import ResponseURLInput from "./inputs/ResponseURLInput";
-import ResponseToggleInput from "./inputs/ResponseToggleInput";
-import ResponseToggleSMSInput from "./inputs/ResponseToggleSMSInput";
-import ResponseInternationalInput from "./inputs/ResponseInternationalInput";
-import ResponsePhonenumberInput from "./inputs/ResponsePhonenumberInput";
+import ResponseCodeInput from "App/pages/session-before/responsesite-settings/inputs/ResponseCodeInput";
+import ResponseCountryInput from "App/pages/session-before/responsesite-settings/inputs/ResponseCountryInput";
+import ResponseURLInput from "App/pages/session-before/responsesite-settings/inputs/ResponseURLInput";
+import ResponseToggleInput from "App/pages/session-before/responsesite-settings/inputs/ResponseToggleInput";
+import ResponseToggleSMSInput from "App/pages/session-before/responsesite-settings/inputs/ResponseToggleSMSInput";
+import ResponseInternationalInput from "App/pages/session-before/responsesite-settings/inputs/ResponseInternationalInput";
+import ResponsePhonenumberInput from "App/pages/session-before/responsesite-settings/inputs/ResponsePhonenumberInput";
 import { Collapse } from 'react-bootstrap';
 import './Overview.scss'
+import { isValidEmail } from "App/scripts/validationChecker";
 
 class SettingsOverview extends React.Component {
 
     state = {
-        currentPhonenumbers: null
+        currentPhonenumbers: null,
+        isLoading: false
     }
 
     getPhonenumberList = (isoCode) => {
         get('phonenumbers', 'getNumberByIsoCode',
-           {isoCode: isoCode},
+           {isoCode},
             phonenumbers => this.props.dispatch(
                 setResponsePhonenumbers(
                     this.formatPhonenumbers(phonenumbers.content)
@@ -45,7 +47,7 @@ class SettingsOverview extends React.Component {
     checkIfShouldChangeForeignerCompatible(numbers) {
         const { settings } = this.props;
         if(typeof numbers[settings.phonenumberForeignerCompatible] === 'undefined') {
-            const newSettings = settings.phonenumberForeignerCompatible === "2" ? "1" : "2"
+            const newSettings = settings.phonenumberForeignerCompatible === 2 ? 1 : 2
             this.updateSettings(newSettings, 'phonenumberForeignerCompatible')
         }
     }
@@ -65,9 +67,20 @@ class SettingsOverview extends React.Component {
         )
     }
 
+    startLoading = () => {
+        this.setState({isLoading: true});
+    }
+
+    stopLoading = () => {
+        this.setState({isLoading: false});
+
+    }
+
     saveResponseSiteSettings() {
         const { settings } = this.props;
     
+        this.startLoading();
+
         let newSettings = {
             internetaddressoverwrite: settings.internetaddressoverwrite,
             internetselected: settings.internetselected,
@@ -78,9 +91,14 @@ class SettingsOverview extends React.Component {
         post(
             'responsesite', 'updateSettingsBasic',
             { settings: newSettings },
-            () =>  toast("Response settings updated!"),
+            () => {
+                toast("Response settings updated!");
+                this.stopLoading();
+            },
             error => {
                 toast('Unable to update response settings...' + error.message)
+                this.stopLoading();
+
             }
         )
     }
@@ -98,7 +116,8 @@ class SettingsOverview extends React.Component {
     render() {
 
         const { settings } = this.props;
-        
+        const { isLoading } = this.state;
+
         return (
             <div>
                 <HeaderPanel 
@@ -117,17 +136,19 @@ class SettingsOverview extends React.Component {
                                 <div className="card-body">
                                     <div className="form-horizontal">
                                         <ResponseCodeInput />
+                                        <hr/>
                                         <ResponseToggleInput />
                                         <div className="card border-0">
-                                            {settings && <Collapse in={!!(settings && settings.internetselected === "1")}>    
+                                            {settings && <Collapse in={!!(settings && !!settings.internetselected)}>    
                                                 <span>
                                                     <ResponseURLInput /> 
                                                 </span>
                                             </Collapse>} 
                                         </div>
+                                        <hr className="mt-0" />
                                         <ResponseToggleSMSInput />
                                         <div className="card border-0">
-                                            {settings && <Collapse in={!!(settings && settings.textmessagingselected === "1")}> 
+                                            {settings && <Collapse in={!!(settings && !!settings.textmessagingselected)}> 
                                                 <span>                      
                                                     <ResponseCountryInput getPhonenumberList={this.getPhonenumberList} />
                                                     <ResponseInternationalInput getPhonenumberList={this.getPhonenumberList} />
@@ -138,7 +159,7 @@ class SettingsOverview extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                            <BottomSaveBar onSave={this.saveResponseSiteSettings.bind(this)}/>
+                            <BottomSaveBar loading={isLoading} onSave={this.saveResponseSiteSettings.bind(this)}/>
                         </div>
                     </div>
                 </div>
