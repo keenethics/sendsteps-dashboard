@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { signOut } from 'App/actions/auth';
 import { Link } from 'react-router-dom';
 import RoleBadge from 'App/components/common/labels/RoleBadge';
-import { post } from '../../scripts/api';
+import { post } from 'App/scripts/api';
 
 class UserMenuOptions extends Component {
   state = { addinUrl: '' };
