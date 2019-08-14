@@ -5,41 +5,19 @@ const {
   DEFAULT_TEXT_MESSAGING_SELECTED,
   DEFAULT_SESSION_TYPE
 } = require('../server/helpers/sessionsConstants');
+const { createTestUser, testUser } = require('./helpers/modelsHelpers');
 
 
 const { user: User, accounts: Account, sessions: Session, phonenumbers: PhoneNumber } = models;
 
 describe('Delete user test', () => {
-  const testUser = {
-    email: 'test_deleteUser@gmail.com',
-    password: 'password',
-    firstName: 'Test',
-    lastName: 'Tester'
-  };
   let createdUser, createdAccount, createdSession;
 
   before(async () => {
     const date = new Date();
     const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
 
-    createdUser = await User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: 'admin',
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0
-    });
+    createdUser = await createTestUser();
 
     createdAccount = await Account.create({
       users: 0,
