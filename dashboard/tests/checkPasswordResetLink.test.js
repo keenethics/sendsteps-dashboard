@@ -1,5 +1,5 @@
 const index = require('./index.test');
-const { chai, apiBase, server, should, models } = index;
+const { chai, apiBase, server, should } = index;
 const {
   missingTokenParamError,
   emptyTokenParamError,
@@ -10,43 +10,16 @@ const {
   generateResetPasswordToken,
   resetTokenExpiredTime
 } = require('../server/helpers/passwordHelpers');
-
-const { user: User } = models;
+const { createTestUser } = require('./helpers/modelsHelpers');
 
 describe('Check password reset link', () => {
-  const testUser = {
-    email: 'test@gmail.com',
-    password: 'password',
-    firstName: 'Test',
-    lastName: 'Tester'
-  };
   let createdUser;
   let password_reset_token;
 
   before(async () => {
-    const date = new Date();
-    const dateAfterYear = new Date(date.getFullYear() + 1, date.getMonth(), date.getDay());
     password_reset_token = await generateResetPasswordToken();
 
-    createdUser = await User.create({
-      email: testUser.email,
-      password: testUser.password,
-      firstName: testUser.firstName,
-      lastName: testUser.lastName,
-      role: 'admin',
-      auth_key: '',
-      accountId: 0,
-      origin: 'test',
-      emailUnconfirmed: '',
-      isDeleted: 0,
-      createdDate: date.toLocaleString(),
-      lastUsedDate: date.toLocaleString(),
-      created_at: Math.round(Date.now() / 1000),
-      updated_at: Math.round(Date.now() / 1000),
-      moderatorSharingToken: '',
-      isGuidedTourTake: 0,
-      password_reset_token,
-    });
+    createdUser = await createTestUser({ password_reset_token });
   });
 
   describe('GET api/user/resetPassword?token=YOUR_RESTORE_TOKEN', () => {
