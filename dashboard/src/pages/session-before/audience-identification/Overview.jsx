@@ -13,28 +13,34 @@ import Switch from 'App/components/common/inputs/switch/Switch';
 class AudienceOverview extends React.Component {
 
     state = {
-        isAnonymous: true
+        isAnonymous: true,
+        sessionId: null,
     }
 
     componentDidMount() {
-        this.getIdentificationType()
+        this.getIdentificationType();
     }
 
     getIdentificationType() {
+        const { currentUser } = this.props;
+        const userId = currentUser && currentUser.userId;
         post(
-            'sessions', 
-            'getIdentificationType',
-            {},
-            result => this.setState({ isAnonymous: result.anonymousSources }),
+            '',
+            'identification/getIdentificationType',
+            { id: userId },
+            result => this.setState({ isAnonymous: result.anonymousSources, sessionId: result.id }),
             error => console.log(error)
         )
     }
 
     setIdentificationType(isAnonymous) {
+        const { sessionId } = this.state;
+        const { currentUser } = this.props;
+        const userId = currentUser && currentUser.userId;
         post(
-            'sessions', 
-            'setIdentificationType',
-            { isAnonymous },
+            '',
+            'identification/setIdentificationType',
+            { sessionId, userId, isAnonymous },
             () =>  this.getIdentificationType(),
             error => console.log(error)
         )
