@@ -4,7 +4,6 @@ const Sequelize = require('sequelize');
 const fromPairs = require('lodash/fromPairs');
 const { connectionParams, config } = require('../config/database')[process.env.NODE_ENV];
 
-
 const basename = path.basename(__filename);
 
 const sequelize = new Sequelize(
@@ -17,7 +16,7 @@ const sequelize = new Sequelize(
 const models = fromPairs(
   fs
     .readdirSync(__dirname)
-    .filter(file => file !== basename && file.endsWith(".js"))
+    .filter(file => file !== basename && file.endsWith('.js'))
     .map(file => sequelize.import(path.join(__dirname, file)))
     .map(model => [model.name, model])
 );
@@ -25,5 +24,10 @@ const models = fromPairs(
 Object.values(models)
   .filter(model => model.associate)
   .forEach(model => model.associate(models));
+
+// setting the relationships
+const { phonenumbers, countries } = models;
+countries.hasMany(phonenumbers, { foreignKey: 'countryIsoCode' });
+phonenumbers.belongsTo(countries);
 
 module.exports = { sequelize, Sequelize, ...models };

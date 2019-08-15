@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { setResponseSiteSettings, setResponsePhonenumbers } from './actions';
 import BottomSaveBar from "../../../components/common/BottomSaveBar";
 import HeaderPanel from "../../../components/common/HeaderPanel";
-import { post, get } from "../../../scripts/api";
+import { post, get, postNew } from "../../../scripts/api";
 import { toast } from 'react-toastify';
 import ResponseCodeInput from "App/pages/session-before/responsesite-settings/inputs/ResponseCodeInput";
 import ResponseCountryInput from "App/pages/session-before/responsesite-settings/inputs/ResponseCountryInput";
@@ -53,10 +53,10 @@ class SettingsOverview extends React.Component {
     }
 
     getOverviewSettings = () => {
-        get('responsesite', 'getSettingsBasic', 
-            { id: this.props.match.params.id },
+        post(null, 'response/settings', 
+            { id: this.props.currentUser.userId },
             result => {
-                console.log(result.content);
+                console.log('result.content', result);
                 const { phonenumberCountryisocode } = result.content;
                 this.props.dispatch(setResponseSiteSettings(result.content));
                 this.getPhonenumberList(phonenumberCountryisocode);
