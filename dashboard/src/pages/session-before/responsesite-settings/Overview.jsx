@@ -82,6 +82,7 @@ class SettingsOverview extends React.Component {
         this.startLoading();
 
         let newSettings = {
+            userId: this.props.currentUser.userId,
             internetaddressoverwrite: settings.internetaddressoverwrite,
             internetselected: settings.internetselected,
             phonenumberId: settings.phonenumberId,
@@ -89,7 +90,7 @@ class SettingsOverview extends React.Component {
             textmessagingselected: settings.textmessagingselected
         };
         post(
-            'responsesite', 'updateSettingsBasic',
+            null, 'response/update',
             { settings: newSettings },
             () => {
                 toast("Response settings updated!");

@@ -60,4 +60,39 @@ async function getResponseSettings(req, res) {
   return res.status(200).json({ content });
 }
 
-module.exports = { getResponseSettings };
+async function updateResponseSettings(req, res) {
+  const { settings } = req.body;
+  const content = {};
+
+  if (!settings) {
+    return res.status(400).json({ message: 'settings is required' });
+  }
+  const {
+    userId,
+    internetaddressoverwrite,
+    internetselected,
+    phonenumberId,
+    textmessagingkeyword,
+    textmessagingselected
+  } = settings;
+
+  try {
+    await Session.update(
+      {
+        internetAddressOverwrite: internetaddressoverwrite,
+        internetSelected: internetselected,
+        internetKeyword: textmessagingkeyword,
+        textmessagingkeyword,
+        textmessagingselected,
+        phonenumberId
+      },
+      { where: { userId } }
+    );
+  } catch (error) {
+    return res.status(500).send('Internal Server Error');
+  }
+
+  return res.status(200).json({ message: 'Response settings was updated' });
+}
+
+module.exports = { getResponseSettings, updateResponseSettings };
