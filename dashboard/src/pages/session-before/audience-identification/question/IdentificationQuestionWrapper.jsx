@@ -36,9 +36,9 @@ class IdentificationQuestionWrapper extends Component {
 
     getQuestions = () => {
         post(
-            'audienceidentification',
-            'getQuestions',
-            {},
+            '',
+            'identification/getQuestions',
+            { sessionId: this.props.sessionId },
             questions => this.setState({
                 questions: sortByProperty(this.questionProps.order, questions), 
                 error: null

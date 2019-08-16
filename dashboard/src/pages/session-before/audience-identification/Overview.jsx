@@ -61,7 +61,7 @@ class AudienceOverview extends React.Component {
     }
 
     render() {
-        const { isAnonymous } = this.state;
+        const { isAnonymous, sessionId } = this.state;
 
         return (
             <div>  
@@ -103,7 +103,7 @@ class AudienceOverview extends React.Component {
                                         </div>
                                     </div>
                                     <hr className="mb-0"/>
-                                    {!isAnonymous && <IdentificationQuestionWrapper />}
+                                    {!isAnonymous && <IdentificationQuestionWrapper sessionId={sessionId} />}
                                 </div>
                             </div>
                         </div>
