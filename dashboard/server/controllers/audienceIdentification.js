@@ -102,12 +102,43 @@ async function getQuestions(req, res) {
   }
 }
 
+// This should create Participantinfofield question
+// Should take an sessionId and question
+// endpoint for it is POST to /api/identification/createIdentificationQuestion
 async function createIdentificationQuestion(req, res) {
-  const { sessionId } = req.body;
+  const { sessionId, question } = req.body;
+  const { id: questionId, title, fieldIndex, type, isRequired, isIdentifier, options = {} } = question;
+  if (!sessionId || !question) {
+    return res.status(400).json({ error: 'Session id and question must be specified!' });
+  }
 
   try {
+    if (!questionId) {
+      let createdQuestion = await Participantinfofield.create({
+        title,
+        type,
+        sessionId,
+        fieldIndex,
+        isRequired: Number(!!isRequired),
+        isIdentifier: Number(!!isIdentifier)
+      });
 
-    res.json();
+      if (createdQuestion.id && options) {
+        const participantsOptions = [];
+        for (let key in options) {
+          if (options[key]) {
+            participantsOptions.push({
+              participantinfofieldsId: createdQuestion.id,
+              allowedValues: options[key]
+            });
+          }
+        }
+        await Participantinfofieldsoption.bulkCreate(participantsOptions);
+      }
+    }
+
+    const questions = await Participantinfofield.findAll({ where: { sessionId }});
+    res.json(questions);
   } catch (error) {
     return res.status(500).send(error);
   }

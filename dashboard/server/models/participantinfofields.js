@@ -4,6 +4,7 @@ module.exports = function(sequelize, DataTypes) {
   return sequelize.define('participantinfofields', {
     id: {
       type: DataTypes.INTEGER(10).UNSIGNED,
+      autoIncrement: true,
       allowNull: false,
       primaryKey: true
     },
@@ -30,6 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     deleted: {
       type: DataTypes.INTEGER(4),
+      defaultValue: '0',
       allowNull: false
     },
     isRequired: {

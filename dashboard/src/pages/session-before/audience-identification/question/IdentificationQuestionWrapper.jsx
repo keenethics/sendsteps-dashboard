@@ -51,9 +51,9 @@ class IdentificationQuestionWrapper extends Component {
         const { id } = this.questionProps;
 
         post(
-            'audienceidentification',
-            'createIdentificationQuestion',
-            { question },
+            '',
+            'identification/createIdentificationQuestion',
+            { sessionId: this.props.sessionId, question },
             // instead of empty response update all questions
             questions => {
                 // this.setState({optionsExpanded: false})
