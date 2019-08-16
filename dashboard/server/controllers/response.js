@@ -95,4 +95,36 @@ async function updateResponseSettings(req, res) {
   return res.status(200).json({ message: 'Response settings was updated' });
 }
 
-module.exports = { getResponseSettings, updateResponseSettings };
+async function getNumberByIsoCode(req, res) {
+  const isoCode = req.body.isoCode;
+  const defaultIsoCode = 'NL';
+  let result;
+
+  if (!isoCode) {
+    return res.status(400).json({ message: 'isoCode is required' });
+  }
+
+  if (isoCode === '' || isoCode === '--') {
+    result = await PhoneNumber.findAll({
+      attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
+      where: {
+        foreignerCompatible: { [Op.in]: [2] },
+        countryIsoCode: defaultIsoCode,
+        keywordAvailability: 'dedicated'
+      }
+    });
+  } else {
+    result = await PhoneNumber.findAll({
+      attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
+      where: {
+        foreignerCompatible: { [Op.in]: [1, 2] },
+        countryIsoCode: isoCode,
+        keywordAvailability: 'dedicated'
+      }
+    });
+  }
+
+  return res.json({ result });
+}
+
+module.exports = { getResponseSettings, updateResponseSettings, getNumberByIsoCode };
