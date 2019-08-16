@@ -57,12 +57,11 @@ async function getResponseSettings(req, res) {
     return res.status(500).send('Internal Server Error');
   }
 
-  return res.status(200).json({ content });
+  return res.json({ content });
 }
 
 async function updateResponseSettings(req, res) {
   const { settings } = req.body;
-  const content = {};
 
   if (!settings) {
     return res.status(400).json({ message: 'settings is required' });
@@ -77,25 +76,26 @@ async function updateResponseSettings(req, res) {
   } = settings;
 
   try {
-    await Session.update(
+    const result = await Session.update(
       {
         internetAddressOverwrite: internetaddressoverwrite,
         internetSelected: internetselected,
         internetKeyword: textmessagingkeyword,
-        textmessagingkeyword,
-        textmessagingselected,
-        phonenumberId
+        textMessagingKeyword: textmessagingkeyword,
+        textMessagingSelected: textmessagingselected,
+        phoneNumberId: phonenumberId
       },
       { where: { userId } }
     );
+    console.log(result);
   } catch (error) {
     return res.status(500).send('Internal Server Error');
   }
 
-  return res.status(200).json({ message: 'Response settings was updated' });
+  return res.json({ message: 'Response settings was updated' });
 }
 
-async function getNumberByIsoCode(req, res) {
+async function getNumberByIsoCode(req, res, next) {
   const isoCode = req.body.isoCode;
   const defaultIsoCode = 'NL';
   let result;
@@ -104,27 +104,57 @@ async function getNumberByIsoCode(req, res) {
     return res.status(400).json({ message: 'isoCode is required' });
   }
 
-  if (isoCode === '' || isoCode === '--') {
-    result = await PhoneNumber.findAll({
-      attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
-      where: {
-        foreignerCompatible: { [Op.in]: [2] },
-        countryIsoCode: defaultIsoCode,
-        keywordAvailability: 'dedicated'
-      }
-    });
-  } else {
-    result = await PhoneNumber.findAll({
-      attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
-      where: {
-        foreignerCompatible: { [Op.in]: [1, 2] },
-        countryIsoCode: isoCode,
-        keywordAvailability: 'dedicated'
-      }
-    });
+  try {
+    if (isoCode === '' || isoCode === '--') {
+      result = await PhoneNumber.findAll({
+        attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
+        where: {
+          foreignerCompatible: { [Op.in]: [2] },
+          countryIsoCode: defaultIsoCode,
+          keywordAvailability: 'dedicated'
+        }
+      });
+    } else {
+      result = await PhoneNumber.findAll({
+        attributes: ['id', 'phonenumber', 'displayText', 'countryIsoCode', 'foreignerCompatible'],
+        where: {
+          foreignerCompatible: { [Op.in]: [1, 2] },
+          countryIsoCode: isoCode,
+          keywordAvailability: 'dedicated'
+        }
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Internal Server Error');
   }
 
   return res.json({ result });
 }
 
-module.exports = { getResponseSettings, updateResponseSettings, getNumberByIsoCode };
+async function checkResponseCode(req, res, next) {
+  const { keyword, userId } = req.body;
+  let sessions = [];
+
+  try {
+    sessions = await Session.findAll({
+      where: {
+        internetKeyword: keyword,
+        textMessagingKeyword: keyword,
+        userId: { [Op.ne]: userId }
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send('Internal Server Error');
+  }
+
+  return res.json({ result: sessions.length === 0 });
+}
+
+module.exports = {
+  getResponseSettings,
+  updateResponseSettings,
+  getNumberByIsoCode,
+  checkResponseCode
+};
