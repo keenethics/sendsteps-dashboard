@@ -1,6 +1,7 @@
 const models = require('../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const { trimObject } = require('../helpers/validationHelpers');
 
 const {
   sessions: Session,
@@ -8,6 +9,37 @@ const {
   countries: Country,
   response_websites: ResponseSite
 } = models;
+
+async function validateData(settings) {
+  const {
+    userId,
+    internetaddressoverwrite,
+    textmessagingselected,
+    phonenumberId,
+    textmessagingkeyword
+  } = settings;
+  const errors = {};
+
+  if (!userId) {
+    errors.userId = 'userId should be specified';
+  }
+
+  if (internetaddressoverwrite === undefined) {
+    errors.internetaddressoverwrite = 'internetaddressoverwrite should be specified';
+  }
+
+  if (textmessagingselected) {
+    if (!phonenumberId) {
+      errors.phonenumberId = 'phonenumberId should be specified';
+    }
+
+    const phoneNumbers = await PhoneNumber.findAll({ where: { id: phonenumberId } });
+    
+    console.log(phoneNumbers);
+  }
+
+  return Object.entries(errors).length && errors;
+}
 
 async function getResponseSettings(req, res) {
   const { id } = req.body;
@@ -62,10 +94,19 @@ async function getResponseSettings(req, res) {
 
 async function updateResponseSettings(req, res) {
   const { settings } = req.body;
+  trimObject(settings);
 
   if (!settings) {
     return res.status(400).json({ message: 'settings is required' });
   }
+
+  const errors = await validateData(settings);
+  if (Object.keys(errors).length !== 0) {
+    return res.status(400).json({
+      errors
+    });
+  }
+
   const {
     userId,
     internetaddressoverwrite,
@@ -76,18 +117,19 @@ async function updateResponseSettings(req, res) {
   } = settings;
 
   try {
+    // data validation
+
     const result = await Session.update(
       {
         internetAddressOverwrite: internetaddressoverwrite,
-        internetSelected: internetselected,
+        internetSelected: Number(!!internetselected),
         internetKeyword: textmessagingkeyword,
         textMessagingKeyword: textmessagingkeyword,
-        textMessagingSelected: textmessagingselected,
+        textMessagingSelected: Number(!!textmessagingselected),
         phoneNumberId: phonenumberId
       },
       { where: { userId } }
     );
-    console.log(result);
   } catch (error) {
     return res.status(500).send('Internal Server Error');
   }
