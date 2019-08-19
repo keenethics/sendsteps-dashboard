@@ -1,4 +1,4 @@
-require('dotenv-safe').config(); // Required for sequelize-cli to load .env
+require('dotenv-safe').config({ allowEmptyValues: true }); // Required for sequelize-cli to load .env
 
 const config = {
   host: process.env.DB_HOST,

@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 // for using .env variables
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(

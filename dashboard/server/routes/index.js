@@ -9,6 +9,8 @@ const getDownloadAddInUrl = require('./getDownloadAddInUrl');
 const checkGuidedTour = require('./checkGuidedTour');
 const takeGuidedTour = require('./takeGuidedTour');
 const audienceIdentification = require('./audienceIdentification');
+const tabreact = require('./tabreact');
+
 const test = require('./test');
 
 
@@ -24,10 +26,11 @@ router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 router.use('/checkGuidedTour', checkGuidedTour);
 router.use('/takeGuidedTour', takeGuidedTour);
 router.use('/identification', audienceIdentification);
+router.use('/tabreact', tabreact);
 
 // router.post('/test', (req, res) => {
 //   // TODO clean this method in production
-// 
+//
 //   // return res.json(req.body);
 // });
 

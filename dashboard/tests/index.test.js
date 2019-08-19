@@ -39,7 +39,7 @@ const chaiHttp = require('chai-http');
 const server = require('../server');
 const models = require('../server/models');
 const jwt = require('jsonwebtoken');
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const should = chai.should();
 
