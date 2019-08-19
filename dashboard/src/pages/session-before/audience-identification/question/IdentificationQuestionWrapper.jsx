@@ -87,8 +87,8 @@ class IdentificationQuestionWrapper extends Component {
         const idPositions = questions.map(question => question.id);
 
         post(
-            'audienceidentification',
-            'updateOrder',
+            '',
+            'identification/updateOrder',
             { idPositions },
             orderedQuestions => this.setState({
                 questions: sortByProperty(this.questionProps.order, orderedQuestions), 

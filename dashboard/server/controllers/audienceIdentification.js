@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const {
   user: User,
   sessions: Session,
@@ -14,8 +16,8 @@ Participantinfofield.hasMany(Participantinfofieldsoption, { foreignKey: 'partici
 // This should return identification type and session id
 // endpoint for it is POST to /api/identification/getIdentificationType
 async function getSessionData(req, res) {
-  const sessionData = req.sessions;
-  res.json(sessionData);
+  const { anonymousSources } = req.sessions;
+  res.json({ anonymousSources });
 }
 
 
@@ -142,6 +144,39 @@ async function deleteIdentificationQuestion(req, res) {
   }
 }
 
+// This should create Participantinfofield question
+// Should take idPositions
+// endpoint for it is POST to /api/identification/updateOrder
+async function updateOrder(req, res) {
+  const { idPositions = [] } = req.body;
+  if (!Array.isArray(idPositions) || !idPositions.length) {
+    return res.status(400).json({ error: 'Wrong or empty data.' });
+  }
+  const { id: sessionId } = req.sessions;
+  try {
+    let questions = await Participantinfofield.findAll({
+      where: {
+        id: {
+          [Op.in]: idPositions
+        }
+      }
+    });
+
+    const sortedQuestions = questions.map((q, index) => {
+      let fieldIndex = idPositions.indexOf(q.id);
+      if (fieldIndex >= 0) {
+        fieldIndex++;
+        return { ...q.dataValues, fieldIndex };
+      }
+    }).filter(Boolean);
+    questions = await Participantinfofield.bulkCreate(sortedQuestions, { updateOnDuplicate : ['id', 'fieldIndex'] });
+
+    res.json(questions);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
 
 module.exports = {
   getSessionData,
@@ -149,4 +184,5 @@ module.exports = {
   getQuestions,
   createIdentificationQuestion,
   deleteIdentificationQuestion,
+  updateOrder,
 };
