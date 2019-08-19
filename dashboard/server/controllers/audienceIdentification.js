@@ -133,7 +133,7 @@ async function createIdentificationQuestion(req, res) {
           fieldIndex,
           isRequired: Number(!!isRequired),
         },
-        { where: { id: questionId }}
+        { where: { id: questionId, sessionId }}
       );
 
       await Participantinfofieldsoption.destroy({ where: { participantinfofieldsId: questionId }});
@@ -152,10 +152,24 @@ async function createIdentificationQuestion(req, res) {
   }
 }
 
+async function deleteIdentificationQuestion(req, res) {
+  const { id } = req.body;
+  try {
+    await Participantinfofield.update({ deleted: 1 },{ where: { id }});
+    await Participantinfofieldsoption.destroy({ where: { participantinfofieldsId: id }});
+
+    const questions = await Participantinfofield.findAll({ where: { sessionId: 408789 }});
+    res.json(questions);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
 
 module.exports = {
   getSessionDataByUserIdAndEmail,
   setIdentificationType,
   getQuestions,
   createIdentificationQuestion,
+  deleteIdentificationQuestion,
 };
