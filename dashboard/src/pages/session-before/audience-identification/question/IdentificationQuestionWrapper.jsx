@@ -38,7 +38,7 @@ class IdentificationQuestionWrapper extends Component {
         post(
             '',
             'identification/getQuestions',
-            { sessionId: this.props.sessionId },
+            {},
             questions => this.setState({
                 questions: sortByProperty(this.questionProps.order, questions), 
                 error: null
@@ -53,7 +53,7 @@ class IdentificationQuestionWrapper extends Component {
         post(
             '',
             'identification/createIdentificationQuestion',
-            { sessionId: this.props.sessionId, question },
+            { question },
             // instead of empty response update all questions
             questions => {
                 // this.setState({optionsExpanded: false})

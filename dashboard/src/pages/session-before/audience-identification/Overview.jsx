@@ -14,7 +14,6 @@ class AudienceOverview extends React.Component {
 
     state = {
         isAnonymous: true,
-        sessionId: null,
     }
 
     componentDidMount() {
@@ -22,25 +21,20 @@ class AudienceOverview extends React.Component {
     }
 
     getIdentificationType() {
-        const { currentUser } = this.props;
-        const userId = currentUser && currentUser.userId;
         post(
             '',
             'identification/getIdentificationType',
-            { id: userId },
-            result => this.setState({ isAnonymous: result.anonymousSources, sessionId: result.id }),
+            {},
+            result => this.setState({ isAnonymous: result.anonymousSources }),
             error => console.log(error)
         )
     }
 
     setIdentificationType(isAnonymous) {
-        const { sessionId } = this.state;
-        const { currentUser } = this.props;
-        const userId = currentUser && currentUser.userId;
         post(
             '',
             'identification/setIdentificationType',
-            { sessionId, userId, isAnonymous },
+            { isAnonymous },
             () =>  this.getIdentificationType(),
             error => console.log(error)
         )
@@ -61,7 +55,7 @@ class AudienceOverview extends React.Component {
     }
 
     render() {
-        const { isAnonymous, sessionId } = this.state;
+        const { isAnonymous } = this.state;
 
         return (
             <div>  
@@ -103,7 +97,7 @@ class AudienceOverview extends React.Component {
                                         </div>
                                     </div>
                                     <hr className="mb-0"/>
-                                    {!isAnonymous && <IdentificationQuestionWrapper sessionId={sessionId} />}
+                                    {!isAnonymous && <IdentificationQuestionWrapper />}
                                 </div>
                             </div>
                         </div>

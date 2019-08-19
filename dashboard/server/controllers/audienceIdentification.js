@@ -12,45 +12,20 @@ Participantinfofield.hasMany(Participantinfofieldsoption, { foreignKey: 'partici
 
 
 // This should return identification type and session id
-// Should take an userId and email from token
 // endpoint for it is POST to /api/identification/getIdentificationType
-async function getSessionDataByUserIdAndEmail(req, res) {
-  const { id } = req.body;
-  const email = req.user.email;
-  if (!id || !email) {
-    return res.status(400).json({ error: 'ID and email must be specified!' });
-  }
-  try {
-    const sessionData = await User.findOne({
-      where: { id, email, isDeleted: 0 },
-      include: {
-        model: Session,
-        where: {
-          userId: id,
-        },
-        attributes: ['id', 'anonymousSources']
-      },
-      attributes: []
-    });
-    if (!sessionData) {
-      return res.status(400).json({ error: 'Bad request. No such session or user. ' });
-    }
-
-    res.json(sessionData.session);
-  } catch (error) {
-    return res.status(500).send(error);
-  }
+async function getSessionData(req, res) {
+  const sessionData = req.sessions;
+  res.json(sessionData);
 }
 
 
 // This should set identification type
-// Should take an userId and sessionId and isAnonymous
+// Should take an isAnonymous
 // endpoint for it is POST to /api/identification/setIdentificationType
 async function setIdentificationType(req, res) {
-  const { userId, sessionId, isAnonymous } = req.body;
-  if (!userId || !sessionId) {
-    return res.status(400).json({ error: 'ID and session id must be specified!' });
-  }
+  const { isAnonymous } = req.body;
+  const { id: userId } = req.user;
+  const { id: sessionId } = req.sessions;
 
   try {
     const sessionUpdate = await Session.update(
@@ -73,13 +48,9 @@ async function setIdentificationType(req, res) {
 }
 
 // This should get all identification Questions with it options
-// Should take an sessionId
 // endpoint for it is POST to /api/identification/getQuestions
 async function getQuestions(req, res) {
-  const { sessionId } = req.body;
-  if (!sessionId) {
-    return res.status(400).json({ error: 'Session id must be specified!' });
-  }
+  const { id: sessionId } = req.sessions;
 
   try {
     const indetificationQuestion = await Participantinfofield.findAll({
@@ -104,15 +75,17 @@ async function getQuestions(req, res) {
   }
 }
 
-// This should create Participantinfofield question
-// Should take an sessionId and question
+// This should create or edit Participantinfofield question
+// Should take question
 // endpoint for it is POST to /api/identification/createIdentificationQuestion
 async function createIdentificationQuestion(req, res) {
-  const { sessionId, question } = req.body;
-  const { id: questionId, title, fieldIndex, type, isRequired, isIdentifier, options = {} } = question;
-  if (!sessionId || !question) {
-    return res.status(400).json({ error: 'Session id and question must be specified!' });
+  const { question } = req.body;
+  if (!question) {
+    return res.status(400).json({ error: 'Question must be specified!' });
   }
+
+  const { id: sessionId } = req.sessions;
+  const { id: questionId, title, fieldIndex, type, isRequired, isIdentifier, options = {} } = question;
 
   try {
     let createdQuestion;
@@ -145,20 +118,24 @@ async function createIdentificationQuestion(req, res) {
       await Participantinfofieldsoption.bulkCreate(participantsOptions);
     }
 
-    const questions = await Participantinfofield.findAll({ where: { sessionId }});
+    const questions = await Participantinfofield.findAll({ where: { sessionId, deleted: 0 }});
     res.json(questions);
   } catch (error) {
     return res.status(500).send(error);
   }
 }
 
+// This should create Participantinfofield question
+// Should take id of question
+// endpoint for it is POST to /api/identification/deleteIdentificationQuestion
 async function deleteIdentificationQuestion(req, res) {
   const { id } = req.body;
+  const { id: sessionId } = req.sessions;
   try {
-    await Participantinfofield.update({ deleted: 1 },{ where: { id }});
+    await Participantinfofield.update({ deleted: 1 },{ where: { id, sessionId }});
     await Participantinfofieldsoption.destroy({ where: { participantinfofieldsId: id }});
 
-    const questions = await Participantinfofield.findAll({ where: { sessionId: 408789 }});
+    const questions = await Participantinfofield.findAll({ where: { sessionId, deleted: 0 }});
     res.json(questions);
   } catch (error) {
     return res.status(500).send(error);
@@ -167,7 +144,7 @@ async function deleteIdentificationQuestion(req, res) {
 
 
 module.exports = {
-  getSessionDataByUserIdAndEmail,
+  getSessionData,
   setIdentificationType,
   getQuestions,
   createIdentificationQuestion,
