@@ -17,10 +17,9 @@ import Switch from 'App/components/common/inputs/switch/Switch';
 class LayoutOverview extends React.Component {
 
     componentDidMount() {
-        post('responsesite', 'getSiteList', 
+        post(null, 'editLayout/getSites', 
             { id: this.props.match.params.id },
             result => {
-                console.log(result);
                 this.props.dispatch(setResponseSettings(result.content));
             },
             error => {
@@ -34,10 +33,9 @@ class LayoutOverview extends React.Component {
         const responseIds = this.props.responseSites.map(item => item.id)
 
         if(isValueInArray(value, responseIds)) {
-            post('responsesite', 'getSiteById', 
+            post(null, 'editLayout/getSiteById', 
                 { id: value }, 
                 result => {
-                    console.log(result);
                     this.props.dispatch(setLayoutSettings(result.content))
                 },
                 error => {

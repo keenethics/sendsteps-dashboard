@@ -10,6 +10,7 @@ const getDownloadAddInUrl = require('./getDownloadAddInUrl');
 const checkGuidedTour = require('./checkGuidedTour');
 const takeGuidedTour = require('./takeGuidedTour');
 const tabreact = require('./tabreact');
+const editLayout = require('./editLayout');
 
 const test = require('./test');
 
@@ -27,6 +28,7 @@ router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 router.use('/checkGuidedTour', checkGuidedTour);
 router.use('/takeGuidedTour', takeGuidedTour);
 router.use('/tabreact', tabreact);
+router.use('/editLayout', editLayout);
 
 // router.post('/test', (req, res) => {
 //   // TODO clean this method in production
