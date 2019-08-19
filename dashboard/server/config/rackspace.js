@@ -1,6 +1,6 @@
 const pkgcloud = require('pkgcloud');
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const rackspaceClient = pkgcloud.storage.createClient({
   provider: 'rackspace',

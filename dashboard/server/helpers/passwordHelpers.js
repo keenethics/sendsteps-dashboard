@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const cryptoRandomString = require('crypto-random-string');
 const moment = require("moment");
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const { user: User } = models;
 

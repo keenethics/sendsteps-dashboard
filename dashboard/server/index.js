@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const routes = require('./routes/index');
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const port = process.env.APP_PORT || 3001;
 const app = express();
@@ -34,7 +34,7 @@ app.db.sequelize
   .authenticate()
   .then(() => {
     app.listen(port, () => {
-      console.log(`>>Listening on port ${port}`);
+      console.log(`Listening on port ${port}`);
     });
   })
   .catch(err => {

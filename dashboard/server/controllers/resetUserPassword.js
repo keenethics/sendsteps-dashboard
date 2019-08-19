@@ -19,7 +19,7 @@ const {
   wrongRestoreTokenError
 } = require('../helpers/resetUserPasswordConstants');
 const { sendForgotEmail } = require('../emailSenders/forgotPasswordEmail');
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const { user: User } = models;
 

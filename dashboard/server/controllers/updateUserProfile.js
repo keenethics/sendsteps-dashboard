@@ -27,6 +27,20 @@ function validateData(data) {
   } = data;
   const errors = {};
 
+  if (!firstName) {
+    errors.firstName = 'first name must present';
+  }
+  if (!lastName) {
+    errors.lastName = 'last name must present';
+  }
+  if (!email) {
+    errors.email = 'email must present';
+  }
+
+  if (Object.keys(errors).length !== 0) {
+    return errors;
+  }
+
   if (firstName.length === 0 || firstName.length > 25) {
     errors.firstName = 'first name must be from 1 to 25 characters long';
   } else if (!isText(firstName)) {
@@ -75,7 +89,7 @@ function validateData(data) {
     errors.university = 'university should be valid';
   }
 
-  return Object.entries(errors).length  && errors;
+  return Object.entries(errors).length && errors;
 }
 
 async function updateUserProfile(req, res) {
@@ -87,6 +101,10 @@ async function updateUserProfile(req, res) {
   const response = {
     message: 'User profile updated!'
   };
+
+  if (Object.keys(enteredInfo).length === 0) {
+    return res.status(400).json({ message: 'the request body is missing!' });
+  }
 
   const errors = validateData(enteredInfo);
   if (Object.keys(errors).length !== 0) {
@@ -101,7 +119,8 @@ async function updateUserProfile(req, res) {
   try {
     const currentUser = await User.findOne({
       where: {
-        id
+        id,
+        email,
       }
     });
 
@@ -121,9 +140,10 @@ async function updateUserProfile(req, res) {
         return res.status(409).json({ error: 'User with this email already exist' });
       } else {
         // Generating JWT token
-        const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
-          algorithm: 'HS256'
-        });
+        const token = jwt.sign({
+          id: currentUser.id,
+          email,
+        }, process.env.JWT_PRIVATE_KEY);
         response.token = token;
       }
     }
@@ -173,7 +193,7 @@ async function updateUserProfile(req, res) {
         async fileUrl => {
           const updated = await updateUserProfilePicture(id, fileUrl);
           if (!!updated.error) {
-            return res.status(500).send({ error: 'Can not to update profile picture.' });
+            return res.status(500).send({ error: 'Can not update profile picture.' });
           }
           return res.json({ ...response, fileUrl });
         },
