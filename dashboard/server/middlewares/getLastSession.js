@@ -12,8 +12,6 @@ async function getLastSession(req, res, next) {
 
   if (!id || !email) return res.status(400).json({ error: 'ID and email must be specified!' });
 
-  console.log('Get last session');
-
   try {
     const sessionData = await User.findOne({
       where: {
@@ -26,7 +24,10 @@ async function getLastSession(req, res, next) {
         where: {
           userId: id,
         },
-        attributes: ['id', 'anonymousSources']
+        attributes: [
+          'id',
+          'anonymousSources',
+        ],
       },
       order: [
         ['id', 'DESC'],
@@ -37,7 +38,7 @@ async function getLastSession(req, res, next) {
       return res.status(400).json({ error: 'Bad request. No such session or user. ' });
     }
 
-    req.sessions = sessionData.session;
+    req.session = sessionData.session;
 
     next();
   } catch (error) {
