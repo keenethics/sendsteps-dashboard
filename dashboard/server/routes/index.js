@@ -1,7 +1,7 @@
 const express = require('express');
 const login = require('./login');
 const registration = require('./registration');
-const response = require('./response');
+const responseSettings = require('./responseSettings');
 const getProfileData = require('./getProfileData');
 const updateUserProfile = require('./updateUserProfile');
 const deleteUser = require('./deleteUser');
@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.use('/login', login);
 router.use('/registration', registration);
-router.use('/response', response);
+router.use('/response', responseSettings);
 router.use('/getProfileData', getProfileData);
 router.use('/updateUserProfile', updateUserProfile);
 router.use('/deleteUser', deleteUser);

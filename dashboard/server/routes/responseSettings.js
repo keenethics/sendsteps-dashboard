@@ -1,5 +1,5 @@
 const express = require('express');
-const { getResponseSettings, updateResponseSettings, getNumberByIsoCode, checkResponseCode } = require('../controllers/response');
+const { getResponseSettings, updateResponseSettings, getNumberByIsoCode, checkResponseCode } = require('../controllers/responseSettings');
 
 const router = express.Router();
 

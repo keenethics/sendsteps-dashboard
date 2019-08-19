@@ -10,6 +10,7 @@ const {
   response_websites: ResponseSite
 } = models;
 
+// used for validation of updateResponseSettings req data
 async function validateData(settings) {
   const {
     userId,
@@ -28,19 +29,42 @@ async function validateData(settings) {
     errors.internetaddressoverwrite = 'internetaddressoverwrite should be specified';
   }
 
+  if (textmessagingselected === undefined) {
+    errors.textmessagingselected = 'textmessagingselected should be specified';
+  }
+
   if (textmessagingselected) {
     if (!phonenumberId) {
       errors.phonenumberId = 'phonenumberId should be specified';
-    }
+    } else {
+      const phoneNumbers = await PhoneNumber.findAll({ where: { id: phonenumberId } });
 
-    const phoneNumbers = await PhoneNumber.findAll({ where: { id: phonenumberId } });
-    
-    console.log(phoneNumbers);
+      if (phoneNumbers.length === 0) {
+        errors.phonenumberId = 'phonenumberId is wrong, no phone numbers were found';
+      }
+    }
+  }
+
+  if (internetaddressoverwrite) {
+    const sessions = await Session.findAll({
+      where: {
+        internetKeyword: textmessagingkeyword,
+        textMessagingKeyword: textmessagingkeyword,
+        userId: { [Op.ne]: userId }
+      }
+    });
+
+    if (sessions.length !== 0) {
+      errors.textmessagingselected = 'textmessagingkeyword is not unique';
+    }
   }
 
   return Object.entries(errors).length && errors;
 }
 
+// This should obtain response settings
+// Should take id of an user
+// endpoint for it is POST to /api/response/settings
 async function getResponseSettings(req, res) {
   const { id } = req.body;
   const content = {};
@@ -92,13 +116,17 @@ async function getResponseSettings(req, res) {
   return res.json({ content });
 }
 
+// This should update response settings
+// Should take an object that stores all response settings:
+// ( userId, internetaddressoverwrite, textmessagingselected, phonenumberId, textmessagingkeyword )
+// endpoint for it is POST to /api/response/update
 async function updateResponseSettings(req, res) {
   const { settings } = req.body;
-  trimObject(settings);
 
   if (!settings) {
     return res.status(400).json({ message: 'settings is required' });
   }
+  trimObject(settings);
 
   const errors = await validateData(settings);
   if (Object.keys(errors).length !== 0) {
@@ -137,6 +165,10 @@ async function updateResponseSettings(req, res) {
   return res.json({ message: 'Response settings was updated' });
 }
 
+// This should update response settings
+// Should take an country iso code and
+// return info about its phone numbers
+// endpoint for it is POST to /api/response/number
 async function getNumberByIsoCode(req, res, next) {
   const isoCode = req.body.isoCode;
   const defaultIsoCode = 'NL';
@@ -174,9 +206,16 @@ async function getNumberByIsoCode(req, res, next) {
   return res.json({ result });
 }
 
+// This function checks the uniqueness of internetKeyword & textMessagingKeyword
+// Should take an keyword and userId
+// endpoint for it is POST to /api/response/checkCode
 async function checkResponseCode(req, res, next) {
   const { keyword, userId } = req.body;
   let sessions = [];
+
+  if (keyword === undefined || userId === undefined) {
+    return res.status(400).json({ message: 'keyword and userId is required' });
+  }
 
   try {
     sessions = await Session.findAll({
