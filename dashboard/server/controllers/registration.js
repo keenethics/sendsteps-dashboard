@@ -27,7 +27,7 @@ const {
   trimObject
 } = require('../helpers/validationHelpers');
 const { DEFAULT_USER_TYPE } = require('../helpers/userslogConstants');
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 const IP_PARSE_URL = process.env.IP_PARSE_URL;
 const IP_TOKEN = process.env.IP_TOKEN;
@@ -292,7 +292,10 @@ async function registerUser(req, res) {
     });
 
     // Generating JWT token
-    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY);
+    const token = jwt.sign({
+      id: createdUser.id,
+      email,
+    }, process.env.JWT_PRIVATE_KEY);
 
     // Sending email
     sendGreetingsEmail(createdUser.email, createdUser.firstName);

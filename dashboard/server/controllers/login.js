@@ -53,9 +53,10 @@ async function getUser(req, res) {
     }
 
     // Generating JWT token
-    const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
-      algorithm: 'HS256'
-    });
+    const token = jwt.sign({
+      id: searchedUser.id,
+      email,
+    }, process.env.JWT_PRIVATE_KEY);
 
     // Changing some user info on login
     const { browser, os } = parser(req.headers['user-agent']);
