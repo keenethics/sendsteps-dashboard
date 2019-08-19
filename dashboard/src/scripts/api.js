@@ -31,7 +31,7 @@ export function post(controller, functionName, params, onSuccess, onFail) {
   fetch(apiUrl, fetchParams)
     .then(result => result.json())
     .then(result => {
-      if (result.error) {
+      if (result.error || result.errors) {
         onFail(result);
       } else {
         onSuccess(formatTypes(result));

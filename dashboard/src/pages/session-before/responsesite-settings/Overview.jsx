@@ -92,12 +92,13 @@ class SettingsOverview extends React.Component {
       null,
       'response/update',
       { settings: newSettings },
-      () => {
+      result => {
         toast('Response settings updated!');
         this.stopLoading();
       },
-      error => {
-        toast('Unable to update response settings...' + error.message);
+      result => {
+        console.log(result);
+        toast('Unable to update response settings...\n' + Object.values(result.errors).join(','));
         this.stopLoading();
       }
     );
