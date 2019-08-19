@@ -119,7 +119,8 @@ async function updateUserProfile(req, res) {
   try {
     const currentUser = await User.findOne({
       where: {
-        id
+        id,
+        email,
       }
     });
 
@@ -139,9 +140,10 @@ async function updateUserProfile(req, res) {
         return res.status(409).json({ error: 'User with this email already exist' });
       } else {
         // Generating JWT token
-        const token = jwt.sign({ email }, process.env.JWT_PRIVATE_KEY, {
-          algorithm: 'HS256'
-        });
+        const token = jwt.sign({
+          id: currentUser.id,
+          email,
+        }, process.env.JWT_PRIVATE_KEY);
         response.token = token;
       }
     }
