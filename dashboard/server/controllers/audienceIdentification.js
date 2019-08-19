@@ -4,6 +4,8 @@ const {
   participantinfofields: Participantinfofield,
   participantinfofieldsoption: Participantinfofieldsoption
 } = require('../models');
+const { getFormedParticipantOption } = require('../helpers/participantInfoFieldsHelper');
+
 
 User.hasOne(Session);
 Participantinfofield.hasMany(Participantinfofieldsoption, { foreignKey: 'participantinfofieldsId', as: 'options' });
@@ -113,8 +115,9 @@ async function createIdentificationQuestion(req, res) {
   }
 
   try {
+    let createdQuestion;
     if (!questionId) {
-      let createdQuestion = await Participantinfofield.create({
+      createdQuestion = await Participantinfofield.create({
         title,
         type,
         sessionId,
@@ -122,19 +125,24 @@ async function createIdentificationQuestion(req, res) {
         isRequired: Number(!!isRequired),
         isIdentifier: Number(!!isIdentifier)
       });
+    } else {
+      let updatedQuestion = await Participantinfofield.update(
+        {
+          title,
+          type,
+          fieldIndex,
+          isRequired: Number(!!isRequired),
+        },
+        { where: { id: questionId }}
+      );
 
-      if (createdQuestion.id && options) {
-        const participantsOptions = [];
-        for (let key in options) {
-          if (options[key]) {
-            participantsOptions.push({
-              participantinfofieldsId: createdQuestion.id,
-              allowedValues: options[key]
-            });
-          }
-        }
-        await Participantinfofieldsoption.bulkCreate(participantsOptions);
-      }
+      await Participantinfofieldsoption.destroy({ where: { participantinfofieldsId: questionId }});
+    }
+
+    const participantinfofieldsId = createdQuestion && createdQuestion.id || questionId;
+    if (participantinfofieldsId) {
+      const participantsOptions = getFormedParticipantOption(participantinfofieldsId, options);
+      await Participantinfofieldsoption.bulkCreate(participantsOptions);
     }
 
     const questions = await Participantinfofield.findAll({ where: { sessionId }});
@@ -143,6 +151,7 @@ async function createIdentificationQuestion(req, res) {
     return res.status(500).send(error);
   }
 }
+
 
 module.exports = {
   getSessionDataByUserIdAndEmail,
