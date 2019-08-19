@@ -74,11 +74,8 @@ async function getResponseSettings(req, res) {
   }
 
   try {
-    const foundSession = await Session.findOne({
-      where: {
-        userId: id
-      }
-    });
+    const foundSession = req.session;
+    console.log('foundSession', foundSession)
 
     content.textmessagingkeyword = foundSession.textMessagingKeyword;
     content.internetselected = foundSession.internetSelected;
