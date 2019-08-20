@@ -6,7 +6,8 @@ const getLastSession = require('../middlewares/getLastSession');
 
 const router = express.Router();
 
-router.route('/').get(
+router.get(
+  '/',
   checkJWT(),
   getLastSession,
   tabreact.getData
@@ -14,8 +15,9 @@ router.route('/').get(
 
 router.route('/update').post(
   checkJWT(),
+  tabreact.validateUpdate,
   getLastSession,
-  tabreact.setData
+  tabreact.setData,
 );
 
 module.exports = router;

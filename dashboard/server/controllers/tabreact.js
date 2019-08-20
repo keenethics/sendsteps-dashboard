@@ -1,10 +1,24 @@
 const Sequelize = require('sequelize');
 
+const { body, validationResult } = require('express-validator');
+
 const {
   sessions: Sessions,
   tab_settings: tabSettings,
   tab_status: tabStatus,
 } = require('../models');
+
+async function validateUpdate(req, res, next) {
+  await body('twitter_status').isInt({ min: 0, max: 1 }).run(req);
+  await body('mail_status').isInt({ min: 0, max: 1 }).run(req);
+  await body('edit_answers').isInt({ min: 0, max: 1 }).run(req);
+
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) return res.status(422).json({ errors: errors.mapped() });
+
+  next();
+}
 
 async function getData(req, res) {
   if (!req.session || !req.user) return res.status(400).json({
@@ -67,6 +81,7 @@ async function setData(req, res) {
 }
 
 module.exports = {
+  validateUpdate,
   getData,
   setData,
 };
