@@ -240,7 +240,7 @@ async function editSite(req, res) {
     return res.status(500).send('Internal Server Error');
   }
 
-  res.json({ message: 'OK' });
+  res.json({ message: 'Response Website was updated' });
 }
 
 module.exports = { getSites, getSiteById, editSite };
