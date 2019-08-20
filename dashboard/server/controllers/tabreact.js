@@ -28,6 +28,45 @@ async function getData(req, res) {
   }
 }
 
+async function setData(req, res) {
+  if (!req.session || !req.user || !req.body) return res.status(400).json({
+    error: 'Bad request. No such session, user or body',
+  });
+
+  const {
+    twitterfeed_hashtags,
+    twitter_status,
+    twitter_text,
+    mail_status,
+    mail_text,
+    edit_answers,
+  } = req.body;
+
+  const { session, user } = req;
+
+  try {
+    const modelTabSettings = await tabSettings.update(
+    {
+      twitterfeed_hashtags,
+      twitter_status,
+      twitter_text,
+      mail_status,
+      mail_text,
+      edit_answers,
+    },
+    {
+      where: {
+        session_id: session.id,
+      },
+    });
+
+    return res.sendStatus(200);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+}
+
 module.exports = {
   getData,
+  setData,
 };
