@@ -3,8 +3,8 @@ import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
 import { formatTypes } from './arrayHelper';
 
-const API_URL_PHP = process.env.NOVA_API_URL;
-const API_URL = '/api';
+const NOVA_API_URL = process.env.NOVA_API_URL;
+const API_URL = `${NOVA_API_URL}/api`;
 
 const timeOutDuration = 10000; // ms
 
@@ -18,7 +18,7 @@ function timeOut(timeout, error, promise) {
 export function post(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
   const phpBody = controller && ('controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token);
-  const apiUrl = phpBody && API_URL_PHP || `${API_URL}/${functionName}`;
+  const apiUrl = phpBody && NOVA_API_URL || `${API_URL}/${functionName}`;
   const isFormData = params instanceof FormData;
   const contentType = isFormData ? {} : { 'Content-Type': 'application/json' };
 
@@ -67,7 +67,7 @@ export function postNew(apiUrl, params, onSuccess, onFail) {
 export function get(controller, functionName, params, onSuccess, onFail) {
   const token = getFromLocalStorage('token') || getCookieValues('SSTToken');
   const phpBody = controller && ('controller='+controller+'&function='+functionName+'&params='+JSON.stringify(params)+'&token='+token);
-  const apiUrl = phpBody && API_URL_PHP || `${API_URL}/${functionName}`;
+  const apiUrl = phpBody && NOVA_API_URL || `${API_URL}/${functionName}`;
 
   const fetchParams = {
     method: 'GET',
