@@ -13,7 +13,7 @@ function deleteTempFile(path) {
 }
 
 function uploadPhotoToRackspace(fileToUpload) {
-  const filePath = path.join(__dirname, '../../', fileToUpload.path)
+  const filePath = path.join(__dirname, '../../../', fileToUpload.path);
   return new Promise((resolve, reject) => {
     try {
       if (!fileIsImage(filePath)) {
