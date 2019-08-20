@@ -4,7 +4,7 @@ const client = require('../config/rackspace.js');
 const { fileIsImage } = require('../helpers/validationHelpers.js');
 
 
-require('dotenv-safe').config();
+require('dotenv-safe').config({ allowEmptyValues: true });
 
 function deleteTempFile(path) {
   if (fs.existsSync(path)) {
@@ -26,18 +26,18 @@ function uploadPhotoToRackspace(fileToUpload) {
           console.error(err)
           return reject(err);
         };
-        
+
         const upload = client.upload({
           container: container,
           remote: fileToUpload.filename,
         });
-        
+
         upload.on('error', (err) => {
           console.error(err);
           deleteTempFile(filePath);
           reject(err);
         });
-        
+
         upload.on('success', (file) => {
           file.client.getFile(container, file.name, (err, uploadedFile) => {
             const fileUrl = `${uploadedFile.container.cdnSslUri}/${uploadedFile.name}`;
@@ -45,14 +45,14 @@ function uploadPhotoToRackspace(fileToUpload) {
             resolve(fileUrl);
           });
         });
-        
+
         readStream.pipe(upload);
       });
     } catch (err) {
       console.error(err);
       deleteTempFile(filePath);
       reject(err);
-    }  
+    }
   })
 }
 
