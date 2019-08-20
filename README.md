@@ -9,14 +9,16 @@ sendsteps.me - response site
 
 Clone the repository
 
-checkout to the branch keenEthics
-git clone https://github.com/keenethics/sendsteps-dashboard.git
+checkout to the branch development
+```bash
+git clone https://bitbucket.org/johnsendsteps/dashboard-new.git
 ```
 
-Navigate to your repository folder, then to the dashboard folder
+To run server (backend part)<br />
+Navigate to your repository folder, then to the api-nova folder
 
 ```bash
-cd dashboard-new/dashboard
+cd dashboard-new/api-nova
 ```
 Install the project dependencies:
 
@@ -44,26 +46,37 @@ or run the command, where generate_addis.sql - path to SQL file
 mysql -u YOUR_USER -p YOUR_PASSWORD < generate_addis.sql
 ```
 
-Running the project in development mode:
+Running the server:
 
 ```bash
-npm run dev
+npm run start-server
 ```
+by default it will listen localhost:3001 and provide API by this address.
+
+## Run frontend part
+
+Navigate to your repository folder, then to the dashboard folder
+
+```bash
+cd dashboard-new/dashboard
+```
+Install the project dependencies:
+
+```bash
+npm i
+```
+Create `.env` file from example and make sure it has correct values:
+
+```bash
+cp .env.example .env
+```
+Running the client:
+
+```bash
+npm run dev-client
+```
+
 navigate to localhost:3000 in your browser.
-
-## Start project in production mode
-
-Make project build:
-
-```bash
-npm run build-prod
-```
-Run the project:
-
-```bash
-npm run start-prod
-```
-navigate to localhost:3001 in your browser.
 
 ## Photo uploader
 
@@ -77,4 +90,3 @@ App using [Mandrill](https://mandrillapp.com/api/docs/index.nodejs.html) for sen
 
 We are using [sequelize](http://docs.sequelizejs.com/manual/tutorial/migrations.html) ORM for working with database
 
-Folders: /api-bastet /api-common /api-nova - is the old backend PHP logic

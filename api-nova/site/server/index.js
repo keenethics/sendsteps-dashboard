@@ -16,7 +16,6 @@ app.use(cors());
 app.use(helmet());
 app.use(bodyParser.json());
 
-const isProduction = process.env.NODE_ENV === 'production';
 
 app.use(morgan('dev'));
 
@@ -36,14 +35,7 @@ app.use((req, res, next) => {
     }
 });
 
-// app.use(express.static('build'));
 app.use('/api', routes);
-
-// app.get('/*', (req, res) =>
-//   res.sendFile(
-//     path.join(__dirname, `../${isProduction ? 'build' : 'public'}/index.html`)
-//   )
-// );
 
 app.use((err, req, res, next) => {
   if (err.name === 'UnauthorizedError') {

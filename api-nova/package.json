@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "test-server": "mocha --exit --timeout 10000 ./site/tests",
-    "dev-server": "concurrently \"nodemon --watch ./site/server ./site/server/index.js\"",
-    "start-prod": "NODE_ENV=production node ./site/server/index.js",
+    "start-server": "concurrently \"nodemon --watch ./site/server ./site/server/index.js\"",
     "migration": "mysql -u YOUR_USER -pYOUR_PASSWORD < generate_addins.sql"
   },
   "dependencies": {
