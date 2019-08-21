@@ -26,4 +26,9 @@ Object.values(models)
   .filter(model => model.associate)
   .forEach(model => model.associate(models));
 
+
+models.user.hasOne(models.sessions);
+models.participantinfofields.hasMany(models.participantinfofieldsoption, { foreignKey: 'participantinfofieldsId', as: 'options' });
+
+
 module.exports = { sequelize, Sequelize, ...models };

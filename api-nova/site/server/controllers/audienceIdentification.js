@@ -9,10 +9,6 @@ const {
 const { getFormedParticipantOption } = require('../helpers/participantInfoFieldsHelper');
 
 
-User.hasOne(Session);
-Participantinfofield.hasMany(Participantinfofieldsoption, { foreignKey: 'participantinfofieldsId', as: 'options' });
-
-
 // This should return identification type and session id
 // endpoint for it is POST to /api/identification/getIdentificationType
 async function getSessionData(req, res) {
@@ -84,6 +80,9 @@ async function createIdentificationQuestion(req, res) {
   const { question } = req.body;
   if (!question) {
     return res.status(400).json({ error: 'Question must be specified!' });
+  }
+  if (typeof question !== 'object') {
+    return res.status(422).json({ error: 'Bad question type.' })
   }
 
   const { id: sessionId } = req.sessions;
