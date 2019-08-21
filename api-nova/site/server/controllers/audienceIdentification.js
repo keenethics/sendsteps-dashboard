@@ -41,7 +41,7 @@ function validateData(data) {
 // This should return identification type and session id
 // endpoint for it is POST to /api/identification/getIdentificationType
 async function getSessionData(req, res) {
-  const { anonymousSources } = req.sessions;
+  const { anonymousSources } = req.session;
   res.json({ anonymousSources });
 }
 
@@ -52,7 +52,7 @@ async function getSessionData(req, res) {
 async function setIdentificationType(req, res) {
   const { isAnonymous } = req.body;
   const { id: userId } = req.user;
-  const { id: sessionId } = req.sessions;
+  const { id: sessionId } = req.session;
 
   try {
     const sessionUpdate = await Session.update(
@@ -77,7 +77,7 @@ async function setIdentificationType(req, res) {
 // This should get all identification Questions with it options
 // endpoint for it is POST to /api/identification/getQuestions
 async function getQuestions(req, res) {
-  const { id: sessionId } = req.sessions;
+  const { id: sessionId } = req.session;
 
   try {
     const indetificationQuestion = await Participantinfofield.findAll({
@@ -107,7 +107,7 @@ async function getQuestions(req, res) {
 // endpoint for it is POST to /api/identification/createIdentificationQuestion
 async function createIdentificationQuestion(req, res) {
   const { question } = req.body;
-  const { id: sessionId } = req.sessions;
+  const { id: sessionId } = req.session;
 
   if (!question) {
     return res.status(400).json({ error: 'Question must be specified!' });
@@ -163,7 +163,7 @@ async function createIdentificationQuestion(req, res) {
 // endpoint for it is POST to /api/identification/deleteIdentificationQuestion
 async function deleteIdentificationQuestion(req, res) {
   const { id } = req.body;
-  const { id: sessionId } = req.sessions;
+  const { id: sessionId } = req.session;
 
   if (!id) {
     return res.status(400).json({ error: 'Question id must be specified!' });
@@ -188,7 +188,7 @@ async function updateOrder(req, res) {
   if (!Array.isArray(idPositions) || !idPositions.length) {
     return res.status(400).json({ error: 'Wrong or empty data.' });
   }
-  const { id: sessionId } = req.sessions;
+  const { id: sessionId } = req.session;
   try {
     let questions = await Participantinfofield.findAll({
       where: {
