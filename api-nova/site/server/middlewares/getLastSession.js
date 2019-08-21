@@ -5,7 +5,6 @@ async function getLastSession(req, res, next) {
 
   const { id, email } = req.user;
 
-console.log('--->>', id, email);
   if (!id || !email) return res.status(400).json({ error: 'ID and email must be specified!' });
 
   try {
