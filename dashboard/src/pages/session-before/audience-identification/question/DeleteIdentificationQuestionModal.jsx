@@ -16,8 +16,8 @@ class DeleteIdentificationQuestionModal extends Component {
         const { deleteIdentificationQuestionId } = this.props
 
         post(
-            'audienceidentification',
-            'deleteIdentificationQuestion',
+            '',
+            'identification/deleteIdentificationQuestion',
             { id: deleteIdentificationQuestionId },
             questions => {
                 this.props.setQuestions(questions);

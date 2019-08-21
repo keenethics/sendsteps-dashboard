@@ -26,9 +26,20 @@ Object.values(models)
   .forEach(model => model.associate(models));
 
 // setting the relationships
-const { phonenumbers, countries, user: User, sessions: Session } = models;
+const {
+  phonenumbers,
+  countries,
+  user: User,
+  sessions: Session,
+  participantinfofields,
+  participantinfofieldsoption,
+} = models;
+
 countries.hasMany(phonenumbers, { foreignKey: 'countryIsoCode' });
 phonenumbers.belongsTo(countries);
 User.hasOne(Session);
+participantinfofields.hasMany(participantinfofieldsoption, { foreignKey: 'participantinfofieldsId', as: 'options' });
+
+
 
 module.exports = { sequelize, Sequelize, ...models };

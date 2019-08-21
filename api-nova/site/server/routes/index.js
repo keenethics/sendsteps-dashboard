@@ -9,6 +9,7 @@ const userRoutes = require('./userRoutes');
 const getDownloadAddInUrl = require('./getDownloadAddInUrl');
 const checkGuidedTour = require('./checkGuidedTour');
 const takeGuidedTour = require('./takeGuidedTour');
+const audienceIdentification = require('./audienceIdentification');
 const tabreact = require('./tabreact');
 const editLayout = require('./editLayout');
 
@@ -27,6 +28,7 @@ router.use('/user', userRoutes);
 router.use('/getDownloadAddInUrl', getDownloadAddInUrl);
 router.use('/checkGuidedTour', checkGuidedTour);
 router.use('/takeGuidedTour', takeGuidedTour);
+router.use('/identification', audienceIdentification);
 router.use('/tabreact', tabreact);
 router.use('/editLayout', editLayout);
 

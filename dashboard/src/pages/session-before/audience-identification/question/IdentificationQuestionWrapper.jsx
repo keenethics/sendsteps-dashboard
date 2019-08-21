@@ -36,8 +36,8 @@ class IdentificationQuestionWrapper extends Component {
 
     getQuestions = () => {
         post(
-            'audienceidentification',
-            'getQuestions',
+            '',
+            'identification/getQuestions',
             {},
             questions => this.setState({
                 questions: sortByProperty(this.questionProps.order, questions), 
@@ -51,8 +51,8 @@ class IdentificationQuestionWrapper extends Component {
         const { id } = this.questionProps;
 
         post(
-            'audienceidentification',
-            'createIdentificationQuestion',
+            '',
+            'identification/createIdentificationQuestion',
             { question },
             // instead of empty response update all questions
             questions => {
@@ -87,8 +87,8 @@ class IdentificationQuestionWrapper extends Component {
         const idPositions = questions.map(question => question.id);
 
         post(
-            'audienceidentification',
-            'updateOrder',
+            '',
+            'identification/updateOrder',
             { idPositions },
             orderedQuestions => this.setState({
                 questions: sortByProperty(this.questionProps.order, orderedQuestions), 
