@@ -7,6 +7,9 @@ const config = {
   define: {
     timestamps: false
   },
+  dialectOptions: {
+    timezone: 'Etc/GMT0',
+  },
   logging: false
 };
 

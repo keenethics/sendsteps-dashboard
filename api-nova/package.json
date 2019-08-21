@@ -5,6 +5,7 @@
   "scripts": {
     "test-server": "mocha --exit --timeout 10000 ./site/tests",
     "start-server": "nodemon --watch ./site/server ./site/server/index.js",
+    "lint": "eslint ./site/server --ext .js",
     "migration": "mysql -u YOUR_USER -pYOUR_PASSWORD < generate_addins.sql"
   },
   "dependencies": {
@@ -43,6 +44,9 @@
     "chai-http": "^4.3.0",
     "crypto-random-string": "^3.0.1",
     "env-cmd": "^8.0.2",
+    "eslint": "^6.2.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "file-loader": "^2.0.0",
     "mocha": "^6.2.0",
     "moment": "^2.24.0",
