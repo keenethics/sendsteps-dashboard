@@ -37,7 +37,9 @@ const {
   accounts: Account,
   sessions: Session,
   phonenumbers: PhoneNumber,
-  userslog: UserLog
+  userslog: UserLog,
+  tab_settings: TabSettings,
+  tab_status: TabStatus,
 } = models;
 
 function getResponseCodeBase(email) {
@@ -281,6 +283,10 @@ async function registerUser(req, res) {
       loginToken: '',
       autoLogoutTime: date,
       moderatorSharingToken: ''
+    });
+
+    const createdTabSettings = await TabSettings.create({
+      session_id: createdSession.id,
     });
 
     const createdUserLog = await UserLog.create({
