@@ -7,10 +7,10 @@ import {
 import { addCookieValues, removeCookieValues } from '../scripts/cookieStorage';
 import { toast } from 'react-toastify';
 
-// const LOGIN_URL = process.env.LOGIN_URL;
-const REGISTRATION_URL = '/api/registration';
-const LOGIN_URL = '/api/login';
-const LOGIN_CHECK_AUTH_URL = '/api/login/check_auth';
+const NOVA_API_URL = process.env.NOVA_API_URL && process.env.NOVA_API_URL.replace(/\/$/, "");
+const REGISTRATION_URL = `${NOVA_API_URL}/api/registration`;
+const LOGIN_URL = `${NOVA_API_URL}/api/login`;
+const LOGIN_CHECK_AUTH_URL = `${NOVA_API_URL}/api/login/check_auth`;
 
 export function setAuthorized(isAuthorized) {
   return {
