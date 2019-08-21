@@ -8,6 +8,35 @@ const {
 } = require('../models');
 const { getFormedParticipantOption } = require('../helpers/participantInfoFieldsHelper');
 
+const allowedQuestionTypes = ['checkbox', 'textbox', 'radio'];
+
+function validateData(data) {
+  if (typeof data !== 'object') {
+    return 'Bad question type.';
+  }
+
+  const {
+    title, fieldIndex, type, options
+  } = data;
+  const errors = {};
+  if (!title || title.length < 3 || title.length > 255) {
+    errors.title = 'Missed or wrong title length';
+  }
+
+  if (!Number.isInteger(Number(fieldIndex))) {
+    errors.fieldIndex = 'Missed or wrong fieldIndex';
+  }
+
+  if (allowedQuestionTypes.indexOf(type) < 0) {
+    errors.type = 'Missed or wrong fieldIndex';
+  }
+
+  if (typeof options !== 'object') {
+    errors.options = 'Missed or wrong options';
+  }
+
+  return Object.keys(errors).length && Object.values(errors).join(";\n");
+}
 
 // This should return identification type and session id
 // endpoint for it is POST to /api/identification/getIdentificationType
@@ -78,14 +107,17 @@ async function getQuestions(req, res) {
 // endpoint for it is POST to /api/identification/createIdentificationQuestion
 async function createIdentificationQuestion(req, res) {
   const { question } = req.body;
+  const { id: sessionId } = req.sessions;
+
   if (!question) {
     return res.status(400).json({ error: 'Question must be specified!' });
   }
-  if (typeof question !== 'object') {
-    return res.status(422).json({ error: 'Bad question type.' })
+
+  const error = validateData(question);
+  if (error) {
+    return res.status(422).json({ error });
   }
 
-  const { id: sessionId } = req.sessions;
   const { id: questionId, title, fieldIndex, type, isRequired, isIdentifier, options = {} } = question;
 
   try {
@@ -95,7 +127,7 @@ async function createIdentificationQuestion(req, res) {
         title,
         type,
         sessionId,
-        fieldIndex,
+        fieldIndex: Number(fieldIndex),
         isRequired: Number(!!isRequired),
         isIdentifier: Number(!!isIdentifier)
       });
@@ -104,7 +136,7 @@ async function createIdentificationQuestion(req, res) {
         {
           title,
           type,
-          fieldIndex,
+          fieldIndex: Number(fieldIndex),
           isRequired: Number(!!isRequired),
         },
         { where: { id: questionId, sessionId }}
@@ -132,6 +164,11 @@ async function createIdentificationQuestion(req, res) {
 async function deleteIdentificationQuestion(req, res) {
   const { id } = req.body;
   const { id: sessionId } = req.sessions;
+
+  if (!id) {
+    return res.status(400).json({ error: 'Question id must be specified!' });
+  }
+
   try {
     await Participantinfofield.update({ deleted: 1 },{ where: { id, sessionId }});
     await Participantinfofieldsoption.destroy({ where: { participantinfofieldsId: id }});
