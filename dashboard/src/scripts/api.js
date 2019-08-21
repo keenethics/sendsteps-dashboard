@@ -3,7 +3,7 @@ import { getFromLocalStorage } from './localStorage';
 import { getCookieValues } from './cookieStorage';
 import { formatTypes } from './arrayHelper';
 
-const NOVA_API_URL = process.env.NOVA_API_URL;
+const NOVA_API_URL = process.env.NOVA_API_URL && process.env.NOVA_API_URL.replace(/\/$/, "");
 const API_URL = `${NOVA_API_URL}/api`;
 
 const timeOutDuration = 10000; // ms
